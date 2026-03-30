@@ -1306,7 +1306,7 @@ body { font-family:'DM Sans',sans-serif; color:var(--text); display:flex; justif
 /* Meta cards */
 .meta-fam-card { transition: box-shadow .2s; }
 .meta-fam-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,.1); }
-
+ 
 </style>
 </head>
 <body>
@@ -2554,7 +2554,7 @@ function registrarHijo() {
 }
 
 function entrarApp(role) {
-  document.getElementById('auth-screen').classList.add('hidden');
+  document.getElementById('auth-screen').style.display = 'none';
 
   // Show the main app container
   var appPadre = document.getElementById('app-padre');
