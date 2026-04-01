@@ -440,7 +440,7 @@ body { font-family:'DM Sans',sans-serif; color:var(--text); display:flex; justif
 .auth-soc{padding:11px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;gap:7px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;}
 .auth-note{font-size:11px;color:var(--text-3);text-align:center;margin-top:13px;line-height:1.5;}
 .auth-note span{color:var(--green);font-weight:600;cursor:pointer;}
-.app-inner{display:none;flex-direction:column;flex:1;}
+.app-inner{display:flex;flex-direction:column;flex:1;}
 .app-inner.visible{display:flex;}
 
 
@@ -2556,35 +2556,26 @@ function registrarHijo() {
 function entrarApp(role) {
   document.getElementById('auth-screen').style.display = 'none';
   document.getElementById('app-padre').style.cssText = 'display:flex;flex-direction:column;flex:1';
-
-  var appHijo  = document.getElementById('app-hijo');
+  var appHijo = document.getElementById('app-hijo');
   var navPadre = document.getElementById('nav-padre');
-  var navHijo  = document.getElementById('nav-hijo');
-
+  var navHijo = document.getElementById('nav-hijo');
   if (role === 'padre') {
-    if (appHijo)  appHijo.style.display  = 'none';
+    if (appHijo) appHijo.style.display = 'none';
     if (navPadre) navPadre.style.display = 'flex';
-    document.getElementById('nav-padre').style.display = 'flex';
-    if (navHijo)  navHijo.style.display  = 'none';
+    if (navHijo) navHijo.style.display = 'none';
     ['pp-inicio','pp-portafolio','pp-familia','pp-perfil'].forEach(function(id) {
       var el = document.getElementById(id);
       if (el) el.style.removeProperty('display');
     });
     navigate_p('inicio');
   } else {
-    if (appHijo)  appHijo.style.cssText = 'display:flex;flex-direction:column;flex:1';
+    if (appHijo) appHijo.style.cssText = 'display:flex;flex-direction:column;flex:1';
     if (navPadre) navPadre.style.display = 'none';
-    if (navHijo)  navHijo.style.display  = 'flex';
+    if (navHijo) navHijo.style.display = 'flex';
     ['pp-inicio','pp-portafolio','pp-familia','pp-perfil'].forEach(function(id) {
       var el = document.getElementById(id);
       if (el) el.style.display = 'none';
     });
-    if (typeof currentUser !== 'undefined' && currentUser.name) {
-      var nm = currentUser.name;
-      document.querySelectorAll('#kid-display-name,#kid-perfil-name').forEach(function(el) {
-        el.textContent = el.id === 'kid-perfil-name' ? nm + ' García' : nm;
-      });
-    }
     navigate_k('inicio');
   }
 }
