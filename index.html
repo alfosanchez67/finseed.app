@@ -1896,7 +1896,7 @@ body { font-family:'DM Sans',sans-serif; color:var(--text); display:flex; justif
 
 
 <!-- BOTTOM NAV PADRE -->
-<nav class="bottom-nav" id="nav-padre">
+<nav class="bottom-nav" id="nav-padre" style="display:none">
   <div class="nav-item active" id="pnav-inicio" onclick="navigate_p('inicio')">
     <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9" stroke-linecap="round"/></svg></div>
     <div class="nav-label">Inicio</div>
@@ -2564,6 +2564,7 @@ function entrarApp(role) {
   if (role === 'padre') {
     if (appHijo)  appHijo.style.display  = 'none';
     if (navPadre) navPadre.style.display = 'flex';
+    document.getElementById('nav-padre').style.display = 'flex';
     if (navHijo)  navHijo.style.display  = 'none';
     ['pp-inicio','pp-portafolio','pp-familia','pp-perfil'].forEach(function(id) {
       var el = document.getElementById(id);
