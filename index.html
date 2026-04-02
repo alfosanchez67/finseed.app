@@ -48,7 +48,7 @@ body { font-family:'DM Sans',sans-serif; color:var(--text); display:flex; justif
 .page::-webkit-scrollbar { display:none; }
 
 /* BOTTOM NAV */
-.bottom-nav { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:390px; background:var(--surface); border-top:1px solid var(--border); display:flex; padding:10px 0 16px; z-index:100; }
+.bottom-nav { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:390px; max-width:100vw; background:white; border-top:1px solid #e5e7eb; display:flex; padding:10px 0 20px; z-index:9999; }
 .nav-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer; padding:4px 0; }
 .nav-icon { width:22px; height:22px; display:flex; align-items:center; justify-content:center; }
 .nav-icon svg { width:20px; height:20px; stroke:var(--text-3); stroke-width:1.8; fill:none; }
@@ -440,7 +440,7 @@ body { font-family:'DM Sans',sans-serif; color:var(--text); display:flex; justif
 .auth-soc{padding:11px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;gap:7px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;}
 .auth-note{font-size:11px;color:var(--text-3);text-align:center;margin-top:13px;line-height:1.5;}
 .auth-note span{color:var(--green);font-weight:600;cursor:pointer;}
-.app-inner{display:flex;flex-direction:column;flex:1;}
+.app-inner{display:none;flex-direction:column;flex:1;}
 .app-inner.visible{display:flex;}
 
 
@@ -1398,7 +1398,7 @@ body { font-family:'DM Sans',sans-serif; color:var(--text); display:flex; justif
 
 </div><!-- /auth-screen -->
 <!-- /auth-screen -->
-<div class="app-inner" id="app-padre">
+<div class="app-inner" id="app-padre" style="display:none">
 <!-- STATUS BAR -->
 <div class="status-bar">
   <span class="status-time">9:41</span>
@@ -3025,8 +3025,8 @@ function showToast(msg, type) {
 }
 
 // Close modals on overlay click
-document.getElementById('game-modal').addEventListener('click',e=>{if(e.target.id==='game-modal')closeGame();});
-document.getElementById('stock-overlay').addEventListener('click',e=>{if(e.target.id==='stock-overlay')closeStock();});
+var _gameModal = document.getElementById('game-modal'); if(_gameModal) _gameModal.addEventListener('click',e=>{if(e.target.id==='game-modal')closeGame();});
+var _stockOverlay = document.getElementById('stock-overlay'); if(_stockOverlay) _stockOverlay.addEventListener('click',e=>{if(e.target.id==='stock-overlay')closeStock();});
 
 
 
