@@ -1896,7 +1896,7 @@ body { font-family:'DM Sans',sans-serif; color:var(--text); display:flex; justif
 
 
 <!-- BOTTOM NAV PADRE -->
-<nav class="bottom-nav" id="nav-padre" style="display:none">
+<nav class="bottom-nav" id="nav-padre" style="display:flex">
   <div class="nav-item active" id="pnav-inicio" onclick="navigate_p('inicio')">
     <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9" stroke-linecap="round"/></svg></div>
     <div class="nav-label">Inicio</div>
@@ -2183,7 +2183,7 @@ body { font-family:'DM Sans',sans-serif; color:var(--text); display:flex; justif
 </div><!-- pages hijo -->
 
 <!-- BOTTOM NAV HIJO -->
-<nav class="bottom-nav" id="nav-hijo">
+<nav class="bottom-nav" id="nav-hijo" style="display:none">
   <div class="nav-item active" id="knav-inicio" onclick="navigate_k('inicio')">
     <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9" stroke-linecap="round"/></svg></div>
     <div class="nav-label">Inicio</div>
@@ -2554,8 +2554,10 @@ function registrarHijo() {
 }
 
 function entrarApp(role) {
-  document.getElementById('auth-screen').style.display = 'none';
-  document.getElementById('app-padre').style.cssText = 'display:flex;flex-direction:column;flex:1';
+  var auth = document.getElementById('auth-screen');
+  if (auth) auth.style.display = 'none';
+  var appPadre = document.getElementById('app-padre');
+  if (appPadre) appPadre.style.cssText = 'display:flex;flex-direction:column;flex:1';
   var appHijo = document.getElementById('app-hijo');
   var navPadre = document.getElementById('nav-padre');
   var navHijo = document.getElementById('nav-hijo');
