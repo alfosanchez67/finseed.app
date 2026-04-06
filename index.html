@@ -2554,21 +2554,26 @@ function registrarHijo() {
 }
 
 function entrarApp(role) {
+  console.log('[entrarApp] llamada con role:', role);
   var auth = document.getElementById('auth-screen');
   if (auth) auth.style.display = 'none';
+  console.log('[entrarApp] auth oculto:', auth ? auth.style.display : 'no encontrado');
   var appPadre = document.getElementById('app-padre');
   if (appPadre) appPadre.style.cssText = 'display:flex;flex-direction:column;flex:1';
+  console.log('[entrarApp] app-padre:', appPadre ? appPadre.style.cssText : 'no encontrado');
   var appHijo = document.getElementById('app-hijo');
   var navPadre = document.getElementById('nav-padre');
   var navHijo = document.getElementById('nav-hijo');
   if (role === 'padre') {
     if (appHijo) appHijo.style.display = 'none';
     if (navPadre) navPadre.style.display = 'flex';
+    console.log('[entrarApp] nav-padre display:', navPadre ? navPadre.style.display : 'no encontrado');
     if (navHijo) navHijo.style.display = 'none';
     ['pp-inicio','pp-portafolio','pp-familia','pp-perfil'].forEach(function(id) {
       var el = document.getElementById(id);
       if (el) el.style.removeProperty('display');
     });
+    console.log('[entrarApp] navigate_p llamado con: inicio');
     navigate_p('inicio');
   } else {
     if (appHijo) appHijo.style.cssText = 'display:flex;flex-direction:column;flex:1';
