@@ -49,76 +49,141 @@
       z-index: 1000;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
       background: linear-gradient(175deg, #f8fffe 0%, #e8f9f3 40%, #d1fae5 100%);
-      padding: 40px 32px;
       width: 390px;
       margin: 0 auto;
+      overflow-y: auto;
+    }
+
+    .auth-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 32px 24px;
     }
 
     .auth-logo {
-      width: 80px;
-      height: 80px;
+      width: 72px;
+      height: 72px;
       background: var(--green);
-      border-radius: 24px;
+      border-radius: 22px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 40px;
-      margin-bottom: 20px;
+      font-size: 36px;
+      margin-bottom: 16px;
       box-shadow: 0 8px 32px rgba(16,185,129,0.3);
     }
 
-    .auth-title {
-      font-size: 36px;
+    .auth-brand {
+      font-size: 32px;
       font-weight: 800;
       color: var(--green-dark);
       letter-spacing: -1px;
-      margin-bottom: 8px;
     }
 
-    .auth-tagline {
-      font-size: 14px;
+    .auth-panel {
+      background: white;
+      border-radius: 28px 28px 0 0;
+      padding: 28px 24px 48px;
+      flex: 1;
+    }
+
+    .auth-panel-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .auth-panel-sub {
+      font-size: 13px;
       color: var(--text-2);
-      text-align: center;
-      margin-bottom: 48px;
-      line-height: 1.6;
+      margin-bottom: 24px;
     }
 
-    .auth-btn {
+    .auth-field {
+      margin-bottom: 14px;
+    }
+
+    .auth-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .auth-field input,
+    .auth-field select {
       width: 100%;
-      padding: 16px;
+      padding: 13px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 14px;
+      background: white;
+      color: var(--text);
+      outline: none;
+      transition: border-color .15s;
+    }
+
+    .auth-field input:focus,
+    .auth-field select:focus {
+      border-color: var(--green);
+    }
+
+    .auth-submit {
+      width: 100%;
+      padding: 15px;
+      background: var(--green);
+      color: white;
       border: none;
       border-radius: var(--r);
       font-family: inherit;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       cursor: pointer;
-      margin-bottom: 12px;
+      margin-top: 4px;
+      margin-bottom: 16px;
       transition: opacity .15s;
     }
 
-    .auth-btn:active { opacity: .85; }
+    .auth-submit:active { opacity: .85; }
 
-    .auth-btn-padre {
-      background: var(--green);
-      color: white;
-    }
-
-    .auth-btn-hijo {
-      background: white;
-      color: var(--green-dark);
-      border: 2px solid var(--green);
-    }
-
-    .auth-logout-link {
-      margin-top: 24px;
-      font-size: 12px;
+    .auth-switch {
+      text-align: center;
+      font-size: 13px;
       color: var(--text-2);
-      cursor: pointer;
-      text-decoration: underline;
     }
+
+    .auth-switch span {
+      color: var(--green-dark);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .auth-error {
+      display: none;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 13px;
+      color: #dc2626;
+      margin-bottom: 14px;
+    }
+
+    .demo-hint {
+      margin-top: 20px;
+      padding: 12px 14px;
+      background: var(--green-light);
+      border-radius: 10px;
+      font-size: 12px;
+      color: var(--green-dark);
+      line-height: 1.6;
+    }
+
+    .demo-hint strong { font-weight: 700; }
 
     /* ── APP INNER ── */
     .app-inner {
@@ -148,7 +213,7 @@
     }
 
     .top-bar-title {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 800;
       color: var(--green-dark);
     }
@@ -174,9 +239,9 @@
     }
 
     .page-title {
-      font-size: 28px;
+      font-size: 26px;
       font-weight: 800;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .page-subtitle {
@@ -249,12 +314,76 @@
      AUTH SCREEN
 ═══════════════════════════════════════ -->
 <div id="auth-screen">
-  <div class="auth-logo">🌱</div>
-  <div class="auth-title">FinSeed</div>
-  <div class="auth-tagline">Finanzas familiares en un solo lugar.<br>Aprende, invierte y crece juntos.</div>
-  <button class="auth-btn auth-btn-padre" onclick="entrarApp('padre')">👨 Entrar como Padre</button>
-  <button class="auth-btn auth-btn-hijo" onclick="entrarApp('hijo')">🌱 Entrar como Hijo</button>
-</div>
+
+  <div class="auth-header">
+    <div class="auth-logo">🌱</div>
+    <div class="auth-brand">FinSeed</div>
+  </div>
+
+  <!-- Vista: Login -->
+  <div class="auth-panel" id="view-login">
+    <div class="auth-panel-title">Bienvenido de vuelta</div>
+    <div class="auth-panel-sub">Ingresa a tu cuenta familiar</div>
+
+    <div id="login-error" class="auth-error"></div>
+
+    <div class="auth-field">
+      <label>Email</label>
+      <input id="login-email" type="email" placeholder="tu@email.com">
+    </div>
+    <div class="auth-field">
+      <label>Contraseña</label>
+      <input id="login-pass" type="password" placeholder="Contraseña">
+    </div>
+
+    <button class="auth-submit" onclick="loginUser()">Ingresar</button>
+
+    <div class="auth-switch">
+      ¿No tienes cuenta? <span onclick="showView('registro')">Regístrate</span>
+    </div>
+
+    <div class="demo-hint">
+      <strong>Usuarios demo:</strong><br>
+      Padre → padre@demo.com / 123456<br>
+      Hijo → hijo@demo.com / 123456
+    </div>
+  </div>
+
+  <!-- Vista: Registro -->
+  <div class="auth-panel" id="view-registro" style="display:none">
+    <div class="auth-panel-title">Crear cuenta</div>
+    <div class="auth-panel-sub">Únete a FinSeed gratis</div>
+
+    <div id="reg-error" class="auth-error"></div>
+
+    <div class="auth-field">
+      <label>Rol</label>
+      <select id="reg-rol">
+        <option value="padre">👨 Padre / Madre</option>
+        <option value="hijo">🌱 Hijo / Hija</option>
+      </select>
+    </div>
+    <div class="auth-field">
+      <label>Nombre</label>
+      <input id="reg-nombre" type="text" placeholder="Tu nombre">
+    </div>
+    <div class="auth-field">
+      <label>Email</label>
+      <input id="reg-email" type="email" placeholder="tu@email.com">
+    </div>
+    <div class="auth-field">
+      <label>Contraseña</label>
+      <input id="reg-pass" type="password" placeholder="Mín. 6 caracteres">
+    </div>
+
+    <button class="auth-submit" onclick="registerUser()">Crear cuenta</button>
+
+    <div class="auth-switch">
+      ¿Ya tienes cuenta? <span onclick="showView('login')">Ingresar</span>
+    </div>
+  </div>
+
+</div><!-- /auth-screen -->
 
 <!-- ═══════════════════════════════════════
      APP PADRE
@@ -267,14 +396,14 @@
   </div>
 
   <div class="top-bar">
-    <span class="top-bar-title">FinSeed 🌱</span>
+    <span class="top-bar-title" id="padre-welcome">FinSeed 🌱</span>
     <button class="logout-btn" onclick="doLogout()">Salir</button>
   </div>
 
   <!-- Página: Inicio -->
   <div class="page" id="pp-inicio">
-    <div class="page-title">Bienvenido Padre 👨</div>
-    <div class="page-subtitle">Dashboard aquí</div>
+    <div class="page-title" id="pp-bienvenida">Bienvenido 👨</div>
+    <div class="page-subtitle">Dashboard familiar</div>
     <div class="card">
       <div class="card-title">Resumen familiar</div>
       <div class="card-body">Aquí irá el resumen de inversiones y progreso de tus hijos.</div>
@@ -347,14 +476,14 @@
     <span>📶 🔋</span>
   </div>
 
-  <div class="top-bar" style="background: linear-gradient(90deg, #7c3aed 0%, #6d28d9 100%);">
-    <span class="top-bar-title" style="color:white;">FinSeed 🌱</span>
+  <div class="top-bar" style="background:linear-gradient(90deg,#7c3aed 0%,#6d28d9 100%);">
+    <span class="top-bar-title" id="hijo-welcome" style="color:white;">FinSeed 🌱</span>
     <button class="logout-btn" style="color:white;border-color:rgba(255,255,255,.4)" onclick="doLogout()">Salir</button>
   </div>
 
   <!-- Página: Inicio -->
   <div class="page" id="kp-inicio">
-    <div class="page-title">¡Bienvenido! 🌱</div>
+    <div class="page-title" id="kp-bienvenida">¡Bienvenido! 🌱</div>
     <div class="page-subtitle">Tu panel de aprendizaje</div>
     <div class="card">
       <div class="card-title">Tu progreso</div>
@@ -422,29 +551,130 @@
 
 <script>
 // ══════════════════════════════════════════════
-//  FINSEED — NAVEGACIÓN CORE
+//  FINSEED — CORE
 //  Cada función existe una sola vez, sin overrides
 // ══════════════════════════════════════════════
 
-function entrarApp(role) {
-  // Ocultar auth
+// ── Usuarios demo ────────────────────────────
+function initDemoUsers() {
+  if (!localStorage.getItem('finseed_users')) {
+    var demo = [
+      { id: 'u1', nombre: 'Carlos', email: 'padre@demo.com', pass: '123456', role: 'padre' },
+      { id: 'u2', nombre: 'Sofía',  email: 'hijo@demo.com',  pass: '123456', role: 'hijo'  }
+    ];
+    localStorage.setItem('finseed_users', JSON.stringify(demo));
+  }
+}
+
+// ── Cambiar vista auth ────────────────────────
+function showView(view) {
+  document.getElementById('view-login').style.display    = (view === 'login')    ? 'block' : 'none';
+  document.getElementById('view-registro').style.display = (view === 'registro') ? 'block' : 'none';
+}
+
+// ── Login ─────────────────────────────────────
+function loginUser() {
+  var email = document.getElementById('login-email').value.trim().toLowerCase();
+  var pass  = document.getElementById('login-pass').value;
+  var errEl = document.getElementById('login-error');
+  errEl.style.display = 'none';
+
+  if (!email || !pass) {
+    errEl.textContent = 'Completa todos los campos.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  var users = JSON.parse(localStorage.getItem('finseed_users') || '[]');
+  var user  = users.find(function(u) {
+    return u.email.toLowerCase() === email && u.pass === pass;
+  });
+
+  if (!user) {
+    errEl.textContent = 'Email o contraseña incorrectos.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  localStorage.setItem('finseed_session', JSON.stringify({ id: user.id, nombre: user.nombre, role: user.role }));
+  entrarApp(user.role, user.nombre);
+}
+
+// ── Registro ──────────────────────────────────
+function registerUser() {
+  var rol    = document.getElementById('reg-rol').value;
+  var nombre = document.getElementById('reg-nombre').value.trim();
+  var email  = document.getElementById('reg-email').value.trim().toLowerCase();
+  var pass   = document.getElementById('reg-pass').value;
+  var errEl  = document.getElementById('reg-error');
+  errEl.style.display = 'none';
+
+  if (!nombre || !email || !pass) {
+    errEl.textContent = 'Completa todos los campos.';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (pass.length < 6) {
+    errEl.textContent = 'La contraseña debe tener al menos 6 caracteres.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  var users = JSON.parse(localStorage.getItem('finseed_users') || '[]');
+  var existe = users.find(function(u) { return u.email.toLowerCase() === email; });
+  if (existe) {
+    errEl.textContent = 'Este email ya está registrado.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  var newUser = { id: 'u' + Date.now(), nombre: nombre, email: email, pass: pass, role: rol };
+  users.push(newUser);
+  localStorage.setItem('finseed_users', JSON.stringify(users));
+  localStorage.setItem('finseed_session', JSON.stringify({ id: newUser.id, nombre: newUser.nombre, role: newUser.role }));
+  entrarApp(newUser.role, newUser.nombre);
+}
+
+// ── Verificar sesión al cargar ─────────────────
+function checkSession() {
+  var raw = localStorage.getItem('finseed_session');
+  if (!raw) return;
+  try {
+    var session = JSON.parse(raw);
+    if (session && session.role) {
+      entrarApp(session.role, session.nombre);
+    }
+  } catch(e) {
+    localStorage.removeItem('finseed_session');
+  }
+}
+
+// ── Entrar a la app ───────────────────────────
+function entrarApp(role, nombre) {
   document.getElementById('auth-screen').style.display = 'none';
+
+  var bienvenida = nombre ? ('Hola, ' + nombre + (role === 'padre' ? ' 👨' : ' 🌱')) : (role === 'padre' ? 'Bienvenido 👨' : '¡Bienvenido! 🌱');
 
   if (role === 'padre') {
     document.getElementById('app-padre').style.display = 'flex';
     document.getElementById('app-hijo').style.display  = 'none';
     document.getElementById('nav-padre').style.display = 'flex';
     document.getElementById('nav-hijo').style.display  = 'none';
+    document.getElementById('pp-bienvenida').textContent = bienvenida;
+    document.getElementById('padre-welcome').textContent = 'FinSeed 🌱';
     navigate_p('inicio');
   } else {
     document.getElementById('app-hijo').style.display  = 'flex';
     document.getElementById('app-padre').style.display = 'none';
     document.getElementById('nav-hijo').style.display  = 'flex';
     document.getElementById('nav-padre').style.display = 'none';
+    document.getElementById('kp-bienvenida').textContent = bienvenida;
+    document.getElementById('hijo-welcome').textContent = 'FinSeed 🌱';
     navigate_k('inicio');
   }
 }
 
+// ── Navegación padre ──────────────────────────
 function navigate_p(page) {
   var pages = ['inicio', 'portafolio', 'familia', 'perfil'];
   pages.forEach(function(p) {
@@ -458,6 +688,7 @@ function navigate_p(page) {
   });
 }
 
+// ── Navegación hijo ───────────────────────────
 function navigate_k(page) {
   var pages = ['inicio', 'juegos', 'familia', 'perfil'];
   pages.forEach(function(p) {
@@ -471,11 +702,20 @@ function navigate_k(page) {
   });
 }
 
+// ── Logout ────────────────────────────────────
 function doLogout() {
-  document.getElementById('app-padre').style.display  = 'none';
-  document.getElementById('app-hijo').style.display   = 'none';
+  localStorage.removeItem('finseed_session');
+  document.getElementById('app-padre').style.display   = 'none';
+  document.getElementById('app-hijo').style.display    = 'none';
   document.getElementById('auth-screen').style.display = 'flex';
+  showView('login');
 }
+
+// ── Init ──────────────────────────────────────
+window.addEventListener('DOMContentLoaded', function() {
+  initDemoUsers();
+  checkSession();
+});
 </script>
 </body>
 </html>
