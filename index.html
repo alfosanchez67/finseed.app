@@ -11,19 +11,23 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --green:       #059669;
-      --green-dark:  #047857;
-      --green-mid:   #34d399;
-      --green-light: #d1fae5;
-      --green-pale:  #f0fdf4;
-      --bg:          #f9fafb;
-      --bg-card:     #ffffff;
-      --text-1:      #111827;
-      --text-2:      #374151;
-      --text-3:      #6b7280;
-      --border:      #e5e7eb;
-      --danger:      #dc2626;
-      --r:           10px;
+      --green:           #059669;
+      --green-dark:      #047857;
+      --green-hero:      #065f46;
+      --green-mid:       #34d399;
+      --green-light:     #d1fae5;
+      --green-pale:      #f0fdf4;
+      --green-kid:       #16a34a;
+      --green-kid-light: #dcfce7;
+      --green-kid-mid:   #4ade80;
+      --bg:              #f9fafb;
+      --bg-card:         #ffffff;
+      --text-1:          #111827;
+      --text-2:          #374151;
+      --text-3:          #6b7280;
+      --border:          #e5e7eb;
+      --danger:          #dc2626;
+      --r:               10px;
     }
 
     html, body {
@@ -508,6 +512,11 @@
     }
 
     .nav-item.active .nav-icon svg { stroke: var(--green); }
+
+    /* Hijo usa verde vivo */
+    #nav-hijo .nav-item.active                  { color: var(--green-kid); }
+    #nav-hijo .nav-item.active::after           { background: var(--green-kid); }
+    #nav-hijo .nav-item.active .nav-icon svg    { stroke: var(--green-kid); }
   </style>
 </head>
 <body>
@@ -650,26 +659,25 @@
 
   <div class="page active" id="pp-inicio">
 
-    <!-- HEADER -->
-    <div id="pp-inicio-header" style="padding:20px 16px 8px">
+    <!-- HEADER con portafolio preview integrado -->
+    <div id="pp-inicio-header" style="background:linear-gradient(160deg,#065f46 0%,#047857 60%,#059669 100%);padding:44px 16px 24px;border-radius:0 0 24px 24px;margin-bottom:4px">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <div>
-          <div id="pp-saludo" style="font-size:13px;color:var(--text-3)">Buenos días,</div>
-          <div id="pp-nombre" style="font-size:20px;font-weight:600;color:var(--text-1)">Carlos</div>
+          <div id="pp-saludo" style="font-size:13px;color:rgba(255,255,255,0.7)">Buenos días,</div>
+          <div id="pp-nombre" style="font-size:22px;font-weight:600;color:white">Carlos</div>
         </div>
-        <div id="pp-avatar" style="width:40px;height:40px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:white;cursor:pointer" onclick="navigate_p('perfil')">C</div>
+        <div id="pp-avatar" style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:white;cursor:pointer" onclick="navigate_p('perfil')">C</div>
       </div>
-    </div>
-
-    <!-- PORTAFOLIO PROPIO PREVIEW -->
-    <div style="margin:8px 16px 0;background:var(--green);border-radius:16px;padding:20px;cursor:pointer" onclick="navigate_p('portafolio')">
-      <div style="font-size:12px;color:rgba(255,255,255,0.8);margin-bottom:4px">Mi portafolio</div>
-      <div id="pp-total" style="font-size:28px;font-weight:700;color:white">US$0.00</div>
-      <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
-        <div id="pp-cambio-pct" style="font-size:13px;color:rgba(255,255,255,0.9)">+0.00%</div>
-        <div id="pp-cambio-val" style="font-size:13px;color:rgba(255,255,255,0.7)">hoy</div>
+      <!-- Portafolio preview flotando sobre el gradiente -->
+      <div style="margin-top:20px;background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.25);border-radius:16px;padding:20px;cursor:pointer" onclick="navigate_p('portafolio')">
+        <div style="font-size:12px;color:rgba(255,255,255,0.8);margin-bottom:4px">Mi portafolio</div>
+        <div id="pp-total" style="font-size:28px;font-weight:700;color:white">US$0.00</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+          <div id="pp-cambio-pct" style="font-size:13px;color:rgba(255,255,255,0.9)">+0.00%</div>
+          <div id="pp-cambio-val" style="font-size:13px;color:rgba(255,255,255,0.7)">hoy</div>
+        </div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:8px">Ver detalle →</div>
       </div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:8px">Ver detalle →</div>
     </div>
 
     <!-- PORTAFOLIOS HIJOS -->
@@ -865,43 +873,42 @@
 
   <div class="status-bar"><span>9:41</span><span>FinSeed</span></div>
 
-  <div class="top-bar" style="background:#7c3aed;border-bottom-color:#6d28d9;">
+  <div class="top-bar" style="background:#15803d;border-bottom-color:#14532d;">
     <span class="top-bar-title" id="hijo-welcome" style="color:#ffffff;">FinSeed</span>
     <button class="logout-btn" style="color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.25);" onclick="doLogout()">Salir</button>
   </div>
 
   <div class="page active" id="kp-inicio">
-    <!-- HEADER -->
-    <div style="padding:20px 16px 8px">
+    <!-- HEADER con XP integrado -->
+    <div id="kp-inicio-header" style="background:linear-gradient(160deg,#14532d 0%,#15803d 60%,#16a34a 100%);padding:44px 16px 24px;border-radius:0 0 24px 24px;margin-bottom:4px">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <div>
-          <div id="kp-saludo" style="font-size:13px;color:var(--text-3)">Buenos días,</div>
-          <div id="kp-nombre" style="font-size:20px;font-weight:600;color:var(--text-1)">Sofía</div>
+          <div id="kp-saludo" style="font-size:13px;color:rgba(255,255,255,0.7)">Buenos días,</div>
+          <div id="kp-nombre" style="font-size:22px;font-weight:600;color:white">Sofía</div>
         </div>
-        <div id="kp-avatar" style="width:40px;height:40px;border-radius:50%;background:#7c3aed;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:white;cursor:pointer" onclick="navigate_k('perfil')">S</div>
+        <div id="kp-avatar" style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:white;cursor:pointer" onclick="navigate_k('perfil')">S</div>
       </div>
-    </div>
-
-    <!-- XP + nivel + racha -->
-    <div style="margin:8px 16px 0;background:#7c3aed;border-radius:16px;padding:20px">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.75);margin-bottom:4px">Nivel actual</div>
-          <div id="kp-nivel-txt" style="font-size:28px;font-weight:700;color:white">Nv.1</div>
+      <!-- XP + nivel + racha flotando sobre gradiente -->
+      <div style="margin-top:20px;background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.25);border-radius:16px;padding:20px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.75);margin-bottom:4px">Nivel actual</div>
+            <div id="kp-nivel-txt" style="font-size:28px;font-weight:700;color:white">Nv.1</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:12px;color:rgba(255,255,255,0.75);margin-bottom:4px">Racha</div>
+            <div id="kp-racha-txt" style="font-size:28px;font-weight:700;color:#fbbf24">0 días</div>
+          </div>
         </div>
-        <div style="text-align:right">
-          <div style="font-size:12px;color:rgba(255,255,255,0.75);margin-bottom:4px">Racha</div>
-          <div id="kp-racha-txt" style="font-size:28px;font-weight:700;color:#fbbf24">0 días</div>
-        </div>
-      </div>
-      <!-- barra XP -->
-      <div style="margin-top:14px">
-        <div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.7);margin-bottom:5px">
-          <span id="kp-xp-txt">0 XP</span>
-          <span id="kp-xp-next">100 XP para Nv.2</span>
-        </div>
-        <div style="background:rgba(255,255,255,0.2);border-radius:4px;height:6px">
-          <div id="kp-xp-bar" style="background:#fbbf24;border-radius:4px;height:6px;width:0%;transition:width .4s"></div>
+        <!-- barra XP -->
+        <div style="margin-top:14px">
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.7);margin-bottom:5px">
+            <span id="kp-xp-txt">0 XP</span>
+            <span id="kp-xp-next">100 XP para Nv.2</span>
+          </div>
+          <div style="background:rgba(255,255,255,0.2);border-radius:4px;height:6px">
+            <div id="kp-xp-bar" style="background:#4ade80;border-radius:4px;height:6px;width:0%;transition:width .4s"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -913,7 +920,7 @@
         <div style="font-size:11px;color:var(--text-3);margin-top:2px">Monedas</div>
       </div>
       <div style="flex:1;background:white;border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
-        <div id="kp-logros-cnt" style="font-size:20px;font-weight:700;color:#7c3aed">0</div>
+        <div id="kp-logros-cnt" style="font-size:20px;font-weight:700;color:#16a34a">0</div>
         <div style="font-size:11px;color:var(--text-3);margin-top:2px">Logros</div>
       </div>
       <div style="flex:1;background:white;border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
@@ -969,19 +976,19 @@
 
     <!-- Avatar -->
     <div style="display:flex;flex-direction:column;align-items:center;padding:16px 16px 12px">
-      <div id="kpperf-avatar" style="width:72px;height:72px;border-radius:50%;background:#7c3aed;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:white;margin-bottom:12px">S</div>
+      <div id="kpperf-avatar" style="width:72px;height:72px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:white;margin-bottom:12px">S</div>
       <div id="kpperf-nombre" style="font-size:18px;font-weight:700;color:var(--text-1)">Sofía</div>
       <div id="kpperf-email" style="font-size:13px;color:var(--text-3);margin-top:2px">hijo@demo.com</div>
-      <div style="display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:4px 12px;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:20px">
-        <div style="width:7px;height:7px;border-radius:50%;background:#7c3aed"></div>
-        <div style="font-size:12px;color:#7c3aed;font-weight:600">Cuenta Hijo</div>
+      <div style="display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:4px 12px;background:#dcfce7;border:1px solid #bbf7d0;border-radius:20px">
+        <div style="width:7px;height:7px;border-radius:50%;background:#16a34a"></div>
+        <div style="font-size:12px;color:#16a34a;font-weight:600">Cuenta Hijo</div>
       </div>
     </div>
 
     <!-- Stats XP -->
     <div style="margin:0 16px;display:flex;gap:8px">
       <div style="flex:1;background:white;border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
-        <div id="kpperf-xp" style="font-size:20px;font-weight:700;color:#7c3aed">0</div>
+        <div id="kpperf-xp" style="font-size:20px;font-weight:700;color:#16a34a">0</div>
         <div style="font-size:11px;color:var(--text-3);margin-top:2px">XP total</div>
       </div>
       <div style="flex:1;background:white;border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
@@ -1271,7 +1278,7 @@ async function renderPadrePortafolio() {
     var cc = hp.rentabilidad >= 0 ? 'var(--green)' : 'var(--danger)';
     phHTML += '<div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center">' +
       '<div style="display:flex;align-items:center;gap:12px">' +
-      '<div style="width:36px;height:36px;border-radius:50%;background:#7c3aed;display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:14px">' + (h.avatar || h.nombre.charAt(0)) + '</div>' +
+      '<div style="width:36px;height:36px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:14px">' + (h.avatar || h.nombre.charAt(0)) + '</div>' +
       '<div><div style="font-size:14px;font-weight:600;color:var(--text-1)">' + h.nombre + '</div>' +
       '<div style="font-size:12px;color:var(--text-3)">Nv.' + (h.nivel || 1) + '</div></div>' +
       '</div>' +
@@ -1321,7 +1328,7 @@ function renderPadreFamilia() {
   for (var i = 0; i < hijos.length; i++) {
     var h = hijos[i];
     hijosHTML += '<div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px">' +
-      '<div style="width:40px;height:40px;border-radius:50%;background:#7c3aed;display:flex;align-items:center;justify-content:center;font-weight:700;color:white">' + (h.avatar || h.nombre.charAt(0)) + '</div>' +
+      '<div style="width:40px;height:40px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;font-weight:700;color:white">' + (h.avatar || h.nombre.charAt(0)) + '</div>' +
       '<div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--text-1)">' + h.nombre + '</div>' +
       '<div style="font-size:12px;color:var(--text-3)">Nv.' + (h.nivel || 1) + ' · ' + (h.xp || 0) + ' XP · ' + (h.racha || 0) + ' días racha</div></div>' +
       '<div style="width:10px;height:10px;border-radius:50%;background:var(--green)"></div>' +
@@ -1442,7 +1449,7 @@ async function renderHijoInicio() {
       '<div><div style="font-size:14px;font-weight:600;color:var(--text-1)">' + jg.titulo + '</div>' +
       '<div style="font-size:12px;color:var(--text-3);margin-top:2px">' + jg.descripcion + '</div></div>' +
       '<div style="text-align:right;min-width:48px">' +
-      '<div style="font-size:12px;font-weight:600;color:#7c3aed">+' + jg.xp + ' XP</div>' +
+      '<div style="font-size:12px;font-weight:600;color:#16a34a">+' + jg.xp + ' XP</div>' +
       '<div style="font-size:11px;color:#f59e0b">+' + jg.monedas + ' 🪙</div>' +
       '</div></div>';
   }
@@ -1464,10 +1471,10 @@ function renderHijoJuegos() {
       '<div style="font-size:12px;color:var(--text-3);line-height:1.5">' + jg.descripcion + '</div>' +
       '</div>' +
       '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">' +
-      '<div style="font-size:12px;font-weight:600;color:#7c3aed;background:#f5f3ff;padding:3px 8px;border-radius:8px">+' + jg.xp + ' XP</div>' +
+      '<div style="font-size:12px;font-weight:600;color:#16a34a;background:#dcfce7;padding:3px 8px;border-radius:8px">+' + jg.xp + ' XP</div>' +
       '<div style="font-size:11px;color:#f59e0b">+' + jg.monedas + ' monedas</div>' +
       '</div></div>' +
-      '<button style="margin-top:12px;width:100%;padding:10px;background:#7c3aed;color:white;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer">Jugar</button>' +
+      '<button style="margin-top:12px;width:100%;padding:10px;background:#16a34a;color:white;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer">Jugar</button>' +
       '</div>';
   }
   var el = document.getElementById('kp-juegos-lista');
@@ -1492,7 +1499,7 @@ function renderHijoFamilia() {
     var r = ranking[i];
     rkHTML += '<div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px">' +
       '<div style="font-size:20px;width:28px;text-align:center">' + (medals[i] || (i + 1)) + '</div>' +
-      '<div style="width:36px;height:36px;border-radius:50%;background:#7c3aed;display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:14px">' + r.avatar + '</div>' +
+      '<div style="width:36px;height:36px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:14px">' + r.avatar + '</div>' +
       '<div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--text-1)">' + r.nombre + '</div>' +
       '<div style="font-size:12px;color:var(--text-3)">Nv.' + r.nivel + ' · ' + r.xp + ' XP</div></div>' +
       '</div>';
@@ -1511,10 +1518,10 @@ function renderHijoFamilia() {
       metasHTML += '<div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px">' +
         '<div style="display:flex;justify-content:space-between;margin-bottom:8px">' +
         '<div style="font-size:14px;font-weight:600;color:var(--text-1)">' + m.nombre + '</div>' +
-        '<div style="font-size:13px;font-weight:600;color:#7c3aed">' + pct + '%</div>' +
+        '<div style="font-size:13px;font-weight:600;color:#16a34a">' + pct + '%</div>' +
         '</div>' +
         '<div style="background:var(--border);border-radius:4px;height:6px">' +
-        '<div style="background:#7c3aed;border-radius:4px;height:6px;width:' + pct + '%"></div></div>' +
+        '<div style="background:#22c55e;border-radius:4px;height:6px;width:' + pct + '%"></div></div>' +
         '</div>';
     }
   }
