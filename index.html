@@ -3,27 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>FinSeed 🌱</title>
+  <title>FinSeed</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --green: #10b981;
-      --green-dark: #059669;
+      --green:       #059669;
+      --green-mid:   #34d399;
       --green-light: #d1fae5;
-      --bg: #f8fffe;
-      --surface: #ffffff;
-      --text: #111827;
-      --text-2: #6b7280;
-      --border: #e5e7eb;
-      --r: 12px;
+      --bg:          #f9fafb;
+      --bg-card:     #ffffff;
+      --text-1:      #111827;
+      --text-2:      #374151;
+      --text-3:      #6b7280;
+      --border:      #e5e7eb;
+      --danger:      #dc2626;
+      --r:           10px;
     }
 
     html, body {
       height: 100%;
-      background: #d1d5db;
-      font-family: 'DM Sans', system-ui, sans-serif;
-      color: var(--text);
+      background: #e5e7eb;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--text-1);
+      -webkit-font-smoothing: antialiased;
     }
 
     body {
@@ -42,14 +48,16 @@
       overflow: hidden;
     }
 
-    /* ── AUTH ── */
+    /* ════════════════════════════════
+       AUTH SCREEN
+    ════════════════════════════════ */
     #auth-screen {
       position: fixed;
       inset: 0;
       z-index: 1000;
       display: flex;
       flex-direction: column;
-      background: linear-gradient(175deg, #f8fffe 0%, #e8f9f3 40%, #d1fae5 100%);
+      background: #ffffff;
       width: 390px;
       margin: 0 auto;
       overflow-y: auto;
@@ -59,45 +67,55 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 48px 32px 24px;
+      padding: 52px 32px 28px;
     }
 
-    .auth-logo {
-      width: 72px;
-      height: 72px;
-      background: var(--green);
-      border-radius: 22px;
+    .auth-logomark {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 36px;
-      margin-bottom: 16px;
-      box-shadow: 0 8px 32px rgba(16,185,129,0.3);
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+
+    .auth-logomark svg {
+      width: 24px;
+      height: 24px;
+      color: var(--green);
     }
 
     .auth-brand {
-      font-size: 32px;
-      font-weight: 800;
-      color: var(--green-dark);
-      letter-spacing: -1px;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--green);
+      letter-spacing: -0.5px;
+    }
+
+    .auth-tagline {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--text-2);
+      text-align: center;
+      line-height: 1.6;
+      max-width: 280px;
     }
 
     .auth-panel {
-      background: white;
-      border-radius: 28px 28px 0 0;
-      padding: 28px 24px 48px;
+      background: #ffffff;
+      padding: 8px 24px 48px;
       flex: 1;
     }
 
     .auth-panel-title {
-      font-size: 22px;
-      font-weight: 800;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-1);
       margin-bottom: 4px;
     }
 
     .auth-panel-sub {
       font-size: 13px;
-      color: var(--text-2);
+      font-weight: 400;
+      color: var(--text-3);
       margin-bottom: 24px;
     }
 
@@ -107,24 +125,24 @@
 
     .auth-field label {
       display: block;
-      font-size: 12px;
-      font-weight: 700;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-2);
       margin-bottom: 6px;
-      color: var(--text);
     }
 
     .auth-field input,
     .auth-field select {
       width: 100%;
-      padding: 13px 14px;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--r);
       font-family: inherit;
-      font-size: 14px;
-      background: white;
-      color: var(--text);
+      font-size: 15px;
+      font-weight: 400;
+      background: #ffffff;
+      color: var(--text-1);
       outline: none;
-      transition: border-color .15s;
     }
 
     .auth-field input:focus,
@@ -134,31 +152,29 @@
 
     .auth-submit {
       width: 100%;
-      padding: 15px;
+      padding: 14px;
       background: var(--green);
-      color: white;
+      color: #ffffff;
       border: none;
       border-radius: var(--r);
       font-family: inherit;
       font-size: 15px;
-      font-weight: 700;
+      font-weight: 600;
       cursor: pointer;
-      margin-top: 4px;
-      margin-bottom: 16px;
-      transition: opacity .15s;
+      margin-top: 6px;
+      margin-bottom: 18px;
     }
-
-    .auth-submit:active { opacity: .85; }
 
     .auth-switch {
       text-align: center;
       font-size: 13px;
-      color: var(--text-2);
+      font-weight: 400;
+      color: var(--text-3);
     }
 
     .auth-switch span {
-      color: var(--green-dark);
-      font-weight: 700;
+      color: var(--green);
+      font-weight: 500;
       cursor: pointer;
     }
 
@@ -167,25 +183,29 @@
       background: #fef2f2;
       border: 1px solid #fecaca;
       border-radius: 8px;
-      padding: 10px 12px;
+      padding: 10px 14px;
       font-size: 13px;
-      color: #dc2626;
+      color: var(--danger);
       margin-bottom: 14px;
     }
 
     .demo-hint {
-      margin-top: 20px;
+      margin-top: 24px;
       padding: 12px 14px;
       background: var(--green-light);
-      border-radius: 10px;
+      border-radius: var(--r);
       font-size: 12px;
-      color: var(--green-dark);
-      line-height: 1.6;
+      font-weight: 400;
+      color: var(--green);
+      line-height: 1.7;
+      border: 1px solid #a7f3d0;
     }
 
-    .demo-hint strong { font-weight: 700; }
+    .demo-hint strong { font-weight: 600; }
 
-    /* ── APP INNER ── */
+    /* ════════════════════════════════
+       APP INNER
+    ════════════════════════════════ */
     .app-inner {
       display: none;
       flex-direction: column;
@@ -198,9 +218,10 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 20px 6px;
-      font-size: 12px;
-      font-weight: 600;
+      padding: 12px 20px 4px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-3);
     }
 
     /* ── TOP BAR ── */
@@ -210,21 +231,23 @@
       justify-content: space-between;
       padding: 8px 16px 12px;
       border-bottom: 1px solid var(--border);
+      background: var(--bg-card);
     }
 
     .top-bar-title {
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--green-dark);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--green);
     }
 
     .logout-btn {
       font-size: 12px;
-      color: var(--text-2);
+      font-weight: 500;
+      color: var(--text-3);
       background: none;
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 6px 10px;
+      padding: 5px 10px;
       cursor: pointer;
       font-family: inherit;
     }
@@ -236,37 +259,42 @@
       flex: 1;
       padding: 20px 16px 100px;
       overflow-y: auto;
+      background: var(--bg);
     }
 
     .page-title {
-      font-size: 26px;
-      font-weight: 800;
-      margin-bottom: 6px;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text-1);
+      margin-bottom: 4px;
     }
 
     .page-subtitle {
-      font-size: 14px;
-      color: var(--text-2);
-      margin-bottom: 24px;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text-3);
+      margin-bottom: 20px;
     }
 
     .card {
-      background: white;
+      background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--r);
       padding: 16px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .card-title {
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 600;
+      color: var(--text-1);
       margin-bottom: 4px;
     }
 
     .card-body {
       font-size: 13px;
-      color: var(--text-2);
+      font-weight: 400;
+      color: var(--text-3);
       line-height: 1.5;
     }
 
@@ -278,7 +306,7 @@
       transform: translateX(-50%);
       width: 390px;
       max-width: 100vw;
-      background: white;
+      background: var(--bg-card);
       border-top: 1px solid var(--border);
       display: flex;
       padding: 10px 0 20px;
@@ -290,21 +318,35 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 3px;
+      gap: 4px;
       cursor: pointer;
       padding: 4px 0;
-      color: var(--text-2);
+      color: var(--text-3);
       font-size: 10px;
-      font-weight: 600;
-      transition: color .15s;
+      font-weight: 500;
     }
 
     .nav-item.active { color: var(--green); }
 
+    .nav-item.active svg { stroke: var(--green); }
+
     .nav-icon {
-      font-size: 22px;
-      line-height: 1;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+
+    .nav-icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--text-3);
+      stroke-width: 1.8;
+      fill: none;
+    }
+
+    .nav-item.active .nav-icon svg { stroke: var(--green); }
   </style>
 </head>
 <body>
@@ -316,8 +358,15 @@
 <div id="auth-screen">
 
   <div class="auth-header">
-    <div class="auth-logo">🌱</div>
-    <div class="auth-brand">FinSeed</div>
+    <div class="auth-logomark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2"/>
+        <path d="M12 8v8M8 12h8"/>
+        <path d="M7 7c2-2 8-2 10 0"/>
+      </svg>
+      <span class="auth-brand">FinSeed</span>
+    </div>
+    <p class="auth-tagline">Planta tu semilla financiera y observa cómo crece de manera individual o junto a tu familia</p>
   </div>
 
   <!-- Vista: Login -->
@@ -328,7 +377,7 @@
     <div id="login-error" class="auth-error"></div>
 
     <div class="auth-field">
-      <label>Email</label>
+      <label>Correo electrónico</label>
       <input id="login-email" type="email" placeholder="tu@email.com">
     </div>
     <div class="auth-field">
@@ -343,24 +392,24 @@
     </div>
 
     <div class="demo-hint">
-      <strong>Usuarios demo:</strong><br>
-      Padre → padre@demo.com / 123456<br>
-      Hijo → hijo@demo.com / 123456
+      <strong>Acceso de prueba</strong><br>
+      Padre — padre@demo.com / 123456<br>
+      Hijo — hijo@demo.com / 123456
     </div>
   </div>
 
   <!-- Vista: Registro -->
   <div class="auth-panel" id="view-registro" style="display:none">
     <div class="auth-panel-title">Crear cuenta</div>
-    <div class="auth-panel-sub">Únete a FinSeed gratis</div>
+    <div class="auth-panel-sub">Únete a FinSeed de forma gratuita</div>
 
     <div id="reg-error" class="auth-error"></div>
 
     <div class="auth-field">
       <label>Rol</label>
       <select id="reg-rol">
-        <option value="padre">👨 Padre / Madre</option>
-        <option value="hijo">🌱 Hijo / Hija</option>
+        <option value="padre">Padre / Madre</option>
+        <option value="hijo">Hijo / Hija</option>
       </select>
     </div>
     <div class="auth-field">
@@ -368,12 +417,12 @@
       <input id="reg-nombre" type="text" placeholder="Tu nombre">
     </div>
     <div class="auth-field">
-      <label>Email</label>
+      <label>Correo electrónico</label>
       <input id="reg-email" type="email" placeholder="tu@email.com">
     </div>
     <div class="auth-field">
       <label>Contraseña</label>
-      <input id="reg-pass" type="password" placeholder="Mín. 6 caracteres">
+      <input id="reg-pass" type="password" placeholder="Mínimo 6 caracteres">
     </div>
 
     <button class="auth-submit" onclick="registerUser()">Crear cuenta</button>
@@ -392,21 +441,21 @@
 
   <div class="status-bar">
     <span>9:41</span>
-    <span>📶 🔋</span>
+    <span>FinSeed</span>
   </div>
 
   <div class="top-bar">
-    <span class="top-bar-title" id="padre-welcome">FinSeed 🌱</span>
+    <span class="top-bar-title" id="padre-welcome">FinSeed</span>
     <button class="logout-btn" onclick="doLogout()">Salir</button>
   </div>
 
   <!-- Página: Inicio -->
   <div class="page" id="pp-inicio">
-    <div class="page-title" id="pp-bienvenida">Bienvenido 👨</div>
-    <div class="page-subtitle">Dashboard familiar</div>
+    <div class="page-title" id="pp-bienvenida">Bienvenido</div>
+    <div class="page-subtitle">Panel familiar</div>
     <div class="card">
       <div class="card-title">Resumen familiar</div>
-      <div class="card-body">Aquí irá el resumen de inversiones y progreso de tus hijos.</div>
+      <div class="card-body">Aquí verás el resumen de inversiones y el progreso de tus hijos.</div>
     </div>
     <div class="card">
       <div class="card-title">Portafolio total</div>
@@ -416,50 +465,58 @@
 
   <!-- Página: Portafolio -->
   <div class="page" id="pp-portafolio">
-    <div class="page-title">Portafolio 📈</div>
+    <div class="page-title">Portafolio</div>
     <div class="page-subtitle">Tus inversiones</div>
     <div class="card">
       <div class="card-title">Sin posiciones</div>
-      <div class="card-body">Agrega tus primeras inversiones para empezar a trackear.</div>
+      <div class="card-body">Agrega tus primeras inversiones para comenzar a hacer seguimiento.</div>
     </div>
   </div>
 
   <!-- Página: Familia -->
   <div class="page" id="pp-familia">
-    <div class="page-title">Familia 👨‍👩‍👧</div>
+    <div class="page-title">Familia</div>
     <div class="page-subtitle">Gestiona tu grupo familiar</div>
     <div class="card">
       <div class="card-title">Hijos conectados</div>
-      <div class="card-body">Invita a tus hijos con el código familiar para empezar.</div>
+      <div class="card-body">Invita a tus hijos con el código familiar para comenzar.</div>
     </div>
   </div>
 
   <!-- Página: Perfil -->
   <div class="page" id="pp-perfil">
-    <div class="page-title">Perfil ⚙️</div>
+    <div class="page-title">Perfil</div>
     <div class="page-subtitle">Tu cuenta</div>
     <div class="card">
       <div class="card-title">Configuración</div>
-      <div class="card-body">Ajusta tus preferencias y datos de cuenta aquí.</div>
+      <div class="card-body">Ajusta tus preferencias y datos de cuenta.</div>
     </div>
   </div>
 
   <!-- Bottom Nav Padre -->
   <nav class="bottom-nav" id="nav-padre">
     <div class="nav-item active" id="pnav-inicio" onclick="navigate_p('inicio')">
-      <div class="nav-icon">🏠</div>
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9" stroke-linecap="round"/></svg>
+      </div>
       <span>Inicio</span>
     </div>
     <div class="nav-item" id="pnav-portafolio" onclick="navigate_p('portafolio')">
-      <div class="nav-icon">📈</div>
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24"><rect x="2" y="12" width="4" height="9" rx="1"/><rect x="9" y="7" width="4" height="14" rx="1"/><rect x="16" y="3" width="4" height="18" rx="1"/></svg>
+      </div>
       <span>Portafolio</span>
     </div>
     <div class="nav-item" id="pnav-familia" onclick="navigate_p('familia')">
-      <div class="nav-icon">👨‍👩‍👧</div>
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      </div>
       <span>Familia</span>
     </div>
     <div class="nav-item" id="pnav-perfil" onclick="navigate_p('perfil')">
-      <div class="nav-icon">⚙️</div>
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </div>
       <span>Perfil</span>
     </div>
   </nav>
@@ -473,31 +530,31 @@
 
   <div class="status-bar">
     <span>9:41</span>
-    <span>📶 🔋</span>
+    <span>FinSeed</span>
   </div>
 
-  <div class="top-bar" style="background:linear-gradient(90deg,#7c3aed 0%,#6d28d9 100%);">
-    <span class="top-bar-title" id="hijo-welcome" style="color:white;">FinSeed 🌱</span>
-    <button class="logout-btn" style="color:white;border-color:rgba(255,255,255,.4)" onclick="doLogout()">Salir</button>
+  <div class="top-bar" style="background:#7c3aed;border-bottom-color:#6d28d9;">
+    <span class="top-bar-title" id="hijo-welcome" style="color:#ffffff;">FinSeed</span>
+    <button class="logout-btn" style="color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.25);" onclick="doLogout()">Salir</button>
   </div>
 
   <!-- Página: Inicio -->
   <div class="page" id="kp-inicio">
-    <div class="page-title" id="kp-bienvenida">¡Bienvenido! 🌱</div>
+    <div class="page-title" id="kp-bienvenida">Bienvenido</div>
     <div class="page-subtitle">Tu panel de aprendizaje</div>
     <div class="card">
       <div class="card-title">Tu progreso</div>
       <div class="card-body">Completa lecciones y gana XP para subir de nivel.</div>
     </div>
     <div class="card">
-      <div class="card-title">Racha diaria 🔥</div>
-      <div class="card-body">¡Sigue aprendiendo cada día para mantener tu racha!</div>
+      <div class="card-title">Racha diaria</div>
+      <div class="card-body">Sigue aprendiendo cada día para mantener tu racha activa.</div>
     </div>
   </div>
 
   <!-- Página: Juegos -->
   <div class="page" id="kp-juegos">
-    <div class="page-title">Juegos 🎮</div>
+    <div class="page-title">Juegos</div>
     <div class="page-subtitle">Aprende jugando</div>
     <div class="card">
       <div class="card-title">Próximamente</div>
@@ -507,17 +564,17 @@
 
   <!-- Página: Familia -->
   <div class="page" id="kp-familia">
-    <div class="page-title">Mi Familia 👨‍👩‍👧</div>
+    <div class="page-title">Mi Familia</div>
     <div class="page-subtitle">Tu grupo familiar</div>
     <div class="card">
       <div class="card-title">Ranking familiar</div>
-      <div class="card-body">Compite sanamente con tus hermanos y muestra tu progreso.</div>
+      <div class="card-body">Compite con tus hermanos y muestra tu progreso.</div>
     </div>
   </div>
 
   <!-- Página: Perfil -->
   <div class="page" id="kp-perfil">
-    <div class="page-title">Mi Perfil 😊</div>
+    <div class="page-title">Mi Perfil</div>
     <div class="page-subtitle">Tu cuenta</div>
     <div class="card">
       <div class="card-title">Logros</div>
@@ -528,19 +585,27 @@
   <!-- Bottom Nav Hijo -->
   <nav class="bottom-nav" id="nav-hijo">
     <div class="nav-item active" id="knav-inicio" onclick="navigate_k('inicio')">
-      <div class="nav-icon">🏠</div>
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9" stroke-linecap="round"/></svg>
+      </div>
       <span>Inicio</span>
     </div>
     <div class="nav-item" id="knav-juegos" onclick="navigate_k('juegos')">
-      <div class="nav-icon">🎮</div>
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
       <span>Juegos</span>
     </div>
     <div class="nav-item" id="knav-familia" onclick="navigate_k('familia')">
-      <div class="nav-icon">👨‍👩‍👧</div>
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      </div>
       <span>Familia</span>
     </div>
     <div class="nav-item" id="knav-perfil" onclick="navigate_k('perfil')">
-      <div class="nav-icon">😊</div>
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </div>
       <span>Perfil</span>
     </div>
   </nav>
@@ -555,7 +620,6 @@
 //  Cada función existe una sola vez, sin overrides
 // ══════════════════════════════════════════════
 
-// ── Usuarios demo ────────────────────────────
 function initDemoUsers() {
   if (!localStorage.getItem('finseed_users')) {
     var demo = [
@@ -566,13 +630,11 @@ function initDemoUsers() {
   }
 }
 
-// ── Cambiar vista auth ────────────────────────
 function showView(view) {
   document.getElementById('view-login').style.display    = (view === 'login')    ? 'block' : 'none';
   document.getElementById('view-registro').style.display = (view === 'registro') ? 'block' : 'none';
 }
 
-// ── Login ─────────────────────────────────────
 function loginUser() {
   var email = document.getElementById('login-email').value.trim().toLowerCase();
   var pass  = document.getElementById('login-pass').value;
@@ -600,7 +662,6 @@ function loginUser() {
   entrarApp(user.role, user.nombre);
 }
 
-// ── Registro ──────────────────────────────────
 function registerUser() {
   var rol    = document.getElementById('reg-rol').value;
   var nombre = document.getElementById('reg-nombre').value.trim();
@@ -635,7 +696,6 @@ function registerUser() {
   entrarApp(newUser.role, newUser.nombre);
 }
 
-// ── Verificar sesión al cargar ─────────────────
 function checkSession() {
   var raw = localStorage.getItem('finseed_session');
   if (!raw) return;
@@ -649,11 +709,10 @@ function checkSession() {
   }
 }
 
-// ── Entrar a la app ───────────────────────────
 function entrarApp(role, nombre) {
   document.getElementById('auth-screen').style.display = 'none';
 
-  var bienvenida = nombre ? ('Hola, ' + nombre + (role === 'padre' ? ' 👨' : ' 🌱')) : (role === 'padre' ? 'Bienvenido 👨' : '¡Bienvenido! 🌱');
+  var bienvenida = nombre ? ('Hola, ' + nombre) : 'Bienvenido';
 
   if (role === 'padre') {
     document.getElementById('app-padre').style.display = 'flex';
@@ -661,7 +720,7 @@ function entrarApp(role, nombre) {
     document.getElementById('nav-padre').style.display = 'flex';
     document.getElementById('nav-hijo').style.display  = 'none';
     document.getElementById('pp-bienvenida').textContent = bienvenida;
-    document.getElementById('padre-welcome').textContent = 'FinSeed 🌱';
+    document.getElementById('padre-welcome').textContent = 'FinSeed';
     navigate_p('inicio');
   } else {
     document.getElementById('app-hijo').style.display  = 'flex';
@@ -669,12 +728,11 @@ function entrarApp(role, nombre) {
     document.getElementById('nav-hijo').style.display  = 'flex';
     document.getElementById('nav-padre').style.display = 'none';
     document.getElementById('kp-bienvenida').textContent = bienvenida;
-    document.getElementById('hijo-welcome').textContent = 'FinSeed 🌱';
+    document.getElementById('hijo-welcome').textContent = 'FinSeed';
     navigate_k('inicio');
   }
 }
 
-// ── Navegación padre ──────────────────────────
 function navigate_p(page) {
   var pages = ['inicio', 'portafolio', 'familia', 'perfil'];
   pages.forEach(function(p) {
@@ -688,7 +746,6 @@ function navigate_p(page) {
   });
 }
 
-// ── Navegación hijo ───────────────────────────
 function navigate_k(page) {
   var pages = ['inicio', 'juegos', 'familia', 'perfil'];
   pages.forEach(function(p) {
@@ -702,7 +759,6 @@ function navigate_k(page) {
   });
 }
 
-// ── Logout ────────────────────────────────────
 function doLogout() {
   localStorage.removeItem('finseed_session');
   document.getElementById('app-padre').style.display   = 'none';
@@ -711,7 +767,6 @@ function doLogout() {
   showView('login');
 }
 
-// ── Init ──────────────────────────────────────
 window.addEventListener('DOMContentLoaded', function() {
   initDemoUsers();
   checkSession();
