@@ -794,6 +794,101 @@ var _selectedRole = '';
 var _loginRole    = '';
 var _tieneHijos   = false;
 
+// ══════════════════════════════════════════════
+//  FINSEED STORE — Datos centrales
+//  Estructura lista para reemplazar con API real
+// ══════════════════════════════════════════════
+
+var FinSeedStore = {
+
+  session: {
+    userId: null,
+    role:   '',
+    nombre: ''
+  },
+
+  fetchPortfolio: function(userId) {
+    var data = {
+      u1: { saldo: 12450.00, rentabilidad: 0.082, activos: [
+        { nombre: 'ETF Global',      valor: 5200,  pct: 0.041 },
+        { nombre: 'Renta Fija MX',   valor: 4100,  pct: 0.018 },
+        { nombre: 'Efectivo',        valor: 3150,  pct: 0.000 }
+      ]},
+      u2: { saldo: 850.00, rentabilidad: 0.053, activos: [
+        { nombre: 'Ahorro Meta',     valor: 600,   pct: 0.053 },
+        { nombre: 'Efectivo',        valor: 250,   pct: 0.000 }
+      ]},
+      u3: { saldo: 0, rentabilidad: 0, activos: [] }
+    };
+    return Promise.resolve(data[userId] || data.u3);
+  },
+
+  getHijos: function(padreId) {
+    var users = JSON.parse(localStorage.getItem('finseed_users') || '[]');
+    var padre = users.find(function(u) { return u.id === padreId; });
+    if (!padre || !padre.hijos) return [];
+    return padre.hijos.map(function(h, i) {
+      return { nombre: h.nombre, id: padreId + '_h' + i };
+    });
+  },
+
+  getProgreso: function(userId) {
+    var raw = localStorage.getItem('finseed_progreso_' + userId);
+    if (raw) return JSON.parse(raw);
+    return { xp: 0, nivel: 1, racha: 0, monedasTotal: 0 };
+  },
+
+  getMetas: function(familiaId) {
+    var raw = localStorage.getItem('finseed_metas_' + familiaId);
+    if (raw) return JSON.parse(raw);
+    return [];
+  },
+
+  getRanking: function(familiaId) {
+    var raw = localStorage.getItem('finseed_ranking_' + familiaId);
+    if (raw) return JSON.parse(raw);
+    return [];
+  },
+
+  getLogros: function(userId) {
+    var raw = localStorage.getItem('finseed_logros_' + userId);
+    if (raw) return JSON.parse(raw);
+    return [];
+  },
+
+  getSugerencias: function() {
+    return [
+      'Ahorra al menos el 10% de cada ingreso.',
+      'Revisa tus metas cada semana.',
+      'Evita deudas de consumo con intereses altos.',
+      'Invierte con regularidad, aunque sean cantidades pequeñas.',
+      'Habla en familia sobre el presupuesto mensual.'
+    ];
+  },
+
+  juegos: [
+    { id: 'ahorro101',   titulo: 'Ahorro 101',        descripcion: 'Aprende por qué ahorrar es el primer paso.',  xp: 20, monedas: 10 },
+    { id: 'presupuesto', titulo: 'El Presupuesto',     descripcion: 'Crea y equilibra un presupuesto familiar.',   xp: 30, monedas: 15 },
+    { id: 'inversion',   titulo: 'Inversión Básica',   descripcion: 'Descubre cómo crece el dinero en el tiempo.', xp: 40, monedas: 20 },
+    { id: 'deuda',       titulo: 'Deudas Inteligentes',descripcion: 'Cuándo endeudarse y cuándo no.',              xp: 35, monedas: 18 }
+  ]
+
+};
+
+// ── Helpers globales ──────────────────────────
+
+function formatMoney(n) {
+  return '$' + Number(n).toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function formatPct(n) {
+  return (n >= 0 ? '+' : '') + (n * 100).toFixed(1) + '%';
+}
+
+function getPctColor(n) {
+  return n >= 0 ? 'var(--green)' : 'var(--danger)';
+}
+
 function initDemoUsers() {
   if (!localStorage.getItem('finseed_users')) {
     var demo = [
@@ -931,6 +1026,11 @@ function checkSession() {
 }
 
 function entrarApp(role, nombre) {
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  FinSeedStore.session.userId = session.id     || null;
+  FinSeedStore.session.role   = role;
+  FinSeedStore.session.nombre = session.nombre || '';
+
   document.getElementById('auth-screen').style.display = 'none';
   var bienvenida = nombre ? ('Hola, ' + nombre) : 'Bienvenido';
 
