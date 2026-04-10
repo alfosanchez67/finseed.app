@@ -1161,11 +1161,73 @@ var FinSeedStore = {
     ];
   },
 
-  juegos: [
-    { id: 'ahorro101',   titulo: 'Ahorro 101',        descripcion: 'Aprende por qué ahorrar es el primer paso.',  xp: 20, monedas: 10 },
-    { id: 'presupuesto', titulo: 'El Presupuesto',     descripcion: 'Crea y equilibra un presupuesto familiar.',   xp: 30, monedas: 15 },
-    { id: 'inversion',   titulo: 'Inversión Básica',   descripcion: 'Descubre cómo crece el dinero en el tiempo.', xp: 40, monedas: 20 },
-    { id: 'deuda',       titulo: 'Deudas Inteligentes',descripcion: 'Cuándo endeudarse y cuándo no.',              xp: 35, monedas: 18 }
+  arbolJuegos: [
+    {
+      id: 'j01', nivel: 1, tema: 'Fundamentos',
+      nombre: '¿Qué es el dinero?',
+      desc: 'Descubre para qué sirve el dinero y cómo funciona',
+      xpRecompensa: 30, desbloqueaCon: null,
+      preguntas: [
+        { tipo: 'opcion',    pregunta: '¿Para qué sirve principalmente el dinero?',          opciones: ['Para intercambiar bienes y servicios','Solo para guardar debajo del colchón','Para hacer amigos','Para decorar la casa'], correcta: 0, explicacion: 'El dinero es un medio de intercambio que nos permite comprar bienes y pagar servicios de forma fácil.' },
+        { tipo: 'completar', pregunta: 'El dinero nos permite _______ cosas sin necesidad de hacer trueque.', opciones: ['comprar','romper','ignorar','perder'], correcta: 0, explicacion: 'Sin dinero tendríamos que intercambiar directamente objetos por objetos, lo que se llama trueque.' },
+        { tipo: 'opcion',    pregunta: '¿Cuál de estas NO es una función del dinero?',        opciones: ['Dar buena suerte','Servir como medio de pago','Guardar valor','Medir el precio de las cosas'], correcta: 0, explicacion: 'El dinero tiene 3 funciones: medio de pago, reserva de valor y unidad de medida. La suerte no es una función.' }
+      ]
+    },
+    {
+      id: 'j02', nivel: 1, tema: 'Fundamentos',
+      nombre: 'Ganar vs Gastar',
+      desc: 'Aprende la diferencia entre ingresos y gastos',
+      xpRecompensa: 30, desbloqueaCon: 'j01',
+      preguntas: [
+        { tipo: 'opcion',    pregunta: '¿Qué es un ingreso?',                                 opciones: ['Dinero que entra a tu bolsillo','Dinero que gastas','Una deuda','Un descuento'], correcta: 0, explicacion: 'Un ingreso es todo el dinero que recibes: sueldo, mesada, regalo. Es lo que entra.' },
+        { tipo: 'simulacion',pregunta: 'Tienes $10.000 de mesada. Gastas $3.000 en dulces y $4.000 en el cine. ¿Cuánto te queda?', opciones: ['$3.000','$7.000','$4.000','$1.000'], correcta: 0, explicacion: '$10.000 - $3.000 - $4.000 = $3.000. Lo que sobra después de gastar se llama ahorro.' },
+        { tipo: 'completar', pregunta: 'Si gastas más de lo que ganas, tienes un _______ negativo.', opciones: ['balance','ahorro','ingreso','regalo'], correcta: 0, explicacion: 'Cuando los gastos superan los ingresos el balance es negativo. Eso significa que estás endeudando.' }
+      ]
+    },
+    {
+      id: 'j03', nivel: 1, tema: 'Ahorro',
+      nombre: 'El poder del ahorro',
+      desc: 'Descubre por qué ahorrar cambia tu futuro',
+      xpRecompensa: 40, desbloqueaCon: 'j02',
+      preguntas: [
+        { tipo: 'opcion',    pregunta: '¿Cuánto debería ahorrar una persona de cada $100 que gana?', opciones: ['Al menos $10','Nada, hay que gastar todo','$100 completos','Solo cuando sobra algo'], correcta: 0, explicacion: 'Una regla popular es ahorrar al menos el 10% de lo que ganas. Así construyes un fondo con el tiempo.' },
+        { tipo: 'simulacion',pregunta: 'Si ahorras $5.000 cada mes durante 12 meses, ¿cuánto tendrás al año?', opciones: ['$60.000','$5.000','$120.000','$12.000'], correcta: 0, explicacion: '$5.000 × 12 meses = $60.000. El ahorro constante acumula sin que lo notes.' },
+        { tipo: 'opcion',    pregunta: '¿Qué es un fondo de emergencia?',                    opciones: ['Dinero guardado para imprevistos','Plata para gastar en fiestas','Un préstamo del banco','Una inversión en bolsa'], correcta: 0, explicacion: 'El fondo de emergencia es dinero que guardas para gastos inesperados: una enfermedad, un arreglo. Idealmente 3-6 meses de gastos.' }
+      ]
+    },
+    {
+      id: 'j04', nivel: 2, tema: 'Presupuesto',
+      nombre: 'Mi primer presupuesto',
+      desc: 'Aprende a planificar tus gastos como un experto',
+      xpRecompensa: 50, desbloqueaCon: 'j03',
+      preguntas: [
+        { tipo: 'opcion',    pregunta: '¿Qué es un presupuesto?',                             opciones: ['Un plan de cuánto ganar y gastar','Un tipo de cuenta bancaria','Una tarjeta de crédito','Un descuento en tiendas'], correcta: 0, explicacion: 'Un presupuesto es un plan que te dice cuánto dinero entra y cómo lo vas a usar. Te ayuda a no gastar de más.' },
+        { tipo: 'simulacion',pregunta: 'La regla 50/30/20 dice: 50% necesidades, 30% gustos, 20% ahorro. Si tienes $100.000 ¿cuánto ahorras?', opciones: ['$20.000','$50.000','$30.000','$10.000'], correcta: 0, explicacion: 'El 20% de $100.000 = $20.000 para ahorro. Esta regla es un buen punto de partida para cualquier presupuesto.' },
+        { tipo: 'completar', pregunta: 'Un gasto _______ es algo que pagas todos los meses, como el arriendo o la luz.', opciones: ['fijo','mágico','opcional','gratis'], correcta: 0, explicacion: 'Los gastos fijos son predecibles y se repiten. Los gastos variables cambian cada mes, como la comida o el entretenimiento.' }
+      ]
+    },
+    {
+      id: 'j05', nivel: 2, tema: 'Inversión',
+      nombre: '¿Qué es invertir?',
+      desc: 'Entiende cómo tu dinero puede crecer solo',
+      xpRecompensa: 60, desbloqueaCon: 'j04',
+      preguntas: [
+        { tipo: 'opcion',    pregunta: '¿Cuál es la diferencia entre ahorrar e invertir?',   opciones: ['Invertir hace crecer el dinero, ahorrar lo mantiene seguro','Son exactamente lo mismo','Ahorrar da más dinero que invertir','Invertir es solo para adultos ricos'], correcta: 0, explicacion: 'Ahorrar guarda tu dinero seguro pero casi no crece. Invertir pone tu dinero a trabajar para ganar más, pero con algo de riesgo.' },
+        { tipo: 'opcion',    pregunta: '¿Qué es una acción?',                                 opciones: ['Una parte pequeña de una empresa','Un billete especial del banco','Un tipo de ahorro sin riesgo','Una deuda que debes pagar'], correcta: 0, explicacion: 'Cuando compras una acción de Apple, eres dueño de una parte muy pequeña de Apple. Si la empresa crece, tu acción vale más.' },
+        { tipo: 'completar', pregunta: 'El _______ compuesto hace que tus ganancias generen más ganancias con el tiempo.', opciones: ['interés','gasto','impuesto','descuento'], correcta: 0, explicacion: 'El interés compuesto es la "magia" de las finanzas: ganas intereses sobre tus intereses anteriores. Einstein lo llamó la octava maravilla del mundo.' }
+      ]
+    },
+    {
+      id: 'j06', nivel: 2, tema: 'Bolsa',
+      nombre: 'La bolsa de valores',
+      desc: 'Descubre cómo funciona el mercado de acciones',
+      xpRecompensa: 70, desbloqueaCon: 'j05',
+      preguntas: [
+        { tipo: 'opcion',    pregunta: '¿Qué es la bolsa de valores?',                        opciones: ['Un mercado donde se compran y venden acciones','Una tienda de ropa cara','Un banco especial','Un juego de azar'], correcta: 0, explicacion: 'La bolsa es un mercado organizado donde miles de personas compran y venden acciones de empresas todos los días.' },
+        { tipo: 'simulacion',pregunta: 'Compraste 1 acción de una empresa a $1.000. Hoy vale $1.200. ¿Cuánto ganaste?', opciones: ['$200 (20%)','$1.200','$800','$100'], correcta: 0, explicacion: 'Ganaste $200, que es un 20% de retorno. Si vendes ahora, ese dinero es tuyo. Si no vendes, es una ganancia "en papel".' },
+        { tipo: 'opcion',    pregunta: '¿Qué significa diversificar?',                        opciones: ['No poner todos los huevos en la misma canasta','Comprar solo acciones de tecnología','Vender todo cuando baja la bolsa','Guardar el dinero en efectivo'], correcta: 0, explicacion: 'Diversificar es repartir tu inversión en varios activos distintos. Si uno baja, los otros pueden compensar. Reduce el riesgo total.' }
+      ]
+    }
   ]
 
 };
@@ -1499,25 +1561,55 @@ async function renderHijoInicio() {
 // ── Juegos hijo ──────────────────────────────
 
 function renderHijoJuegos() {
-  var juegos   = FinSeedStore.juegos;
-  var html = '';
+  var uid    = FinSeedStore.session.userId || 'u2';
+  var prog   = getProgresoJuegos(uid);
+  var juegos = FinSeedStore.arbolJuegos;
+  var el     = document.getElementById('kp-juegos');
+  if (!el) return;
+
+  var html       = '<div style="padding:20px 16px">';
+  html += '<div style="font-size:20px;font-weight:700;color:var(--text-1);margin-bottom:4px">Juegos</div>';
+  html += '<div style="font-size:13px;color:var(--text-3);margin-bottom:20px">Completa cada juego para desbloquear el siguiente</div>';
+
+  var temaActual = '';
+  var bloqueAbierto = false;
+
   for (var i = 0; i < juegos.length; i++) {
-    var jg = juegos[i];
-    html += '<div style="background:white;border:1px solid var(--border);border-radius:14px;padding:16px">' +
-      '<div style="display:flex;justify-content:space-between;align-items:flex-start">' +
-      '<div style="flex:1;padding-right:12px">' +
-      '<div style="font-size:15px;font-weight:700;color:var(--text-1);margin-bottom:4px">' + jg.titulo + '</div>' +
-      '<div style="font-size:12px;color:var(--text-3);line-height:1.5">' + jg.descripcion + '</div>' +
-      '</div>' +
-      '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">' +
-      '<div style="font-size:12px;font-weight:600;color:#16a34a;background:#dcfce7;padding:3px 8px;border-radius:8px">+' + jg.xp + ' XP</div>' +
-      '<div style="font-size:11px;color:#f59e0b">+' + jg.monedas + ' monedas</div>' +
-      '</div></div>' +
-      '<button style="margin-top:12px;width:100%;padding:10px;background:#16a34a;color:white;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer">Jugar</button>' +
+    var j          = juegos[i];
+    var desbloqueado = juegoDesbloqueado(j.id, uid);
+    var completado   = !!(prog[j.id] && prog[j.id].completado);
+
+    if (j.tema !== temaActual) {
+      if (bloqueAbierto) { html += '</div>'; bloqueAbierto = false; }
+      temaActual = j.tema;
+      html += '<div style="font-size:11px;font-weight:700;color:var(--text-3);letter-spacing:1px;text-transform:uppercase;margin:16px 0 10px">' + j.tema + ' &middot; Nivel ' + j.nivel + '</div>';
+      html += '<div style="display:flex;flex-direction:column;gap:10px">';
+      bloqueAbierto = true;
+    }
+
+    var bgColor     = completado ? '#f0fdf4' : 'white';
+    var borderColor = completado ? '#16a34a' : 'var(--border)';
+    var opacity     = desbloqueado ? '1' : '0.5';
+    var icono       = completado ? '&#x2713;' : desbloqueado ? '&#x25B6;' : '&#x1F512;';
+    var iconoBg     = completado ? '#dcfce7'  : desbloqueado ? '#f0fdf4'  : '#f3f4f6';
+
+    html +=
+      '<div onclick="abrirJuego(\'' + j.id + '\')" style="background:' + bgColor + ';border:1.5px solid ' + borderColor + ';border-radius:14px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;opacity:' + opacity + '">' +
+        '<div style="width:44px;height:44px;border-radius:12px;background:' + iconoBg + ';display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">' + icono + '</div>' +
+        '<div style="flex:1">' +
+          '<div style="font-size:14px;font-weight:600;color:var(--text-1)">' + j.nombre + '</div>' +
+          '<div style="font-size:12px;color:var(--text-3);margin-top:2px">' + j.desc + '</div>' +
+        '</div>' +
+        '<div style="text-align:right;flex-shrink:0">' +
+          '<div style="font-size:13px;font-weight:700;color:#16a34a">+' + j.xpRecompensa + ' XP</div>' +
+          (completado ? '<div style="font-size:11px;color:#16a34a">Completado</div>' : '') +
+        '</div>' +
       '</div>';
   }
-  var el = document.getElementById('kp-juegos-lista');
-  if (el) el.innerHTML = html;
+
+  if (bloqueAbierto) html += '</div>';
+  html += '</div>';
+  el.innerHTML = html;
 }
 
 // ── Familia hijo ─────────────────────────────
@@ -1607,6 +1699,172 @@ function renderHijoPerfil() {
   }
   var elL = document.getElementById('kpperf-logros');
   if (elL) elL.innerHTML = logrosHTML;
+}
+
+// ══════════════════════════════════════════════
+//  MOTOR DE JUEGOS
+// ══════════════════════════════════════════════
+
+var _juegoActivo    = null;
+var _juegoStep      = 0;
+var _juegoScore     = 0;
+var _juegoRespuestas = [];
+
+function getProgresoJuegos(userId) {
+  return JSON.parse(localStorage.getItem('finseed_juegos_' + userId) || '{}');
+}
+
+function saveProgresoJuego(userId, juegoId, completado, xpGanado) {
+  var prog = getProgresoJuegos(userId);
+  prog[juegoId] = { completado: completado, xpGanado: xpGanado, fecha: new Date().toISOString() };
+  localStorage.setItem('finseed_juegos_' + userId, JSON.stringify(prog));
+  var progUser = FinSeedStore.getProgreso(userId);
+  progUser.xp = (progUser.xp || 0) + xpGanado;
+  progUser.xpSemana = (progUser.xpSemana || 0) + xpGanado;
+  localStorage.setItem('finseed_progreso_' + userId, JSON.stringify(progUser));
+}
+
+function juegoDesbloqueado(juegoId, userId) {
+  var juego = FinSeedStore.arbolJuegos.find(function(j) { return j.id === juegoId; });
+  if (!juego) return false;
+  if (!juego.desbloqueaCon) return true;
+  var prog = getProgresoJuegos(userId);
+  return !!(prog[juego.desbloqueaCon] && prog[juego.desbloqueaCon].completado);
+}
+
+function abrirJuego(juegoId) {
+  var uid = FinSeedStore.session.userId || 'u2';
+  if (!juegoDesbloqueado(juegoId, uid)) {
+    mostrarToastJuego('Completa el juego anterior para desbloquear este');
+    return;
+  }
+  var juego = FinSeedStore.arbolJuegos.find(function(j) { return j.id === juegoId; });
+  if (!juego) return;
+  _juegoActivo     = juego;
+  _juegoStep       = 0;
+  _juegoScore      = 0;
+  _juegoRespuestas = [];
+  renderJuegoOverlay();
+}
+
+function renderJuegoOverlay() {
+  var overlay = document.getElementById('juego-overlay');
+  if (!overlay) return;
+  var juego = _juegoActivo;
+  var step  = _juegoStep;
+  var total = juego.preguntas.length;
+
+  if (step >= total) {
+    renderJuegoFinal();
+    overlay.style.display = 'flex';
+    return;
+  }
+
+  var preg     = juego.preguntas[step];
+  var pct      = Math.round((step / total) * 100);
+  var tipoLabel = preg.tipo === 'opcion' ? 'Opción múltiple' : preg.tipo === 'completar' ? 'Completa la frase' : 'Simulación';
+
+  var opcionesHTML = preg.opciones.map(function(op, i) {
+    return '<div onclick="responderJuego(' + i + ')" id="juego-op-' + i + '" style="padding:14px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;color:var(--text-1);cursor:pointer;transition:all .15s">' + op + '</div>';
+  }).join('');
+
+  overlay.innerHTML =
+    '<div style="background:white;border-radius:24px 24px 0 0;padding:24px;width:100%;max-width:390px;margin-top:auto;min-height:70vh;display:flex;flex-direction:column">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">' +
+        '<div style="font-size:13px;color:var(--text-3)">' + juego.nombre + '</div>' +
+        '<div onclick="cerrarJuego()" style="font-size:20px;color:var(--text-3);cursor:pointer;padding:4px 8px">&#x2715;</div>' +
+      '</div>' +
+      '<div style="background:#f0fdf4;border-radius:8px;height:6px;margin-bottom:20px">' +
+        '<div style="background:#16a34a;height:6px;border-radius:8px;width:' + pct + '%;transition:width .3s"></div>' +
+      '</div>' +
+      '<div style="font-size:11px;background:#f0fdf4;color:#16a34a;padding:4px 10px;border-radius:20px;display:inline-block;margin-bottom:16px;font-weight:600">' + tipoLabel + '</div>' +
+      '<div style="font-size:17px;font-weight:600;color:var(--text-1);line-height:1.5;margin-bottom:24px;flex:1">' + preg.pregunta + '</div>' +
+      '<div id="juego-opciones" style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">' + opcionesHTML + '</div>' +
+      '<div style="text-align:center;font-size:12px;color:var(--text-3)">' + (step + 1) + ' de ' + total + '</div>' +
+    '</div>';
+
+  overlay.style.display        = 'flex';
+  overlay.style.alignItems     = 'flex-end';
+  overlay.style.justifyContent = 'center';
+}
+
+function responderJuego(idx) {
+  var preg      = _juegoActivo.preguntas[_juegoStep];
+  var correcta  = preg.correcta;
+  var esCorrecta = (idx === correcta);
+
+  for (var i = 0; i < preg.opciones.length; i++) {
+    var el = document.getElementById('juego-op-' + i);
+    if (!el) continue;
+    el.style.pointerEvents = 'none';
+    if (i === correcta) {
+      el.style.background  = '#f0fdf4';
+      el.style.borderColor = '#16a34a';
+      el.style.color       = '#15803d';
+    } else if (i === idx && !esCorrecta) {
+      el.style.background  = '#fef2f2';
+      el.style.borderColor = '#dc2626';
+      el.style.color       = '#dc2626';
+    }
+  }
+
+  if (esCorrecta) _juegoScore++;
+  _juegoRespuestas.push({ correcta: esCorrecta });
+
+  var overlay = document.getElementById('juego-overlay');
+  var panel   = overlay.querySelector('div');
+
+  var expDiv = document.createElement('div');
+  expDiv.style.cssText = 'background:' + (esCorrecta ? '#f0fdf4' : '#fef2f2') + ';border-radius:12px;padding:12px 14px;margin-bottom:12px;font-size:13px;color:' + (esCorrecta ? '#15803d' : '#dc2626') + ';line-height:1.5';
+  expDiv.innerHTML = '<strong>' + (esCorrecta ? '&#x2713; Correcto' : '&#x2717; Incorrecto') + '</strong> &mdash; ' + preg.explicacion;
+
+  var btnDiv = document.createElement('div');
+  btnDiv.style.cssText = 'background:#16a34a;color:white;padding:14px;border-radius:12px;text-align:center;font-weight:600;font-size:15px;cursor:pointer';
+  btnDiv.textContent   = (_juegoStep + 1 < _juegoActivo.preguntas.length) ? 'Siguiente \u2192' : 'Ver resultado';
+  btnDiv.onclick       = function() { _juegoStep++; renderJuegoOverlay(); };
+
+  panel.appendChild(expDiv);
+  panel.appendChild(btnDiv);
+}
+
+function renderJuegoFinal() {
+  var uid      = FinSeedStore.session.userId || 'u2';
+  var juego    = _juegoActivo;
+  var total    = juego.preguntas.length;
+  var pct      = Math.round((_juegoScore / total) * 100);
+  var aprobado = pct >= 60;
+  var xpGanado = aprobado ? juego.xpRecompensa : Math.round(juego.xpRecompensa * 0.3);
+
+  saveProgresoJuego(uid, juego.id, aprobado, xpGanado);
+
+  var overlay = document.getElementById('juego-overlay');
+  overlay.innerHTML =
+    '<div style="background:white;border-radius:24px 24px 0 0;padding:32px 24px;width:100%;max-width:390px;margin-top:auto;min-height:50vh;display:flex;flex-direction:column;align-items:center;text-align:center">' +
+      '<div style="font-size:48px;margin-bottom:16px">' + (aprobado ? '\uD83C\uDF31' : '\uD83D\uDCAA') + '</div>' +
+      '<div style="font-size:22px;font-weight:700;color:var(--text-1);margin-bottom:8px">' + (aprobado ? '\u00A1Completado!' : '\u00A1Buen intento!') + '</div>' +
+      '<div style="font-size:15px;color:var(--text-3);margin-bottom:24px">' + _juegoScore + ' de ' + total + ' respuestas correctas</div>' +
+      '<div style="background:#f0fdf4;border-radius:16px;padding:20px;width:100%;margin-bottom:24px">' +
+        '<div style="font-size:32px;font-weight:700;color:#16a34a">+' + xpGanado + ' XP</div>' +
+        '<div style="font-size:13px;color:#15803d;margin-top:4px">' + (aprobado ? 'Juego completado' : 'Por participar') + '</div>' +
+      '</div>' +
+      '<div style="font-size:13px;color:var(--text-3);margin-bottom:24px">' + (aprobado ? 'Siguiente juego desbloqueado \uD83D\uDD13' : 'Intenta de nuevo para ganar m\u00E1s XP') + '</div>' +
+      '<div onclick="cerrarJuego()" style="background:#16a34a;color:white;padding:14px 32px;border-radius:12px;font-weight:600;font-size:15px;cursor:pointer;width:100%">Volver a juegos</div>' +
+    '</div>';
+}
+
+function cerrarJuego() {
+  var overlay = document.getElementById('juego-overlay');
+  if (overlay) overlay.style.display = 'none';
+  _juegoActivo = null;
+  renderHijoJuegos();
+}
+
+function mostrarToastJuego(msg) {
+  var t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#1f2937;color:white;padding:10px 20px;border-radius:20px;font-size:13px;z-index:9999;white-space:nowrap';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(function() { document.body.removeChild(t); }, 2500);
 }
 
 function initDemoUsers() {
@@ -1824,5 +2082,8 @@ window.addEventListener('DOMContentLoaded', function() {
   checkSession();
 });
 </script>
+
+<div id="juego-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;flex-direction:column;align-items:center;justify-content:flex-end"></div>
+
 </body>
 </html>
