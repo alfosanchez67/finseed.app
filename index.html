@@ -12,8 +12,10 @@
 
     :root {
       --green:       #059669;
+      --green-dark:  #047857;
       --green-mid:   #34d399;
       --green-light: #d1fae5;
+      --green-pale:  #f0fdf4;
       --bg:          #f9fafb;
       --bg-card:     #ffffff;
       --text-1:      #111827;
@@ -32,11 +34,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-    }
+    body { display: flex; justify-content: center; align-items: flex-start; }
 
     .shell {
       width: 390px;
@@ -57,56 +55,64 @@
       z-index: 1000;
       display: flex;
       flex-direction: column;
-      background: #ffffff;
+      background: linear-gradient(180deg, var(--green-pale) 0%, #ffffff 40%);
       width: 390px;
       margin: 0 auto;
       overflow-y: auto;
     }
 
+    /* ── Logo compartido ── */
     .auth-header {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 52px 32px 28px;
+      padding: 48px 32px 24px;
     }
 
     .auth-logomark {
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 28px;
+      gap: 7px;
+      margin-bottom: 6px;
     }
 
-    .auth-logomark svg {
-      width: 24px;
-      height: 24px;
-      color: var(--green);
-    }
+    .auth-logomark svg { width: 22px; height: 22px; color: var(--green); }
 
     .auth-brand {
       font-size: 22px;
       font-weight: 700;
-      color: var(--green);
       letter-spacing: -0.5px;
     }
 
+    .auth-brand .brand-fin  { color: var(--green); }
+    .auth-brand .brand-seed { color: var(--green-dark); }
+
+    .auth-logo-bar {
+      width: 36px;
+      height: 3px;
+      background: var(--green-light);
+      border-radius: 2px;
+      margin-bottom: 20px;
+    }
+
     .auth-tagline {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 400;
       color: var(--text-2);
       text-align: center;
-      line-height: 1.6;
-      max-width: 280px;
+      line-height: 1.65;
+      max-width: 272px;
     }
 
+    /* ── Panel base ── */
     .auth-panel {
-      background: #ffffff;
+      background: transparent;
       padding: 8px 24px 48px;
       flex: 1;
     }
 
     .auth-panel-title {
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 600;
       color: var(--text-1);
       margin-bottom: 4px;
@@ -116,12 +122,11 @@
       font-size: 13px;
       font-weight: 400;
       color: var(--text-3);
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
-    .auth-field {
-      margin-bottom: 14px;
-    }
+    /* ── Campos ── */
+    .auth-field { margin-bottom: 14px; }
 
     .auth-field label {
       display: block;
@@ -146,10 +151,9 @@
     }
 
     .auth-field input:focus,
-    .auth-field select:focus {
-      border-color: var(--green);
-    }
+    .auth-field select:focus { border-color: var(--green); }
 
+    /* ── Botón submit ── */
     .auth-submit {
       width: 100%;
       padding: 14px;
@@ -165,6 +169,9 @@
       margin-bottom: 18px;
     }
 
+    .auth-submit:hover { background: var(--green-dark); }
+
+    /* ── Links ── */
     .auth-switch {
       text-align: center;
       font-size: 13px;
@@ -176,8 +183,10 @@
       color: var(--green);
       font-weight: 500;
       cursor: pointer;
+      text-decoration: none;
     }
 
+    /* ── Error ── */
     .auth-error {
       display: none;
       background: #fef2f2;
@@ -189,19 +198,164 @@
       margin-bottom: 14px;
     }
 
+    /* ── Demo hint ── */
     .demo-hint {
       margin-top: 24px;
       padding: 12px 14px;
-      background: var(--green-light);
+      background: var(--green-pale);
       border-radius: var(--r);
       font-size: 12px;
       font-weight: 400;
-      color: var(--green);
+      color: var(--green-dark);
       line-height: 1.7;
       border: 1px solid #a7f3d0;
     }
 
     .demo-hint strong { font-weight: 600; }
+
+    /* ════════════════════════════
+       VISTA SELECTOR
+    ════════════════════════════ */
+    .selector-pregunta {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-3);
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .selector-cards {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .selector-card {
+      flex: 1;
+      background: #ffffff;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .selector-card:hover {
+      border-color: var(--green);
+      background: var(--green-pale);
+    }
+
+    .selector-card svg {
+      width: 32px;
+      height: 32px;
+      stroke: var(--text-3);
+      stroke-width: 1.6;
+      fill: none;
+    }
+
+    .selector-card:hover svg { stroke: var(--green); }
+
+    .selector-card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-1);
+    }
+
+    .selector-card-sub {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--text-3);
+      text-align: center;
+    }
+
+    /* ════════════════════════════
+       PILLS DE ROL EN LOGIN
+    ════════════════════════════ */
+    .login-role-pills {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .role-pill {
+      flex: 1;
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #ffffff;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-3);
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .role-pill.active {
+      background: var(--green-pale);
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    /* ════════════════════════════
+       REGISTRO — campo hijo
+    ════════════════════════════ */
+    .reg-rol-display {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--green-dark);
+      background: var(--green-pale);
+      border: 1px solid #a7f3d0;
+      border-radius: 8px;
+      padding: 9px 14px;
+      margin-bottom: 16px;
+    }
+
+    .tiene-hijos-group {
+      margin-bottom: 14px;
+    }
+
+    .tiene-hijos-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-2);
+      margin-bottom: 8px;
+    }
+
+    .tiene-hijos-pills {
+      display: flex;
+      gap: 8px;
+    }
+
+    .tiene-hijos-pills button {
+      flex: 1;
+      padding: 9px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #ffffff;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-3);
+      cursor: pointer;
+    }
+
+    .tiene-hijos-pills button.active {
+      background: var(--green-pale);
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .hijo-nombre-field { margin-top: 12px; }
+
+    .hijo-nombre-hint {
+      font-size: 11px;
+      color: var(--text-3);
+      margin-top: 5px;
+    }
 
     /* ════════════════════════════════
        APP INNER
@@ -213,7 +367,6 @@
       min-height: 100vh;
     }
 
-    /* ── STATUS BAR ── */
     .status-bar {
       display: flex;
       justify-content: space-between;
@@ -224,7 +377,6 @@
       color: var(--text-3);
     }
 
-    /* ── TOP BAR ── */
     .top-bar {
       display: flex;
       align-items: center;
@@ -252,7 +404,6 @@
       font-family: inherit;
     }
 
-    /* ── PAGES ── */
     .page {
       display: none;
       flex-direction: column;
@@ -260,6 +411,7 @@
       padding: 20px 16px 100px;
       overflow-y: auto;
       background: var(--bg);
+      border-top: 3px solid var(--green-light);
     }
 
     .page-title {
@@ -324,11 +476,20 @@
       color: var(--text-3);
       font-size: 10px;
       font-weight: 500;
+      position: relative;
     }
 
     .nav-item.active { color: var(--green); }
 
-    .nav-item.active svg { stroke: var(--green); }
+    .nav-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      width: 4px;
+      height: 4px;
+      background: var(--green);
+      border-radius: 50%;
+    }
 
     .nav-icon {
       width: 22px;
@@ -360,21 +521,47 @@
   <div class="auth-header">
     <div class="auth-logomark">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2"/>
-        <path d="M12 8v8M8 12h8"/>
-        <path d="M7 7c2-2 8-2 10 0"/>
+        <path d="M12 22V12"/>
+        <path d="M12 12C12 12 7 10 7 5a5 5 0 0 1 10 0c0 5-5 7-5 7z"/>
+        <path d="M12 12c0 0-3 2-3 6"/>
       </svg>
-      <span class="auth-brand">FinSeed</span>
+      <span class="auth-brand"><span class="brand-fin">Fin</span><span class="brand-seed">Seed</span></span>
     </div>
+    <div class="auth-logo-bar"></div>
     <p class="auth-tagline">Planta tu semilla financiera y observa cómo crece de manera individual o junto a tu familia</p>
   </div>
 
-  <!-- Vista: Login -->
-  <div class="auth-panel" id="view-login">
+  <!-- ── Vista: Selector de rol (por defecto) ── -->
+  <div class="auth-panel" id="view-selector">
+    <p class="selector-pregunta">¿Cómo quieres ingresar?</p>
+    <div class="selector-cards">
+      <div class="selector-card" onclick="seleccionarRol('padre')">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        <div class="selector-card-title">Soy Padre</div>
+        <div class="selector-card-sub">Administro y superviso</div>
+      </div>
+      <div class="selector-card" onclick="seleccionarRol('hijo')">
+        <svg viewBox="0 0 24 24"><path d="M12 22V12"/><path d="M12 12C12 12 7 10 7 5a5 5 0 0 1 10 0c0 5-5 7-5 7z"/><path d="M12 12c0 0-3 2-3 6"/></svg>
+        <div class="selector-card-title">Soy Hijo</div>
+        <div class="selector-card-sub">Aprendo y exploro</div>
+      </div>
+    </div>
+    <div class="auth-switch">
+      ¿Ya tienes cuenta? <span onclick="showView('login')">Ingresar</span>
+    </div>
+  </div>
+
+  <!-- ── Vista: Login ── -->
+  <div class="auth-panel" id="view-login" style="display:none">
     <div class="auth-panel-title">Bienvenido de vuelta</div>
     <div class="auth-panel-sub">Ingresa a tu cuenta familiar</div>
 
     <div id="login-error" class="auth-error"></div>
+
+    <div class="login-role-pills">
+      <button class="role-pill" id="pill-padre" onclick="setLoginRole('padre')">Padre</button>
+      <button class="role-pill" id="pill-hijo"  onclick="setLoginRole('hijo')">Hijo</button>
+    </div>
 
     <div class="auth-field">
       <label>Correo electrónico</label>
@@ -388,7 +575,7 @@
     <button class="auth-submit" onclick="loginUser()">Ingresar</button>
 
     <div class="auth-switch">
-      ¿No tienes cuenta? <span onclick="showView('registro')">Regístrate</span>
+      ¿No tienes cuenta? <span onclick="showView('selector')">Crear cuenta</span>
     </div>
 
     <div class="demo-hint">
@@ -398,20 +585,17 @@
     </div>
   </div>
 
-  <!-- Vista: Registro -->
+  <!-- ── Vista: Registro ── -->
   <div class="auth-panel" id="view-registro" style="display:none">
     <div class="auth-panel-title">Crear cuenta</div>
     <div class="auth-panel-sub">Únete a FinSeed de forma gratuita</div>
 
     <div id="reg-error" class="auth-error"></div>
 
-    <div class="auth-field">
-      <label>Rol</label>
-      <select id="reg-rol">
-        <option value="padre">Padre / Madre</option>
-        <option value="hijo">Hijo / Hija</option>
-      </select>
-    </div>
+    <div id="reg-rol-display" class="reg-rol-display"></div>
+
+    <input type="hidden" id="reg-rol" value="">
+
     <div class="auth-field">
       <label>Nombre</label>
       <input id="reg-nombre" type="text" placeholder="Tu nombre">
@@ -423,6 +607,24 @@
     <div class="auth-field">
       <label>Contraseña</label>
       <input id="reg-pass" type="password" placeholder="Mínimo 6 caracteres">
+    </div>
+
+    <!-- Pregunta hijos (solo para padre) -->
+    <div id="reg-hijos-section" style="display:none">
+      <div class="tiene-hijos-group">
+        <div class="tiene-hijos-label">¿Vas a administrar cuentas de hijos?</div>
+        <div class="tiene-hijos-pills">
+          <button id="reg-tiene-hijos-no"  class="active" onclick="toggleTieneHijos(false)">No por ahora</button>
+          <button id="reg-tiene-hijos-si"  onclick="toggleTieneHijos(true)">Sí, tengo hijos</button>
+        </div>
+      </div>
+      <div id="reg-hijo-nombre-wrap" class="hijo-nombre-field" style="display:none">
+        <div class="auth-field" style="margin-bottom:4px">
+          <label>Nombre del primer hijo</label>
+          <input id="reg-hijo-nombre" type="text" placeholder="Ej: Sofía">
+        </div>
+        <div class="hijo-nombre-hint">Podrás agregar más hijos después</div>
+      </div>
     </div>
 
     <button class="auth-submit" onclick="registerUser()">Crear cuenta</button>
@@ -439,17 +641,13 @@
 ═══════════════════════════════════════ -->
 <div class="app-inner" id="app-padre">
 
-  <div class="status-bar">
-    <span>9:41</span>
-    <span>FinSeed</span>
-  </div>
+  <div class="status-bar"><span>9:41</span><span>FinSeed</span></div>
 
   <div class="top-bar">
     <span class="top-bar-title" id="padre-welcome">FinSeed</span>
     <button class="logout-btn" onclick="doLogout()">Salir</button>
   </div>
 
-  <!-- Página: Inicio -->
   <div class="page" id="pp-inicio">
     <div class="page-title" id="pp-bienvenida">Bienvenido</div>
     <div class="page-subtitle">Panel familiar</div>
@@ -463,7 +661,6 @@
     </div>
   </div>
 
-  <!-- Página: Portafolio -->
   <div class="page" id="pp-portafolio">
     <div class="page-title">Portafolio</div>
     <div class="page-subtitle">Tus inversiones</div>
@@ -473,7 +670,6 @@
     </div>
   </div>
 
-  <!-- Página: Familia -->
   <div class="page" id="pp-familia">
     <div class="page-title">Familia</div>
     <div class="page-subtitle">Gestiona tu grupo familiar</div>
@@ -483,7 +679,6 @@
     </div>
   </div>
 
-  <!-- Página: Perfil -->
   <div class="page" id="pp-perfil">
     <div class="page-title">Perfil</div>
     <div class="page-subtitle">Tu cuenta</div>
@@ -493,30 +688,21 @@
     </div>
   </div>
 
-  <!-- Bottom Nav Padre -->
   <nav class="bottom-nav" id="nav-padre">
     <div class="nav-item active" id="pnav-inicio" onclick="navigate_p('inicio')">
-      <div class="nav-icon">
-        <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9" stroke-linecap="round"/></svg>
-      </div>
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9" stroke-linecap="round"/></svg></div>
       <span>Inicio</span>
     </div>
     <div class="nav-item" id="pnav-portafolio" onclick="navigate_p('portafolio')">
-      <div class="nav-icon">
-        <svg viewBox="0 0 24 24"><rect x="2" y="12" width="4" height="9" rx="1"/><rect x="9" y="7" width="4" height="14" rx="1"/><rect x="16" y="3" width="4" height="18" rx="1"/></svg>
-      </div>
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><rect x="2" y="12" width="4" height="9" rx="1"/><rect x="9" y="7" width="4" height="14" rx="1"/><rect x="16" y="3" width="4" height="18" rx="1"/></svg></div>
       <span>Portafolio</span>
     </div>
     <div class="nav-item" id="pnav-familia" onclick="navigate_p('familia')">
-      <div class="nav-icon">
-        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-      </div>
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
       <span>Familia</span>
     </div>
     <div class="nav-item" id="pnav-perfil" onclick="navigate_p('perfil')">
-      <div class="nav-icon">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-      </div>
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
       <span>Perfil</span>
     </div>
   </nav>
@@ -528,17 +714,13 @@
 ═══════════════════════════════════════ -->
 <div class="app-inner" id="app-hijo">
 
-  <div class="status-bar">
-    <span>9:41</span>
-    <span>FinSeed</span>
-  </div>
+  <div class="status-bar"><span>9:41</span><span>FinSeed</span></div>
 
   <div class="top-bar" style="background:#7c3aed;border-bottom-color:#6d28d9;">
     <span class="top-bar-title" id="hijo-welcome" style="color:#ffffff;">FinSeed</span>
     <button class="logout-btn" style="color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.25);" onclick="doLogout()">Salir</button>
   </div>
 
-  <!-- Página: Inicio -->
   <div class="page" id="kp-inicio">
     <div class="page-title" id="kp-bienvenida">Bienvenido</div>
     <div class="page-subtitle">Tu panel de aprendizaje</div>
@@ -552,7 +734,6 @@
     </div>
   </div>
 
-  <!-- Página: Juegos -->
   <div class="page" id="kp-juegos">
     <div class="page-title">Juegos</div>
     <div class="page-subtitle">Aprende jugando</div>
@@ -562,7 +743,6 @@
     </div>
   </div>
 
-  <!-- Página: Familia -->
   <div class="page" id="kp-familia">
     <div class="page-title">Mi Familia</div>
     <div class="page-subtitle">Tu grupo familiar</div>
@@ -572,7 +752,6 @@
     </div>
   </div>
 
-  <!-- Página: Perfil -->
   <div class="page" id="kp-perfil">
     <div class="page-title">Mi Perfil</div>
     <div class="page-subtitle">Tu cuenta</div>
@@ -582,30 +761,21 @@
     </div>
   </div>
 
-  <!-- Bottom Nav Hijo -->
   <nav class="bottom-nav" id="nav-hijo">
     <div class="nav-item active" id="knav-inicio" onclick="navigate_k('inicio')">
-      <div class="nav-icon">
-        <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9" stroke-linecap="round"/></svg>
-      </div>
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9" stroke-linecap="round"/></svg></div>
       <span>Inicio</span>
     </div>
     <div class="nav-item" id="knav-juegos" onclick="navigate_k('juegos')">
-      <div class="nav-icon">
-        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-      </div>
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
       <span>Juegos</span>
     </div>
     <div class="nav-item" id="knav-familia" onclick="navigate_k('familia')">
-      <div class="nav-icon">
-        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-      </div>
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
       <span>Familia</span>
     </div>
     <div class="nav-item" id="knav-perfil" onclick="navigate_k('perfil')">
-      <div class="nav-icon">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-      </div>
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
       <span>Perfil</span>
     </div>
   </nav>
@@ -620,19 +790,50 @@
 //  Cada función existe una sola vez, sin overrides
 // ══════════════════════════════════════════════
 
+var _selectedRole = '';
+var _loginRole    = '';
+var _tieneHijos   = false;
+
 function initDemoUsers() {
   if (!localStorage.getItem('finseed_users')) {
     var demo = [
-      { id: 'u1', nombre: 'Carlos', email: 'padre@demo.com', pass: '123456', role: 'padre' },
-      { id: 'u2', nombre: 'Sofía',  email: 'hijo@demo.com',  pass: '123456', role: 'hijo'  }
+      { id: 'u1', nombre: 'Carlos', email: 'padre@demo.com', pass: '123456', role: 'padre', tieneHijos: true,  hijos: [{ nombre: 'Sofía' }] },
+      { id: 'u2', nombre: 'Sofía',  email: 'hijo@demo.com',  pass: '123456', role: 'hijo',  tieneHijos: false, hijos: [] }
     ];
     localStorage.setItem('finseed_users', JSON.stringify(demo));
   }
 }
 
 function showView(view) {
+  document.getElementById('view-selector').style.display = (view === 'selector') ? 'block' : 'none';
   document.getElementById('view-login').style.display    = (view === 'login')    ? 'block' : 'none';
   document.getElementById('view-registro').style.display = (view === 'registro') ? 'block' : 'none';
+}
+
+function seleccionarRol(rol) {
+  _selectedRole = rol;
+  document.getElementById('reg-rol').value = rol;
+  document.getElementById('reg-rol-display').textContent =
+    'Registrándote como: ' + (rol === 'padre' ? 'Padre' : 'Hijo');
+  document.getElementById('reg-hijos-section').style.display = (rol === 'padre') ? 'block' : 'none';
+  _tieneHijos = false;
+  document.getElementById('reg-tiene-hijos-no').classList.add('active');
+  document.getElementById('reg-tiene-hijos-si').classList.remove('active');
+  document.getElementById('reg-hijo-nombre-wrap').style.display = 'none';
+  showView('registro');
+}
+
+function toggleTieneHijos(tiene) {
+  _tieneHijos = tiene;
+  document.getElementById('reg-tiene-hijos-si').classList.toggle('active', tiene);
+  document.getElementById('reg-tiene-hijos-no').classList.toggle('active', !tiene);
+  document.getElementById('reg-hijo-nombre-wrap').style.display = tiene ? 'block' : 'none';
+}
+
+function setLoginRole(rol) {
+  _loginRole = rol;
+  document.getElementById('pill-padre').classList.toggle('active', rol === 'padre');
+  document.getElementById('pill-hijo').classList.toggle('active', rol === 'hijo');
 }
 
 function loginUser() {
@@ -641,6 +842,11 @@ function loginUser() {
   var errEl = document.getElementById('login-error');
   errEl.style.display = 'none';
 
+  if (!_loginRole) {
+    errEl.textContent = 'Selecciona si eres Padre o Hijo.';
+    errEl.style.display = 'block';
+    return;
+  }
   if (!email || !pass) {
     errEl.textContent = 'Completa todos los campos.';
     errEl.style.display = 'block';
@@ -658,6 +864,12 @@ function loginUser() {
     return;
   }
 
+  if (user.role !== _loginRole) {
+    errEl.textContent = 'Esta cuenta es de ' + (user.role === 'padre' ? 'Padre' : 'Hijo') + '. Selecciona el rol correcto.';
+    errEl.style.display = 'block';
+    return;
+  }
+
   localStorage.setItem('finseed_session', JSON.stringify({ id: user.id, nombre: user.nombre, role: user.role }));
   entrarApp(user.role, user.nombre);
 }
@@ -670,6 +882,11 @@ function registerUser() {
   var errEl  = document.getElementById('reg-error');
   errEl.style.display = 'none';
 
+  if (!rol) {
+    errEl.textContent = 'Selecciona un rol.';
+    errEl.style.display = 'block';
+    return;
+  }
   if (!nombre || !email || !pass) {
     errEl.textContent = 'Completa todos los campos.';
     errEl.style.display = 'block';
@@ -689,7 +906,13 @@ function registerUser() {
     return;
   }
 
-  var newUser = { id: 'u' + Date.now(), nombre: nombre, email: email, pass: pass, role: rol };
+  var hijos = [];
+  if (rol === 'padre' && _tieneHijos) {
+    var hijoNombre = document.getElementById('reg-hijo-nombre').value.trim();
+    if (hijoNombre) { hijos.push({ nombre: hijoNombre }); }
+  }
+
+  var newUser = { id: 'u' + Date.now(), nombre: nombre, email: email, pass: pass, role: rol, tieneHijos: _tieneHijos, hijos: hijos };
   users.push(newUser);
   localStorage.setItem('finseed_users', JSON.stringify(users));
   localStorage.setItem('finseed_session', JSON.stringify({ id: newUser.id, nombre: newUser.nombre, role: newUser.role }));
@@ -701,9 +924,7 @@ function checkSession() {
   if (!raw) return;
   try {
     var session = JSON.parse(raw);
-    if (session && session.role) {
-      entrarApp(session.role, session.nombre);
-    }
+    if (session && session.role) { entrarApp(session.role, session.nombre); }
   } catch(e) {
     localStorage.removeItem('finseed_session');
   }
@@ -711,7 +932,6 @@ function checkSession() {
 
 function entrarApp(role, nombre) {
   document.getElementById('auth-screen').style.display = 'none';
-
   var bienvenida = nombre ? ('Hola, ' + nombre) : 'Bienvenido';
 
   if (role === 'padre') {
@@ -719,8 +939,8 @@ function entrarApp(role, nombre) {
     document.getElementById('app-hijo').style.display  = 'none';
     document.getElementById('nav-padre').style.display = 'flex';
     document.getElementById('nav-hijo').style.display  = 'none';
-    document.getElementById('pp-bienvenida').textContent = bienvenida;
-    document.getElementById('padre-welcome').textContent = 'FinSeed';
+    document.getElementById('pp-bienvenida').textContent  = bienvenida;
+    document.getElementById('padre-welcome').textContent  = 'FinSeed';
     navigate_p('inicio');
   } else {
     document.getElementById('app-hijo').style.display  = 'flex';
@@ -728,7 +948,7 @@ function entrarApp(role, nombre) {
     document.getElementById('nav-hijo').style.display  = 'flex';
     document.getElementById('nav-padre').style.display = 'none';
     document.getElementById('kp-bienvenida').textContent = bienvenida;
-    document.getElementById('hijo-welcome').textContent = 'FinSeed';
+    document.getElementById('hijo-welcome').textContent  = 'FinSeed';
     navigate_k('inicio');
   }
 }
@@ -761,10 +981,14 @@ function navigate_k(page) {
 
 function doLogout() {
   localStorage.removeItem('finseed_session');
+  _loginRole = '';
+  _selectedRole = '';
+  document.getElementById('pill-padre').classList.remove('active');
+  document.getElementById('pill-hijo').classList.remove('active');
   document.getElementById('app-padre').style.display   = 'none';
   document.getElementById('app-hijo').style.display    = 'none';
   document.getElementById('auth-screen').style.display = 'flex';
-  showView('login');
+  showView('selector');
 }
 
 window.addEventListener('DOMContentLoaded', function() {
