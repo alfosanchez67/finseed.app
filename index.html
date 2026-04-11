@@ -766,8 +766,9 @@
 
     <!-- TABS -->
     <div style="display:flex;border-bottom:1px solid var(--border);background:white">
-      <div id="ptab-mio" onclick="setPortTab('mio')" style="flex:1;padding:14px;text-align:center;font-size:14px;font-weight:600;color:var(--green);border-bottom:2px solid var(--green);cursor:pointer">Mi portafolio</div>
-      <div id="ptab-hijos" onclick="setPortTab('hijos')" style="flex:1;padding:14px;text-align:center;font-size:14px;font-weight:600;color:var(--text-3);border-bottom:2px solid transparent;cursor:pointer">Hijos</div>
+      <div id="ptab-mio" onclick="setPortTab('mio')" style="flex:1;padding:14px;text-align:center;font-size:13px;font-weight:600;color:var(--green);border-bottom:2px solid var(--green);cursor:pointer">Mi portafolio</div>
+      <div id="ptab-hijos" onclick="setPortTab('hijos')" style="flex:1;padding:14px;text-align:center;font-size:13px;font-weight:600;color:var(--text-3);border-bottom:2px solid transparent;cursor:pointer">Hijos</div>
+      <div id="ptab-movimientos" onclick="setPortTab('movimientos')" style="flex:1;padding:14px;text-align:center;font-size:13px;font-weight:600;color:var(--text-3);border-bottom:2px solid transparent;cursor:pointer">Movimientos</div>
     </div>
 
     <!-- CONTENIDO TAB MIO -->
@@ -808,6 +809,51 @@
     <!-- CONTENIDO TAB HIJOS -->
     <div id="port-tab-hijos" style="padding:16px;display:none;flex-direction:column;gap:12px">
       <div id="port-hijos-contenido"></div>
+    </div>
+
+    <!-- CONTENIDO TAB MOVIMIENTOS -->
+    <div id="port-tab-movimientos" style="display:none;flex-direction:column;padding:16px;gap:16px">
+
+      <!-- ACCIONES RÁPIDAS -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+
+        <div onclick="abrirAccionPortafolio('depositar')" style="background:white;border:1px solid var(--border);border-radius:14px;padding:16px 8px;text-align:center;cursor:pointer">
+          <div style="width:40px;height:40px;border-radius:50%;background:#f0fdf4;display:flex;align-items:center;justify-content:center;margin:0 auto 8px">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </div>
+          <div style="font-size:12px;font-weight:600;color:var(--text-1)">Depositar</div>
+        </div>
+
+        <div onclick="abrirAccionPortafolio('retirar')" style="background:white;border:1px solid var(--border);border-radius:14px;padding:16px 8px;text-align:center;cursor:pointer">
+          <div style="width:40px;height:40px;border-radius:50%;background:#fef2f2;display:flex;align-items:center;justify-content:center;margin:0 auto 8px">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </div>
+          <div style="font-size:12px;font-weight:600;color:var(--text-1)">Retirar</div>
+        </div>
+
+        <div onclick="abrirAccionPortafolio('distribuir')" style="background:white;border:1px solid var(--border);border-radius:14px;padding:16px 8px;text-align:center;cursor:pointer">
+          <div style="width:40px;height:40px;border-radius:50%;background:#eff6ff;display:flex;align-items:center;justify-content:center;margin:0 auto 8px">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          </div>
+          <div style="font-size:12px;font-weight:600;color:var(--text-1)">Distribuir</div>
+        </div>
+
+      </div>
+
+      <!-- HISTORIAL -->
+      <div style="background:white;border:1px solid var(--border);border-radius:16px;overflow:hidden">
+        <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+          <div style="font-size:14px;font-weight:600;color:var(--text-1)">Movimientos recientes</div>
+          <div style="font-size:12px;color:var(--text-3)">Últimos 30 días</div>
+        </div>
+        <div id="port-movimientos-lista"></div>
+      </div>
+
+    </div>
+
+    <!-- OVERLAY ACCIONES -->
+    <div id="port-accion-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:flex-end;justify-content:center">
+      <div id="port-accion-contenido" style="background:white;border-radius:24px 24px 0 0;padding:24px;width:100%;max-width:390px"></div>
     </div>
 
     <div style="height:20px"></div>
@@ -1198,6 +1244,30 @@ var FinSeedStore = {
     ];
   },
 
+  getMovimientos: function(userId) {
+    var key = 'finseed_movimientos_' + userId;
+    var saved = localStorage.getItem(key);
+    if (saved) return JSON.parse(saved);
+    return [
+      { id: 'm1', tipo: 'deposito',     monto: 500000,  descripcion: 'Depósito inicial',           fecha: '2025-03-01', moneda: 'CLP' },
+      { id: 'm2', tipo: 'compra',       monto: 224500,  descripcion: 'Compra AAPL × 1',            fecha: '2025-03-05', moneda: 'CLP' },
+      { id: 'm3', tipo: 'compra',       monto: 491200,  descripcion: 'Compra VOO × 1',             fecha: '2025-03-10', moneda: 'CLP' },
+      { id: 'm4', tipo: 'distribucion', monto: 50000,   descripcion: 'Distribución a Sofía',       fecha: '2025-03-15', moneda: 'CLP' },
+      { id: 'm5', tipo: 'distribucion', monto: 30000,   descripcion: 'Distribución a Mateo',       fecha: '2025-03-15', moneda: 'CLP' },
+      { id: 'm6', tipo: 'deposito',     monto: 200000,  descripcion: 'Depósito mensual',           fecha: '2025-04-01', moneda: 'CLP' },
+      { id: 'm7', tipo: 'retiro',       monto: 80000,   descripcion: 'Retiro para gastos',         fecha: '2025-04-03', moneda: 'CLP' },
+      { id: 'm8', tipo: 'compra',       monto: 43800,   descripcion: 'Compra SQM × 1',             fecha: '2025-04-05', moneda: 'CLP' }
+    ];
+  },
+
+  saveMovimiento: function(userId, movimiento) {
+    var movs = this.getMovimientos(userId);
+    movimiento.id = 'm' + Date.now();
+    movimiento.fecha = new Date().toISOString().split('T')[0];
+    movs.unshift(movimiento);
+    localStorage.setItem('finseed_movimientos_' + userId, JSON.stringify(movs));
+  },
+
   arbolJuegos: [
     {
       id: 'j01', nivel: 1, tema: 'Fundamentos',
@@ -1404,28 +1474,21 @@ var _portTab = 'mio';
 
 function setPortTab(tab) {
   _portTab = tab;
-  var tabMio   = document.getElementById('port-tab-mio');
-  var tabHijos = document.getElementById('port-tab-hijos');
-  var btnMio   = document.getElementById('ptab-mio');
-  var btnHijos = document.getElementById('ptab-hijos');
-  if (!tabMio) return;
-  if (tab === 'mio') {
-    tabMio.style.display   = 'flex';
-    tabHijos.style.display = 'none';
-    btnMio.style.color        = 'var(--green)';
-    btnMio.style.borderBottom = '2px solid var(--green)';
-    btnHijos.style.color        = 'var(--text-3)';
-    btnHijos.style.borderBottom = '2px solid transparent';
-  } else {
-    tabMio.style.display   = 'none';
-    tabHijos.style.display = 'flex';
-    tabHijos.style.flexDirection = 'column';
-    btnHijos.style.color        = 'var(--green)';
-    btnHijos.style.borderBottom = '2px solid var(--green)';
-    btnMio.style.color        = 'var(--text-3)';
-    btnMio.style.borderBottom = '2px solid transparent';
-    renderPortHijos();
-  }
+  var tabs = ['mio', 'hijos', 'movimientos'];
+  tabs.forEach(function(t) {
+    var btn = document.getElementById('ptab-' + t);
+    var contenido = document.getElementById('port-tab-' + t);
+    if (btn) {
+      btn.style.color = t === tab ? 'var(--green)' : 'var(--text-3)';
+      btn.style.borderBottom = t === tab ? '2px solid var(--green)' : '2px solid transparent';
+    }
+    if (contenido) {
+      contenido.style.display = t === tab ? 'flex' : 'none';
+      if (t === tab) contenido.style.flexDirection = 'column';
+    }
+  });
+  if (tab === 'hijos') renderPortHijos();
+  if (tab === 'movimientos') renderMovimientos();
 }
 
 function setPortPeriodo(p) {
@@ -1463,7 +1526,8 @@ function generarDatosGrafico(periodo, totalActual) {
 function renderGraficoPortafolio() {
   var svg = document.getElementById('port-grafico');
   if (!svg) return;
-  var uid = FinSeedStore.session.userId || 'u1';
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || FinSeedStore.session.userId || 'u1';
   FinSeedStore.fetchPortfolio(uid).then(function(port) {
     var datos = generarDatosGrafico(_portPeriodo, port.total);
     var n = datos.length;
@@ -1543,7 +1607,8 @@ function renderActivosLista(activos) {
 }
 
 async function renderPortHijos() {
-  var uid = FinSeedStore.session.userId || 'u1';
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || FinSeedStore.session.userId || 'u1';
   var hijos = FinSeedStore.getHijos(uid);
   if (!hijos || hijos.length === 0) {
     hijos = [
@@ -1581,7 +1646,8 @@ async function renderPortHijos() {
 }
 
 async function renderPortafolioPadre() {
-  var uid = FinSeedStore.session.userId || 'u1';
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || FinSeedStore.session.userId || 'u1';
   var port = await FinSeedStore.fetchPortfolio(uid);
 
   var elT = document.getElementById('port-total');
@@ -1600,6 +1666,114 @@ async function renderPortafolioPadre() {
   renderActivosLista(port.activos);
   renderGraficoPortafolio();
   setPortTab('mio');
+}
+
+function renderMovimientos() {
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || 'u1';
+  var movs = FinSeedStore.getMovimientos(uid);
+  var el = document.getElementById('port-movimientos-lista');
+  if (!el) return;
+
+  var iconos = {
+    deposito:     { bg: '#f0fdf4', svg: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>' },
+    retiro:       { bg: '#fef2f2', svg: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>' },
+    compra:       { bg: '#eff6ff', svg: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>' },
+    distribucion: { bg: '#faf5ff', svg: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round"><circle cx="18" cy="5" r="2"/><circle cx="6" cy="12" r="2"/><circle cx="18" cy="19" r="2"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>' }
+  };
+
+  if (movs.length === 0) {
+    el.innerHTML = '<div style="padding:32px;text-align:center;color:var(--text-3);font-size:14px">Sin movimientos aún</div>';
+    return;
+  }
+
+  el.innerHTML = movs.map(function(m) {
+    var ic = iconos[m.tipo] || iconos.deposito;
+    var esPositivo = m.tipo === 'deposito';
+    var esNegativo = m.tipo === 'retiro';
+    var montoColor = esPositivo ? '#059669' : esNegativo ? '#dc2626' : 'var(--text-1)';
+    var montoPrefix = esPositivo ? '+' : esNegativo ? '-' : '';
+    var fecha = new Date(m.fecha + 'T12:00:00').toLocaleDateString('es-CL', { day: 'numeric', month: 'short' });
+    return '<div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid #f9fafb">' +
+      '<div style="width:36px;height:36px;border-radius:50%;background:' + ic.bg + ';display:flex;align-items:center;justify-content:center;flex-shrink:0">' + ic.svg + '</div>' +
+      '<div style="flex:1;min-width:0">' +
+      '<div style="font-size:13px;font-weight:600;color:var(--text-1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + m.descripcion + '</div>' +
+      '<div style="font-size:11px;color:var(--text-3);margin-top:2px">' + fecha + ' · ' + (m.moneda || 'CLP') + '</div>' +
+      '</div>' +
+      '<div style="font-size:14px;font-weight:700;color:' + montoColor + ';flex-shrink:0">' + montoPrefix + '$' + m.monto.toLocaleString('es-CL') + '</div>' +
+      '</div>';
+  }).join('');
+}
+
+function abrirAccionPortafolio(accion) {
+  var overlay = document.getElementById('port-accion-overlay');
+  var contenido = document.getElementById('port-accion-contenido');
+  if (!overlay || !contenido) return;
+
+  var titulos = { depositar: 'Depositar fondos', retirar: 'Retirar fondos', distribuir: 'Distribuir a hijo' };
+  var colores  = { depositar: '#059669', retirar: '#dc2626', distribuir: '#0284c7' };
+  var color = colores[accion];
+
+  var extraHTML = '';
+  if (accion === 'distribuir') {
+    extraHTML = '<div style="margin-bottom:16px">' +
+      '<label style="font-size:13px;color:var(--text-2);font-weight:600;display:block;margin-bottom:6px">Hijo destinatario</label>' +
+      '<select id="accion-hijo" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:10px;font-size:15px;font-family:inherit;background:white;color:var(--text-1)">' +
+      '<option value="u2">Sofía</option><option value="u3">Mateo</option>' +
+      '</select></div>';
+  }
+
+  contenido.innerHTML =
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">' +
+    '<div style="font-size:17px;font-weight:700;color:var(--text-1)">' + titulos[accion] + '</div>' +
+    '<div onclick="cerrarAccionPortafolio()" style="font-size:22px;color:var(--text-3);cursor:pointer">&#10005;</div>' +
+    '</div>' +
+    extraHTML +
+    '<div style="margin-bottom:20px">' +
+    '<label style="font-size:13px;color:var(--text-2);font-weight:600;display:block;margin-bottom:6px">Monto (CLP)</label>' +
+    '<input id="accion-monto" type="number" placeholder="Ej: 100000" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:10px;font-size:15px;font-family:inherit;box-sizing:border-box">' +
+    '</div>' +
+    '<div style="margin-bottom:20px">' +
+    '<label style="font-size:13px;color:var(--text-2);font-weight:600;display:block;margin-bottom:6px">Descripción (opcional)</label>' +
+    '<input id="accion-desc" type="text" placeholder="Ej: Depósito mensual" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:10px;font-size:15px;font-family:inherit;box-sizing:border-box">' +
+    '</div>' +
+    '<div onclick="confirmarAccionPortafolio(\'' + accion + '\')" style="background:' + color + ';color:white;padding:14px;border-radius:12px;text-align:center;font-weight:600;font-size:15px;cursor:pointer">Confirmar</div>' +
+    '<div style="height:16px"></div>';
+
+  overlay.style.display = 'flex';
+}
+
+function cerrarAccionPortafolio() {
+  var overlay = document.getElementById('port-accion-overlay');
+  if (overlay) overlay.style.display = 'none';
+}
+
+function confirmarAccionPortafolio(accion) {
+  var monto = parseInt(document.getElementById('accion-monto').value);
+  var desc  = document.getElementById('accion-desc').value;
+  if (!monto || monto <= 0) {
+    alert('Ingresa un monto válido');
+    return;
+  }
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || 'u1';
+  var tipoMap = { depositar: 'deposito', retirar: 'retiro', distribuir: 'distribucion' };
+  var descMap = { depositar: 'Depósito', retirar: 'Retiro', distribuir: 'Distribución' };
+  var descripcion = desc || descMap[accion];
+  if (accion === 'distribuir') {
+    var hijoEl = document.getElementById('accion-hijo');
+    var hijoNombre = hijoEl ? hijoEl.options[hijoEl.selectedIndex].text : 'hijo';
+    descripcion = desc || ('Distribución a ' + hijoNombre);
+  }
+  FinSeedStore.saveMovimiento(uid, {
+    tipo: tipoMap[accion],
+    monto: monto,
+    descripcion: descripcion,
+    moneda: 'CLP'
+  });
+  cerrarAccionPortafolio();
+  renderMovimientos();
+  mostrarToastJuego('Movimiento registrado');
 }
 
 // ── Familia padre ────────────────────────────
