@@ -753,35 +753,61 @@
   </div>
 
   <div class="page" id="pp-portafolio">
-    <div style="padding:20px 16px 8px">
-      <div style="font-size:20px;font-weight:700;color:var(--text-1)">Portafolio</div>
-      <div style="font-size:13px;color:var(--text-3);margin-top:2px">Vista consolidada</div>
-    </div>
 
-    <!-- Selector: propio / hijos -->
-    <div style="display:flex;gap:8px;padding:0 16px;margin-bottom:4px" id="pp-port-tabs">
-      <button id="pptab-propio" onclick="switchPortTab('propio')"
-        style="flex:1;padding:8px;border-radius:8px;border:1px solid var(--green);background:var(--green);color:white;font-size:13px;font-weight:600;cursor:pointer">
-        Mi portafolio
-      </button>
-      <button id="pptab-hijos" onclick="switchPortTab('hijos')"
-        style="flex:1;padding:8px;border-radius:8px;border:1px solid var(--border);background:white;color:var(--text-2);font-size:13px;font-weight:600;cursor:pointer">
-        Hijos
-      </button>
-    </div>
-
-    <div id="pp-port-propio" style="padding:0 16px">
-      <div style="background:var(--green);border-radius:14px;padding:20px;margin:12px 0 16px">
-        <div style="font-size:12px;color:rgba(255,255,255,0.75)">Valor total</div>
-        <div id="ppp-total" style="font-size:30px;font-weight:700;color:white;margin:4px 0">$0.00</div>
-        <div id="ppp-rentab" style="font-size:13px;color:rgba(255,255,255,0.9)">+0.0% rentabilidad</div>
+    <!-- HEADER -->
+    <div style="background:linear-gradient(160deg,#065f46 0%,#047857 60%,#059669 100%);padding:44px 16px 24px">
+      <div style="font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:4px">Portafolio total</div>
+      <div id="port-total" style="font-size:32px;font-weight:700;color:white">US$0.00</div>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:6px">
+        <div id="port-cambio-pct" style="font-size:14px;color:rgba(255,255,255,0.9)">+0.00%</div>
+        <div id="port-cambio-val" style="font-size:13px;color:rgba(255,255,255,0.65)">hoy</div>
       </div>
-      <div style="font-size:14px;font-weight:600;color:var(--text-1);margin-bottom:10px">Activos</div>
-      <div id="ppp-activos" style="display:flex;flex-direction:column;gap:8px"></div>
     </div>
 
-    <div id="pp-port-hijos" style="display:none;padding:0 16px">
-      <div id="pph-lista" style="display:flex;flex-direction:column;gap:10px;margin-top:12px"></div>
+    <!-- TABS -->
+    <div style="display:flex;border-bottom:1px solid var(--border);background:white">
+      <div id="ptab-mio" onclick="setPortTab('mio')" style="flex:1;padding:14px;text-align:center;font-size:14px;font-weight:600;color:var(--green);border-bottom:2px solid var(--green);cursor:pointer">Mi portafolio</div>
+      <div id="ptab-hijos" onclick="setPortTab('hijos')" style="flex:1;padding:14px;text-align:center;font-size:14px;font-weight:600;color:var(--text-3);border-bottom:2px solid transparent;cursor:pointer">Hijos</div>
+    </div>
+
+    <!-- CONTENIDO TAB MIO -->
+    <div id="port-tab-mio" style="padding:16px;display:flex;flex-direction:column;gap:16px">
+
+      <!-- GRÁFICO SVG -->
+      <div style="background:white;border:1px solid var(--border);border-radius:16px;padding:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div style="font-size:14px;font-weight:600;color:var(--text-1)">Rendimiento</div>
+          <div style="display:flex;gap:6px" id="port-periodo-btns">
+            <span onclick="setPortPeriodo('1S')" style="font-size:11px;padding:4px 10px;border-radius:20px;background:#f0fdf4;color:#059669;cursor:pointer;font-weight:600">1S</span>
+            <span onclick="setPortPeriodo('1M')" style="font-size:11px;padding:4px 10px;border-radius:20px;background:#f9fafb;color:var(--text-3);cursor:pointer">1M</span>
+            <span onclick="setPortPeriodo('3M')" style="font-size:11px;padding:4px 10px;border-radius:20px;background:#f9fafb;color:var(--text-3);cursor:pointer">3M</span>
+            <span onclick="setPortPeriodo('1A')" style="font-size:11px;padding:4px 10px;border-radius:20px;background:#f9fafb;color:var(--text-3);cursor:pointer">1A</span>
+          </div>
+        </div>
+        <svg id="port-grafico" width="100%" height="120" viewBox="0 0 300 120" preserveAspectRatio="none"></svg>
+        <div style="display:flex;justify-content:space-between;margin-top:6px">
+          <span id="port-fecha-inicio" style="font-size:10px;color:var(--text-3)"></span>
+          <span id="port-fecha-fin" style="font-size:10px;color:var(--text-3)">Hoy</span>
+        </div>
+      </div>
+
+      <!-- DISTRIBUCIÓN -->
+      <div style="background:white;border:1px solid var(--border);border-radius:16px;padding:16px">
+        <div style="font-size:14px;font-weight:600;color:var(--text-1);margin-bottom:12px">Distribución</div>
+        <div id="port-distribucion" style="display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+
+      <!-- ACTIVOS -->
+      <div style="background:white;border:1px solid var(--border);border-radius:16px;padding:16px">
+        <div style="font-size:14px;font-weight:600;color:var(--text-1);margin-bottom:12px">Mis activos</div>
+        <div id="port-activos" style="display:flex;flex-direction:column;gap:2px"></div>
+      </div>
+
+    </div>
+
+    <!-- CONTENIDO TAB HIJOS -->
+    <div id="port-tab-hijos" style="padding:16px;display:none;flex-direction:column;gap:12px">
+      <div id="port-hijos-contenido"></div>
     </div>
 
     <div style="height:20px"></div>
@@ -1109,18 +1135,24 @@ var FinSeedStore = {
 
   fetchPortfolio: function(userId) {
     var data = {
-      u1: { saldo: 12450.00, rentabilidad: 0.082, activos: [
-        { nombre: 'ETF Global',      valor: 5200,  pct: 0.041 },
-        { nombre: 'Renta Fija MX',   valor: 4100,  pct: 0.018 },
-        { nombre: 'Efectivo',        valor: 3150,  pct: 0.000 }
+      u1: { total: 12450.00, moneda: 'USD', cambioHoy: 0.0082, cambioPesos: 102.09, activos: [
+        { ticker: 'VTI',  nombre: 'Vanguard Total Market ETF', cantidad: 18, precioActual: 216.5, precioCompra: 198.0, valor: 3897.0 },
+        { ticker: 'QQQ',  nombre: 'Invesco QQQ Trust',         cantidad: 10, precioActual: 445.2, precioCompra: 410.0, valor: 4452.0 },
+        { ticker: 'GLD',  nombre: 'SPDR Gold Shares',          cantidad: 20, precioActual: 200.5, precioCompra: 185.0, valor: 4010.0 },
+        { ticker: 'CASH', nombre: 'Efectivo USD',              cantidad: 1,  precioActual:  91.0, precioCompra:  91.0, valor:   91.0 }
       ]},
-      u2: { saldo: 850.00, rentabilidad: 0.053, activos: [
-        { nombre: 'Ahorro Meta',     valor: 600,   pct: 0.053 },
-        { nombre: 'Efectivo',        valor: 250,   pct: 0.000 }
+      u2: { total: 850.00, moneda: 'USD', cambioHoy: 0.0053, cambioPesos: 4.51, activos: [
+        { ticker: 'META', nombre: 'Meta Savings Goal', cantidad: 3, precioActual: 200.0, precioCompra: 188.0, valor: 600.0 },
+        { ticker: 'CASH', nombre: 'Efectivo',           cantidad: 1, precioActual: 250.0, precioCompra: 250.0, valor: 250.0 }
       ]},
-      u3: { saldo: 0, rentabilidad: 0, activos: [] }
+      u3: { total: 0, moneda: 'USD', cambioHoy: 0, cambioPesos: 0, activos: [] }
     };
-    return Promise.resolve(data[userId] || data.u3);
+    var p = data[userId] || data.u3;
+    // Back-compat shim for code that still reads .saldo / .rentabilidad
+    p.saldo = p.total;
+    p.rentabilidad = p.cambioHoy;
+    p.activos.forEach(function(a) { a.pct = (a.precioActual - a.precioCompra) / a.precioCompra; });
+    return Promise.resolve(p);
   },
 
   getHijos: function(padreId) {
@@ -1263,7 +1295,7 @@ var FinSeedStore = {
 
 // ── Helpers globales ──────────────────────────
 
-function formatMoney(n) {
+function formatMoney(n, _currency) {
   return '$' + Number(n).toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
@@ -1367,76 +1399,207 @@ async function renderPadreInicio() {
 
 // ── Portafolio padre ─────────────────────────
 
-async function renderPadrePortafolio() {
-  var uid   = FinSeedStore.session.userId || 'u1';
-  var port  = await FinSeedStore.fetchPortfolio(uid);
+var _portPeriodo = '1S';
+var _portTab = 'mio';
 
-  var elT = document.getElementById('ppp-total');
-  if (elT) elT.textContent = formatMoney(port.saldo);
-  var elR = document.getElementById('ppp-rentab');
-  if (elR) {
-    elR.textContent = formatPct(port.rentabilidad) + ' rentabilidad';
-    elR.style.color = port.rentabilidad >= 0 ? 'rgba(255,255,255,0.9)' : '#fca5a5';
+function setPortTab(tab) {
+  _portTab = tab;
+  var tabMio   = document.getElementById('port-tab-mio');
+  var tabHijos = document.getElementById('port-tab-hijos');
+  var btnMio   = document.getElementById('ptab-mio');
+  var btnHijos = document.getElementById('ptab-hijos');
+  if (!tabMio) return;
+  if (tab === 'mio') {
+    tabMio.style.display   = 'flex';
+    tabHijos.style.display = 'none';
+    btnMio.style.color        = 'var(--green)';
+    btnMio.style.borderBottom = '2px solid var(--green)';
+    btnHijos.style.color        = 'var(--text-3)';
+    btnHijos.style.borderBottom = '2px solid transparent';
+  } else {
+    tabMio.style.display   = 'none';
+    tabHijos.style.display = 'flex';
+    tabHijos.style.flexDirection = 'column';
+    btnHijos.style.color        = 'var(--green)';
+    btnHijos.style.borderBottom = '2px solid var(--green)';
+    btnMio.style.color        = 'var(--text-3)';
+    btnMio.style.borderBottom = '2px solid transparent';
+    renderPortHijos();
   }
+}
 
-  var activosHTML = '';
-  var activos = port.activos || [];
-  for (var i = 0; i < activos.length; i++) {
-    var a = activos[i];
-    activosHTML += '<div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center">' +
-      '<div><div style="font-size:14px;font-weight:600;color:var(--text-1)">' + a.nombre + '</div>' +
-      '<div style="font-size:12px;color:var(--text-3);margin-top:2px">' + formatPct(a.pct) + ' rent.</div></div>' +
-      '<div style="font-size:15px;font-weight:700;color:var(--text-1)">' + formatMoney(a.valor) + '</div>' +
-      '</div>';
+function setPortPeriodo(p) {
+  _portPeriodo = p;
+  var btns = document.getElementById('port-periodo-btns');
+  if (!btns) return;
+  btns.querySelectorAll('span').forEach(function(s) {
+    if (s.textContent === p) {
+      s.style.background = '#f0fdf4';
+      s.style.color = '#059669';
+      s.style.fontWeight = '600';
+    } else {
+      s.style.background = '#f9fafb';
+      s.style.color = 'var(--text-3)';
+      s.style.fontWeight = '400';
+    }
+  });
+  renderGraficoPortafolio();
+}
+
+function generarDatosGrafico(periodo, totalActual) {
+  var puntos = { '1S': 7, '1M': 30, '3M': 12, '1A': 12 };
+  var n = puntos[periodo] || 7;
+  var datos = [];
+  var base = totalActual * 0.88;
+  for (var i = 0; i < n; i++) {
+    var variacion = (Math.random() - 0.35) * (totalActual * 0.02);
+    base = Math.max(base + variacion, totalActual * 0.85);
+    datos.push(base);
   }
-  if (!activosHTML) activosHTML = '<div style="font-size:13px;color:var(--text-3);padding:12px 0">Sin activos registrados.</div>';
-  var elA = document.getElementById('ppp-activos');
-  if (elA) elA.innerHTML = activosHTML;
+  datos[datos.length - 1] = totalActual;
+  return datos;
+}
 
-  // Tab hijos
+function renderGraficoPortafolio() {
+  var svg = document.getElementById('port-grafico');
+  if (!svg) return;
+  var uid = FinSeedStore.session.userId || 'u1';
+  FinSeedStore.fetchPortfolio(uid).then(function(port) {
+    var datos = generarDatosGrafico(_portPeriodo, port.total);
+    var n = datos.length;
+    var min = Math.min.apply(null, datos);
+    var max = Math.max.apply(null, datos);
+    var rng = max - min || 1;
+    var W = 300, H = 120, pad = 10;
+    var pts = datos.map(function(v, i) {
+      var x = pad + (i / (n - 1)) * (W - pad * 2);
+      var y = H - pad - ((v - min) / rng) * (H - pad * 2);
+      return [x, y];
+    });
+    var linePath = 'M' + pts.map(function(p) { return p[0] + ',' + p[1]; }).join(' L');
+    var areaPath = linePath + ' L' + pts[n-1][0] + ',' + (H - pad) + ' L' + pts[0][0] + ',' + (H - pad) + ' Z';
+    var subida = datos[datos.length-1] >= datos[0];
+    var color = subida ? '#059669' : '#dc2626';
+    var colorLight = subida ? '#d1fae5' : '#fee2e2';
+    svg.innerHTML =
+      '<defs><linearGradient id="ggrad" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0%" stop-color="' + colorLight + '" stop-opacity="0.8"/>' +
+      '<stop offset="100%" stop-color="' + colorLight + '" stop-opacity="0"/>' +
+      '</linearGradient></defs>' +
+      '<path d="' + areaPath + '" fill="url(#ggrad)"/>' +
+      '<path d="' + linePath + '" fill="none" stroke="' + color + '" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>' +
+      '<circle cx="' + pts[n-1][0] + '" cy="' + pts[n-1][1] + '" r="4" fill="' + color + '"/>';
+    var labels = { '1S': 'Hace 7 días', '1M': 'Hace 1 mes', '3M': 'Hace 3 meses', '1A': 'Hace 1 año' };
+    var fi = document.getElementById('port-fecha-inicio');
+    if (fi) fi.textContent = labels[_portPeriodo] || '';
+  });
+}
+
+function renderDistribucion(activos) {
+  var el = document.getElementById('port-distribucion');
+  if (!el || !activos) return;
+  var total = activos.reduce(function(s, a) { return s + a.valor; }, 0);
+  var colores = ['#059669','#0284c7','#7c3aed','#f59e0b','#dc2626','#0891b2'];
+  var barraHTML = '<div style="display:flex;height:8px;border-radius:8px;overflow:hidden;margin-bottom:12px">';
+  activos.forEach(function(a, i) {
+    var pct = total > 0 ? (a.valor / total * 100) : 0;
+    barraHTML += '<div style="width:' + pct + '%;background:' + colores[i % colores.length] + ';transition:width .3s"></div>';
+  });
+  barraHTML += '</div>';
+  var itemsHTML = activos.map(function(a, i) {
+    var pct = total > 0 ? (a.valor / total * 100).toFixed(1) : 0;
+    var ganancia = ((a.precioActual - a.precioCompra) / a.precioCompra * 100);
+    return '<div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0">' +
+      '<div style="display:flex;align-items:center;gap:10px">' +
+      '<div style="width:10px;height:10px;border-radius:50%;background:' + colores[i % colores.length] + ';flex-shrink:0"></div>' +
+      '<div><div style="font-size:13px;font-weight:600;color:var(--text-1)">' + a.ticker + '</div>' +
+      '<div style="font-size:11px;color:var(--text-3)">' + pct + '% del portafolio</div></div>' +
+      '</div>' +
+      '<div style="text-align:right">' +
+      '<div style="font-size:13px;font-weight:600;color:var(--text-1)">' + formatMoney(a.valor) + '</div>' +
+      '<div style="font-size:11px;color:' + (ganancia >= 0 ? '#059669' : '#dc2626') + '">' + formatPct(ganancia / 100) + '</div>' +
+      '</div></div>';
+  }).join('');
+  el.innerHTML = barraHTML + itemsHTML;
+}
+
+function renderActivosLista(activos) {
+  var el = document.getElementById('port-activos');
+  if (!el) return;
+  el.innerHTML = activos.map(function(a) {
+    var ganancia = a.precioActual - a.precioCompra;
+    var gananciaPct = (ganancia / a.precioCompra);
+    var color = ganancia >= 0 ? '#059669' : '#dc2626';
+    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #f3f4f6">' +
+      '<div>' +
+      '<div style="font-size:14px;font-weight:600;color:var(--text-1)">' + a.ticker + '</div>' +
+      '<div style="font-size:12px;color:var(--text-3)">' + a.nombre + ' · ' + a.cantidad + ' acc.</div>' +
+      '</div>' +
+      '<div style="text-align:right">' +
+      '<div style="font-size:14px;font-weight:600;color:var(--text-1)">' + formatMoney(a.valor) + '</div>' +
+      '<div style="font-size:12px;color:' + color + '">' + formatPct(gananciaPct) + ' · ' + (ganancia >= 0 ? '+' : '') + formatMoney(ganancia * a.cantidad) + '</div>' +
+      '</div></div>';
+  }).join('');
+}
+
+async function renderPortHijos() {
+  var uid = FinSeedStore.session.userId || 'u1';
   var hijos = FinSeedStore.getHijos(uid);
   if (!hijos || hijos.length === 0) {
     hijos = [
-      { id: 'u2', nombre: 'Sofía', avatar: 'S', nivel: 4, xp: 340 },
-      { id: 'u3', nombre: 'Mateo', avatar: 'M', nivel: 2, xp: 180 }
+      { id: 'u2', nombre: 'Sofía', avatar: 'S', nivel: 4 },
+      { id: 'u3', nombre: 'Mateo', avatar: 'M', nivel: 2 }
     ];
   }
-  var phHTML = '';
-  for (var j = 0; j < hijos.length; j++) {
-    var h  = hijos[j];
-    var hp = await FinSeedStore.fetchPortfolio(h.id);
-    var cc = hp.rentabilidad >= 0 ? 'var(--green)' : 'var(--danger)';
-    phHTML += '<div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center">' +
-      '<div style="display:flex;align-items:center;gap:12px">' +
-      '<div style="width:36px;height:36px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:14px">' + (h.avatar || h.nombre.charAt(0)) + '</div>' +
-      '<div><div style="font-size:14px;font-weight:600;color:var(--text-1)">' + h.nombre + '</div>' +
-      '<div style="font-size:12px;color:var(--text-3)">Nv.' + (h.nivel || 1) + '</div></div>' +
-      '</div>' +
-      '<div style="text-align:right">' +
-      '<div style="font-size:15px;font-weight:700;color:var(--text-1)">' + formatMoney(hp.saldo) + '</div>' +
-      '<div style="font-size:12px;color:' + cc + '">' + formatPct(hp.rentabilidad) + '</div>' +
+  var el = document.getElementById('port-hijos-contenido');
+  if (!el) return;
+  var html = '';
+  for (var i = 0; i < hijos.length; i++) {
+    var hijo = hijos[i];
+    var hp = await FinSeedStore.fetchPortfolio(hijo.id);
+    var color = hp.cambioHoy >= 0 ? '#059669' : '#dc2626';
+    html += '<div style="background:white;border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px">' +
+      '<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">' +
+      '<div style="width:40px;height:40px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-weight:700;color:white">' + (hijo.avatar || hijo.nombre.charAt(0)) + '</div>' +
+      '<div><div style="font-size:15px;font-weight:600;color:var(--text-1)">' + hijo.nombre + '</div>' +
+      '<div style="font-size:12px;color:var(--text-3)">Nivel ' + (hijo.nivel || 1) + '</div></div>' +
+      '<div style="margin-left:auto;text-align:right">' +
+      '<div style="font-size:18px;font-weight:700;color:var(--text-1)">' + formatMoney(hp.total) + '</div>' +
+      '<div style="font-size:12px;color:' + color + '">' + formatPct(hp.cambioHoy) + ' hoy</div>' +
+      '</div></div>' +
+      '<div style="display:flex;flex-direction:column;gap:6px">' +
+      hp.activos.map(function(a) {
+        var g = (a.precioActual - a.precioCompra) / a.precioCompra;
+        return '<div style="display:flex;justify-content:space-between;padding:6px 0;border-top:1px solid #f3f4f6">' +
+          '<div style="font-size:13px;color:var(--text-2)">' + a.ticker + ' <span style="color:var(--text-3)">× ' + a.cantidad + '</span></div>' +
+          '<div style="font-size:13px;font-weight:600;color:' + (g >= 0 ? '#059669' : '#dc2626') + '">' + formatPct(g) + '</div>' +
+          '</div>';
+      }).join('') +
       '</div></div>';
   }
-  var elPH = document.getElementById('pph-lista');
-  if (elPH) elPH.innerHTML = phHTML;
+  el.innerHTML = html;
 }
 
-function switchPortTab(tab) {
-  var propio  = document.getElementById('pp-port-propio');
-  var hijos   = document.getElementById('pp-port-hijos');
-  var btnP    = document.getElementById('pptab-propio');
-  var btnH    = document.getElementById('pptab-hijos');
-  if (tab === 'propio') {
-    if (propio) propio.style.display = 'block';
-    if (hijos)  hijos.style.display  = 'none';
-    if (btnP) { btnP.style.background = 'var(--green)'; btnP.style.color = 'white'; btnP.style.borderColor = 'var(--green)'; }
-    if (btnH) { btnH.style.background = 'white'; btnH.style.color = 'var(--text-2)'; btnH.style.borderColor = 'var(--border)'; }
-  } else {
-    if (propio) propio.style.display = 'none';
-    if (hijos)  hijos.style.display  = 'block';
-    if (btnH) { btnH.style.background = 'var(--green)'; btnH.style.color = 'white'; btnH.style.borderColor = 'var(--green)'; }
-    if (btnP) { btnP.style.background = 'white'; btnP.style.color = 'var(--text-2)'; btnP.style.borderColor = 'var(--border)'; }
+async function renderPortafolioPadre() {
+  var uid = FinSeedStore.session.userId || 'u1';
+  var port = await FinSeedStore.fetchPortfolio(uid);
+
+  var elT = document.getElementById('port-total');
+  if (elT) elT.textContent = formatMoney(port.total);
+
+  var elP = document.getElementById('port-cambio-pct');
+  if (elP) {
+    elP.textContent = formatPct(port.cambioHoy);
+    elP.style.color = port.cambioHoy >= 0 ? 'rgba(255,255,255,0.95)' : '#fca5a5';
   }
+
+  var elV = document.getElementById('port-cambio-val');
+  if (elV) elV.textContent = (port.cambioHoy >= 0 ? '+' : '') + formatMoney(port.cambioPesos) + ' hoy';
+
+  renderDistribucion(port.activos);
+  renderActivosLista(port.activos);
+  renderGraficoPortafolio();
+  setPortTab('mio');
 }
 
 // ── Familia padre ────────────────────────────
@@ -2237,7 +2400,7 @@ function navigate_p(page) {
       else            { nv.classList.remove('active'); }
     }
   });
-  if (page === 'portafolio') renderPadrePortafolio();
+  if (page === 'portafolio') renderPortafolioPadre();
   if (page === 'familia')    renderPadreFamilia();
   if (page === 'perfil')     renderPadrePerfil();
 }
