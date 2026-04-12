@@ -253,6 +253,12 @@
       background: #f0fdf4;
     }
 
+    .rol-card:hover {
+      border-color: #059669 !important;
+      background: #f0fdf4 !important;
+      transform: translateY(-2px);
+    }
+
     .selector-card svg {
       width: 36px;
       height: 36px;
@@ -543,36 +549,86 @@
       </p>
     </div>
 
-    <!-- Mitad inferior: gris claro -->
-    <div style="padding:32px 24px;background:#f9fafb;flex:1">
-      <p style="text-align:center;font-size:14px;color:var(--text-3);margin:0 0 20px">¿Cómo quieres ingresar?</p>
+    <!-- Mitad inferior: scroll -->
+    <div style="background:#f9fafb;flex:1;overflow-y:auto;padding-top:28px">
 
-      <div style="display:flex;gap:12px;margin-bottom:24px">
-        <!-- Tarjeta Padre -->
-        <div class="selector-card" onclick="seleccionarRol('padre')">
-          <svg viewBox="0 0 24 24" stroke="var(--green)">
-            <circle cx="12" cy="8" r="4"/>
-            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-          </svg>
-          <div class="selector-card-title" style="margin-top:4px">Soy Padre</div>
-          <div class="selector-card-sub">Administro y superviso</div>
-        </div>
-
-        <!-- Tarjeta Hijo -->
-        <div class="selector-card" onclick="seleccionarRol('hijo')">
-          <svg viewBox="0 0 24 24" stroke="#16a34a">
-            <path d="M12 22V12"/>
-            <path d="M12 12C12 12 7 10 7 5a5 5 0 0 1 10 0c0 5-5 7-5 7z"/>
-            <path d="M12 12c0 0-3 2-3 6"/>
-          </svg>
-          <div class="selector-card-title" style="margin-top:4px">Soy Hijo</div>
-          <div class="selector-card-sub">Aprendo y explora</div>
+      <!-- TARJETAS ROL -->
+      <div style="padding:0 24px;margin-bottom:24px">
+        <p style="text-align:center;font-size:13px;color:var(--text-3);margin:0 0 16px">¿Cómo quieres ingresar?</p>
+        <div style="display:flex;gap:12px">
+          <div onclick="seleccionarRol('padre')" class="rol-card" style="flex:1;background:white;border:1.5px solid var(--border);border-radius:16px;padding:20px 12px;text-align:center;cursor:pointer;transition:all .2s">
+            <div style="width:48px;height:48px;border-radius:14px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            </div>
+            <div style="font-size:15px;font-weight:600;color:var(--text-1)">Soy Padre</div>
+            <div style="font-size:12px;color:var(--text-3);margin-top:4px">Administro y superviso</div>
+          </div>
+          <div onclick="seleccionarRol('hijo')" class="rol-card" style="flex:1;background:white;border:1.5px solid var(--border);border-radius:16px;padding:20px 12px;text-align:center;cursor:pointer;transition:all .2s">
+            <div style="width:48px;height:48px;border-radius:14px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="1.8" stroke-linecap="round"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <div style="font-size:15px;font-weight:600;color:var(--text-1)">Soy Hijo</div>
+            <div style="font-size:12px;color:var(--text-3);margin-top:4px">Aprendo y exploro</div>
+          </div>
         </div>
       </div>
 
-      <p style="text-align:center;font-size:13px;color:var(--text-3)">
-        ¿Ya tienes cuenta? <span onclick="showView('login')" style="color:var(--green);font-weight:600;cursor:pointer">Ingresar</span>
-      </p>
+      <!-- SEPARADOR / YA TENGO CUENTA -->
+      <div style="padding:0 24px;margin-bottom:24px">
+        <div style="text-align:center;margin-bottom:20px">
+          <span style="font-size:13px;color:var(--text-3)">¿Ya tienes cuenta? <span onclick="showView('login')" style="color:var(--green);font-weight:600;cursor:pointer">Ingresar</span></span>
+        </div>
+      </div>
+
+      <!-- PROPUESTA DE VALOR -->
+      <div style="padding:0 24px;margin-bottom:24px">
+        <div style="background:white;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px;border:1px solid var(--border)">
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <div style="width:36px;height:36px;border-radius:10px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            </div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:var(--text-1)">Portafolio familiar real</div>
+              <div style="font-size:12px;color:var(--text-3);margin-top:2px">Invierte para tus hijos y mira crecer el dinero junto a ellos</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <div style="width:36px;height:36px;border-radius:10px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:var(--text-1)">Aprende jugando</div>
+              <div style="font-size:12px;color:var(--text-3);margin-top:2px">Juegos de educación financiera que avanzan con cada hijo</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <div style="width:36px;height:36px;border-radius:10px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            </div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:var(--text-1)">Toda la familia conectada</div>
+              <div style="font-size:12px;color:var(--text-3);margin-top:2px">Ranking, metas y logros compartidos en tiempo real</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOCIAL PROOF -->
+      <div style="padding:0 24px 32px">
+        <div style="background:white;border:1px solid var(--border);border-radius:16px;padding:16px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+            <div style="display:flex">
+              <div style="width:28px;height:28px;border-radius:50%;background:#059669;border:2px solid white;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white">M</div>
+              <div style="width:28px;height:28px;border-radius:50%;background:#16a34a;border:2px solid white;margin-left:-8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white">C</div>
+              <div style="width:28px;height:28px;border-radius:50%;background:#047857;border:2px solid white;margin-left:-8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white">A</div>
+            </div>
+            <div style="font-size:12px;color:var(--text-3)">Familias ya están sembrando su futuro</div>
+          </div>
+          <div style="font-size:13px;color:var(--text-2);font-style:italic;line-height:1.5">"Mi hija de 10 años ya entiende qué es una acción. FinSeed cambió cómo hablamos de dinero en casa."</div>
+          <div style="font-size:11px;color:var(--text-3);margin-top:6px">— María J., madre de 2 hijos</div>
+        </div>
+      </div>
+
     </div>
 
   </div>
@@ -1647,6 +1703,29 @@ async function renderPadreInicio() {
   if (elP) { elP.textContent = formatPct(port.cambioHoy); elP.style.color = port.cambioHoy >= 0 ? 'rgba(255,255,255,0.95)' : '#fca5a5'; }
   var elV = document.getElementById('pp-cambio-val');
   if (elV) elV.textContent = (port.cambioHoy >= 0 ? '+' : '') + formatMoney(port.cambioPesos, port.moneda) + ' hoy';
+
+  // Mini pills de activos top 3
+  var elCard = document.querySelector('#pp-inicio-header [onclick*="portafolio"]');
+  if (elCard && port.activos && port.activos.length > 0) {
+    var pillsHTML = '<div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">';
+    port.activos.slice(0,3).forEach(function(a) {
+      var g = (a.precioActual - a.precioCompra) / a.precioCompra * 100;
+      pillsHTML += '<div style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:3px 10px;font-size:11px;color:white;display:flex;align-items:center;gap:4px">' +
+        '<span style="font-weight:600">' + a.ticker + '</span>' +
+        '<span style="color:' + (g >= 0 ? '#86efac' : '#fca5a5') + '">' + (g >= 0 ? '+' : '') + g.toFixed(1) + '%</span>' +
+        '</div>';
+    });
+    pillsHTML += '</div>';
+    var existingPills = elCard.querySelector('.activos-pills');
+    if (!existingPills) {
+      var pillsDiv = document.createElement('div');
+      pillsDiv.className = 'activos-pills';
+      pillsDiv.innerHTML = pillsHTML;
+      elCard.appendChild(pillsDiv);
+    } else {
+      existingPills.innerHTML = pillsHTML;
+    }
+  }
 
   // ── PORTAFOLIOS HIJOS ──
   var hijos = FinSeedStore.getHijos(uid);
