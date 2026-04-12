@@ -696,60 +696,99 @@
     <button class="logout-btn" onclick="doLogout()">Salir</button>
   </div>
 
-  <div class="page active" id="pp-inicio">
+  <div id="pp-inicio" class="page active">
 
-    <!-- HEADER con portafolio preview integrado -->
-    <div id="pp-inicio-header" style="background:linear-gradient(160deg,#065f46 0%,#047857 60%,#059669 100%);padding:44px 16px 24px;border-radius:0 0 24px 24px;margin-bottom:4px">
-      <div style="display:flex;justify-content:space-between;align-items:center">
+    <!-- HEADER VERDE -->
+    <div id="pp-inicio-header" style="background:linear-gradient(160deg,#065f46 0%,#047857 60%,#059669 100%);padding:44px 16px 20px;border-radius:0 0 24px 24px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
         <div>
           <div id="pp-saludo" style="font-size:13px;color:rgba(255,255,255,0.7)">Buenos días,</div>
-          <div id="pp-nombre" style="font-size:22px;font-weight:600;color:white">Carlos</div>
+          <div id="pp-nombre" style="font-size:22px;font-weight:700;color:white">Carlos</div>
         </div>
-        <div id="pp-avatar" style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:white;cursor:pointer" onclick="navigate_p('perfil')">C</div>
+        <div id="pp-avatar" onclick="navigate_p('perfil')" style="width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:white;cursor:pointer">C</div>
       </div>
-      <!-- Portafolio preview flotando sobre el gradiente -->
-      <div style="margin-top:20px;background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.25);border-radius:16px;padding:20px;cursor:pointer" onclick="navigate_p('portafolio')">
-        <div style="font-size:12px;color:rgba(255,255,255,0.8);margin-bottom:4px">Mi portafolio</div>
-        <div id="pp-total" style="font-size:28px;font-weight:700;color:white">US$0.00</div>
-        <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
-          <div id="pp-cambio-pct" style="font-size:13px;color:rgba(255,255,255,0.9)">+0.00%</div>
-          <div id="pp-cambio-val" style="font-size:13px;color:rgba(255,255,255,0.7)">hoy</div>
+
+      <!-- CARD PORTAFOLIO DENTRO DEL HEADER -->
+      <div onclick="navigate_p('portafolio')" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:16px;padding:16px;cursor:pointer">
+        <div style="font-size:12px;color:rgba(255,255,255,0.75);margin-bottom:4px">Mi portafolio</div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end">
+          <div>
+            <div id="pp-total" style="font-size:28px;font-weight:700;color:white">US$0.00</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
+              <div id="pp-cambio-pct" style="font-size:13px;color:rgba(255,255,255,0.9)">+0.00%</div>
+              <div id="pp-cambio-val" style="font-size:12px;color:rgba(255,255,255,0.65)">hoy</div>
+            </div>
+          </div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.6)">Ver detalle →</div>
         </div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:8px">Ver detalle →</div>
       </div>
     </div>
 
     <!-- PORTAFOLIOS HIJOS -->
-    <div style="margin:20px 16px 0">
+    <div style="padding:20px 16px 0">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
         <div style="font-size:15px;font-weight:600;color:var(--text-1)">Portafolios hijos</div>
-        <div style="font-size:13px;color:var(--green);cursor:pointer" onclick="navigate_p('portafolio')">Ver todo →</div>
+        <div onclick="navigate_p('portafolio')" style="font-size:13px;color:var(--green);cursor:pointer">Ver todo →</div>
       </div>
-      <div id="pp-hijos-lista" style="display:flex;flex-direction:column;gap:10px">
-        <!-- renderizado por JS -->
+      <div id="pp-hijos-lista" style="display:flex;flex-direction:column;gap:10px"></div>
+    </div>
+
+    <!-- JUEGOS DEL PADRE -->
+    <div style="padding:20px 16px 0">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-size:15px;font-weight:600;color:var(--text-1)">Mi aprendizaje</div>
+        <div id="pp-juego-racha" style="font-size:13px;color:#f59e0b;font-weight:600"></div>
+      </div>
+      <!-- PROGRESO XP PADRE -->
+      <div style="background:white;border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--text-1)">Tu progreso esta semana</div>
+            <div id="pp-xp-semana" style="font-size:12px;color:var(--text-3);margin-top:2px">0 XP ganados</div>
+          </div>
+          <div id="pp-nivel-badge" style="background:#f0fdf4;border:1px solid #d1fae5;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;color:#059669">Nv.1</div>
+        </div>
+        <div style="background:#f3f4f6;border-radius:8px;height:6px;margin-bottom:12px">
+          <div id="pp-xp-bar" style="background:#059669;height:6px;border-radius:8px;width:0%;transition:width .5s"></div>
+        </div>
+        <div id="pp-vidas-padre" style="display:flex;align-items:center;gap:6px">
+          <span style="font-size:12px;color:var(--text-3)">Vidas:</span>
+        </div>
+      </div>
+      <!-- JUEGO DESTACADO -->
+      <div id="pp-juego-destacado" onclick="irAJuegosPadre()" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #d1fae5;border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer">
+        <div style="width:48px;height:48px;border-radius:14px;background:white;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">&#9654;</div>
+        <div style="flex:1">
+          <div style="font-size:13px;color:#059669;font-weight:600;margin-bottom:2px">Continuar aprendizaje</div>
+          <div id="pp-juego-nombre" style="font-size:15px;font-weight:700;color:var(--text-1)">¿Qué es el dinero?</div>
+          <div id="pp-juego-xp" style="font-size:12px;color:var(--text-3);margin-top:2px">+30 XP al completar</div>
+        </div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
     </div>
 
-    <!-- PROGRESO HIJOS -->
-    <div style="margin:20px 16px 0">
-      <div style="font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:12px">Progreso esta semana</div>
-      <div id="pp-progreso-hijos" style="display:flex;flex-direction:column;gap:10px">
-        <!-- renderizado por JS -->
-      </div>
+    <!-- PROGRESO HIJOS ESTA SEMANA -->
+    <div style="padding:20px 16px 0">
+      <div style="font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:12px">Progreso hijos esta semana</div>
+      <div id="pp-progreso-hijos" style="display:flex;flex-direction:column;gap:10px"></div>
+    </div>
+
+    <!-- LOGROS SEMANALES -->
+    <div style="padding:20px 16px 0">
+      <div style="font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:12px">Logros recientes</div>
+      <div id="pp-logros-semana" style="display:flex;flex-direction:column;gap:8px"></div>
     </div>
 
     <!-- SUGERENCIAS -->
-    <div style="margin:20px 16px 0">
+    <div style="padding:20px 16px 0">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <div style="font-size:15px;font-weight:600;color:var(--text-1)">Sugerencias</div>
+        <div style="font-size:15px;font-weight:600;color:var(--text-1)">Sugerencias de mercado</div>
         <div style="font-size:12px;color:var(--text-3)">Actualizado hoy</div>
       </div>
-      <div id="pp-sugerencias" style="display:flex;flex-direction:column;gap:10px">
-        <!-- renderizado por JS -->
-      </div>
+      <div id="pp-sugerencias" style="display:flex;flex-direction:column;gap:10px"></div>
     </div>
 
-    <div style="height:20px"></div>
+    <div style="height:24px"></div>
   </div>
 
   <div class="page" id="pp-portafolio">
@@ -1212,8 +1251,13 @@ var FinSeedStore = {
 
   getProgreso: function(userId) {
     var raw = localStorage.getItem('finseed_progreso_' + userId);
-    if (raw) return JSON.parse(raw);
-    return { xp: 0, nivel: 1, racha: 0, monedasTotal: 0 };
+    if (raw) {
+      var p = JSON.parse(raw);
+      if (p.xpSemana === undefined) p.xpSemana = 0;
+      if (p.vidas === undefined) p.vidas = 5;
+      return p;
+    }
+    return { xp: 0, nivel: 1, racha: 0, monedasTotal: 0, xpSemana: 0, vidas: 5 };
   },
 
   getMetas: function(familiaId) {
@@ -1236,11 +1280,11 @@ var FinSeedStore = {
 
   getSugerencias: function() {
     return [
-      'Ahorra al menos el 10% de cada ingreso.',
-      'Revisa tus metas cada semana.',
-      'Evita deudas de consumo con intereses altos.',
-      'Invierte con regularidad, aunque sean cantidades pequeñas.',
-      'Habla en familia sobre el presupuesto mensual.'
+      { ticker: 'VTI',  riesgo: 'Bajo',  razon: 'ETF diversificado, ideal para largo plazo', cambio: 0.0082 },
+      { ticker: 'QQQ',  riesgo: 'Medio', razon: 'Tecnología en alza, volatilidad moderada',   cambio: 0.0134 },
+      { ticker: 'GLD',  riesgo: 'Bajo',  razon: 'Cobertura ante inflación y volatilidad',     cambio: 0.0041 },
+      { ticker: 'BNDX', riesgo: 'Bajo',  razon: 'Renta fija internacional, estabilidad',      cambio: 0.0012 },
+      { ticker: 'ARKK', riesgo: 'Alto',  razon: 'Innovación disruptiva, alta volatilidad',    cambio: -0.0215 }
     ];
   },
 
@@ -1380,91 +1424,179 @@ function getPctColor(n) {
 // ── Dashboard inicio padre ────────────────────
 
 async function renderPadreInicio() {
-  var uid    = FinSeedStore.session.userId || 'u1';
-  var nombre = FinSeedStore.session.nombre || 'Carlos';
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || FinSeedStore.session.userId || 'u1';
+  var nombre = session.nombre || FinSeedStore.session.nombre || 'Carlos';
 
-  // Saludo según hora
-  var h      = new Date().getHours();
+  // Saludo
+  var h = new Date().getHours();
   var saludo = h < 12 ? 'Buenos días,' : h < 19 ? 'Buenas tardes,' : 'Buenas noches,';
-  var el = document.getElementById('pp-saludo');
-  if (el) el.textContent = saludo;
-
+  var elS = document.getElementById('pp-saludo');
+  if (elS) elS.textContent = saludo;
   var elN = document.getElementById('pp-nombre');
   if (elN) elN.textContent = nombre;
+  var elAv = document.getElementById('pp-avatar');
+  if (elAv) elAv.textContent = nombre.charAt(0).toUpperCase();
 
-  var av = document.getElementById('pp-avatar');
-  if (av) av.textContent = nombre.charAt(0).toUpperCase();
-
-  // Portafolio propio
+  // ── PORTAFOLIO PROPIO ──
   var port = await FinSeedStore.fetchPortfolio(uid);
   var elT = document.getElementById('pp-total');
-  if (elT) elT.textContent = formatMoney(port.saldo);
-
+  if (elT) elT.textContent = formatMoney(port.total, port.moneda);
   var elP = document.getElementById('pp-cambio-pct');
-  if (elP) {
-    elP.textContent = formatPct(port.rentabilidad);
-    elP.style.color = port.rentabilidad >= 0 ? 'rgba(255,255,255,0.95)' : '#fca5a5';
-  }
+  if (elP) { elP.textContent = formatPct(port.cambioHoy); elP.style.color = port.cambioHoy >= 0 ? 'rgba(255,255,255,0.95)' : '#fca5a5'; }
   var elV = document.getElementById('pp-cambio-val');
-  if (elV) elV.textContent = 'rentabilidad';
+  if (elV) elV.textContent = (port.cambioHoy >= 0 ? '+' : '') + formatMoney(port.cambioPesos, port.moneda) + ' hoy';
 
-  // Portafolios hijos
+  // ── PORTAFOLIOS HIJOS ──
   var hijos = FinSeedStore.getHijos(uid);
   if (!hijos || hijos.length === 0) {
     hijos = [
-      { id: 'u2', nombre: 'Sofía', avatar: 'S', xp: 340, nivel: 4, racha: 7 },
-      { id: 'u3', nombre: 'Mateo', avatar: 'M', xp: 180, nivel: 2, racha: 3 }
+      { id: 'u2', nombre: 'Sofía', avatar: 'S', nivel: 4, xp: 340, racha: 7 },
+      { id: 'u3', nombre: 'Mateo', avatar: 'M', nivel: 2, xp: 180, racha: 3 }
     ];
   }
-
   var hijosHTML = '';
   for (var i = 0; i < hijos.length; i++) {
     var hijo = hijos[i];
-    var hp   = await FinSeedStore.fetchPortfolio(hijo.id);
-    var cambioColor = hp.rentabilidad >= 0 ? '#059669' : '#dc2626';
-    hijosHTML += '<div style="background:#f9fafb;border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer" onclick="navigate_p(\'portafolio\')">' +
+    var hp = await FinSeedStore.fetchPortfolio(hijo.id);
+    var cc = hp.cambioHoy >= 0 ? '#059669' : '#dc2626';
+    hijosHTML += '<div onclick="navigate_p(\'portafolio\')" style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer">' +
       '<div style="display:flex;align-items:center;gap:12px">' +
-      '<div style="width:36px;height:36px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:14px">' + (hijo.avatar || hijo.nombre.charAt(0).toUpperCase()) + '</div>' +
+      '<div style="width:36px;height:36px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:14px">' + (hijo.avatar || hijo.nombre.charAt(0)) + '</div>' +
       '<div><div style="font-size:14px;font-weight:600;color:var(--text-1)">' + hijo.nombre + '</div>' +
-      '<div style="font-size:12px;color:var(--text-3)">Nivel ' + (hijo.nivel || 1) + ' · ' + (hijo.xp || 0) + ' XP</div></div>' +
-      '</div>' +
-      '<div style="text-align:right">' +
-      '<div style="font-size:15px;font-weight:600;color:var(--text-1)">' + formatMoney(hp.saldo) + '</div>' +
-      '<div style="font-size:12px;color:' + cambioColor + '">' + formatPct(hp.rentabilidad) + ' rentab.</div>' +
-      '</div></div>';
+      '<div style="font-size:12px;color:var(--text-3)">Nivel ' + (hijo.nivel||1) + ' · ' + (hijo.xp||0) + ' XP</div></div></div>' +
+      '<div style="text-align:right"><div style="font-size:15px;font-weight:600;color:var(--text-1)">' + formatMoney(hp.total, hp.moneda) + '</div>' +
+      '<div style="font-size:12px;color:' + cc + '">' + formatPct(hp.cambioHoy) + ' hoy</div></div></div>';
   }
   var elHL = document.getElementById('pp-hijos-lista');
   if (elHL) elHL.innerHTML = hijosHTML;
 
-  // Progreso hijos
+  // ── JUEGOS PADRE ──
+  var progPadre = FinSeedStore.getProgreso(uid);
+  var vidaData = getVidas(uid);
+  var rachaData = getRacha(uid);
+  var xpPctBar = Math.min(100, Math.round(((progPadre.xpSemana || 0) / 200) * 100));
+
+  var elRacha = document.getElementById('pp-juego-racha');
+  if (elRacha) elRacha.textContent = rachaData.racha > 0 ? rachaData.racha + ' días \uD83D\uDD25' : '';
+
+  var elXPSem = document.getElementById('pp-xp-semana');
+  if (elXPSem) elXPSem.textContent = (progPadre.xpSemana || 0) + ' XP ganados esta semana';
+
+  var elNivel = document.getElementById('pp-nivel-badge');
+  if (elNivel) elNivel.textContent = 'Nv.' + (progPadre.nivel || 1);
+
+  var elBar = document.getElementById('pp-xp-bar');
+  if (elBar) setTimeout(function() { elBar.style.width = xpPctBar + '%'; }, 100);
+
+  var elVidas = document.getElementById('pp-vidas-padre');
+  if (elVidas) {
+    var vidasHTML = '<span style="font-size:12px;color:var(--text-3)">Vidas:</span>';
+    for (var v = 0; v < 5; v++) {
+      vidasHTML += '<span style="font-size:16px;opacity:' + (v < vidaData.vidas ? '1' : '0.2') + '">\u2665</span>';
+    }
+    elVidas.innerHTML = vidasHTML;
+  }
+
+  // Juego siguiente a completar
+  var progJuegos = getProgresoJuegos(uid);
+  var siguienteJuego = null;
+  for (var jj = 0; jj < FinSeedStore.arbolJuegos.length; jj++) {
+    var jg = FinSeedStore.arbolJuegos[jj];
+    if (!progJuegos[jg.id] || !progJuegos[jg.id].completado) { siguienteJuego = jg; break; }
+  }
+  if (siguienteJuego) {
+    var elJN = document.getElementById('pp-juego-nombre');
+    if (elJN) elJN.textContent = siguienteJuego.nombre;
+    var elJX = document.getElementById('pp-juego-xp');
+    if (elJX) elJX.textContent = '+' + siguienteJuego.xpRecompensa + ' XP al completar';
+  } else {
+    var elJD = document.getElementById('pp-juego-destacado');
+    if (elJD) elJD.innerHTML = '<div style="text-align:center;width:100%;padding:8px 0"><div style="font-size:24px">\uD83C\uDFC6</div><div style="font-size:14px;font-weight:600;color:#059669;margin-top:4px">¡Todos los juegos completados!</div></div>';
+  }
+
+  // ── PROGRESO HIJOS ──
   var progHTML = '';
   for (var j = 0; j < hijos.length; j++) {
-    var hj   = hijos[j];
+    var hj = hijos[j];
     var prog = FinSeedStore.getProgreso(hj.id);
-    progHTML += '<div style="background:#f9fafb;border:1px solid var(--border);border-radius:12px;padding:14px 16px">' +
+    var rachaHijo = getRacha(hj.id);
+    var jugadoHoy = rachaHijo.jugadoHoy;
+    var xpPct = Math.min(100, Math.round(((prog.xpSemana || 0) / 150) * 100));
+    progHTML += '<div style="background:white;border:1px solid var(--border);border-radius:14px;padding:14px 16px">' +
       '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">' +
+      '<div style="display:flex;align-items:center;gap:10px">' +
+      '<div style="width:32px;height:32px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:13px">' + (hj.avatar || hj.nombre.charAt(0)) + '</div>' +
       '<div style="font-size:14px;font-weight:600;color:var(--text-1)">' + hj.nombre + '</div>' +
-      '<div style="font-size:12px;color:var(--text-3)">Nv.' + prog.nivel + ' · ' + prog.xp + ' XP</div>' +
       '</div>' +
-      '<div style="display:flex;gap:16px">' +
-      '<div style="text-align:center"><div style="font-size:18px;font-weight:700;color:var(--green)">' + prog.xp + '</div><div style="font-size:11px;color:var(--text-3)">XP total</div></div>' +
-      '<div style="text-align:center"><div style="font-size:18px;font-weight:700;color:#f59e0b">' + prog.racha + '</div><div style="font-size:11px;color:var(--text-3)">Racha</div></div>' +
-      '<div style="text-align:center"><div style="font-size:18px;font-weight:700;color:var(--text-1)">Nv.' + prog.nivel + '</div><div style="font-size:11px;color:var(--text-3)">Nivel</div></div>' +
-      '</div></div>';
+      '<div style="font-size:12px;color:' + (jugadoHoy ? '#059669' : '#f59e0b') + ';font-weight:600">' + (jugadoHoy ? '\u2713 Jug\u00F3 hoy' : 'Sin jugar hoy') + '</div>' +
+      '</div>' +
+      '<div style="display:flex;gap:16px;margin-bottom:10px">' +
+      '<div style="text-align:center"><div style="font-size:18px;font-weight:700;color:#059669">' + (prog.xp || 0) + '</div><div style="font-size:10px;color:var(--text-3)">XP total</div></div>' +
+      '<div style="text-align:center"><div style="font-size:18px;font-weight:700;color:#f59e0b">' + (prog.racha || 0) + '</div><div style="font-size:10px;color:var(--text-3)">Racha \uD83D\uDD25</div></div>' +
+      '<div style="text-align:center"><div style="font-size:18px;font-weight:700;color:var(--text-1)">Nv.' + (prog.nivel || 1) + '</div><div style="font-size:10px;color:var(--text-3)">Nivel</div></div>' +
+      '<div style="text-align:center"><div style="font-size:18px;font-weight:700;color:#dc2626">' + (prog.vidas !== undefined ? prog.vidas : 5) + '/5</div><div style="font-size:10px;color:var(--text-3)">Vidas</div></div>' +
+      '</div>' +
+      '<div style="background:#f3f4f6;border-radius:6px;height:5px">' +
+      '<div style="background:#16a34a;height:5px;border-radius:6px;width:' + xpPct + '%"></div>' +
+      '</div>' +
+      '<div style="font-size:11px;color:var(--text-3);margin-top:4px">+' + (prog.xpSemana || 0) + ' XP esta semana</div>' +
+      '</div>';
   }
   var elPH = document.getElementById('pp-progreso-hijos');
   if (elPH) elPH.innerHTML = progHTML;
 
-  // Sugerencias
-  var sugs    = FinSeedStore.getSugerencias();
-  var sugHTML = '';
-  for (var s = 0; s < sugs.length; s++) {
-    sugHTML += '<div style="background:#f9fafb;border:1px solid var(--border);border-radius:12px;padding:14px 16px">' +
-      '<div style="font-size:13px;color:var(--text-2);line-height:1.5">' + sugs[s] + '</div>' +
+  // ── LOGROS RECIENTES ──
+  var logros = FinSeedStore.getLogros(uid).filter(function(l) { return l.obtenido; });
+  var logrosHijos = [
+    { nombre: 'Sofía', logro: 'Racha de 7 días', icono: '\uD83D\uDD25', fecha: 'Ayer' },
+    { nombre: 'Mateo', logro: 'Primera inversión', icono: '\uD83D\uDCC8', fecha: 'Esta semana' }
+  ];
+  var logrosHTML = logrosHijos.map(function(l) {
+    return '<div style="background:white;border:1px solid var(--border);border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:12px">' +
+      '<div style="width:36px;height:36px;border-radius:50%;background:#fef9c3;display:flex;align-items:center;justify-content:center;font-size:18px">' + l.icono + '</div>' +
+      '<div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text-1)">' + l.nombre + ' \u2014 ' + l.logro + '</div>' +
+      '<div style="font-size:11px;color:var(--text-3);margin-top:2px">' + l.fecha + '</div></div>' +
       '</div>';
+  }).join('');
+  if (logros.length > 0) {
+    logrosHTML += logros.map(function(l) {
+      return '<div style="background:white;border:1px solid var(--border);border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:12px">' +
+        '<div style="width:36px;height:36px;border-radius:50%;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:18px">\uD83C\uDFC5</div>' +
+        '<div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text-1)">T\u00FA \u2014 ' + l.nombre + '</div>' +
+        '<div style="font-size:11px;color:var(--text-3);margin-top:2px">' + (l.fecha || '') + '</div></div>' +
+        '</div>';
+    }).join('');
   }
+  var elLW = document.getElementById('pp-logros-semana');
+  if (elLW) elLW.innerHTML = logrosHTML;
+
+  // ── SUGERENCIAS ──
+  var sugs = FinSeedStore.getSugerencias();
+  var sugHTML = sugs.map(function(sg) {
+    var riesgoColor = sg.riesgo === 'Bajo' ? '#059669' : sg.riesgo === 'Medio' ? '#f59e0b' : '#dc2626';
+    var riesgoBg   = sg.riesgo === 'Bajo' ? '#f0fdf4' : sg.riesgo === 'Medio' ? '#fffbeb' : '#fef2f2';
+    return '<div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center">' +
+      '<div><div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">' +
+      '<div style="font-size:14px;font-weight:700;color:var(--text-1)">' + sg.ticker + '</div>' +
+      '<div style="font-size:11px;background:' + riesgoBg + ';color:' + riesgoColor + ';padding:2px 8px;border-radius:20px;font-weight:600">' + sg.riesgo + '</div>' +
+      '</div><div style="font-size:12px;color:var(--text-3)">' + sg.razon + '</div></div>' +
+      '<div style="font-size:16px;font-weight:700;color:' + getPctColor(sg.cambio) + '">' + formatPct(sg.cambio) + '</div></div>';
+  }).join('');
   var elSug = document.getElementById('pp-sugerencias');
   if (elSug) elSug.innerHTML = sugHTML;
+}
+
+function irAJuegosPadre() {
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || FinSeedStore.session.userId || 'u1';
+  var progJuegos = getProgresoJuegos(uid);
+  var siguiente = null;
+  for (var i = 0; i < FinSeedStore.arbolJuegos.length; i++) {
+    var jg = FinSeedStore.arbolJuegos[i];
+    if (!progJuegos[jg.id] || !progJuegos[jg.id].completado) { siguiente = jg; break; }
+  }
+  if (siguiente) abrirJuego(siguiente.id);
 }
 
 // ── Portafolio padre ─────────────────────────
