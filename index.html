@@ -1037,69 +1037,100 @@
     <button class="logout-btn" style="color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.25);" onclick="doLogout()">Salir</button>
   </div>
 
-  <div class="page active" id="kp-inicio">
-    <!-- HEADER con XP integrado -->
-    <div id="kp-inicio-header" style="background:linear-gradient(160deg,#14532d 0%,#15803d 60%,#16a34a 100%);padding:44px 16px 24px;border-radius:0 0 24px 24px;margin-bottom:4px">
-      <div style="display:flex;justify-content:space-between;align-items:center">
+  <div id="kp-inicio" class="page active">
+
+    <!-- HEADER VERDE VIVO -->
+    <div style="background:linear-gradient(160deg,#14532d 0%,#15803d 60%,#16a34a 100%);padding:44px 16px 20px;border-radius:0 0 24px 24px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
         <div>
           <div id="kp-saludo" style="font-size:13px;color:rgba(255,255,255,0.7)">Buenos días,</div>
-          <div id="kp-nombre" style="font-size:22px;font-weight:600;color:white">Sofía</div>
+          <div id="kp-nombre" style="font-size:22px;font-weight:700;color:white">Sofía</div>
         </div>
-        <div id="kp-avatar" style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:white;cursor:pointer" onclick="navigate_k('perfil')">S</div>
+        <div id="kp-avatar" onclick="navigate_k('perfil')" style="width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:white;cursor:pointer">S</div>
       </div>
-      <!-- XP + nivel + racha flotando sobre gradiente -->
-      <div style="margin-top:20px;background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.25);border-radius:16px;padding:20px">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start">
-          <div>
-            <div style="font-size:12px;color:rgba(255,255,255,0.75);margin-bottom:4px">Nivel actual</div>
-            <div id="kp-nivel-txt" style="font-size:28px;font-weight:700;color:white">Nv.1</div>
-          </div>
-          <div style="text-align:right">
-            <div style="font-size:12px;color:rgba(255,255,255,0.75);margin-bottom:4px">Racha</div>
-            <div id="kp-racha-txt" style="font-size:28px;font-weight:700;color:#fbbf24">0 días</div>
-          </div>
+
+      <!-- STATS ROW -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px">
+        <div style="background:rgba(255,255,255,0.15);border-radius:12px;padding:10px;text-align:center">
+          <div id="kp-xp-total" style="font-size:20px;font-weight:700;color:white">0</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.7);margin-top:2px">XP total</div>
         </div>
-        <!-- barra XP -->
-        <div style="margin-top:14px">
-          <div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.7);margin-bottom:5px">
-            <span id="kp-xp-txt">0 XP</span>
-            <span id="kp-xp-next">100 XP para Nv.2</span>
-          </div>
-          <div style="background:rgba(255,255,255,0.2);border-radius:4px;height:6px">
-            <div id="kp-xp-bar" style="background:#4ade80;border-radius:4px;height:6px;width:0%;transition:width .4s"></div>
-          </div>
+        <div style="background:rgba(255,255,255,0.15);border-radius:12px;padding:10px;text-align:center">
+          <div id="kp-racha" style="font-size:20px;font-weight:700;color:white">0 &#x1F525;</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.7);margin-top:2px">Racha</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.15);border-radius:12px;padding:10px;text-align:center">
+          <div id="kp-nivel-num" style="font-size:20px;font-weight:700;color:white">1</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.7);margin-top:2px">Nivel</div>
         </div>
       </div>
-    </div>
 
-    <!-- Stats: monedas, racha, vidas -->
-    <div style="margin:12px 16px 0;display:flex;gap:8px">
-      <div style="flex:1;background:white;border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
-        <div id="kp-monedas" style="font-size:20px;font-weight:700;color:#f59e0b">0</div>
-        <div style="font-size:11px;color:var(--text-3);margin-top:2px">Monedas</div>
-      </div>
-      <div style="flex:1;background:white;border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
-        <div id="kp-racha" style="font-size:20px;font-weight:700;color:#f59e0b">0 🔥</div>
-        <div style="font-size:11px;color:var(--text-3);margin-top:2px">Racha</div>
-      </div>
-      <div style="flex:1;background:white;border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
-        <div id="kp-vidas" style="font-size:16px;color:#dc2626">♥♥♥♥♥</div>
-        <div style="font-size:11px;color:var(--text-3);margin-top:2px">Vidas</div>
+      <!-- BARRA XP -->
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+          <div style="font-size:11px;color:rgba(255,255,255,0.7)">Progreso al siguiente nivel</div>
+          <div id="kp-xp-label" style="font-size:11px;color:rgba(255,255,255,0.7)">0 / 200 XP</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.2);border-radius:8px;height:7px">
+          <div id="kp-xp-bar" style="background:white;height:7px;border-radius:8px;width:0%;transition:width .5s"></div>
+        </div>
       </div>
     </div>
 
-    <!-- Indicador jugado hoy -->
-    <div style="margin:10px 16px 0;text-align:center">
-      <div id="kp-jugado-hoy" style="font-size:12px;color:var(--text-3)">Juega hoy para mantener tu racha</div>
+    <!-- VIDAS + ESTADO HOY -->
+    <div style="margin:16px;background:white;border:1px solid var(--border);border-radius:16px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div id="kp-vidas" style="display:flex;gap:4px;margin-bottom:4px"></div>
+        <div id="kp-jugado-hoy" style="font-size:12px;color:var(--text-3)">Juega hoy para mantener tu racha</div>
+      </div>
+      <div id="kp-xp-semana-badge" style="background:#f0fdf4;border:1px solid #d1fae5;border-radius:20px;padding:6px 12px;text-align:center">
+        <div id="kp-xp-semana" style="font-size:14px;font-weight:700;color:#16a34a">0</div>
+        <div style="font-size:10px;color:#15803d">XP esta semana</div>
+      </div>
     </div>
 
-    <!-- Continuar jugando -->
-    <div style="margin:20px 16px 0">
-      <div style="font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:12px">Continuar aprendiendo</div>
-      <div id="kp-juegos-preview" style="display:flex;flex-direction:column;gap:10px"></div>
+    <!-- JUEGO DESTACADO -->
+    <div style="margin:0 16px 16px">
+      <div style="font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:12px">Juego del día</div>
+      <div id="kp-juego-destacado" onclick="irAlJuegoDestacado()" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #86efac;border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer">
+        <div style="width:52px;height:52px;border-radius:14px;background:white;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.08)">&#9654;</div>
+        <div style="flex:1">
+          <div style="font-size:12px;color:#16a34a;font-weight:600;margin-bottom:2px">Continuar</div>
+          <div id="kp-juego-nombre" style="font-size:16px;font-weight:700;color:var(--text-1)">¿Qué es el dinero?</div>
+          <div id="kp-juego-xp" style="font-size:12px;color:var(--text-3);margin-top:3px">+30 XP al completar</div>
+        </div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
     </div>
 
-    <div style="height:20px"></div>
+    <!-- JUEGOS RÁPIDOS -->
+    <div style="margin:0 16px 16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-size:15px;font-weight:600;color:var(--text-1)">Todos los juegos</div>
+        <div onclick="navigate_k('juegos')" style="font-size:13px;color:#16a34a;cursor:pointer">Ver todos &#8594;</div>
+      </div>
+      <div id="kp-juegos-preview" style="display:flex;flex-direction:column;gap:8px"></div>
+    </div>
+
+    <!-- PORTAFOLIO PREVIEW -->
+    <div style="margin:0 16px 16px">
+      <div style="font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:12px">Mi portafolio</div>
+      <div onclick="navigate_k('familia')" style="background:white;border:1px solid var(--border);border-radius:16px;padding:16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer">
+        <div>
+          <div id="kp-port-total" style="font-size:22px;font-weight:700;color:var(--text-1)">US$0.00</div>
+          <div id="kp-port-cambio" style="font-size:13px;color:var(--text-3);margin-top:4px">+0.00% hoy</div>
+        </div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
+
+    <!-- FAMILIA -->
+    <div style="margin:0 16px 16px">
+      <div style="font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:12px">Mi familia</div>
+      <div id="kp-familia-preview" style="background:white;border:1px solid var(--border);border-radius:16px;padding:16px"></div>
+    </div>
+
+    <div style="height:24px"></div>
   </div>
 
   <div class="page" id="kp-juegos">
@@ -2114,79 +2145,107 @@ async function renderPadrePerfil() {
 // ── Inicio hijo ──────────────────────────────
 
 async function renderHijoInicio() {
-  var uid    = FinSeedStore.session.userId || 'u2';
-  var nombre = FinSeedStore.session.nombre || 'Sofía';
-  var prog   = FinSeedStore.getProgreso(uid);
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || FinSeedStore.session.userId || 'u2';
+  var nombre = session.nombre || FinSeedStore.session.nombre || 'Sofía';
 
-  var h      = new Date().getHours();
+  // Saludo
+  var h = new Date().getHours();
   var saludo = h < 12 ? 'Buenos días,' : h < 19 ? 'Buenas tardes,' : 'Buenas noches,';
-  var elS = document.getElementById('kp-saludo');
-  if (elS) elS.textContent = saludo;
-  var elN = document.getElementById('kp-nombre');
-  if (elN) elN.textContent = nombre;
-  var elAv = document.getElementById('kp-avatar');
-  if (elAv) elAv.textContent = nombre.charAt(0).toUpperCase();
+  var elS = document.getElementById('kp-saludo'); if (elS) elS.textContent = saludo;
+  var elN = document.getElementById('kp-nombre'); if (elN) elN.textContent = nombre;
+  var elAv = document.getElementById('kp-avatar'); if (elAv) elAv.textContent = nombre.charAt(0).toUpperCase();
 
-  var nivelActual = prog.nivel || 1;
-  var xpActual    = prog.xp   || 0;
-  var xpParaSig   = nivelActual * 100;
-  var xpEnNivel   = xpActual % xpParaSig;
-  var barPct      = Math.min(100, Math.round((xpEnNivel / xpParaSig) * 100));
-
-  var elNT = document.getElementById('kp-nivel-txt');
-  if (elNT) elNT.textContent = 'Nv.' + nivelActual;
-  var elRT = document.getElementById('kp-racha-txt');
-  if (elRT) elRT.textContent = (prog.racha || 0) + ' días';
-  var elXT = document.getElementById('kp-xp-txt');
-  if (elXT) elXT.textContent = xpActual + ' XP';
-  var elXN = document.getElementById('kp-xp-next');
-  if (elXN) elXN.textContent = xpParaSig + ' XP para Nv.' + (nivelActual + 1);
-  var elXB = document.getElementById('kp-xp-bar');
-  if (elXB) elXB.style.width = barPct + '%';
-
-  var elM = document.getElementById('kp-monedas');
-  if (elM) elM.textContent = prog.monedasTotal || 0;
-  var logros = FinSeedStore.getLogros(uid);
-  var elL = document.getElementById('kp-logros-cnt');
-  if (elL) elL.textContent = logros.length;
-
-  // Vidas reales
-  var vidasData = getVidas(uid);
-  var elV = document.getElementById('kp-vidas');
-  if (elV) elV.innerHTML = renderVidas(vidasData.vidas, vidasData.max);
-
-  // Racha real
+  // Progreso
+  var prog = FinSeedStore.getProgreso(uid);
+  var vidaData = getVidas(uid);
   var rachaData = getRacha(uid);
-  var elRacha = document.getElementById('kp-racha');
-  if (elRacha) elRacha.textContent = (rachaData.racha || 0) + ' \uD83D\uDD25';
+  var xpParaNivel = 200;
+  var xpPct = Math.min(100, Math.round(((prog.xpSemana || 0) / xpParaNivel) * 100));
+
+  var elXP = document.getElementById('kp-xp-total'); if (elXP) elXP.textContent = prog.xp || 0;
+  var elR = document.getElementById('kp-racha'); if (elR) elR.textContent = (prog.racha || 0) + ' \uD83D\uDD25';
+  var elNv = document.getElementById('kp-nivel-num'); if (elNv) elNv.textContent = prog.nivel || 1;
+  var elXPL = document.getElementById('kp-xp-label'); if (elXPL) elXPL.textContent = (prog.xpSemana || 0) + ' / ' + xpParaNivel + ' XP';
+  var elBar = document.getElementById('kp-xp-bar'); if (elBar) setTimeout(function() { elBar.style.width = xpPct + '%'; }, 100);
+  var elXPS = document.getElementById('kp-xp-semana'); if (elXPS) elXPS.textContent = prog.xpSemana || 0;
+
+  // Vidas
+  var elVidas = document.getElementById('kp-vidas');
+  if (elVidas) {
+    var vidasHTML = '';
+    for (var v = 0; v < (vidaData.max || 5); v++) {
+      vidasHTML += '<span style="font-size:20px;opacity:' + (v < vidaData.vidas ? '1' : '0.2') + '">\u2665</span>';
+    }
+    elVidas.innerHTML = vidasHTML;
+  }
   var elHoy = document.getElementById('kp-jugado-hoy');
   if (elHoy) {
     elHoy.textContent = rachaData.jugadoHoy ? '\u2713 Ya jugaste hoy' : 'Juega hoy para mantener tu racha';
     elHoy.style.color = rachaData.jugadoHoy ? '#16a34a' : '#f59e0b';
   }
 
-  // Preview juegos (primeros 2 del árbol)
-  var juegosArbol = FinSeedStore.arbolJuegos;
-  var progJuegos  = getProgresoJuegos(uid);
-  var prevHTML    = '';
-  var mostrados   = 0;
-  for (var i = 0; i < juegosArbol.length && mostrados < 2; i++) {
-    var jg = juegosArbol[i];
-    if (progJuegos[jg.id] && progJuegos[jg.id].completado) continue;
-    if (!juegoDesbloqueado(jg.id, uid)) continue;
-    prevHTML += '<div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer" onclick="abrirJuego(\'' + jg.id + '\')">' +
-      '<div style="flex:1;padding-right:12px"><div style="font-size:14px;font-weight:600;color:var(--text-1)">' + jg.nombre + '</div>' +
-      '<div style="font-size:12px;color:var(--text-3);margin-top:2px">' + jg.desc + '</div></div>' +
-      '<div style="text-align:right;flex-shrink:0">' +
-      '<div style="font-size:12px;font-weight:600;color:#16a34a">+' + jg.xpRecompensa + ' XP</div>' +
-      '</div></div>';
-    mostrados++;
+  // Juego destacado
+  var progJuegos = getProgresoJuegos(uid);
+  var siguiente = null;
+  for (var jj = 0; jj < FinSeedStore.arbolJuegos.length; jj++) {
+    var jg = FinSeedStore.arbolJuegos[jj];
+    if (!progJuegos[jg.id] || !progJuegos[jg.id].completado) { siguiente = jg; break; }
   }
-  if (!prevHTML) {
-    prevHTML = '<div style="font-size:13px;color:#16a34a;text-align:center;padding:12px">&#x1F3C6; \u00A1Completaste todos los juegos disponibles!</div>';
+  if (siguiente) {
+    var elJN = document.getElementById('kp-juego-nombre'); if (elJN) elJN.textContent = siguiente.nombre;
+    var elJX = document.getElementById('kp-juego-xp'); if (elJX) elJX.textContent = '+' + siguiente.xpRecompensa + ' XP al completar';
+    window._juegoDestacadoId = siguiente.id;
+  } else {
+    var elJD = document.getElementById('kp-juego-destacado');
+    if (elJD) elJD.innerHTML = '<div style="text-align:center;width:100%;padding:8px"><div style="font-size:32px">\uD83C\uDFC6</div><div style="font-size:15px;font-weight:700;color:#16a34a;margin-top:8px">\u00A1Todos completados!</div></div>';
   }
+
+  // Preview juegos (primeros 3)
+  var juegosPreview = FinSeedStore.arbolJuegos.slice(0, 3);
   var elJP = document.getElementById('kp-juegos-preview');
-  if (elJP) elJP.innerHTML = prevHTML;
+  if (elJP) {
+    elJP.innerHTML = juegosPreview.map(function(j) {
+      var completado = progJuegos[j.id] && progJuegos[j.id].completado;
+      var desbloqueado = juegoDesbloqueado(j.id, uid);
+      return '<div onclick="navigate_k(\'juegos\')" style="background:' + (completado ? '#f0fdf4' : 'white') + ';border:1px solid ' + (completado ? '#86efac' : 'var(--border)') + ';border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;opacity:' + (desbloqueado ? '1' : '0.5') + '">' +
+        '<div style="font-size:20px">' + (completado ? '\u2713' : desbloqueado ? '\u25B6' : '\uD83D\uDD12') + '</div>' +
+        '<div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text-1)">' + j.nombre + '</div>' +
+        '<div style="font-size:11px;color:var(--text-3)">' + j.tema + '</div></div>' +
+        '<div style="font-size:12px;font-weight:700;color:#16a34a">+' + j.xpRecompensa + ' XP</div>' +
+        '</div>';
+    }).join('');
+  }
+
+  // Portafolio
+  var port = await FinSeedStore.fetchPortfolio(uid);
+  var elPT = document.getElementById('kp-port-total'); if (elPT) elPT.textContent = formatMoney(port.total, port.moneda);
+  var elPC = document.getElementById('kp-port-cambio');
+  if (elPC) { elPC.textContent = formatPct(port.cambioHoy) + ' hoy'; elPC.style.color = port.cambioHoy >= 0 ? '#16a34a' : '#dc2626'; }
+
+  // Familia preview
+  var padre = getPadreReal(uid);
+  var elFam = document.getElementById('kp-familia-preview');
+  if (elFam) {
+    if (padre) {
+      elFam.innerHTML = '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">' +
+        '<div style="width:36px;height:36px;border-radius:50%;background:#059669;display:flex;align-items:center;justify-content:center;font-weight:700;color:white">' + padre.nombre.charAt(0) + '</div>' +
+        '<div><div style="font-size:13px;font-weight:600;color:var(--text-1)">Familia de ' + padre.nombre + '</div>' +
+        '<div style="font-size:12px;color:#059669">\u2713 Vinculado</div></div>' +
+        '</div>' +
+        '<div style="font-size:13px;color:var(--text-3)">Tu progreso es visible para tu familia</div>';
+    } else {
+      elFam.innerHTML = '<div style="text-align:center;padding:8px">' +
+        '<div style="font-size:13px;color:var(--text-3);margin-bottom:8px">Sin familia conectada a\u00FAn</div>' +
+        '<div onclick="navigate_k(\'perfil\')" style="font-size:13px;color:#16a34a;font-weight:600;cursor:pointer">Ingresar c\u00F3digo familiar \u2192</div>' +
+        '</div>';
+    }
+  }
+}
+
+function irAlJuegoDestacado() {
+  if (window._juegoDestacadoId) abrirJuego(window._juegoDestacadoId);
+  else navigate_k('juegos');
 }
 
 // ── Juegos hijo ──────────────────────────────
@@ -2852,6 +2911,7 @@ function entrarApp(role, nombre) {
     document.getElementById('kp-bienvenida').textContent = bienvenida;
     document.getElementById('hijo-welcome').textContent  = 'FinSeed';
     navigate_k('inicio');
+    setTimeout(function() { renderHijoInicio(); }, 100);
   }
 }
 
