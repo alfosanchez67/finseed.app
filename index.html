@@ -943,65 +943,127 @@
     <div style="height:24px"></div>
   </div>
 
-  <div class="page" id="pp-perfil">
-    <div style="padding:20px 16px 8px">
-      <div style="font-size:20px;font-weight:700;color:var(--text-1)">Perfil</div>
-      <div style="font-size:13px;color:var(--text-3);margin-top:2px">Tu cuenta FinSeed</div>
+  <div id="pp-perfil" class="page">
+
+    <!-- HEADER -->
+    <div style="background:linear-gradient(160deg,#065f46 0%,#047857 60%,#059669 100%);padding:44px 16px 32px;text-align:center">
+      <div id="pp-perfil-avatar" style="width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,0.2);border:3px solid rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:white;margin:0 auto 12px">C</div>
+      <div id="pp-perfil-nombre" style="font-size:20px;font-weight:700;color:white">Carlos</div>
+      <div id="pp-perfil-email" style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:4px">padre@demo.com</div>
+      <div id="pp-perfil-plan-badge" style="display:inline-block;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:20px;padding:4px 14px;font-size:12px;font-weight:600;color:white;margin-top:10px">Plan Free</div>
     </div>
 
-    <!-- Avatar + nombre -->
-    <div style="display:flex;flex-direction:column;align-items:center;padding:20px 16px 16px">
-      <div id="ppperf-avatar" style="width:72px;height:72px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:white;margin-bottom:12px">C</div>
-      <div id="ppperf-nombre" style="font-size:18px;font-weight:700;color:var(--text-1)">Carlos</div>
-      <div id="ppperf-email" style="font-size:13px;color:var(--text-3);margin-top:2px">padre@demo.com</div>
-      <div style="display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:4px 12px;background:var(--green-pale);border:1px solid var(--green-light);border-radius:20px">
-        <div style="width:7px;height:7px;border-radius:50%;background:var(--green)"></div>
-        <div style="font-size:12px;color:var(--green);font-weight:600">Cuenta Padre</div>
-      </div>
-    </div>
-
-    <!-- Stats -->
-    <div style="margin:0 16px;display:flex;gap:8px">
-      <div style="flex:1;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
-        <div id="ppperf-nhijos" style="font-size:20px;font-weight:700;color:var(--green)">0</div>
+    <!-- STATS -->
+    <div style="margin:16px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+      <div style="background:white;border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center">
+        <div id="pp-stat-hijos" style="font-size:22px;font-weight:700;color:var(--text-1)">0</div>
         <div style="font-size:11px;color:var(--text-3);margin-top:2px">Hijos</div>
       </div>
-      <div style="flex:1;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
-        <div id="ppperf-nmetas" style="font-size:20px;font-weight:700;color:#f59e0b">0</div>
-        <div style="font-size:11px;color:var(--text-3);margin-top:2px">Metas</div>
+      <div style="background:white;border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center">
+        <div id="pp-stat-xp" style="font-size:22px;font-weight:700;color:#059669">0</div>
+        <div style="font-size:11px;color:var(--text-3);margin-top:2px">XP total</div>
       </div>
-      <div style="flex:1;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
-        <div id="ppperf-activos" style="font-size:20px;font-weight:700;color:var(--text-1)">0</div>
-        <div style="font-size:11px;color:var(--text-3);margin-top:2px">Activos</div>
-      </div>
-    </div>
-
-    <!-- Opciones -->
-    <div style="margin:20px 16px 0;display:flex;flex-direction:column;gap:1px;border-radius:12px;overflow:hidden;border:1px solid var(--border)">
-      <div style="background:white;padding:16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer">
-        <div style="font-size:14px;color:var(--text-1)">Editar perfil</div>
-        <div style="font-size:16px;color:var(--text-3)">›</div>
-      </div>
-      <div style="height:1px;background:var(--border)"></div>
-      <div style="background:white;padding:16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer">
-        <div style="font-size:14px;color:var(--text-1)">Notificaciones</div>
-        <div style="font-size:16px;color:var(--text-3)">›</div>
-      </div>
-      <div style="height:1px;background:var(--border)"></div>
-      <div style="background:white;padding:16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer">
-        <div style="font-size:14px;color:var(--text-1)">Seguridad</div>
-        <div style="font-size:16px;color:var(--text-3)">›</div>
+      <div style="background:white;border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center">
+        <div id="pp-stat-racha" style="font-size:22px;font-weight:700;color:#f59e0b">0 &#x1F525;</div>
+        <div style="font-size:11px;color:var(--text-3);margin-top:2px">Racha</div>
       </div>
     </div>
 
-    <div style="margin:16px 16px 0">
-      <button onclick="doLogout()"
-        style="width:100%;padding:14px;background:white;border:1px solid var(--danger);border-radius:12px;color:var(--danger);font-size:14px;font-weight:600;cursor:pointer">
-        Cerrar sesión
-      </button>
+    <!-- PLANES -->
+    <div style="margin:0 16px 16px">
+      <div style="font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:4px">Mi plan</div>
+      <div style="font-size:12px;color:var(--text-3);margin-bottom:14px">Elige el plan que mejor se adapta a tu familia</div>
+
+      <!-- FREE -->
+      <div id="plan-free" style="background:white;border:2px solid #059669;border-radius:16px;padding:16px;margin-bottom:10px;position:relative">
+        <div style="position:absolute;top:-10px;right:16px;background:#059669;color:white;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">Plan actual</div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+          <div>
+            <div style="font-size:16px;font-weight:700;color:var(--text-1)">Free</div>
+            <div style="font-size:22px;font-weight:700;color:var(--text-1);margin-top:2px">$0<span style="font-size:13px;font-weight:400;color:var(--text-3)">/mes</span></div>
+          </div>
+          <div style="font-size:24px">&#x1F331;</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> 1 hijo conectado</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Juegos básicos (6 disponibles)</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Ver portafolio simulado</div>
+          <div style="font-size:13px;color:var(--text-3);display:flex;gap:8px"><span>&#x2715;</span> Portafolio real conectado</div>
+          <div style="font-size:13px;color:var(--text-3);display:flex;gap:8px"><span>&#x2715;</span> Juegos ilimitados</div>
+          <div style="font-size:13px;color:var(--text-3);display:flex;gap:8px"><span>&#x2715;</span> Reportes de progreso</div>
+        </div>
+      </div>
+
+      <!-- PREMIUM INDIVIDUAL -->
+      <div style="background:white;border:1.5px solid var(--border);border-radius:16px;padding:16px;margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+          <div>
+            <div style="font-size:16px;font-weight:700;color:var(--text-1)">Premium Individual</div>
+            <div style="font-size:22px;font-weight:700;color:var(--text-1);margin-top:2px">$4.990<span style="font-size:13px;font-weight:400;color:var(--text-3)">/mes</span></div>
+          </div>
+          <div style="font-size:24px">&#x2B50;</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px">
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Todo lo del plan Free</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Hasta 3 hijos conectados</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Juegos ilimitados</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Portafolio real (próximamente)</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Reporte semanal por email</div>
+        </div>
+        <div onclick="mostrarToastJuego('Próximamente — lista de espera disponible pronto')" style="background:#059669;color:white;padding:12px;border-radius:10px;text-align:center;font-weight:600;font-size:14px;cursor:pointer">Actualizar plan</div>
+      </div>
+
+      <!-- PREMIUM FAMILIAR -->
+      <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #86efac;border-radius:16px;padding:16px;margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="font-size:16px;font-weight:700;color:var(--text-1)">Premium Familiar</div>
+              <div style="background:#059669;color:white;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px">POPULAR</div>
+            </div>
+            <div style="font-size:22px;font-weight:700;color:var(--text-1);margin-top:2px">$7.990<span style="font-size:13px;font-weight:400;color:var(--text-3)">/mes</span></div>
+          </div>
+          <div style="font-size:24px">&#x1F46A;</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px">
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Todo lo de Premium Individual</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Hijos ilimitados</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Metas familiares avanzadas</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Dashboard familiar completo</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Soporte prioritario</div>
+        </div>
+        <div onclick="mostrarToastJuego('Próximamente — lista de espera disponible pronto')" style="background:#059669;color:white;padding:12px;border-radius:10px;text-align:center;font-weight:600;font-size:14px;cursor:pointer">Actualizar plan</div>
+      </div>
     </div>
 
-    <div style="height:20px"></div>
+    <!-- CONFIGURACIÓN -->
+    <div style="margin:0 16px 16px">
+      <div style="font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:12px">Cuenta</div>
+      <div style="background:white;border:1px solid var(--border);border-radius:16px;overflow:hidden">
+        <div onclick="mostrarToastJuego('Próximamente: editar perfil')" style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;cursor:pointer">
+          <div style="font-size:14px;color:var(--text-1)">Editar perfil</div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+        <div onclick="mostrarToastJuego('Próximamente: cambiar contraseña')" style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;cursor:pointer">
+          <div style="font-size:14px;color:var(--text-1)">Cambiar contraseña</div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+        <div onclick="mostrarToastJuego('Próximamente: notificaciones')" style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;cursor:pointer">
+          <div style="font-size:14px;color:var(--text-1)">Notificaciones</div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+        <div onclick="mostrarToastJuego('Próximamente: privacidad y datos')" style="padding:14px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer">
+          <div style="font-size:14px;color:var(--text-1)">Privacidad y datos</div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- CERRAR SESIÓN -->
+    <div style="margin:0 16px 32px">
+      <div onclick="doLogout()" style="background:white;border:1.5px solid #fecaca;border-radius:14px;padding:14px;text-align:center;font-size:14px;font-weight:600;color:#dc2626;cursor:pointer">Cerrar sesión</div>
+    </div>
+
   </div>
 
   <nav class="bottom-nav" id="nav-padre">
@@ -2116,30 +2178,35 @@ function abrirNuevaMeta() {
 
 // ── Perfil padre ─────────────────────────────
 
-async function renderPadrePerfil() {
-  var uid     = FinSeedStore.session.userId || 'u1';
-  var nombre  = FinSeedStore.session.nombre || 'Carlos';
-  var users   = JSON.parse(localStorage.getItem('finseed_users') || '[]');
-  var user    = users.find(function(u) { return u.id === uid; }) || {};
+function renderPerfilPadre() {
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || 'u1';
+  var nombre = session.nombre || 'Carlos';
+  var email = session.email || '';
 
-  var av = document.getElementById('ppperf-avatar');
-  if (av) av.textContent = nombre.charAt(0).toUpperCase();
-  var elN = document.getElementById('ppperf-nombre');
+  var elAv = document.getElementById('pp-perfil-avatar');
+  if (elAv) elAv.textContent = nombre.charAt(0).toUpperCase();
+  var elN = document.getElementById('pp-perfil-nombre');
   if (elN) elN.textContent = nombre;
-  var elE = document.getElementById('ppperf-email');
-  if (elE) elE.textContent = user.email || '';
+  var elE = document.getElementById('pp-perfil-email');
+  if (elE) elE.textContent = email;
 
-  var hijos = FinSeedStore.getHijos(uid);
-  var elNH = document.getElementById('ppperf-nhijos');
-  if (elNH) elNH.textContent = hijos.length;
+  var prog = FinSeedStore.getProgreso(uid);
+  var racha = getRacha(uid);
+  var hijos = getHijosReales(uid);
 
-  var metas = FinSeedStore.getMetas(uid);
-  var elNM = document.getElementById('ppperf-nmetas');
-  if (elNM) elNM.textContent = metas.length;
+  var elH = document.getElementById('pp-stat-hijos');
+  if (elH) elH.textContent = hijos.length;
+  var elXP = document.getElementById('pp-stat-xp');
+  if (elXP) elXP.textContent = prog.xp || 0;
+  var elR = document.getElementById('pp-stat-racha');
+  if (elR) elR.textContent = (racha.racha || 0) + ' \uD83D\uDD25';
 
-  var port = await FinSeedStore.fetchPortfolio(uid);
-  var elNA = document.getElementById('ppperf-activos');
-  if (elNA) elNA.textContent = (port.activos || []).length;
+  var usuarios = JSON.parse(localStorage.getItem('finseed_users') || '[]');
+  var usuario = usuarios.find(function(u) { return u.id === uid; });
+  var plan = usuario && usuario.plan ? usuario.plan : 'Free';
+  var elPlan = document.getElementById('pp-perfil-plan-badge');
+  if (elPlan) elPlan.textContent = 'Plan ' + plan;
 }
 
 // ── Inicio hijo ──────────────────────────────
@@ -2825,7 +2892,7 @@ function loginUser() {
     return;
   }
 
-  localStorage.setItem('finseed_session', JSON.stringify({ id: user.id, nombre: user.nombre, role: user.role }));
+  localStorage.setItem('finseed_session', JSON.stringify({ id: user.id, nombre: user.nombre, role: user.role, email: user.email }));
   entrarApp(user.role, user.nombre);
 }
 
@@ -2928,7 +2995,7 @@ function navigate_p(page) {
   });
   if (page === 'portafolio') renderPortafolioPadre();
   if (page === 'familia')    renderFamiliaPadre();
-  if (page === 'perfil')     renderPadrePerfil();
+  if (page === 'perfil')     renderPerfilPadre();
 }
 
 function navigate_k(page) {
