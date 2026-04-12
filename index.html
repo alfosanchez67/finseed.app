@@ -898,40 +898,49 @@
     <div style="height:20px"></div>
   </div>
 
-  <div class="page" id="pp-familia">
-    <div style="padding:20px 16px 8px">
-      <div style="font-size:20px;font-weight:700;color:var(--text-1)">Familia</div>
-      <div style="font-size:13px;color:var(--text-3);margin-top:2px">Gestión del grupo familiar</div>
+  <div id="pp-familia" class="page">
+
+    <!-- HEADER -->
+    <div style="background:linear-gradient(160deg,#065f46 0%,#047857 60%,#059669 100%);padding:44px 16px 24px">
+      <div style="font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:4px">Mi familia</div>
+      <div style="font-size:22px;font-weight:700;color:white">FinSeed Family</div>
     </div>
 
-    <!-- Código familiar -->
-    <div style="margin:4px 16px 0;background:var(--green-pale);border:1px solid var(--green-light);border-radius:14px;padding:16px">
-      <div style="font-size:12px;color:var(--text-3);margin-bottom:6px">Código familiar para invitar hijos</div>
-      <div style="display:flex;align-items:center;justify-content:space-between">
-        <div id="ppf-codigo" style="font-size:22px;font-weight:700;letter-spacing:4px;color:var(--green)">––––</div>
-        <button onclick="copiarCodigoFamiliar()"
-          style="padding:6px 14px;background:var(--green);color:white;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer">
-          Copiar
-        </button>
+    <!-- CÓDIGO FAMILIAR -->
+    <div style="margin:16px;background:white;border:1px solid var(--border);border-radius:16px;padding:16px">
+      <div style="font-size:13px;font-weight:600;color:var(--text-1);margin-bottom:4px">Código familiar</div>
+      <div style="font-size:12px;color:var(--text-3);margin-bottom:12px">Comparte este código con tus hijos para conectarlos</div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div id="pp-codigo-familiar" style="flex:1;background:#f0fdf4;border:1.5px dashed #059669;border-radius:10px;padding:12px 16px;font-size:18px;font-weight:700;color:#059669;letter-spacing:2px;text-align:center">--</div>
+        <div onclick="copiarCodigoFamiliar()" style="background:#059669;color:white;padding:12px 16px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">Copiar</div>
       </div>
     </div>
 
-    <!-- Hijos conectados -->
-    <div style="margin:20px 16px 0">
-      <div style="font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:12px">Hijos conectados</div>
-      <div id="ppf-hijos" style="display:flex;flex-direction:column;gap:10px"></div>
+    <!-- HIJOS CONECTADOS -->
+    <div style="margin:0 16px 16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-size:15px;font-weight:600;color:var(--text-1)">Hijos conectados</div>
+        <div id="pp-familia-count" style="font-size:12px;color:var(--text-3)">0 hijos</div>
+      </div>
+      <div id="pp-familia-hijos" style="display:flex;flex-direction:column;gap:10px"></div>
     </div>
 
-    <!-- Metas familiares -->
-    <div style="margin:20px 16px 0">
+    <!-- RANKING FAMILIAR -->
+    <div style="margin:0 16px 16px">
+      <div style="font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:12px">Ranking familiar</div>
+      <div id="pp-ranking" style="display:flex;flex-direction:column;gap:8px"></div>
+    </div>
+
+    <!-- METAS FAMILIARES -->
+    <div style="margin:0 16px 16px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
         <div style="font-size:15px;font-weight:600;color:var(--text-1)">Metas familiares</div>
-        <div style="font-size:12px;color:var(--green);cursor:pointer">+ Nueva</div>
+        <div onclick="abrirNuevaMeta()" style="font-size:13px;color:var(--green);cursor:pointer;font-weight:600">+ Nueva</div>
       </div>
-      <div id="ppf-metas" style="display:flex;flex-direction:column;gap:10px"></div>
+      <div id="pp-metas" style="display:flex;flex-direction:column;gap:10px"></div>
     </div>
 
-    <div style="height:20px"></div>
+    <div style="height:24px"></div>
   </div>
 
   <div class="page" id="pp-perfil">
@@ -1156,8 +1165,11 @@
       </div>
     </div>
 
+    <!-- Vinculo familiar -->
+    <div id="kp-vinculo-familia" style="margin:16px 16px 0;background:white;border:1px solid var(--border);border-radius:16px;padding:16px"></div>
+
     <!-- Logros -->
-    <div style="margin:20px 16px 0">
+    <div style="margin:16px 16px 0">
       <div style="font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:12px">Logros desbloqueados</div>
       <div id="kpperf-logros" style="display:flex;flex-direction:column;gap:10px"></div>
     </div>
@@ -1241,12 +1253,12 @@ var FinSeedStore = {
   },
 
   getHijos: function(padreId) {
-    var users = JSON.parse(localStorage.getItem('finseed_users') || '[]');
-    var padre = users.find(function(u) { return u.id === padreId; });
-    if (!padre || !padre.hijos) return [];
-    return padre.hijos.map(function(h, i) {
-      return { nombre: h.nombre, id: padreId + '_h' + i };
-    });
+    var reales = getHijosReales(padreId);
+    if (reales && reales.length > 0) return reales;
+    return [
+      { id: 'u2', nombre: 'Sofía', avatar: 'S', nivel: 4, xp: 340, racha: 7, vidas: 3, xpSemana: 120 },
+      { id: 'u3', nombre: 'Mateo', avatar: 'M', nivel: 2, xp: 180, racha: 3, vidas: 5, xpSemana: 60 }
+    ];
   },
 
   getProgreso: function(userId) {
@@ -1910,64 +1922,165 @@ function confirmarAccionPortafolio(accion) {
 
 // ── Familia padre ────────────────────────────
 
-function renderPadreFamilia() {
-  var uid     = FinSeedStore.session.userId || 'u1';
-  var codigo  = ('FINS-' + uid.toUpperCase() + '23').substring(0, 9);
-  var elC = document.getElementById('ppf-codigo');
-  if (elC) elC.textContent = codigo;
+// ── Sistema de familia real ───────────────────
 
-  var hijos = FinSeedStore.getHijos(uid);
-  if (!hijos || hijos.length === 0) {
-    hijos = [
-      { id: 'u2', nombre: 'Sofía', avatar: 'S', nivel: 4, xp: 340, racha: 7 },
-      { id: 'u3', nombre: 'Mateo', avatar: 'M', nivel: 2, xp: 180, racha: 3 }
-    ];
-  }
-  var hijosHTML = '';
-  for (var i = 0; i < hijos.length; i++) {
-    var h = hijos[i];
-    hijosHTML += '<div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px">' +
-      '<div style="width:40px;height:40px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;font-weight:700;color:white">' + (h.avatar || h.nombre.charAt(0)) + '</div>' +
-      '<div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--text-1)">' + h.nombre + '</div>' +
-      '<div style="font-size:12px;color:var(--text-3)">Nv.' + (h.nivel || 1) + ' · ' + (h.xp || 0) + ' XP · ' + (h.racha || 0) + ' días racha</div></div>' +
-      '<div style="width:10px;height:10px;border-radius:50%;background:var(--green)"></div>' +
-      '</div>';
-  }
-  if (!hijosHTML) hijosHTML = '<div style="font-size:13px;color:var(--text-3);padding:12px 0">Ningún hijo conectado aún.</div>';
-  var elH = document.getElementById('ppf-hijos');
-  if (elH) elH.innerHTML = hijosHTML;
+function generarCodigoFamiliar(userId) {
+  var key = 'finseed_familia_' + userId;
+  var data = JSON.parse(localStorage.getItem(key) || 'null');
+  if (data && data.codigo) return data.codigo;
+  var codigo = 'FS-' + Math.random().toString(36).substr(2,4).toUpperCase() + '-' + Math.random().toString(36).substr(2,4).toUpperCase();
+  data = { codigo: codigo, padreId: userId, hijos: [] };
+  localStorage.setItem(key, JSON.stringify(data));
+  var indice = JSON.parse(localStorage.getItem('finseed_codigos') || '{}');
+  indice[codigo] = userId;
+  localStorage.setItem('finseed_codigos', JSON.stringify(indice));
+  return codigo;
+}
 
-  var metas    = FinSeedStore.getMetas(uid);
-  var metasHTML = '';
-  if (!metas || metas.length === 0) {
-    metasHTML = '<div style="background:var(--bg-card);border:1px dashed var(--border);border-radius:12px;padding:16px;text-align:center;color:var(--text-3);font-size:13px">Aún no hay metas. Crea una nueva.</div>';
-  } else {
-    for (var j = 0; j < metas.length; j++) {
-      var m = metas[j];
-      var pct = m.objetivo > 0 ? Math.min(100, Math.round((m.actual / m.objetivo) * 100)) : 0;
-      metasHTML += '<div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px">' +
-        '<div style="display:flex;justify-content:space-between;margin-bottom:8px">' +
-        '<div style="font-size:14px;font-weight:600;color:var(--text-1)">' + m.nombre + '</div>' +
-        '<div style="font-size:13px;font-weight:600;color:var(--green)">' + pct + '%</div>' +
-        '</div>' +
-        '<div style="background:var(--border);border-radius:4px;height:6px">' +
-        '<div style="background:var(--green);border-radius:4px;height:6px;width:' + pct + '%"></div></div>' +
-        '<div style="font-size:12px;color:var(--text-3);margin-top:6px">' + formatMoney(m.actual) + ' de ' + formatMoney(m.objetivo) + '</div>' +
+function getFamiliaData(userId) {
+  return JSON.parse(localStorage.getItem('finseed_familia_' + userId) || 'null');
+}
+
+function vincularHijoConPadre(codigoIngresado, hijoId, hijoNombre) {
+  var indice = JSON.parse(localStorage.getItem('finseed_codigos') || '{}');
+  var padreId = indice[codigoIngresado.toUpperCase()];
+  if (!padreId) return { ok: false, error: 'Código inválido. Pídele el código a tu padre o madre.' };
+  var key = 'finseed_familia_' + padreId;
+  var familia = JSON.parse(localStorage.getItem(key) || '{"hijos":[]}');
+  var yaVinculado = familia.hijos && familia.hijos.find(function(h) { return h.id === hijoId; });
+  if (yaVinculado) return { ok: false, error: 'Ya estás vinculado a esta familia.' };
+  if (!familia.hijos) familia.hijos = [];
+  familia.hijos.push({ id: hijoId, nombre: hijoNombre, fechaVinculo: new Date().toISOString() });
+  localStorage.setItem(key, JSON.stringify(familia));
+  var usuarios = JSON.parse(localStorage.getItem('finseed_users') || '[]');
+  var hijoIdx = usuarios.findIndex(function(u) { return u.id === hijoId; });
+  if (hijoIdx >= 0) {
+    usuarios[hijoIdx].padreId = padreId;
+    usuarios[hijoIdx].codigoFamilia = codigoIngresado.toUpperCase();
+    localStorage.setItem('finseed_users', JSON.stringify(usuarios));
+  }
+  return { ok: true, padreId: padreId };
+}
+
+function getHijosReales(padreId) {
+  var familia = getFamiliaData(padreId);
+  if (!familia || !familia.hijos || familia.hijos.length === 0) return [];
+  var usuarios = JSON.parse(localStorage.getItem('finseed_users') || '[]');
+  return familia.hijos.map(function(h) {
+    var cuenta = usuarios.find(function(u) { return u.id === h.id; });
+    var prog = FinSeedStore.getProgreso(h.id);
+    return {
+      id: h.id,
+      nombre: h.nombre,
+      avatar: h.nombre.charAt(0).toUpperCase(),
+      nivel: prog.nivel || 1,
+      xp: prog.xp || 0,
+      racha: prog.racha || 0,
+      vidas: prog.vidas !== undefined ? prog.vidas : 5,
+      xpSemana: prog.xpSemana || 0,
+      email: cuenta ? cuenta.email : ''
+    };
+  });
+}
+
+function getPadreReal(hijoId) {
+  var usuarios = JSON.parse(localStorage.getItem('finseed_users') || '[]');
+  var hijo = usuarios.find(function(u) { return u.id === hijoId; });
+  if (!hijo || !hijo.padreId) return null;
+  return usuarios.find(function(u) { return u.id === hijo.padreId; }) || null;
+}
+
+function renderFamiliaPadre() {
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || 'u1';
+
+  var codigo = generarCodigoFamiliar(uid);
+  var elCod = document.getElementById('pp-codigo-familiar');
+  if (elCod) elCod.textContent = codigo;
+
+  var hijos = getHijosReales(uid);
+  var elCount = document.getElementById('pp-familia-count');
+  if (elCount) elCount.textContent = hijos.length + ' hijo' + (hijos.length !== 1 ? 's' : '');
+
+  var elHijos = document.getElementById('pp-familia-hijos');
+  if (elHijos) {
+    if (hijos.length === 0) {
+      elHijos.innerHTML = '<div style="background:#f9fafb;border:1.5px dashed var(--border);border-radius:14px;padding:24px;text-align:center">' +
+        '<div style="font-size:14px;color:var(--text-3);margin-bottom:4px">Sin hijos conectados aún</div>' +
+        '<div style="font-size:12px;color:var(--text-3)">Comparte el código familiar con tus hijos</div>' +
         '</div>';
+    } else {
+      elHijos.innerHTML = hijos.map(function(h) {
+        var rachaData = getRacha(h.id);
+        return '<div style="background:white;border:1px solid var(--border);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px">' +
+          '<div style="width:42px;height:42px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:16px">' + h.avatar + '</div>' +
+          '<div style="flex:1">' +
+          '<div style="font-size:14px;font-weight:600;color:var(--text-1)">' + h.nombre + '</div>' +
+          '<div style="font-size:12px;color:var(--text-3)">Nivel ' + h.nivel + ' \u00B7 ' + h.xp + ' XP \u00B7 Racha ' + h.racha + ' \uD83D\uDD25</div>' +
+          '</div>' +
+          '<div style="font-size:12px;color:' + (rachaData.jugadoHoy ? '#059669' : '#f59e0b') + ';font-weight:600">' + (rachaData.jugadoHoy ? '\u2713 Activo hoy' : 'Sin actividad') + '</div>' +
+          '</div>';
+      }).join('');
     }
   }
-  var elM = document.getElementById('ppf-metas');
-  if (elM) elM.innerHTML = metasHTML;
+
+  var todos = [{ nombre: session.nombre || 'Tú', xp: FinSeedStore.getProgreso(uid).xp || 0, nivel: FinSeedStore.getProgreso(uid).nivel || 1, avatar: (session.nombre || 'T').charAt(0), esPadre: true }];
+  hijos.forEach(function(h) { todos.push(h); });
+  todos.sort(function(a, b) { return b.xp - a.xp; });
+  var medallas = ['\uD83E\uDD47', '\uD83E\uDD48', '\uD83E\uDD49'];
+  var elRank = document.getElementById('pp-ranking');
+  if (elRank) {
+    elRank.innerHTML = todos.map(function(p, i) {
+      return '<div style="background:white;border:1px solid var(--border);border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:12px">' +
+        '<div style="font-size:22px;width:32px;text-align:center">' + (medallas[i] || (i+1) + '\u00BA') + '</div>' +
+        '<div style="width:34px;height:34px;border-radius:50%;background:' + (p.esPadre ? '#059669' : '#16a34a') + ';display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:13px">' + (p.avatar || p.nombre.charAt(0)) + '</div>' +
+        '<div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--text-1)">' + p.nombre + (p.esPadre ? ' (tú)' : '') + '</div>' +
+        '<div style="font-size:12px;color:var(--text-3)">Nivel ' + p.nivel + '</div></div>' +
+        '<div style="font-size:15px;font-weight:700;color:#059669">' + p.xp + ' XP</div>' +
+        '</div>';
+    }).join('');
+  }
+
+  var metas = FinSeedStore.getMetas(uid);
+  var elMetas = document.getElementById('pp-metas');
+  if (elMetas) {
+    if (!metas || metas.length === 0) {
+      elMetas.innerHTML = '<div style="background:#f9fafb;border:1.5px dashed var(--border);border-radius:12px;padding:16px;text-align:center;color:var(--text-3);font-size:13px">Aún no hay metas. Toca &ldquo;+ Nueva&rdquo; para crear una.</div>';
+    } else {
+      elMetas.innerHTML = metas.map(function(m) {
+        var pct = Math.min(100, Math.round((m.actual || 0) / (m.meta || m.objetivo || 1) * 100));
+        var color = m.color || 'var(--green)';
+        return '<div style="background:white;border:1px solid var(--border);border-radius:14px;padding:16px">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">' +
+          '<div style="display:flex;align-items:center;gap:10px">' +
+          '<div style="font-size:22px">' + (m.emoji || '\uD83C\uDFAF') + '</div>' +
+          '<div><div style="font-size:14px;font-weight:600;color:var(--text-1)">' + m.nombre + '</div>' +
+          '<div style="font-size:12px;color:var(--text-3)">' + formatMoney(m.actual || 0) + ' de ' + formatMoney(m.meta || m.objetivo || 0) + '</div></div>' +
+          '</div>' +
+          '<div style="font-size:16px;font-weight:700;color:' + color + '">' + pct + '%</div>' +
+          '</div>' +
+          '<div style="background:#f3f4f6;border-radius:6px;height:8px">' +
+          '<div style="background:' + color + ';height:8px;border-radius:6px;width:' + pct + '%"></div>' +
+          '</div></div>';
+      }).join('');
+    }
+  }
 }
 
 function copiarCodigoFamiliar() {
-  var el = document.getElementById('ppf-codigo');
-  if (el && navigator.clipboard) {
-    navigator.clipboard.writeText(el.textContent).then(function() {
-      el.textContent = '¡Copiado!';
-      setTimeout(function() { renderPadreFamilia(); }, 1500);
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var codigo = generarCodigoFamiliar(session.id || 'u1');
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(codigo).then(function() {
+      mostrarToastJuego('\u2713 Código copiado: ' + codigo);
     });
+  } else {
+    mostrarToastJuego('Código: ' + codigo);
   }
+}
+
+function abrirNuevaMeta() {
+  mostrarToastJuego('Próximamente: crear metas familiares');
 }
 
 // ── Perfil padre ─────────────────────────────
@@ -2217,6 +2330,53 @@ function renderHijoPerfil() {
   }
   var elL = document.getElementById('kpperf-logros');
   if (elL) elL.innerHTML = logrosHTML;
+}
+
+function renderVinculoFamiliar() {
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || 'u2';
+  var usuarios = JSON.parse(localStorage.getItem('finseed_users') || '[]');
+  var hijo = usuarios.find(function(u) { return u.id === uid; });
+  var el = document.getElementById('kp-vinculo-familia');
+  if (!el) return;
+
+  if (hijo && hijo.padreId) {
+    var padre = usuarios.find(function(u) { return u.id === hijo.padreId; });
+    el.innerHTML = '<div style="display:flex;align-items:center;gap:12px">' +
+      '<div style="width:40px;height:40px;border-radius:50%;background:#059669;display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:16px">' + (padre ? padre.nombre.charAt(0) : 'P') + '</div>' +
+      '<div><div style="font-size:14px;font-weight:600;color:var(--text-1)">Conectado con ' + (padre ? padre.nombre : 'tu familia') + '</div>' +
+      '<div style="font-size:12px;color:#059669">\u2713 Familia vinculada</div></div></div>';
+  } else {
+    el.innerHTML = '<div style="font-size:14px;font-weight:600;color:var(--text-1);margin-bottom:4px">Conectar con mi familia</div>' +
+      '<div style="font-size:12px;color:var(--text-3);margin-bottom:12px">Ingresa el código que te dio tu padre o madre</div>' +
+      '<div style="display:flex;gap:8px">' +
+      '<input id="kp-codigo-input" type="text" placeholder="FS-XXXX-XXXX" maxlength="12" style="flex:1;padding:12px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:inherit;text-transform:uppercase">' +
+      '<div onclick="intentarVincular()" style="background:#16a34a;color:white;padding:12px 16px;border-radius:10px;font-weight:600;font-size:14px;cursor:pointer">Unirme</div>' +
+      '</div>' +
+      '<div id="kp-vinculo-error" style="font-size:12px;color:#dc2626;margin-top:8px;display:none"></div>';
+  }
+}
+
+function intentarVincular() {
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || 'u2';
+  var nombre = session.nombre || 'Hijo';
+  var input = document.getElementById('kp-codigo-input');
+  if (!input) return;
+  var codigo = input.value.trim().toUpperCase();
+  if (!codigo) {
+    var elErr = document.getElementById('kp-vinculo-error');
+    if (elErr) { elErr.textContent = 'Ingresa el código familiar'; elErr.style.display = 'block'; }
+    return;
+  }
+  var resultado = vincularHijoConPadre(codigo, uid, nombre);
+  if (resultado.ok) {
+    mostrarToastJuego('\u2713 \u00A1Familia conectada!');
+    renderVinculoFamiliar();
+  } else {
+    var elErr = document.getElementById('kp-vinculo-error');
+    if (elErr) { elErr.textContent = resultado.error; elErr.style.display = 'block'; }
+  }
 }
 
 // ══════════════════════════════════════════════
@@ -2707,7 +2867,7 @@ function navigate_p(page) {
     }
   });
   if (page === 'portafolio') renderPortafolioPadre();
-  if (page === 'familia')    renderPadreFamilia();
+  if (page === 'familia')    renderFamiliaPadre();
   if (page === 'perfil')     renderPadrePerfil();
 }
 
@@ -2725,7 +2885,7 @@ function navigate_k(page) {
   if (page === 'inicio')  renderHijoInicio();
   if (page === 'juegos')  renderHijoJuegos();
   if (page === 'familia') renderHijoFamilia();
-  if (page === 'perfil')  renderHijoPerfil();
+  if (page === 'perfil')  { renderHijoPerfil(); renderVinculoFamiliar(); }
 }
 
 function doLogout() {
