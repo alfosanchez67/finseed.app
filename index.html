@@ -733,6 +733,33 @@
       <div id="pp-hijos-lista" style="display:flex;flex-direction:column;gap:10px"></div>
     </div>
 
+    <!-- SOLICITUDES HIJOS -->
+    <div id="pp-solicitudes-wrap" style="padding:0 16px;margin-top:20px;display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-size:15px;font-weight:600;color:var(--text-1)">Solicitudes hijos</div>
+        <div style="font-size:13px;color:var(--green);cursor:pointer">Actualizar</div>
+      </div>
+      <div id="pp-solicitudes-lista"></div>
+    </div>
+
+    <!-- META DESTACADA -->
+    <div style="padding:0 16px;margin-top:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-size:15px;font-weight:600;color:var(--text-1)">Metas activas</div>
+        <div onclick="navigate_p('familia')" style="font-size:13px;color:var(--green);cursor:pointer">Ver todas →</div>
+      </div>
+      <div id="pp-meta-destacada" style="background:white;border:1px solid var(--border);border-radius:14px;padding:16px"></div>
+    </div>
+
+    <!-- ALERTAS -->
+    <div style="padding:0 16px;margin-top:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-size:15px;font-weight:600;color:var(--text-1)">Alertas hoy</div>
+        <div style="font-size:13px;color:var(--text-3)">Ver todo</div>
+      </div>
+      <div id="pp-alertas-lista" style="background:white;border:1px solid var(--border);border-radius:14px;padding:12px 16px"></div>
+    </div>
+
     <!-- JUEGOS DEL PADRE -->
     <div style="padding:20px 16px 0">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
@@ -985,12 +1012,14 @@
           <div style="font-size:24px">&#x1F331;</div>
         </div>
         <div style="display:flex;flex-direction:column;gap:6px">
-          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> 1 hijo conectado</div>
-          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Juegos básicos (6 disponibles)</div>
-          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Ver portafolio simulado</div>
-          <div style="font-size:13px;color:var(--text-3);display:flex;gap:8px"><span>&#x2715;</span> Portafolio real conectado</div>
-          <div style="font-size:13px;color:var(--text-3);display:flex;gap:8px"><span>&#x2715;</span> Juegos ilimitados</div>
-          <div style="font-size:13px;color:var(--text-3);display:flex;gap:8px"><span>&#x2715;</span> Reportes de progreso</div>
+          <div style="font-size:13px;color:var(--text-3);display:flex;gap:8px"><span>•</span> Con anuncios</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> 5 vidas por día</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Juegos educativos</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Portafolio espejo padre-hijo</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Metas simples</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Hasta 3 integrantes (1 adulto + 2 hijos)</div>
+          <div style="font-size:13px;color:var(--text-3);display:flex;gap:8px"><span>&#x2715;</span> Estadísticas avanzadas</div>
+          <div style="font-size:13px;color:var(--text-3);display:flex;gap:8px"><span>&#x2715;</span> Vidas ilimitadas</div>
         </div>
       </div>
 
@@ -999,18 +1028,21 @@
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
           <div>
             <div style="font-size:16px;font-weight:700;color:var(--text-1)">Premium Individual</div>
-            <div style="font-size:22px;font-weight:700;color:var(--text-1);margin-top:2px">$4.990<span style="font-size:13px;font-weight:400;color:var(--text-3)">/mes</span></div>
+            <div style="font-size:22px;font-weight:700;color:var(--text-1);margin-top:2px">$5.990<span style="font-size:13px;font-weight:400;color:var(--text-3)">/mes</span></div>
           </div>
           <div style="font-size:24px">&#x2B50;</div>
         </div>
         <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px">
-          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Todo lo del plan Free</div>
-          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Hasta 3 hijos conectados</div>
-          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Juegos ilimitados</div>
-          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Portafolio real (próximamente)</div>
-          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Reporte semanal por email</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Sin anuncios</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Vidas ilimitadas</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Juegos y gamificación completa</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Reportes educativos avanzados</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Estadísticas avanzadas</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Metas personales</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Acceso anticipado a nuevos juegos y niveles</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Soporte prioritario · 1 usuario</div>
         </div>
-        <div onclick="mostrarToastJuego('Próximamente — lista de espera disponible pronto')" style="background:#059669;color:white;padding:12px;border-radius:10px;text-align:center;font-weight:600;font-size:14px;cursor:pointer">Actualizar plan</div>
+        <div onclick="mostrarToastJuego('Próximamente — únete a la lista de espera')" style="background:#059669;color:white;padding:12px;border-radius:10px;text-align:center;font-weight:600;font-size:14px;cursor:pointer">Actualizar a Premium</div>
       </div>
 
       <!-- PREMIUM FAMILIAR -->
@@ -1021,18 +1053,20 @@
               <div style="font-size:16px;font-weight:700;color:var(--text-1)">Premium Familiar</div>
               <div style="background:#059669;color:white;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px">POPULAR</div>
             </div>
-            <div style="font-size:22px;font-weight:700;color:var(--text-1);margin-top:2px">$7.990<span style="font-size:13px;font-weight:400;color:var(--text-3)">/mes</span></div>
+            <div style="font-size:22px;font-weight:700;color:var(--text-1);margin-top:2px">$9.990<span style="font-size:13px;font-weight:400;color:var(--text-3)">/mes</span></div>
           </div>
           <div style="font-size:24px">&#x1F46A;</div>
         </div>
         <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px">
           <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Todo lo de Premium Individual</div>
-          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Hijos ilimitados</div>
-          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Metas familiares avanzadas</div>
-          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Dashboard familiar completo</div>
-          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Soporte prioritario</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Hasta 6 integrantes</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Árbol de progreso familiar</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Ranking familiar</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Reportes familiares comparativos</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Metas financieras colaborativas</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:8px"><span style="color:#059669">&#x2713;</span> Portafolio familiar / experiencia compartida</div>
         </div>
-        <div onclick="mostrarToastJuego('Próximamente — lista de espera disponible pronto')" style="background:#059669;color:white;padding:12px;border-radius:10px;text-align:center;font-weight:600;font-size:14px;cursor:pointer">Actualizar plan</div>
+        <div onclick="mostrarToastJuego('Próximamente — únete a la lista de espera')" style="background:#059669;color:white;padding:12px;border-radius:10px;text-align:center;font-weight:600;font-size:14px;cursor:pointer">Actualizar a Familiar</div>
       </div>
     </div>
 
@@ -1371,6 +1405,25 @@ var FinSeedStore = {
     return [];
   },
 
+  getSolicitudes: function(padreId) {
+    var key = 'finseed_solicitudes_' + padreId;
+    var saved = localStorage.getItem(key);
+    if (saved) return JSON.parse(saved);
+    return [
+      { id: 's1', hijoNombre: 'Sofía', hijoAvatar: 'S', accion: 'invertir', monto: 50000, ticker: 'NVDA', hace: 'hace 2h', estado: 'pendiente' },
+      { id: 's2', hijoNombre: 'Mateo', hijoAvatar: 'M', accion: 'retirar',  monto: 20000, ticker: 'AAPL', hace: 'hace 5h', estado: 'pendiente' }
+    ];
+  },
+  responderSolicitud: function(padreId, solicitudId, aprobado) {
+    var key = 'finseed_solicitudes_' + padreId;
+    var solicitudes = this.getSolicitudes(padreId);
+    solicitudes = solicitudes.map(function(s) {
+      if (s.id === solicitudId) s.estado = aprobado ? 'aprobado' : 'rechazado';
+      return s;
+    });
+    localStorage.setItem(key, JSON.stringify(solicitudes));
+  },
+
   getRanking: function(familiaId) {
     var raw = localStorage.getItem('finseed_ranking_' + familiaId);
     if (raw) return JSON.parse(raw);
@@ -1575,6 +1628,64 @@ async function renderPadreInicio() {
   }
   var elHL = document.getElementById('pp-hijos-lista');
   if (elHL) elHL.innerHTML = hijosHTML;
+
+  // ── SOLICITUDES ──
+  var solicitudes = FinSeedStore.getSolicitudes(uid).filter(function(s) { return s.estado === 'pendiente'; });
+  var elSolic = document.getElementById('pp-solicitudes-wrap');
+  if (elSolic) {
+    if (solicitudes.length === 0) {
+      elSolic.style.display = 'none';
+    } else {
+      elSolic.style.display = 'block';
+      var solHTML = solicitudes.map(function(s) {
+        var accionTexto = s.accion === 'invertir'
+          ? 'Quiere invertir $' + s.monto.toLocaleString('es-CL') + ' en ' + s.ticker
+          : 'Quiere retirar $' + s.monto.toLocaleString('es-CL') + ' de ' + s.ticker;
+        return '<div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:8px">' +
+          '<div style="width:36px;height:36px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:14px;flex-shrink:0">' + s.hijoAvatar + '</div>' +
+          '<div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text-1)">' + s.hijoNombre + ' \u00B7 ' + s.hace + '</div>' +
+          '<div style="font-size:12px;color:var(--text-3);margin-top:2px">' + accionTexto + '</div></div>' +
+          '<div style="display:flex;flex-direction:column;gap:6px">' +
+          '<div onclick="responderSol(\'' + uid + '\',\'' + s.id + '\',true)" style="background:#059669;color:white;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;text-align:center">OK</div>' +
+          '<div onclick="responderSol(\'' + uid + '\',\'' + s.id + '\',false)" style="background:#f9fafb;border:1px solid var(--border);color:var(--text-2);padding:6px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;text-align:center">Ver</div>' +
+          '</div></div>';
+      }).join('');
+      document.getElementById('pp-solicitudes-lista').innerHTML = solHTML;
+    }
+  }
+
+  // ── META DESTACADA ──
+  var metas = FinSeedStore.getMetas(uid);
+  var metaDestacada = metas[0];
+  var elMeta = document.getElementById('pp-meta-destacada');
+  if (elMeta) {
+    if (metaDestacada) {
+      var pctMeta = Math.min(100, Math.round(metaDestacada.actual / metaDestacada.meta * 100));
+      elMeta.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">' +
+        '<div><div style="font-size:14px;font-weight:600;color:var(--text-1)">' + (metaDestacada.emoji || '') + ' ' + metaDestacada.nombre + '</div>' +
+        '<div style="font-size:12px;color:var(--text-3);margin-top:2px">$' + metaDestacada.actual.toLocaleString('es-CL') + ' de $' + metaDestacada.meta.toLocaleString('es-CL') + '</div></div>' +
+        '<div style="font-size:18px;font-weight:700;color:' + (metaDestacada.color || '#059669') + '">' + pctMeta + '%</div></div>' +
+        '<div style="background:#f3f4f6;border-radius:6px;height:7px"><div style="background:' + (metaDestacada.color || '#059669') + ';height:7px;border-radius:6px;width:' + pctMeta + '%"></div></div>';
+    } else {
+      elMeta.innerHTML = '<div style="text-align:center;padding:12px 0;font-size:13px;color:var(--text-3)">Sin metas activas — crea una en Familia</div>';
+    }
+  }
+
+  // ── ALERTAS ──
+  var alertas = [
+    { texto: 'AAPL subi\u00F3 +2.4% — tu portafolio gan\u00F3 $53.500', hace: 'Hace 1 hora', tipo: 'positivo' },
+    { texto: 'Sof\u00EDa complet\u00F3 \u00ABQu\u00E9 es el dinero?\u00BB +30 XP — \u00A1fel\u00EDcitala!', hace: 'Hace 3 horas', tipo: 'positivo' },
+    { texto: 'TSLA baj\u00F3 -1.2% hoy', hace: 'Hace 4 horas', tipo: 'negativo' }
+  ];
+  var elAlertas = document.getElementById('pp-alertas-lista');
+  if (elAlertas) {
+    elAlertas.innerHTML = alertas.map(function(a) {
+      return '<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #f9fafb">' +
+        '<div style="width:8px;height:8px;border-radius:50%;background:' + (a.tipo === 'positivo' ? '#059669' : '#dc2626') + ';margin-top:4px;flex-shrink:0"></div>' +
+        '<div><div style="font-size:13px;color:var(--text-1)">' + a.texto + '</div>' +
+        '<div style="font-size:11px;color:var(--text-3);margin-top:2px">' + a.hace + '</div></div></div>';
+    }).join('');
+  }
 
   // ── JUEGOS PADRE ──
   var progPadre = FinSeedStore.getProgreso(uid);
@@ -2158,6 +2269,12 @@ function renderFamiliaPadre() {
       }).join('');
     }
   }
+}
+
+function responderSol(uid, solicitudId, aprobado) {
+  FinSeedStore.responderSolicitud(uid, solicitudId, aprobado);
+  mostrarToastJuego(aprobado ? '\u2713 Solicitud aprobada' : 'Solicitud rechazada');
+  renderPadreInicio();
 }
 
 function copiarCodigoFamiliar() {
