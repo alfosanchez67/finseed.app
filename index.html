@@ -2011,7 +2011,8 @@ function getPctColor(n) {
 async function renderPadreInicio() {
   var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
   var uid = session.id || FinSeedStore.session.userId || 'u1';
-  var nombre = session.nombre || FinSeedStore.session.nombre || 'Carlos';
+  var nombre = session.nombre || FinSeedStore.session.nombre || '';
+  if (!nombre) nombre = 'Usuario';
 
   // Saludo
   var h = new Date().getHours();
@@ -2704,7 +2705,7 @@ function setFamiliaHijoTab(tab) {
 function renderFamiliaPadre() {
   var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
   var uid = session.id || 'u1';
-  var nombre = session.nombre || 'Carlos';
+  var nombre = session.nombre || FinSeedStore.session.nombre || 'Usuario';
 
   var codigo = generarCodigoFamiliar(uid);
   var elCod = document.getElementById('ppf-codigo-mini');
@@ -2845,7 +2846,7 @@ function abrirNuevaMeta() {
 function renderPerfilPadre() {
   var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
   var uid = session.id || 'u1';
-  var nombre = session.nombre || 'Carlos';
+  var nombre = session.nombre || FinSeedStore.session.nombre || 'Usuario';
   var email = session.email || '';
 
   var elAv = document.getElementById('pp-perfil-avatar');
@@ -2878,7 +2879,7 @@ function renderPerfilPadre() {
 async function renderHijoInicio() {
   var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
   var uid = session.id || FinSeedStore.session.userId || 'u2';
-  var nombre = session.nombre || FinSeedStore.session.nombre || 'Sofía';
+  var nombre = session.nombre || FinSeedStore.session.nombre || 'Usuario';
 
   // Saludo
   var h = new Date().getHours();
@@ -3215,7 +3216,7 @@ async function renderFamiliaHijo() {
 function renderHijoPerfil() {
   var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
   var uid = session.id || 'u2';
-  var nombre = session.nombre || 'Sofía';
+  var nombre = session.nombre || FinSeedStore.session.nombre || 'Usuario';
 
   // Header
   var elAv = document.getElementById('kpp-avatar'); if (elAv) elAv.textContent = nombre.charAt(0).toUpperCase();
@@ -3910,6 +3911,7 @@ function navigate_p(page) {
       else            { nv.classList.remove('active'); }
     }
   });
+  if (page === 'inicio')     renderPadreInicio();
   if (page === 'portafolio') renderPortafolioPadre();
   if (page === 'familia')    renderFamiliaPadre();
   if (page === 'perfil')     renderPerfilPadre();
