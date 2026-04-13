@@ -1477,21 +1477,46 @@ var FinSeedStore = {
   },
 
   fetchPortfolio: async function(userId) {
-    var mock = {
+    var mocks = {
+      'u2': {
+        total: 850.00,
+        cambioHoy: +1.1,
+        cambioPesos: +9.20,
+        moneda: 'USD',
+        activos: [
+          { ticker: 'AAPL', nombre: 'Apple Inc.',       cantidad: 1, precioActual: 224.50, precioCompra: 200.00, valor: 224.50, cambioPct:  2.4 },
+          { ticker: 'VOO',  nombre: 'Vanguard S&P 500', cantidad: 1, precioActual: 491.20, precioCompra: 480.00, valor: 491.20, cambioPct:  0.8 }
+        ],
+        preciosReales: false
+      },
+      'u3': {
+        total: 320.00,
+        cambioHoy: -0.5,
+        cambioPesos: -1.60,
+        moneda: 'USD',
+        activos: [
+          { ticker: 'MSFT', nombre: 'Microsoft', cantidad: 1, precioActual: 320.00, precioCompra: 310.00, valor: 320.00, cambioPct: -0.5 }
+        ],
+        preciosReales: false
+      }
+    };
+
+    var padreMock = {
       total: 12450.80,
       cambioHoy: +2.3,
       cambioPesos: +280.50,
       moneda: 'USD',
       activos: [
-        { ticker: 'AAPL', nombre: 'Apple Inc.',      cantidad: 5,  precioActual: 224.50, precioCompra: 190.00, valor: 1122.50,  cambioPct:  2.4 },
-        { ticker: 'TSLA', nombre: 'Tesla Inc.',      cantidad: 3,  precioActual: 248.30, precioCompra: 220.00, valor:  744.90,  cambioPct: -1.2 },
-        { ticker: 'VOO',  nombre: 'Vanguard S&P 500',cantidad: 10, precioActual: 491.20, precioCompra: 450.00, valor: 4912.00,  cambioPct:  0.8 },
-        { ticker: 'SQM',  nombre: 'SQM Chile',       cantidad: 20, precioActual:  43.80, precioCompra:  50.00, valor:  876.00,  cambioPct: -0.9 },
-        { ticker: 'BND',  nombre: 'Vanguard Bonds',  cantidad: 15, precioActual:  75.07, precioCompra:  72.00, valor: 1126.05,  cambioPct:  0.1 }
+        { ticker: 'AAPL', nombre: 'Apple Inc.',       cantidad: 5,  precioActual: 224.50, precioCompra: 190.00, valor: 1122.50, cambioPct:  2.4 },
+        { ticker: 'TSLA', nombre: 'Tesla Inc.',       cantidad: 3,  precioActual: 248.30, precioCompra: 220.00, valor:  744.90, cambioPct: -1.2 },
+        { ticker: 'VOO',  nombre: 'Vanguard S&P 500', cantidad: 10, precioActual: 491.20, precioCompra: 450.00, valor: 4912.00, cambioPct:  0.8 },
+        { ticker: 'SQM',  nombre: 'SQM Chile',        cantidad: 20, precioActual:  43.80, precioCompra:  50.00, valor:  876.00, cambioPct: -0.9 },
+        { ticker: 'BND',  nombre: 'Vanguard Bonds',   cantidad: 15, precioActual:  75.07, precioCompra:  72.00, valor: 1126.05, cambioPct:  0.1 }
       ],
       preciosReales: false
     };
-    return mock;
+
+    return mocks[userId] || padreMock;
   },
 
   getHijos: function(padreId) {
