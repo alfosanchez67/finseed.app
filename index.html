@@ -1346,56 +1346,76 @@
 
   </div>
 
-  <div class="page" id="kp-perfil">
-    <div style="padding:20px 16px 8px">
-      <div style="font-size:20px;font-weight:700;color:var(--text-1)">Mi Perfil</div>
-      <div style="font-size:13px;color:var(--text-3);margin-top:2px">Tu cuenta FinSeed</div>
+  <div id="kp-perfil" class="page">
+
+    <!-- HEADER -->
+    <div style="background:linear-gradient(160deg,#14532d 0%,#15803d 60%,#16a34a 100%);padding:44px 16px 32px;text-align:center">
+      <div id="kpp-avatar" style="width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,0.2);border:3px solid rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:white;margin:0 auto 12px">S</div>
+      <div id="kpp-nombre" style="font-size:20px;font-weight:700;color:white">Sofía</div>
+      <div id="kpp-nivel" style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:4px">Nivel 1 · Aprendiz Financiero</div>
+      <div id="kpp-racha-badge" style="display:inline-block;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:20px;padding:4px 14px;font-size:12px;font-weight:600;color:white;margin-top:10px">0 días 🔥</div>
     </div>
 
-    <!-- Avatar -->
-    <div style="display:flex;flex-direction:column;align-items:center;padding:16px 16px 12px">
-      <div id="kpperf-avatar" style="width:72px;height:72px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:white;margin-bottom:12px">S</div>
-      <div id="kpperf-nombre" style="font-size:18px;font-weight:700;color:var(--text-1)">Sofía</div>
-      <div id="kpperf-email" style="font-size:13px;color:var(--text-3);margin-top:2px">hijo@demo.com</div>
-      <div style="display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:4px 12px;background:#dcfce7;border:1px solid #bbf7d0;border-radius:20px">
-        <div style="width:7px;height:7px;border-radius:50%;background:#16a34a"></div>
-        <div style="font-size:12px;color:#16a34a;font-weight:600">Cuenta Hijo</div>
-      </div>
-    </div>
-
-    <!-- Stats XP -->
-    <div style="margin:0 16px;display:flex;gap:8px">
-      <div style="flex:1;background:white;border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
-        <div id="kpperf-xp" style="font-size:20px;font-weight:700;color:#16a34a">0</div>
+    <!-- STATS GRID -->
+    <div style="margin:16px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+      <div style="background:white;border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center">
+        <div id="kpp-xp" style="font-size:22px;font-weight:700;color:#16a34a">0</div>
         <div style="font-size:11px;color:var(--text-3);margin-top:2px">XP total</div>
       </div>
-      <div style="flex:1;background:white;border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
-        <div id="kpperf-nivel" style="font-size:20px;font-weight:700;color:var(--text-1)">1</div>
-        <div style="font-size:11px;color:var(--text-3);margin-top:2px">Nivel</div>
+      <div style="background:white;border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center">
+        <div id="kpp-juegos" style="font-size:22px;font-weight:700;color:var(--text-1)">0</div>
+        <div style="font-size:11px;color:var(--text-3);margin-top:2px">Juegos</div>
       </div>
-      <div style="flex:1;background:white;border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
-        <div id="kpperf-racha" style="font-size:20px;font-weight:700;color:#f59e0b">0</div>
-        <div style="font-size:11px;color:var(--text-3);margin-top:2px">Racha</div>
+      <div style="background:white;border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center">
+        <div id="kpp-medallas" style="font-size:22px;font-weight:700;color:#f59e0b">0</div>
+        <div style="font-size:11px;color:var(--text-3);margin-top:2px">Logros</div>
       </div>
     </div>
 
-    <!-- Vinculo familiar -->
-    <div id="kp-vinculo-familia" style="margin:16px 16px 0;background:white;border:1px solid var(--border);border-radius:16px;padding:16px"></div>
-
-    <!-- Logros -->
-    <div style="margin:16px 16px 0">
-      <div style="font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:12px">Logros desbloqueados</div>
-      <div id="kpperf-logros" style="display:flex;flex-direction:column;gap:10px"></div>
+    <!-- BARRA XP -->
+    <div style="margin:0 16px 16px;background:white;border:1px solid var(--border);border-radius:16px;padding:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="font-size:13px;font-weight:600;color:var(--text-1)">Progreso al siguiente nivel</div>
+        <div id="kpp-xp-label" style="font-size:12px;color:var(--text-3)">0 / 200 XP</div>
+      </div>
+      <div style="background:#f3f4f6;border-radius:8px;height:8px">
+        <div id="kpp-xp-bar" style="background:linear-gradient(90deg,#16a34a,#22c55e);height:8px;border-radius:8px;width:0%;transition:width .5s"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:10px">
+        <div style="font-size:12px;color:var(--text-3)">Vidas de hoy</div>
+        <div id="kpp-vidas" style="display:flex;gap:3px"></div>
+      </div>
     </div>
 
-    <div style="margin:16px 16px 0">
-      <button onclick="doLogout()"
-        style="width:100%;padding:14px;background:white;border:1px solid var(--danger);border-radius:12px;color:var(--danger);font-size:14px;font-weight:600;cursor:pointer">
-        Cerrar sesión
-      </button>
+    <!-- TÍTULOS / NIVEL -->
+    <div style="margin:0 16px 16px;background:white;border:1px solid var(--border);border-radius:16px;padding:16px">
+      <div style="font-size:13px;font-weight:600;color:var(--text-1);margin-bottom:12px">Tu título actual</div>
+      <div id="kpp-titulo-card" style="background:#f0fdf4;border:1px solid #86efac;border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px">
+        <div id="kpp-titulo-icono" style="font-size:32px">🌱</div>
+        <div>
+          <div id="kpp-titulo-nombre" style="font-size:15px;font-weight:700;color:#15803d">Aprendiz Financiero</div>
+          <div id="kpp-titulo-desc" style="font-size:12px;color:#16a34a;margin-top:2px">Completa más juegos para subir de título</div>
+        </div>
+      </div>
     </div>
 
-    <div style="height:20px"></div>
+    <!-- LOGROS -->
+    <div style="margin:0 16px 16px">
+      <div style="font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:12px">Mis logros</div>
+      <div id="kpp-logros" style="display:flex;flex-direction:column;gap:8px"></div>
+    </div>
+
+    <!-- FAMILIA -->
+    <div style="margin:0 16px 16px" id="kpp-familia-seccion">
+      <div style="font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:12px">Mi familia</div>
+      <div id="kpp-vinculo-familia" style="background:white;border:1px solid var(--border);border-radius:16px;padding:16px"></div>
+    </div>
+
+    <!-- CERRAR SESIÓN -->
+    <div style="margin:0 16px 32px">
+      <div onclick="doLogout()" style="background:white;border:1.5px solid #fecaca;border-radius:14px;padding:14px;text-align:center;font-size:14px;font-weight:600;color:#dc2626;cursor:pointer">Cerrar sesión</div>
+    </div>
+
   </div>
 
   <nav class="bottom-nav" id="nav-hijo">
@@ -3101,42 +3121,85 @@ async function renderFamiliaHijo() {
 // ── Perfil hijo ──────────────────────────────
 
 function renderHijoPerfil() {
-  var uid    = FinSeedStore.session.userId || 'u2';
-  var nombre = FinSeedStore.session.nombre || 'Sofía';
-  var users  = JSON.parse(localStorage.getItem('finseed_users') || '[]');
-  var user   = users.find(function(u) { return u.id === uid; }) || {};
-  var prog   = FinSeedStore.getProgreso(uid);
-  var logros = FinSeedStore.getLogros(uid);
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || 'u2';
+  var nombre = session.nombre || 'Sofía';
 
-  var elAv = document.getElementById('kpperf-avatar');
-  if (elAv) { elAv.textContent = nombre.charAt(0).toUpperCase(); }
-  var elN = document.getElementById('kpperf-nombre');
-  if (elN) elN.textContent = nombre;
-  var elE = document.getElementById('kpperf-email');
-  if (elE) elE.textContent = user.email || '';
+  // Header
+  var elAv = document.getElementById('kpp-avatar'); if (elAv) elAv.textContent = nombre.charAt(0).toUpperCase();
+  var elN = document.getElementById('kpp-nombre'); if (elN) elN.textContent = nombre;
 
-  var elX = document.getElementById('kpperf-xp');
-  if (elX) elX.textContent = prog.xp || 0;
-  var elNv = document.getElementById('kpperf-nivel');
-  if (elNv) elNv.textContent = prog.nivel || 1;
-  var elRa = document.getElementById('kpperf-racha');
-  if (elRa) elRa.textContent = prog.racha || 0;
+  // Progreso
+  var prog = FinSeedStore.getProgreso(uid);
+  var vidaData = getVidas(uid);
+  var rachaData = getRacha(uid);
+  var progJuegos = getProgresoJuegos(uid);
+  var completados = Object.keys(progJuegos).filter(function(k) { return progJuegos[k].completado; }).length;
+  var logrosObtenidos = FinSeedStore.getLogros(uid).filter(function(l) { return l.obtenido; }).length;
 
-  var logrosHTML = '';
-  if (!logros || logros.length === 0) {
-    logrosHTML = '<div style="background:var(--bg-card);border:1px dashed var(--border);border-radius:12px;padding:16px;text-align:center;color:var(--text-3);font-size:13px">Completa lecciones para desbloquear logros.</div>';
-  } else {
-    for (var i = 0; i < logros.length; i++) {
-      var lg = logros[i];
-      logrosHTML += '<div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px">' +
-        '<div style="font-size:24px">' + (lg.icono || '⭐') + '</div>' +
-        '<div><div style="font-size:14px;font-weight:600;color:var(--text-1)">' + lg.titulo + '</div>' +
-        '<div style="font-size:12px;color:var(--text-3)">' + lg.descripcion + '</div></div>' +
-        '</div>';
-    }
+  var elNv = document.getElementById('kpp-nivel');
+  var titulos = [
+    { min: 0,  nombre: 'Aprendiz Financiero', icono: '\uD83C\uDF31', desc: 'Completa m\u00E1s juegos para subir de t\u00EDtulo' },
+    { min: 3,  nombre: 'Ahorrador Novato',     icono: '\uD83D\uDCB0', desc: 'Ya sabes los b\u00E1sicos del dinero' },
+    { min: 6,  nombre: 'Inversor Curioso',     icono: '\uD83D\uDCC8', desc: 'Entiendes c\u00F3mo funciona la bolsa' },
+    { min: 10, nombre: 'Estratega Financiero', icono: '\uD83E\uDDE0', desc: 'Dominas conceptos avanzados' },
+    { min: 15, nombre: 'Experto en Finanzas',  icono: '\u2B50',       desc: 'Casi en la cima del conocimiento' },
+    { min: 20, nombre: 'Maestro Financiero',   icono: '\uD83C\uDFC6', desc: '\u00A1Has completado el \u00E1rbol completo!' }
+  ];
+  var tituloActual = titulos[0];
+  for (var t = titulos.length - 1; t >= 0; t--) {
+    if (completados >= titulos[t].min) { tituloActual = titulos[t]; break; }
   }
-  var elL = document.getElementById('kpperf-logros');
-  if (elL) elL.innerHTML = logrosHTML;
+
+  if (elNv) elNv.textContent = 'Nivel ' + (prog.nivel || 1) + ' \xB7 ' + tituloActual.nombre;
+
+  var elRacha = document.getElementById('kpp-racha-badge');
+  if (elRacha) elRacha.textContent = (rachaData.racha || 0) + ' d\u00EDas \uD83D\uDD25';
+
+  // Stats
+  var elXP = document.getElementById('kpp-xp'); if (elXP) elXP.textContent = prog.xp || 0;
+  var elJ = document.getElementById('kpp-juegos'); if (elJ) elJ.textContent = completados;
+  var elM = document.getElementById('kpp-medallas'); if (elM) elM.textContent = logrosObtenidos;
+
+  // Barra XP
+  var xpParaNivel = 200;
+  var xpPct = Math.min(100, Math.round(((prog.xpSemana || 0) / xpParaNivel) * 100));
+  var elBar = document.getElementById('kpp-xp-bar');
+  if (elBar) setTimeout(function() { elBar.style.width = xpPct + '%'; }, 100);
+  var elXPL = document.getElementById('kpp-xp-label');
+  if (elXPL) elXPL.textContent = (prog.xpSemana || 0) + ' / ' + xpParaNivel + ' XP esta semana';
+
+  // Vidas
+  var elVidas = document.getElementById('kpp-vidas');
+  if (elVidas) {
+    var vidasHTML = '';
+    for (var v = 0; v < (vidaData.max || 5); v++) {
+      vidasHTML += '<span style="font-size:18px;opacity:' + (v < vidaData.vidas ? '1' : '0.2') + '">\u2665</span>';
+    }
+    elVidas.innerHTML = vidasHTML;
+  }
+
+  // Título
+  var elTI = document.getElementById('kpp-titulo-icono'); if (elTI) elTI.textContent = tituloActual.icono;
+  var elTN = document.getElementById('kpp-titulo-nombre'); if (elTN) elTN.textContent = tituloActual.nombre;
+  var elTD = document.getElementById('kpp-titulo-desc'); if (elTD) elTD.textContent = tituloActual.desc;
+
+  // Logros personales
+  var logros = FinSeedStore.getLogros(uid);
+  var elLog = document.getElementById('kpp-logros');
+  if (elLog) {
+    elLog.innerHTML = logros.map(function(l) {
+      return '<div style="background:' + (l.obtenido ? '#fffbeb' : '#f9fafb') + ';border:1px solid ' + (l.obtenido ? '#fde68a' : 'var(--border)') + ';border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:12px;opacity:' + (l.obtenido ? '1' : '0.5') + '">' +
+        '<div style="font-size:26px">' + (l.obtenido ? '\uD83C\uDFC5' : '\uD83D\uDD12') + '</div>' +
+        '<div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text-1)">' + l.nombre + '</div>' +
+        '<div style="font-size:12px;color:var(--text-3);margin-top:2px">' + l.desc + '</div></div>' +
+        (l.obtenido ? '<div style="font-size:11px;color:#92400e;font-weight:600;white-space:nowrap">' + l.fecha + '</div>' : '') +
+        '</div>';
+    }).join('');
+  }
+
+  // Vinculación familiar
+  renderVinculoFamiliar();
 }
 
 function renderVinculoFamiliar() {
@@ -3144,7 +3207,7 @@ function renderVinculoFamiliar() {
   var uid = session.id || 'u2';
   var usuarios = JSON.parse(localStorage.getItem('finseed_users') || '[]');
   var hijo = usuarios.find(function(u) { return u.id === uid; });
-  var el = document.getElementById('kp-vinculo-familia');
+  var el = document.getElementById('kpp-vinculo-familia');
   if (!el) return;
 
   if (hijo && hijo.padreId) {
@@ -3693,7 +3756,7 @@ function navigate_k(page) {
   if (page === 'inicio')  renderHijoInicio();
   if (page === 'juegos')  renderHijoJuegos();
   if (page === 'familia') renderFamiliaHijo();
-  if (page === 'perfil')  { renderHijoPerfil(); renderVinculoFamiliar(); }
+  if (page === 'perfil')  { renderHijoPerfil(); }
 }
 
 function doLogout() {
