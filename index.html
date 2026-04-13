@@ -1253,6 +1253,11 @@
       </div>
     </div>
 
+    <!-- MISIONES -->
+    <div style="margin:0 16px 16px">
+      <div id="kp-misiones-container"></div>
+    </div>
+
     <!-- JUEGO DESTACADO -->
     <div style="margin:0 16px 16px">
       <div style="font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:12px">Juego del día</div>
@@ -2029,6 +2034,138 @@ var _portafoliosDemo = {
 
 function getPctColor(n) {
   return n >= 0 ? 'var(--green)' : 'var(--danger)';
+}
+
+// ── MISIONES DIARIAS ─────────────────────────────────────
+var _MISIONES_POOL = [
+  { id: 'jugar_1',      nivel: 1, titulo: 'Primera del d\u00EDa',        desc: 'Completa 1 juego hoy',                    xp: 20,  tipo: 'juegos',    meta: 1  },
+  { id: 'racha_2',      nivel: 1, titulo: 'Mant\u00E9n la racha',        desc: 'Juega hoy para no perder tu racha',       xp: 15,  tipo: 'racha',     meta: 1  },
+  { id: 'preguntas_5',  nivel: 1, titulo: 'Responde bien',               desc: 'Contesta 5 preguntas correctas',          xp: 25,  tipo: 'correctas', meta: 5  },
+  { id: 'vidas_full',   nivel: 1, titulo: 'Sin errores',                 desc: 'Termina un juego sin perder vidas',       xp: 30,  tipo: 'sin_error', meta: 1  },
+  { id: 'jugar_2',      nivel: 2, titulo: 'Doble sesi\u00F3n',           desc: 'Completa 2 juegos hoy',                   xp: 40,  tipo: 'juegos',    meta: 2  },
+  { id: 'racha_3',      nivel: 2, titulo: 'Racha de fuego',              desc: 'Alcanza 3 d\u00EDas de racha',            xp: 35,  tipo: 'racha',     meta: 3  },
+  { id: 'preguntas_10', nivel: 2, titulo: 'Experto del d\u00EDa',        desc: 'Contesta 10 preguntas correctas',         xp: 50,  tipo: 'correctas', meta: 10 },
+  { id: 'tema_nuevo',   nivel: 2, titulo: 'Explora un tema nuevo',       desc: 'Completa un juego de un tema nuevo',      xp: 45,  tipo: 'tema_nuevo',meta: 1  },
+  { id: 'jugar_3',      nivel: 3, titulo: 'Marat\u00F3n de aprendizaje', desc: 'Completa 3 juegos hoy',                   xp: 70,  tipo: 'juegos',    meta: 3  },
+  { id: 'racha_7',      nivel: 3, titulo: 'Semana perfecta',             desc: 'Alcanza 7 d\u00EDas de racha',            xp: 80,  tipo: 'racha',     meta: 7  },
+  { id: 'preguntas_15', nivel: 3, titulo: 'Maestro del d\u00EDa',        desc: 'Contesta 15 preguntas correctas',         xp: 90,  tipo: 'correctas', meta: 15 },
+  { id: 'sin_error_2',  nivel: 3, titulo: 'Perfecci\u00F3n doble',       desc: 'Termina 2 juegos sin perder vidas',       xp: 100, tipo: 'sin_error', meta: 2  }
+];
+
+function getMisionesDelDia(userId) {
+  var hoy = new Date().toDateString();
+  var key = 'finseed_misiones_' + userId + '_' + hoy;
+  var guardadas = localStorage.getItem(key);
+  if (guardadas) return JSON.parse(guardadas);
+
+  var prog = FinSeedStore.getProgreso(userId);
+  var nivel = prog.nivel || 1;
+  var nivelMision = nivel <= 2 ? 1 : nivel <= 4 ? 2 : 3;
+
+  var disponibles = _MISIONES_POOL.filter(function(m) { return m.nivel <= nivelMision; });
+
+  var seleccionadas = [];
+  var tipos = ['juegos', 'correctas', nivel >= 3 ? 'racha' : 'sin_error'];
+  tipos.forEach(function(tipo) {
+    var candidatas = disponibles.filter(function(m) {
+      return m.tipo === tipo && !seleccionadas.find(function(s) { return s.id === m.id; });
+    });
+    if (candidatas.length > 0) {
+      seleccionadas.push(candidatas[Math.floor(Math.random() * candidatas.length)]);
+    }
+  });
+
+  while (seleccionadas.length < 3) {
+    var resto = disponibles.filter(function(m) {
+      return !seleccionadas.find(function(s) { return s.id === m.id; });
+    });
+    if (resto.length === 0) break;
+    seleccionadas.push(resto[Math.floor(Math.random() * resto.length)]);
+  }
+
+  var misiones = seleccionadas.map(function(m) {
+    return { id: m.id, titulo: m.titulo, desc: m.desc, xp: m.xp, tipo: m.tipo, meta: m.meta, progreso: 0, completada: false };
+  });
+
+  localStorage.setItem(key, JSON.stringify(misiones));
+  return misiones;
+}
+
+function actualizarProgresoMisiones(userId, tipo, cantidad) {
+  var hoy = new Date().toDateString();
+  var key = 'finseed_misiones_' + userId + '_' + hoy;
+  var misiones = getMisionesDelDia(userId);
+  var xpGanado = 0;
+
+  misiones = misiones.map(function(m) {
+    if (m.completada) return m;
+    if (m.tipo === tipo) {
+      m.progreso = Math.min(m.meta, (m.progreso || 0) + cantidad);
+      if (m.progreso >= m.meta && !m.completada) {
+        m.completada = true;
+        xpGanado += m.xp;
+        setTimeout(function() {
+          mostrarToastJuego('\uD83C\uDFAF Misi\u00F3n completada: ' + m.titulo + ' +' + m.xp + ' XP');
+        }, 500);
+      }
+    }
+    return m;
+  });
+
+  localStorage.setItem(key, JSON.stringify(misiones));
+
+  if (xpGanado > 0) {
+    var progUser = FinSeedStore.getProgreso(userId);
+    progUser.xp = (progUser.xp || 0) + xpGanado;
+    progUser.xpSemana = (progUser.xpSemana || 0) + xpGanado;
+    localStorage.setItem('finseed_progreso_' + userId, JSON.stringify(progUser));
+  }
+
+  return misiones;
+}
+
+function renderMisionesHijo(containerId) {
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || 'u2';
+  var misiones = getMisionesDelDia(uid);
+  var el = document.getElementById(containerId);
+  if (!el) return;
+
+  var completadas = misiones.filter(function(m) { return m.completada; }).length;
+  var xpTotal = misiones.reduce(function(s, m) { return s + m.xp; }, 0);
+  var xpGanado = misiones.filter(function(m) { return m.completada; }).reduce(function(s, m) { return s + m.xp; }, 0);
+
+  var html = '<div style="background:white;border:1px solid var(--border);border-radius:16px;overflow:hidden">' +
+    '<div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">' +
+    '<div><div style="font-size:14px;font-weight:600;color:var(--text-1)">Misiones del d\u00EDa</div>' +
+    '<div style="font-size:12px;color:var(--text-3);margin-top:2px">' + completadas + '/3 completadas \xB7 +' + xpGanado + '/' + xpTotal + ' XP</div></div>' +
+    '<div style="font-size:11px;color:var(--text-3)">Se renuevan a las 00:00</div>' +
+    '</div>';
+
+  misiones.forEach(function(m) {
+    var pct = m.meta > 1 ? Math.round((m.progreso || 0) / m.meta * 100) : (m.completada ? 100 : 0);
+    var iconos = { juegos: '\uD83C\uDFAE', correctas: '\u2713', racha: '\uD83D\uDD25', sin_error: '\uD83D\uDC8E', tema_nuevo: '\uD83C\uDF1F' };
+    var icono = iconos[m.tipo] || '\uD83C\uDFAF';
+    var bgColor = m.completada ? '#f0fdf4' : 'white';
+
+    html += '<div style="padding:14px 16px;border-bottom:1px solid #f9fafb;background:' + bgColor + '">' +
+      '<div style="display:flex;align-items:center;gap:12px;margin-bottom:' + (m.meta > 1 ? '8' : '0') + 'px">' +
+      '<div style="width:36px;height:36px;border-radius:10px;background:' + (m.completada ? '#dcfce7' : '#f0fdf4') + ';display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">' +
+      (m.completada ? '\u2713' : icono) + '</div>' +
+      '<div style="flex:1">' +
+      '<div style="font-size:13px;font-weight:600;color:' + (m.completada ? '#15803d' : 'var(--text-1)') + '">' + m.titulo + '</div>' +
+      '<div style="font-size:11px;color:var(--text-3);margin-top:1px">' + m.desc + '</div>' +
+      '</div>' +
+      '<div style="font-size:13px;font-weight:700;color:' + (m.completada ? '#16a34a' : 'var(--text-3)') + '">+' + m.xp + ' XP</div>' +
+      '</div>' +
+      (m.meta > 1 ? '<div style="background:#f3f4f6;border-radius:6px;height:5px;margin-left:48px">' +
+      '<div style="background:#16a34a;height:5px;border-radius:6px;width:' + pct + '%;transition:width .3s"></div>' +
+      '</div>' : '') +
+      '</div>';
+  });
+
+  html += '</div>';
+  el.innerHTML = html;
 }
 
 // ── Dashboard inicio padre ────────────────────
@@ -2998,6 +3135,9 @@ async function renderHijoInicio() {
         '</div>';
     }
   }
+
+  // Renderizar misiones
+  renderMisionesHijo('kp-misiones-container');
 }
 
 function irAlJuegoDestacado() {
@@ -3048,6 +3188,20 @@ function renderHijoJuegos() {
     '<div style="background:#f3f4f6;border-radius:8px;height:8px">' +
     '<div style="background:linear-gradient(90deg,#16a34a,#22c55e);height:8px;border-radius:8px;width:' + pctTotal + '%;transition:width .5s"></div>' +
     '</div></div>';
+
+  // Recordatorio misiones
+  var misionesHoy = getMisionesDelDia(uid);
+  var completadasHoy = misionesHoy.filter(function(m) { return m.completada; }).length;
+  var xpPendiente = misionesHoy.filter(function(m) { return !m.completada; }).reduce(function(s, m) { return s + m.xp; }, 0);
+
+  html += '<div onclick="navigate_k(\'inicio\')" style="background:' + (completadasHoy===3?'#f0fdf4':'#fffbeb') + ';border:1px solid ' + (completadasHoy===3?'#86efac':'#fde68a') + ';border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:16px;cursor:pointer">' +
+    '<div style="font-size:24px">' + (completadasHoy===3?'\uD83C\uDFC6':'\uD83C\uDFAF') + '</div>' +
+    '<div style="flex:1">' +
+    '<div style="font-size:13px;font-weight:600;color:var(--text-1)">' + (completadasHoy===3?'\u00A1Misiones completadas!':'Misiones del d\u00EDa: ' + completadasHoy + '/3') + '</div>' +
+    '<div style="font-size:12px;color:var(--text-3);margin-top:2px">' + (completadasHoy===3?'Vuelve ma\u00F1ana por nuevas misiones':'+' + xpPendiente + ' XP disponibles') + '</div>' +
+    '</div>' +
+    '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>' +
+    '</div>';
 
   // ÁRBOL POR TEMAS
   temasOrden.forEach(function(tema) {
@@ -3559,6 +3713,13 @@ function renderJuegoFinal() {
   var progUser   = FinSeedStore.getProgreso(uid);
   progUser.racha = nuevaRacha;
   localStorage.setItem('finseed_progreso_' + uid, JSON.stringify(progUser));
+
+  // Actualizar misiones
+  actualizarProgresoMisiones(uid, 'juegos', 1);
+  if (aprobado) actualizarProgresoMisiones(uid, 'correctas', _juegoScore);
+  if (aprobado && _juegoScore === _juegoActivo.preguntas.length) {
+    actualizarProgresoMisiones(uid, 'sin_error', 1);
+  }
 
   var overlay = document.getElementById('juego-overlay');
   overlay.innerHTML =
