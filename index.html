@@ -2036,6 +2036,72 @@ function getPctColor(n) {
   return n >= 0 ? 'var(--green)' : 'var(--danger)';
 }
 
+// ── VISUAL POR PREGUNTA ───────────────────────
+function getVisualPregunta(pregunta, tema) {
+  var p = pregunta.toLowerCase();
+
+  if (p.includes('trueque') || p.includes('intercambi')) return { emoji: '\uD83D\uDD04', bg: '#f0fdf4', color: '#15803d' };
+  if (p.includes('billete') || p.includes('efectivo') || p.includes('dinero en efectivo')) return { emoji: '\uD83D\uDCB5', bg: '#f0fdf4', color: '#15803d' };
+  if (p.includes('banco') || p.includes('bancari')) return { emoji: '\uD83C\uDFE6', bg: '#eff6ff', color: '#1d4ed8' };
+  if (p.includes('ahorro') || p.includes('ahorrar') || p.includes('ahorras')) return { emoji: '\uD83D\uDC37', bg: '#fef9c3', color: '#854d0e' };
+  if (p.includes('emergencia') || p.includes('imprevisto')) return { emoji: '\uD83D\uDEE1\uFE0F', bg: '#eff6ff', color: '#1e40af' };
+  if (p.includes('presupuesto') || p.includes('plan')) return { emoji: '\uD83D\uDCCB', bg: '#faf5ff', color: '#6d28d9' };
+  if (p.includes('50/30/20') || p.includes('regla')) return { emoji: '\uD83D\uDCD0', bg: '#faf5ff', color: '#6d28d9' };
+  if (p.includes('gasto fijo') || p.includes('arriendo')) return { emoji: '\uD83C\uDFE0', bg: '#f0f9ff', color: '#0c4a6e' };
+  if (p.includes('gasto variable') || p.includes('comer')) return { emoji: '\uD83C\uDF7D\uFE0F', bg: '#fff7ed', color: '#9a3412' };
+  if (p.includes('accion') || p.includes('acción') || p.includes('bolsa')) return { emoji: '\uD83D\uDCC8', bg: '#f0fdf4', color: '#15803d' };
+  if (p.includes('apple') || p.includes('empresa')) return { emoji: '\uD83C\uDF4E', bg: '#f0fdf4', color: '#15803d' };
+  if (p.includes('etf') || p.includes('fondo')) return { emoji: '\uD83E\uDDF3', bg: '#f0fdf4', color: '#166534' };
+  if (p.includes('interes compuesto') || p.includes('inter\u00E9s compuesto')) return { emoji: '\u2728', bg: '#fffbeb', color: '#92400e' };
+  if (p.includes('riesgo') || p.includes('perder')) return { emoji: '\u2696\uFE0F', bg: '#fef2f2', color: '#991b1b' };
+  if (p.includes('s&p') || p.includes('sp500') || p.includes('\u00EDndice') || p.includes('indice')) return { emoji: '\uD83C\uDFDB\uFE0F', bg: '#fffbeb', color: '#92400e' };
+  if (p.includes('diversific')) return { emoji: '\uD83C\uDFAF', bg: '#f0fdf4', color: '#166534' };
+  if (p.includes('deuda') || p.includes('deber') || p.includes('pr\u00E9stamo') || p.includes('prestamo')) return { emoji: '\uD83D\uDCB3', bg: '#fef2f2', color: '#991b1b' };
+  if (p.includes('tarjeta') || p.includes('cr\u00E9dito') || p.includes('credito')) return { emoji: '\uD83D\uDCB3', bg: '#fef2f2', color: '#991b1b' };
+  if (p.includes('interes') || p.includes('inter\u00E9s') || p.includes('tasa')) return { emoji: '\uD83D\uDCCA', bg: '#fff7ed', color: '#9a3412' };
+  if (p.includes('inflacion') || p.includes('inflaci\u00F3n') || p.includes('precio')) return { emoji: '\uD83D\uDCC9', bg: '#fff7ed', color: '#9a3412' };
+  if (p.includes('ipc') || p.includes('banco central')) return { emoji: '\uD83C\uDFE6', bg: '#f0f9ff', color: '#0c4a6e' };
+  if (p.includes('uf') || p.includes('unidad de fomento')) return { emoji: '\uD83C\uDDE8\uD83C\uDDF1', bg: '#fef9c3', color: '#854d0e' };
+  if (p.includes('fondo mutuo') || p.includes('gestor')) return { emoji: '\uD83E\uDD1D', bg: '#f0fdf4', color: '#166534' };
+  if (p.includes('apv') || p.includes('jubilacion') || p.includes('jubilaci\u00F3n') || p.includes('pension') || p.includes('pensi\u00F3n')) return { emoji: '\uD83C\uDF05', bg: '#fff7ed', color: '#9a3412' };
+  if (p.includes('bitcoin') || p.includes('crypto') || p.includes('cripto')) return { emoji: '\u20BF', bg: '#fffbeb', color: '#92400e' };
+  if (p.includes('blockchain') || p.includes('descentraliz')) return { emoji: '\uD83D\uDD17', bg: '#faf5ff', color: '#6d28d9' };
+  if (p.includes('nft')) return { emoji: '\uD83D\uDDBC\uFE0F', bg: '#faf5ff', color: '#6d28d9' };
+  if (p.includes('wallet') || p.includes('clave privada')) return { emoji: '\uD83D\uDD10', bg: '#f0f9ff', color: '#0c4a6e' };
+  if (p.includes('propiedad') || p.includes('inmobili') || p.includes('arriendo')) return { emoji: '\uD83C\uDFE0', bg: '#f0f9ff', color: '#0c4a6e' };
+  if (p.includes('reit')) return { emoji: '\uD83C\uDFE2', bg: '#f0f9ff', color: '#0c4a6e' };
+  if (p.includes('impuesto') || p.includes('iva') || p.includes('tributar')) return { emoji: '\uD83D\uDCD1', bg: '#f8fafc', color: '#334155' };
+  if (p.includes('renta') || p.includes('sueldo') || p.includes('ingreso')) return { emoji: '\uD83D\uDCBC', bg: '#f8fafc', color: '#334155' };
+  if (p.includes('emprendimiento') || p.includes('negocio') || p.includes('startup')) return { emoji: '\uD83D\uDE80', bg: '#fdf4ff', color: '#7e22ce' };
+  if (p.includes('flujo') || p.includes('cashflow')) return { emoji: '\uD83D\uDCA7', bg: '#eff6ff', color: '#1d4ed8' };
+  if (p.includes('equity') || p.includes('accionist')) return { emoji: '\uD83D\uDCDC', bg: '#fdf4ff', color: '#7e22ce' };
+  if (p.includes('dolar') || p.includes('d\u00F3lar') || p.includes('divisa') || p.includes('tipo de cambio')) return { emoji: '\uD83D\uDCB1', bg: '#eff6ff', color: '#1e40af' };
+  if (p.includes('cobre') || p.includes('commodity') || p.includes('materia prima')) return { emoji: '\u26CF\uFE0F', bg: '#fff7ed', color: '#9a3412' };
+  if (p.includes('pib') || p.includes('recesion') || p.includes('recesi\u00F3n') || p.includes('econom\u00EDa')) return { emoji: '\uD83C\uDF0D', bg: '#eff6ff', color: '#1e40af' };
+  if (p.includes('libertad financiera') || p.includes('fire') || p.includes('jubilarte')) return { emoji: '\uD83C\uDFD6\uFE0F', bg: '#fef9c3', color: '#854d0e' };
+  if (p.includes('patrimonio') || p.includes('net worth')) return { emoji: '\uD83D\uDC8E', bg: '#fdf4ff', color: '#7e22ce' };
+  if (p.includes('mesada') || p.includes('ni\u00F1o') || p.includes('hijo')) return { emoji: '\uD83D\uDC66', bg: '#f0fdf4', color: '#15803d' };
+  if (p.includes('simulacion') || p.includes('simulaci\u00F3n') || p.includes('calcula') || p.includes('cu\u00E1nto')) return { emoji: '\uD83E\uDDEE', bg: '#f0f9ff', color: '#0c4a6e' };
+
+  var temaVisuals = {
+    'Fundamentos':              { emoji: '\uD83D\uDCA1', bg: '#f0fdf4', color: '#15803d' },
+    'Ahorro':                   { emoji: '\uD83D\uDC37', bg: '#fef9c3', color: '#854d0e' },
+    'Presupuesto':              { emoji: '\uD83D\uDCCB', bg: '#faf5ff', color: '#6d28d9' },
+    'Inversi\u00F3n':           { emoji: '\uD83D\uDCC8', bg: '#f0fdf4', color: '#15803d' },
+    'Bolsa':                    { emoji: '\uD83C\uDFDB\uFE0F', bg: '#fffbeb', color: '#92400e' },
+    'Deuda y Cr\u00E9dito':     { emoji: '\uD83D\uDCB3', bg: '#fef2f2', color: '#991b1b' },
+    'Inflaci\u00F3n':           { emoji: '\uD83D\uDCC9', bg: '#fff7ed', color: '#9a3412' },
+    'Fondos y Diversificaci\u00F3n': { emoji: '\uD83E\uDDF3', bg: '#f0fdf4', color: '#166534' },
+    'Criptomonedas':            { emoji: '\uD83E\uDE99', bg: '#fffbeb', color: '#92400e' },
+    'Bienes Ra\u00EDces':       { emoji: '\uD83C\uDFE0', bg: '#f0f9ff', color: '#0c4a6e' },
+    'Impuestos':                { emoji: '\uD83D\uDCD1', bg: '#f8fafc', color: '#334155' },
+    'Emprendimiento':           { emoji: '\uD83D\uDE80', bg: '#fdf4ff', color: '#7e22ce' },
+    'Mercados Globales':        { emoji: '\uD83C\uDF0D', bg: '#eff6ff', color: '#1e40af' },
+    'Retiro y Largo Plazo':     { emoji: '\uD83C\uDF05', bg: '#fff7ed', color: '#9a3412' }
+  };
+  return temaVisuals[tema] || { emoji: '\uD83D\uDCA1', bg: '#f0fdf4', color: '#15803d' };
+}
+
 // ── SISTEMA DE NIVELES ────────────────────────
 function getNivelInfo(juegosCompletados) {
   var niveles = [
@@ -3696,7 +3762,8 @@ function renderJuegoOverlay() {
 
   var preg     = juego.preguntas[step];
   var pct      = Math.round((step / total) * 100);
-  var visual = _juegoVisuals[juego.tema] || { emoji: '\uD83D\uDCA1', bg: 'linear-gradient(135deg,#f9fafb,#f3f4f6)', color: '#374151' };
+  var visual = getVisualPregunta(preg.pregunta, juego.tema);
+  visual.bg = 'linear-gradient(135deg,' + visual.bg + ' 0%, white 100%)';
   var tipoVisual = _tipoPreguntaVisuals[preg.tipo] || _tipoPreguntaVisuals['opcion'];
 
   var visualHTML = '<div style="background:' + visual.bg + ';border-radius:16px;padding:20px;margin-bottom:16px;text-align:center">' +
