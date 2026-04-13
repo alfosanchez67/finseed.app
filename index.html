@@ -2036,6 +2036,60 @@ function getPctColor(n) {
   return n >= 0 ? 'var(--green)' : 'var(--danger)';
 }
 
+// ── SISTEMA DE NIVELES ────────────────────────
+function getNivelInfo(juegosCompletados) {
+  var niveles = [
+    { nivel: 1, nombre: 'Aprendiz',          min: 0,  max: 4,  icono: '\uD83C\uDF31' },
+    { nivel: 2, nombre: 'Ahorrador',          min: 4,  max: 8,  icono: '\uD83D\uDCB0' },
+    { nivel: 3, nombre: 'Inversor',           min: 8,  max: 12, icono: '\uD83D\uDCC8' },
+    { nivel: 4, nombre: 'Analista',           min: 12, max: 16, icono: '\uD83E\uDDE0' },
+    { nivel: 5, nombre: 'Estratega',          min: 16, max: 20, icono: '\u2B50'       },
+    { nivel: 6, nombre: 'Maestro Financiero', min: 20, max: 22, icono: '\uD83C\uDFC6' }
+  ];
+  var actual = niveles[0];
+  for (var i = niveles.length - 1; i >= 0; i--) {
+    if (juegosCompletados >= niveles[i].min) { actual = niveles[i]; break; }
+  }
+  var siguiente = null;
+  for (var j = 0; j < niveles.length; j++) {
+    if (niveles[j].nivel === actual.nivel + 1) { siguiente = niveles[j]; break; }
+  }
+  return {
+    nivel: actual.nivel,
+    nombre: actual.nombre,
+    icono: actual.icono,
+    completadosEnNivel: juegosCompletados - actual.min,
+    juegosParaNivel: actual.max - actual.min,
+    faltanParaSiguiente: siguiente ? actual.max - juegosCompletados : 0,
+    esUltimo: !siguiente,
+    siguiente: siguiente
+  };
+}
+
+// ── VISUALES DE JUEGO ────────────────────────
+var _juegoVisuals = {
+  'Fundamentos':              { emoji: '\uD83D\uDCB5', bg: 'linear-gradient(135deg,#f0fdf4,#dcfce7)', color: '#15803d' },
+  'Ahorro':                   { emoji: '\uD83C\uDFE6', bg: 'linear-gradient(135deg,#eff6ff,#dbeafe)', color: '#1d4ed8' },
+  'Presupuesto':              { emoji: '\uD83D\uDCCA', bg: 'linear-gradient(135deg,#faf5ff,#ede9fe)', color: '#6d28d9' },
+  'Inversi\u00F3n':          { emoji: '\uD83D\uDCC8', bg: 'linear-gradient(135deg,#f0fdf4,#bbf7d0)', color: '#15803d' },
+  'Bolsa':                    { emoji: '\uD83C\uDFDB\uFE0F', bg: 'linear-gradient(135deg,#fffbeb,#fef3c7)', color: '#92400e' },
+  'Deuda y Cr\u00E9dito':    { emoji: '\uD83D\uDCB3', bg: 'linear-gradient(135deg,#fef2f2,#fee2e2)', color: '#991b1b' },
+  'Inflaci\u00F3n':          { emoji: '\uD83D\uDCC9', bg: 'linear-gradient(135deg,#fff7ed,#ffedd5)', color: '#9a3412' },
+  'Fondos y Diversificaci\u00F3n': { emoji: '\uD83E\uDDFA', bg: 'linear-gradient(135deg,#f0fdf4,#dcfce7)', color: '#166534' },
+  'Criptomonedas':            { emoji: '\uD83FA9', bg: 'linear-gradient(135deg,#fffbeb,#fef9c3)', color: '#854d0e' },
+  'Bienes Ra\u00EDces':      { emoji: '\uD83C\uDFE0', bg: 'linear-gradient(135deg,#f0f9ff,#e0f2fe)', color: '#0c4a6e' },
+  'Impuestos':                { emoji: '\uD83C\uDFDB\uFE0F', bg: 'linear-gradient(135deg,#f8fafc,#f1f5f9)', color: '#334155' },
+  'Emprendimiento':           { emoji: '\uD83D\uDE80', bg: 'linear-gradient(135deg,#fdf4ff,#fae8ff)', color: '#7e22ce' },
+  'Mercados Globales':        { emoji: '\uD83C\uDF0E', bg: 'linear-gradient(135deg,#eff6ff,#dbeafe)', color: '#1e40af' },
+  'Retiro y Largo Plazo':     { emoji: '\uD83C\uDF05', bg: 'linear-gradient(135deg,#fff7ed,#ffedd5)', color: '#9a3412' }
+};
+
+var _tipoPreguntaVisuals = {
+  'opcion':     { label: 'Opci\u00F3n m\u00FAltiple', color: '#0284c7', bg: '#eff6ff' },
+  'completar':  { label: 'Completa la frase',          color: '#7c3aed', bg: '#faf5ff' },
+  'simulacion': { label: 'Simulaci\u00F3n',            color: '#059669', bg: '#f0fdf4' }
+};
+
 // ── MISIONES DIARIAS ─────────────────────────────────────
 var _MISIONES_POOL = [
   { id: 'jugar_1',      nivel: 1, titulo: 'Primera del d\u00EDa',        desc: 'Completa 1 juego hoy',                    xp: 20,  tipo: 'juegos',    meta: 1  },
@@ -3054,15 +3108,32 @@ async function renderHijoInicio() {
   var prog = FinSeedStore.getProgreso(uid);
   var vidaData = getVidas(uid);
   var rachaData = getRacha(uid);
-  var xpParaNivel = 200;
-  var xpPct = Math.min(100, Math.round(((prog.xpSemana || 0) / xpParaNivel) * 100));
-
   var elXP = document.getElementById('kp-xp-total'); if (elXP) elXP.textContent = prog.xp || 0;
   var elR = document.getElementById('kp-racha'); if (elR) elR.textContent = (prog.racha || 0) + ' \uD83D\uDD25';
-  var elNv = document.getElementById('kp-nivel-num'); if (elNv) elNv.textContent = prog.nivel || 1;
-  var elXPL = document.getElementById('kp-xp-label'); if (elXPL) elXPL.textContent = (prog.xpSemana || 0) + ' / ' + xpParaNivel + ' XP';
-  var elBar = document.getElementById('kp-xp-bar'); if (elBar) setTimeout(function() { elBar.style.width = xpPct + '%'; }, 100);
   var elXPS = document.getElementById('kp-xp-semana'); if (elXPS) elXPS.textContent = prog.xpSemana || 0;
+
+  // Juego destacado (necesitamos completados para nivel)
+  var progJuegos = getProgresoJuegos(uid);
+  var completados = Object.keys(progJuegos).filter(function(k) { return progJuegos[k].completado; }).length;
+
+  // Nivel basado en juegos completados
+  var nivelInfo = getNivelInfo(completados);
+
+  var elNvNum = document.getElementById('kp-nivel-num');
+  if (elNvNum) elNvNum.textContent = nivelInfo.icono + ' ' + nivelInfo.nivel;
+
+  var elBar = document.getElementById('kp-xp-bar');
+  var xpPct2 = Math.min(100, Math.round((nivelInfo.completadosEnNivel / nivelInfo.juegosParaNivel) * 100));
+  if (elBar) setTimeout(function() { elBar.style.width = xpPct2 + '%'; }, 100);
+
+  var elXPL = document.getElementById('kp-xp-label');
+  if (elXPL) {
+    if (nivelInfo.esUltimo) {
+      elXPL.textContent = '\u00A1Nivel m\u00E1ximo alcanzado!';
+    } else {
+      elXPL.textContent = nivelInfo.completadosEnNivel + ' / ' + nivelInfo.juegosParaNivel + ' juegos para Nivel ' + (nivelInfo.nivel + 1);
+    }
+  }
 
   // Vidas
   var elVidas = document.getElementById('kp-vidas');
@@ -3073,14 +3144,23 @@ async function renderHijoInicio() {
     }
     elVidas.innerHTML = vidasHTML;
   }
-  var elHoy = document.getElementById('kp-jugado-hoy');
-  if (elHoy) {
-    elHoy.textContent = rachaData.jugadoHoy ? '\u2713 Ya jugaste hoy' : 'Juega hoy para mantener tu racha';
-    elHoy.style.color = rachaData.jugadoHoy ? '#16a34a' : '#f59e0b';
-  }
 
-  // Juego destacado
-  var progJuegos = getProgresoJuegos(uid);
+  var elJugadoHoy = document.getElementById('kp-jugado-hoy');
+  if (elJugadoHoy) {
+    if (!nivelInfo.esUltimo && nivelInfo.faltanParaSiguiente <= 2 && nivelInfo.faltanParaSiguiente > 0) {
+      elJugadoHoy.textContent = '\u00A1Solo ' + nivelInfo.faltanParaSiguiente + ' juego' + (nivelInfo.faltanParaSiguiente !== 1 ? 's' : '') + ' para ' + nivelInfo.icono + ' Nivel ' + (nivelInfo.nivel + 1) + '!';
+      elJugadoHoy.style.color = '#16a34a';
+      elJugadoHoy.style.fontWeight = '600';
+    } else if (rachaData.jugadoHoy) {
+      elJugadoHoy.textContent = '\u2713 Ya jugaste hoy';
+      elJugadoHoy.style.color = '#16a34a';
+      elJugadoHoy.style.fontWeight = '400';
+    } else {
+      elJugadoHoy.textContent = 'Juega hoy para mantener tu racha';
+      elJugadoHoy.style.color = '#f59e0b';
+      elJugadoHoy.style.fontWeight = '400';
+    }
+  }
   var siguiente = null;
   for (var jj = 0; jj < FinSeedStore.arbolJuegos.length; jj++) {
     var jg = FinSeedStore.arbolJuegos[jj];
@@ -3616,7 +3696,14 @@ function renderJuegoOverlay() {
 
   var preg     = juego.preguntas[step];
   var pct      = Math.round((step / total) * 100);
-  var tipoLabel = preg.tipo === 'opcion' ? 'Opción múltiple' : preg.tipo === 'completar' ? 'Completa la frase' : 'Simulación';
+  var visual = _juegoVisuals[juego.tema] || { emoji: '\uD83D\uDCA1', bg: 'linear-gradient(135deg,#f9fafb,#f3f4f6)', color: '#374151' };
+  var tipoVisual = _tipoPreguntaVisuals[preg.tipo] || _tipoPreguntaVisuals['opcion'];
+
+  var visualHTML = '<div style="background:' + visual.bg + ';border-radius:16px;padding:20px;margin-bottom:16px;text-align:center">' +
+    '<div style="font-size:52px;margin-bottom:8px;line-height:1">' + visual.emoji + '</div>' +
+    '<div style="display:inline-block;background:' + tipoVisual.bg + ';color:' + tipoVisual.color + ';font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px">' + tipoVisual.label + '</div>' +
+    '<div style="font-size:16px;font-weight:700;color:' + visual.color + ';line-height:1.5">' + preg.pregunta + '</div>' +
+    '</div>';
 
   var opcionesHTML = preg.opciones.map(function(op, i) {
     return '<div onclick="responderJuego(' + i + ')" id="juego-op-' + i + '" style="padding:14px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;color:var(--text-1);cursor:pointer;transition:all .15s">' + op + '</div>';
@@ -3634,8 +3721,7 @@ function renderJuegoOverlay() {
       '<div style="background:#f0fdf4;border-radius:8px;height:6px;margin-bottom:20px">' +
         '<div style="background:#16a34a;height:6px;border-radius:8px;width:' + pct + '%;transition:width .3s"></div>' +
       '</div>' +
-      '<div style="font-size:11px;background:#f0fdf4;color:#16a34a;padding:4px 10px;border-radius:20px;display:inline-block;margin-bottom:16px;font-weight:600">' + tipoLabel + '</div>' +
-      '<div style="font-size:17px;font-weight:600;color:var(--text-1);line-height:1.5;margin-bottom:24px;flex:1">' + preg.pregunta + '</div>' +
+      visualHTML +
       '<div id="juego-opciones" style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">' + opcionesHTML + '</div>' +
       '<div style="text-align:center;font-size:12px;color:var(--text-3)">' + (step + 1) + ' de ' + total + '</div>' +
     '</div>';
@@ -3719,6 +3805,17 @@ function renderJuegoFinal() {
   if (aprobado) actualizarProgresoMisiones(uid, 'correctas', _juegoScore);
   if (aprobado && _juegoScore === _juegoActivo.preguntas.length) {
     actualizarProgresoMisiones(uid, 'sin_error', 1);
+  }
+
+  // Detección de subida de nivel
+  var progJuegosNivel = getProgresoJuegos(uid);
+  var completadosNivel = Object.keys(progJuegosNivel).filter(function(k) { return progJuegosNivel[k].completado; }).length;
+  var nivelAntes   = getNivelInfo(completadosNivel - 1);
+  var nivelDespues = getNivelInfo(completadosNivel);
+  if (nivelDespues.nivel > nivelAntes.nivel) {
+    setTimeout(function() {
+      mostrarToastJuego(nivelDespues.icono + ' ¡Subiste a Nivel ' + nivelDespues.nivel + ': ' + nivelDespues.nombre + '!');
+    }, 1500);
   }
 
   var overlay = document.getElementById('juego-overlay');
