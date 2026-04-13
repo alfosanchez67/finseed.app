@@ -883,6 +883,7 @@
         <div id="port-cambio-pct" style="font-size:14px;color:rgba(255,255,255,0.9)">+0.00%</div>
         <div id="port-cambio-val" style="font-size:13px;color:rgba(255,255,255,0.65)">hoy</div>
       </div>
+      <div id="port-precios-badge" style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:6px">&#9675; Cargando precios...</div>
     </div>
 
     <!-- TABS -->
@@ -1475,26 +1476,64 @@ var FinSeedStore = {
     nombre: ''
   },
 
-  fetchPortfolio: function(userId) {
-    var data = {
-      u1: { total: 12450.00, moneda: 'USD', cambioHoy: 0.0082, cambioPesos: 102.09, activos: [
-        { ticker: 'VTI',  nombre: 'Vanguard Total Market ETF', cantidad: 18, precioActual: 216.5, precioCompra: 198.0, valor: 3897.0 },
-        { ticker: 'QQQ',  nombre: 'Invesco QQQ Trust',         cantidad: 10, precioActual: 445.2, precioCompra: 410.0, valor: 4452.0 },
-        { ticker: 'GLD',  nombre: 'SPDR Gold Shares',          cantidad: 20, precioActual: 200.5, precioCompra: 185.0, valor: 4010.0 },
-        { ticker: 'CASH', nombre: 'Efectivo USD',              cantidad: 1,  precioActual:  91.0, precioCompra:  91.0, valor:   91.0 }
-      ]},
-      u2: { total: 850.00, moneda: 'USD', cambioHoy: 0.0053, cambioPesos: 4.51, activos: [
-        { ticker: 'META', nombre: 'Meta Savings Goal', cantidad: 3, precioActual: 200.0, precioCompra: 188.0, valor: 600.0 },
-        { ticker: 'CASH', nombre: 'Efectivo',           cantidad: 1, precioActual: 250.0, precioCompra: 250.0, valor: 250.0 }
-      ]},
-      u3: { total: 0, moneda: 'USD', cambioHoy: 0, cambioPesos: 0, activos: [] }
+  fetchPortfolio: async function(userId) {
+    var posiciones = _portafoliosDemo[userId];
+
+    if (!posiciones) {
+      var guardado = localStorage.getItem('finseed_portafolio_' + userId);
+      if (guardado) posiciones = JSON.parse(guardado);
+    }
+
+    if (!posiciones || posiciones.length === 0) {
+      return { total: 0, cambioHoy: 0, cambioPesos: 0, moneda: 'USD', activos: [], preciosReales: false, saldo: 0, rentabilidad: 0 };
+    }
+
+    var tickers = posiciones.map(function(p) { return p.ticker; });
+    var precios = await fetchPreciosMultiples(tickers);
+
+    var activos = [];
+    var totalActual = 0;
+    var totalAnterior = 0;
+
+    posiciones.forEach(function(pos) {
+      var info = precios[pos.ticker];
+      var precioActual = info && info.ok ? info.precio : pos.precioCompra;
+      var precioAnteriorHoy = info && info.ok ? info.precioAnterior : pos.precioCompra;
+      var valor = precioActual * pos.cantidad;
+      var valorAnterior = precioAnteriorHoy * pos.cantidad;
+
+      totalActual += valor;
+      totalAnterior += valorAnterior;
+
+      activos.push({
+        ticker: pos.ticker,
+        nombre: info && info.nombre ? info.nombre : pos.ticker,
+        cantidad: pos.cantidad,
+        precioActual: precioActual,
+        precioCompra: pos.precioCompra,
+        precioAnterior: precioAnteriorHoy,
+        valor: valor,
+        cambioPct: info && info.ok ? info.cambioPct : 0,
+        moneda: info && info.moneda ? info.moneda : 'USD',
+        precioReal: !!(info && info.ok),
+        pct: (precioActual - pos.precioCompra) / pos.precioCompra
+      });
+    });
+
+    var cambioHoyPct = totalAnterior > 0 ? ((totalActual - totalAnterior) / totalAnterior) : 0;
+    var cambioHoyVal = totalActual - totalAnterior;
+
+    var p = {
+      total: totalActual,
+      cambioHoy: cambioHoyPct,
+      cambioPesos: cambioHoyVal,
+      moneda: 'USD',
+      activos: activos,
+      preciosReales: activos.some(function(a) { return a.precioReal; })
     };
-    var p = data[userId] || data.u3;
-    // Back-compat shim for code that still reads .saldo / .rentabilidad
     p.saldo = p.total;
     p.rentabilidad = p.cambioHoy;
-    p.activos.forEach(function(a) { a.pct = (a.precioActual - a.precioCompra) / a.precioCompra; });
-    return Promise.resolve(p);
+    return p;
   },
 
   getHijos: function(padreId) {
@@ -1943,6 +1982,69 @@ function formatPct(n) {
   return (n >= 0 ? '+' : '') + (n * 100).toFixed(1) + '%';
 }
 
+// ── PRECIOS REALES — Yahoo Finance via AllOrigins proxy ──
+var _preciosCache = {};
+var _preciosCacheTime = {};
+var CACHE_MINUTOS = 5;
+
+async function fetchPrecioReal(ticker) {
+  var ahora = Date.now();
+  if (_preciosCache[ticker] && (ahora - _preciosCacheTime[ticker]) < CACHE_MINUTOS * 60000) {
+    return _preciosCache[ticker];
+  }
+  try {
+    var url = 'https://query1.finance.yahoo.com/v8/finance/chart/' + ticker + '?interval=1d&range=5d';
+    var proxy = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+    var res = await fetch(proxy);
+    var data = await res.json();
+    var result = data.chart.result[0];
+    var meta = result.meta;
+    var precio = meta.regularMarketPrice;
+    var precioAnterior = meta.chartPreviousClose || meta.previousClose;
+    var cambio = precioAnterior ? ((precio - precioAnterior) / precioAnterior * 100) : 0;
+    var info = {
+      ticker: ticker,
+      precio: precio,
+      precioAnterior: precioAnterior,
+      cambioPct: cambio,
+      moneda: meta.currency || 'USD',
+      nombre: meta.shortName || ticker,
+      ok: true
+    };
+    _preciosCache[ticker] = info;
+    _preciosCacheTime[ticker] = ahora;
+    return info;
+  } catch(e) {
+    console.log('Error precio ' + ticker + ':', e);
+    return { ticker: ticker, precio: null, cambioPct: 0, ok: false };
+  }
+}
+
+async function fetchPreciosMultiples(tickers) {
+  var resultados = {};
+  await Promise.all(tickers.map(async function(t) {
+    resultados[t] = await fetchPrecioReal(t);
+  }));
+  return resultados;
+}
+
+var _portafoliosDemo = {
+  'u1': [
+    { ticker: 'AAPL', cantidad: 5,  precioCompra: 190.00 },
+    { ticker: 'TSLA', cantidad: 3,  precioCompra: 220.00 },
+    { ticker: 'VOO',  cantidad: 10, precioCompra: 450.00 },
+    { ticker: 'SQM',  cantidad: 20, precioCompra: 50.00  },
+    { ticker: 'BND',  cantidad: 15, precioCompra: 72.00  }
+  ],
+  'u2': [
+    { ticker: 'AAPL', cantidad: 1, precioCompra: 200.00 },
+    { ticker: 'VOO',  cantidad: 1, precioCompra: 480.00 }
+  ],
+  'u3': [
+    { ticker: 'MSFT', cantidad: 1, precioCompra: 310.00 }
+  ]
+};
+
 function getPctColor(n) {
   return n >= 0 ? 'var(--green)' : 'var(--danger)';
 }
@@ -2330,17 +2432,26 @@ function renderActivosLista(activos) {
   var el = document.getElementById('port-activos');
   if (!el) return;
   el.innerHTML = activos.map(function(a) {
-    var ganancia = a.precioActual - a.precioCompra;
-    var gananciaPct = (ganancia / a.precioCompra);
-    var color = ganancia >= 0 ? '#059669' : '#dc2626';
-    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #f3f4f6">' +
+    var gananciaTotal = (a.precioActual - a.precioCompra) / a.precioCompra * 100;
+    var gananciaDia = a.cambioPct || 0;
+    var colorTotal = gananciaTotal >= 0 ? '#059669' : '#dc2626';
+    var colorDia = gananciaDia >= 0 ? '#059669' : '#dc2626';
+
+    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid #f3f4f6">' +
       '<div>' +
-      '<div style="font-size:14px;font-weight:600;color:var(--text-1)">' + a.ticker + '</div>' +
-      '<div style="font-size:12px;color:var(--text-3)">' + a.nombre + ' · ' + a.cantidad + ' acc.</div>' +
+      '<div style="display:flex;align-items:center;gap:8px">' +
+      '<div style="font-size:14px;font-weight:700;color:var(--text-1)">' + a.ticker + '</div>' +
+      (a.precioReal
+        ? '<div style="font-size:10px;background:#f0fdf4;color:#059669;border:1px solid #d1fae5;border-radius:20px;padding:1px 6px;font-weight:600">LIVE</div>'
+        : '<div style="font-size:10px;background:#f9fafb;color:var(--text-3);border:1px solid var(--border);border-radius:20px;padding:1px 6px">DEMO</div>') +
+      '</div>' +
+      '<div style="font-size:12px;color:var(--text-3);margin-top:2px">' + a.nombre + ' \xB7 ' + a.cantidad + ' acciones</div>' +
+      '<div style="font-size:11px;color:var(--text-3);margin-top:1px">Compra: US$' + a.precioCompra.toFixed(2) + ' \xB7 Actual: US$' + a.precioActual.toFixed(2) + '</div>' +
       '</div>' +
       '<div style="text-align:right">' +
-      '<div style="font-size:14px;font-weight:600;color:var(--text-1)">' + formatMoney(a.valor) + '</div>' +
-      '<div style="font-size:12px;color:' + color + '">' + formatPct(gananciaPct) + ' · ' + (ganancia >= 0 ? '+' : '') + formatMoney(ganancia * a.cantidad) + '</div>' +
+      '<div style="font-size:15px;font-weight:700;color:var(--text-1)">US$' + a.valor.toFixed(2) + '</div>' +
+      '<div style="font-size:12px;color:' + colorDia + '">' + (gananciaDia >= 0 ? '+' : '') + gananciaDia.toFixed(2) + '% hoy</div>' +
+      '<div style="font-size:11px;color:' + colorTotal + '">' + (gananciaTotal >= 0 ? '+' : '') + gananciaTotal.toFixed(1) + '% total</div>' +
       '</div></div>';
   }).join('');
 }
@@ -2387,9 +2498,15 @@ async function renderPortHijos() {
 async function renderPortafolioPadre() {
   var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
   var uid = session.id || FinSeedStore.session.userId || 'u1';
+
+  // Loading state
+  var elT = document.getElementById('port-total');
+  if (elT) elT.textContent = 'Cargando...';
+  var elActivos = document.getElementById('port-activos');
+  if (elActivos) elActivos.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-3);font-size:13px">Obteniendo precios reales...</div>';
+
   var port = await FinSeedStore.fetchPortfolio(uid);
 
-  var elT = document.getElementById('port-total');
   if (elT) elT.textContent = formatMoney(port.total);
 
   var elP = document.getElementById('port-cambio-pct');
@@ -2400,6 +2517,13 @@ async function renderPortafolioPadre() {
 
   var elV = document.getElementById('port-cambio-val');
   if (elV) elV.textContent = (port.cambioHoy >= 0 ? '+' : '') + formatMoney(port.cambioPesos) + ' hoy';
+
+  // Indicador precios reales/demo
+  var elIndicador = document.getElementById('port-precios-badge');
+  if (elIndicador) {
+    elIndicador.textContent = port.preciosReales ? '\u25CF Precios en tiempo real' : '\u25CB Precios simulados';
+    elIndicador.style.color = port.preciosReales ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.5)';
+  }
 
   renderDistribucion(port.activos);
   renderActivosLista(port.activos);
