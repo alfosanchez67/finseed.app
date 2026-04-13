@@ -1477,63 +1477,21 @@ var FinSeedStore = {
   },
 
   fetchPortfolio: async function(userId) {
-    var posiciones = _portafoliosDemo[userId] || _portafoliosDemo['u1'];
-
-    if (!posiciones) {
-      var guardado = localStorage.getItem('finseed_portafolio_' + userId);
-      if (guardado) posiciones = JSON.parse(guardado);
-    }
-
-    if (!posiciones || posiciones.length === 0) {
-      return { total: 0, cambioHoy: 0, cambioPesos: 0, moneda: 'USD', activos: [], preciosReales: false, saldo: 0, rentabilidad: 0 };
-    }
-
-    var tickers = posiciones.map(function(p) { return p.ticker; });
-    var precios = await fetchPreciosMultiples(tickers);
-
-    var activos = [];
-    var totalActual = 0;
-    var totalAnterior = 0;
-
-    posiciones.forEach(function(pos) {
-      var info = precios[pos.ticker];
-      var precioActual = info && info.ok ? info.precio : pos.precioCompra;
-      var precioAnteriorHoy = info && info.ok ? info.precioAnterior : pos.precioCompra;
-      var valor = precioActual * pos.cantidad;
-      var valorAnterior = precioAnteriorHoy * pos.cantidad;
-
-      totalActual += valor;
-      totalAnterior += valorAnterior;
-
-      activos.push({
-        ticker: pos.ticker,
-        nombre: info && info.nombre ? info.nombre : pos.ticker,
-        cantidad: pos.cantidad,
-        precioActual: precioActual,
-        precioCompra: pos.precioCompra,
-        precioAnterior: precioAnteriorHoy,
-        valor: valor,
-        cambioPct: info && info.ok ? info.cambioPct : 0,
-        moneda: info && info.moneda ? info.moneda : 'USD',
-        precioReal: !!(info && info.ok),
-        pct: (precioActual - pos.precioCompra) / pos.precioCompra
-      });
-    });
-
-    var cambioHoyPct = totalAnterior > 0 ? ((totalActual - totalAnterior) / totalAnterior) : 0;
-    var cambioHoyVal = totalActual - totalAnterior;
-
-    var p = {
-      total: totalActual,
-      cambioHoy: cambioHoyPct,
-      cambioPesos: cambioHoyVal,
+    var mock = {
+      total: 12450.80,
+      cambioHoy: +2.3,
+      cambioPesos: +280.50,
       moneda: 'USD',
-      activos: activos,
-      preciosReales: activos.some(function(a) { return a.precioReal; })
+      activos: [
+        { ticker: 'AAPL', nombre: 'Apple Inc.',      cantidad: 5,  precioActual: 224.50, precioCompra: 190.00, valor: 1122.50,  cambioPct:  2.4 },
+        { ticker: 'TSLA', nombre: 'Tesla Inc.',      cantidad: 3,  precioActual: 248.30, precioCompra: 220.00, valor:  744.90,  cambioPct: -1.2 },
+        { ticker: 'VOO',  nombre: 'Vanguard S&P 500',cantidad: 10, precioActual: 491.20, precioCompra: 450.00, valor: 4912.00,  cambioPct:  0.8 },
+        { ticker: 'SQM',  nombre: 'SQM Chile',       cantidad: 20, precioActual:  43.80, precioCompra:  50.00, valor:  876.00,  cambioPct: -0.9 },
+        { ticker: 'BND',  nombre: 'Vanguard Bonds',  cantidad: 15, precioActual:  75.07, precioCompra:  72.00, valor: 1126.05,  cambioPct:  0.1 }
+      ],
+      preciosReales: false
     };
-    p.saldo = p.total;
-    p.rentabilidad = p.cambioHoy;
-    return p;
+    return mock;
   },
 
   getHijos: function(padreId) {
