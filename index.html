@@ -1982,10 +1982,11 @@ function formatPct(n) {
   return (n >= 0 ? '+' : '') + (n * 100).toFixed(1) + '%';
 }
 
-// ── PRECIOS REALES — Yahoo Finance via AllOrigins proxy ──
+// ── PRECIOS REALES — Finnhub ──
 var _preciosCache = {};
 var _preciosCacheTime = {};
 var CACHE_MINUTOS = 5;
+const FINNHUB_KEY = 'd7efkq9r01qi33g63d2gd7efkq9r01qi33g63d30';
 
 async function fetchPrecioReal(ticker) {
   var ahora = Date.now();
@@ -1993,22 +1994,20 @@ async function fetchPrecioReal(ticker) {
     return _preciosCache[ticker];
   }
   try {
-    var url = 'https://query1.finance.yahoo.com/v8/finance/chart/' + ticker + '?interval=1d&range=5d';
-    var proxy = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
-    var res = await fetch(proxy);
+    var url = 'https://finnhub.io/api/v1/quote?symbol=' + ticker + '&token=' + FINNHUB_KEY;
+    var res = await fetch(url);
     var data = await res.json();
-    var result = data.chart.result[0];
-    var meta = result.meta;
-    var precio = meta.regularMarketPrice;
-    var precioAnterior = meta.chartPreviousClose || meta.previousClose;
+    if (!data || !data.c || data.c === 0) throw new Error('Sin datos');
+    var precio = data.c;
+    var precioAnterior = data.pc;
     var cambio = precioAnterior ? ((precio - precioAnterior) / precioAnterior * 100) : 0;
     var info = {
       ticker: ticker,
       precio: precio,
       precioAnterior: precioAnterior,
       cambioPct: cambio,
-      moneda: meta.currency || 'USD',
-      nombre: meta.shortName || ticker,
+      moneda: 'USD',
+      nombre: ticker,
       ok: true
     };
     _preciosCache[ticker] = info;
