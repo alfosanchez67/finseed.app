@@ -1477,7 +1477,7 @@ var FinSeedStore = {
   },
 
   fetchPortfolio: async function(userId) {
-    var posiciones = _portafoliosDemo[userId];
+    var posiciones = _portafoliosDemo[userId] || _portafoliosDemo['u1'];
 
     if (!posiciones) {
       var guardado = localStorage.getItem('finseed_portafolio_' + userId);
