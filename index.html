@@ -2785,6 +2785,9 @@ async function renderPortHijos() {
       '</div>' +
       '</div>';
   }
+  html += '<div style="margin-top:16px">' +
+    '<div onclick="abrirSelectorHijoCompra()" style="background:#059669;color:white;padding:14px;border-radius:12px;text-align:center;font-weight:700;font-size:15px;cursor:pointer">+ Comprar acciones para un hijo</div>' +
+    '</div>';
   el.innerHTML = html;
 }
 
@@ -4007,6 +4010,139 @@ function abrirCompraParaHijo(hijoId, hijoNombre) {
     var titulo = document.querySelector('#trade-contenido div:first-child div:first-child');
     if (titulo) titulo.textContent = 'Comprar para ' + hijoNombre;
   }, 100);
+}
+
+function abrirSelectorHijoCompra() {
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || 'u1';
+  var hijos = getHijosReales(uid);
+  if (!hijos || hijos.length === 0) {
+    hijos = [
+      { id: 'u2', nombre: 'Sof\u00EDa', avatar: 'S', nivel: 4, xp: 340 },
+      { id: 'u3', nombre: 'Mateo',  avatar: 'M', nivel: 2, xp: 180 }
+    ];
+  }
+  var overlay = document.getElementById('trade-overlay');
+  var contenido = document.getElementById('trade-contenido');
+  if (!overlay || !contenido) return;
+
+  var html =
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">' +
+    '<div style="font-size:18px;font-weight:700;color:var(--text-1)">\u00BFPara qui\u00E9n compras?</div>' +
+    '<div onclick="cerrarTrade()" style="font-size:22px;color:var(--text-3);cursor:pointer">\u2715</div>' +
+    '</div>' +
+    '<div style="font-size:13px;color:var(--text-3);margin-bottom:16px">Selecciona el hijo al que quieres comprarle acciones. El saldo se descuenta de tu cuenta.</div>' +
+    '<div style="display:flex;flex-direction:column;gap:10px">';
+
+  hijos.forEach(function(h) {
+    var progHijo = FinSeedStore.getProgreso(h.id);
+    html += '<div onclick="seleccionarHijoYComprar(\'' + h.id + '\',\'' + h.nombre + '\')" style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer">' +
+      '<div style="width:48px;height:48px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:18px">' + h.avatar + '</div>' +
+      '<div style="flex:1">' +
+      '<div style="font-size:16px;font-weight:700;color:var(--text-1)">' + h.nombre + '</div>' +
+      '<div style="font-size:12px;color:var(--text-3);margin-top:2px">Nivel ' + (h.nivel || progHijo.nivel) + ' \u00B7 ' + (h.xp || progHijo.xp) + ' XP</div>' +
+      '</div>' +
+      '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>' +
+      '</div>';
+  });
+
+  html += '</div>';
+  contenido.innerHTML = html;
+  overlay.style.display = 'flex';
+}
+
+function seleccionarHijoYComprar(hijoId, hijoNombre) {
+  window._compraPara = { id: hijoId, nombre: hijoNombre };
+  var overlay = document.getElementById('trade-overlay');
+  var contenido = document.getElementById('trade-contenido');
+  if (!overlay || !contenido) return;
+
+  var posiciones = getPortafolioPadre(hijoId);
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var saldo = getSaldoPadre(session.id || 'u1');
+
+  var html =
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">' +
+    '<div style="display:flex;align-items:center;gap:10px">' +
+    '<div onclick="abrirSelectorHijoCompra()" style="font-size:20px;color:var(--text-3);cursor:pointer">\u2190</div>' +
+    '<div style="font-size:18px;font-weight:700;color:var(--text-1)">Portafolio de ' + hijoNombre + '</div>' +
+    '</div>' +
+    '<div onclick="cerrarTrade()" style="font-size:22px;color:var(--text-3);cursor:pointer">\u2715</div>' +
+    '</div>' +
+    '<div style="background:#f0fdf4;border-radius:12px;padding:12px 16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center">' +
+    '<div style="font-size:13px;color:var(--text-2)">Tu saldo disponible</div>' +
+    '<div style="font-size:15px;font-weight:700;color:#059669">$' + saldo.clp.toLocaleString('es-CL') + ' CLP</div>' +
+    '</div>' +
+    '<div style="font-size:13px;font-weight:600;color:var(--text-2);margin-bottom:10px">Acciones actuales de ' + hijoNombre + '</div>';
+
+  if (!posiciones || posiciones.length === 0) {
+    html += '<div style="background:#f9fafb;border-radius:12px;padding:16px;text-align:center;color:var(--text-3);font-size:13px;margin-bottom:16px">' + hijoNombre + ' a\u00FAn no tiene acciones</div>';
+  } else {
+    html += '<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">';
+    posiciones.forEach(function(pos) {
+      var info = _preciosCache[pos.ticker];
+      var precioActual = info && info.ok ? info.precio : pos.precioCompra;
+      var ganancia = ((precioActual - pos.precioCompra) / pos.precioCompra * 100);
+      var color = ganancia >= 0 ? '#059669' : '#dc2626';
+      html += '<div style="background:white;border:1px solid var(--border);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center">' +
+        '<div><div style="font-size:14px;font-weight:700;color:var(--text-1)">' + pos.ticker + '</div>' +
+        '<div style="font-size:12px;color:var(--text-3)">' + pos.cantidad + ' acciones \u00B7 Compra US$' + pos.precioCompra.toFixed(2) + '</div></div>' +
+        '<div style="text-align:right">' +
+        '<div style="font-size:14px;font-weight:700;color:var(--text-1)">US$' + (precioActual * pos.cantidad).toFixed(2) + '</div>' +
+        '<div style="font-size:12px;color:' + color + '">' + (ganancia >= 0 ? '+' : '') + ganancia.toFixed(2) + '%</div>' +
+        '</div></div>';
+    });
+    html += '</div>';
+  }
+
+  html += '<div onclick="abrirCatalogoParaHijo()" style="background:#059669;color:white;padding:14px;border-radius:12px;text-align:center;font-weight:700;font-size:15px;cursor:pointer">+ Comprar acciones para ' + hijoNombre + '</div>';
+  contenido.innerHTML = html;
+}
+
+function abrirCatalogoParaHijo() {
+  var hijoNombre = window._compraPara ? window._compraPara.nombre : 'hijo';
+  var overlay = document.getElementById('trade-overlay');
+  var contenido = document.getElementById('trade-contenido');
+  if (!overlay || !contenido) return;
+
+  var html =
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">' +
+    '<div style="display:flex;align-items:center;gap:10px">' +
+    '<div onclick="seleccionarHijoYComprar(\'' + window._compraPara.id + '\',\'' + hijoNombre + '\')" style="font-size:20px;color:var(--text-3);cursor:pointer">\u2190</div>' +
+    '<div style="font-size:17px;font-weight:700;color:var(--text-1)">Comprar para ' + hijoNombre + '</div>' +
+    '</div>' +
+    '<div onclick="cerrarTrade()" style="font-size:22px;color:var(--text-3);cursor:pointer">\u2715</div>' +
+    '</div>' +
+    '<div style="font-size:13px;color:var(--text-3);margin-bottom:14px">Selecciona una acci\u00F3n</div>' +
+    '<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">';
+
+  _catalogoAcciones.forEach(function(acc) {
+    var precio = _preciosCache[acc.ticker];
+    var precioStr = precio && precio.ok ? 'US$' + precio.precio.toFixed(2) : '...';
+    var cambioStr = precio && precio.ok ? (precio.cambioPct >= 0 ? '+' : '') + precio.cambioPct.toFixed(2) + '%' : '';
+    var cambioColor = precio && precio.cambioPct >= 0 ? '#059669' : '#dc2626';
+    html += '<div onclick="seleccionarAccion(\'' + acc.ticker + '\',\'' + acc.nombre + '\')" id="acc-item-' + acc.ticker + '" style="background:white;border:1px solid var(--border);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer">' +
+      '<div><div style="font-size:14px;font-weight:600;color:var(--text-1)">' + acc.ticker + '</div>' +
+      '<div style="font-size:12px;color:var(--text-3)">' + acc.nombre + ' \u00B7 ' + acc.sector + '</div></div>' +
+      '<div style="text-align:right"><div style="font-size:14px;font-weight:600;color:var(--text-1)">' + precioStr + '</div>' +
+      '<div style="font-size:12px;color:' + cambioColor + '">' + cambioStr + '</div></div>' +
+      '</div>';
+  });
+
+  html += '</div><div id="trade-form" style="display:none"></div>';
+  contenido.innerHTML = html;
+
+  fetchPreciosReales(_catalogoAcciones.map(function(a) { return a.ticker; })).then(function() {
+    _catalogoAcciones.forEach(function(acc) {
+      var precio = _preciosCache[acc.ticker];
+      var el = document.getElementById('acc-item-' + acc.ticker);
+      if (el && precio && precio.ok) {
+        var divs = el.querySelectorAll('div:last-child div');
+        if (divs[0]) divs[0].textContent = 'US$' + precio.precio.toFixed(2);
+        if (divs[1]) { divs[1].textContent = (precio.cambioPct >= 0 ? '+' : '') + precio.cambioPct.toFixed(2) + '%'; divs[1].style.color = precio.cambioPct >= 0 ? '#059669' : '#dc2626'; }
+      }
+    });
+  });
 }
 
 function abrirPantallaCompra() {
