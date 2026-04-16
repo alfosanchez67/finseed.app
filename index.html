@@ -2359,7 +2359,7 @@ async function renderPadreInicio() {
   var elT = document.getElementById('pp-total');
   if (elT) elT.textContent = formatMoney(port.total, port.moneda);
   var elP = document.getElementById('pp-cambio-pct');
-  if (elP) { elP.textContent = formatPct(port.cambioHoy); elP.style.color = port.cambioHoy >= 0 ? 'rgba(255,255,255,0.95)' : '#fca5a5'; }
+  if (elP) { elP.textContent = formatPct(port.cambioHoy / 100); elP.style.color = port.cambioHoy >= 0 ? 'rgba(255,255,255,0.95)' : '#fca5a5'; }
   var elV = document.getElementById('pp-cambio-val');
   if (elV) elV.textContent = (port.cambioHoy >= 0 ? '+' : '') + formatMoney(port.cambioPesos, port.moneda) + ' hoy';
 
@@ -2405,7 +2405,7 @@ async function renderPadreInicio() {
       '<div><div style="font-size:14px;font-weight:600;color:var(--text-1)">' + hijo.nombre + '</div>' +
       '<div style="font-size:12px;color:var(--text-3)">Nivel ' + (hijo.nivel||1) + ' · ' + (hijo.xp||0) + ' XP</div></div></div>' +
       '<div style="text-align:right"><div style="font-size:15px;font-weight:600;color:var(--text-1)">' + formatMoney(hp.total, hp.moneda) + '</div>' +
-      '<div style="font-size:12px;color:' + cc + '">' + formatPct(hp.cambioHoy) + ' hoy</div></div></div>';
+      '<div style="font-size:12px;color:' + cc + '">' + formatPct(hp.cambioHoy / 100) + ' hoy</div></div></div>';
   }
   var elHL = document.getElementById('pp-hijos-lista');
   if (elHL) elHL.innerHTML = hijosHTML;
@@ -2769,7 +2769,7 @@ async function renderPortHijos() {
       '<div style="font-size:12px;color:var(--text-3)">Nivel ' + (hijo.nivel || 1) + '</div></div>' +
       '<div style="margin-left:auto;text-align:right">' +
       '<div style="font-size:18px;font-weight:700;color:var(--text-1)">' + formatMoney(hp.total) + '</div>' +
-      '<div style="font-size:12px;color:' + color + '">' + formatPct(hp.cambioHoy) + ' hoy</div>' +
+      '<div style="font-size:12px;color:' + color + '">' + formatPct(hp.cambioHoy / 100) + ' hoy</div>' +
       '</div></div>' +
       '<div style="display:flex;flex-direction:column;gap:6px">' +
       hp.activos.map(function(a) {
@@ -2800,7 +2800,7 @@ async function renderPortafolioPadre() {
 
   var elP = document.getElementById('port-cambio-pct');
   if (elP) {
-    elP.textContent = formatPct(port.cambioHoy);
+    elP.textContent = formatPct(port.cambioHoy / 100);
     elP.style.color = port.cambioHoy >= 0 ? 'rgba(255,255,255,0.95)' : '#fca5a5';
   }
 
@@ -3316,7 +3316,7 @@ async function renderHijoInicio() {
   var port = await FinSeedStore.fetchPortfolio(uid);
   var elPT = document.getElementById('kp-port-total'); if (elPT) elPT.textContent = formatMoney(port.total, port.moneda);
   var elPC = document.getElementById('kp-port-cambio');
-  if (elPC) { elPC.textContent = formatPct(port.cambioHoy) + ' hoy'; elPC.style.color = port.cambioHoy >= 0 ? '#16a34a' : '#dc2626'; }
+  if (elPC) { elPC.textContent = formatPct(port.cambioHoy / 100) + ' hoy'; elPC.style.color = port.cambioHoy >= 0 ? '#16a34a' : '#dc2626'; }
 
   // Familia preview
   var padre = getPadreReal(uid);
