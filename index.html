@@ -2779,7 +2779,11 @@ async function renderPortHijos() {
           '<div style="font-size:13px;font-weight:600;color:' + (g >= 0 ? '#059669' : '#dc2626') + '">' + formatPct(g) + '</div>' +
           '</div>';
       }).join('') +
-      '</div></div>';
+      '</div>' +
+      '<div style="margin-top:12px;padding-top:12px;border-top:1px solid #f3f4f6;display:flex;gap:8px">' +
+      '<div onclick="abrirCompraParaHijo(\'' + hijo.id + '\',\'' + hijo.nombre + '\')" style="flex:1;background:#059669;color:white;padding:10px;border-radius:10px;text-align:center;font-size:13px;font-weight:600;cursor:pointer">+ Comprar para ' + hijo.nombre + '</div>' +
+      '</div>' +
+      '</div>';
   }
   el.innerHTML = html;
 }
@@ -3996,6 +4000,15 @@ function cerrarJuego() {
 
 // ── SIMULADOR DE MERCADO ──────────────────────
 
+function abrirCompraParaHijo(hijoId, hijoNombre) {
+  window._compraPara = { id: hijoId, nombre: hijoNombre };
+  abrirPantallaCompra();
+  setTimeout(function() {
+    var titulo = document.querySelector('#trade-contenido div:first-child div:first-child');
+    if (titulo) titulo.textContent = 'Comprar para ' + hijoNombre;
+  }, 100);
+}
+
 function abrirPantallaCompra() {
   var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
   var uid = session.id || 'u1';
@@ -4048,46 +4061,117 @@ function abrirPantallaCompra() {
   });
 }
 
-function seleccionarAccion(ticker, nombre) {
+async function seleccionarAccion(ticker, nombre) {
   var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
   var uid = session.id || 'u1';
   var saldo = getSaldoPadre(uid);
   var precio = _preciosCache[ticker];
   var precioUSD = precio && precio.ok ? precio.precio : 100;
   var precioCLP = Math.round(precioUSD * TIPO_CAMBIO_USD_CLP);
+  var cambioPct = precio && precio.ok ? precio.cambioPct : 0;
+  var cambioColor = cambioPct >= 0 ? '#059669' : '#dc2626';
+  var cambioIcon = cambioPct >= 0 ? '\u25B2' : '\u25BC';
+
+  var infoAccion = _catalogoAcciones.find(function(a) { return a.ticker === ticker; }) || { sector: 'Mercado' };
+
+  var statsMap = {
+    'AAPL':  { pe: 28.5, mktcap: '2.9T', vol: '58M',  semana52h: 237.23, semana52l: 164.08, desc: 'Empresa tecnol\u00F3gica l\u00EDder. Fabrica iPhone, Mac y servicios digitales.' },
+    'MSFT':  { pe: 35.2, mktcap: '3.1T', vol: '22M',  semana52h: 468.35, semana52l: 380.21, desc: 'Gigante del software. Due\u00F1o de Windows, Azure y LinkedIn.' },
+    'GOOGL': { pe: 21.8, mktcap: '2.1T', vol: '25M',  semana52h: 207.05, semana52l: 155.42, desc: 'Domina la b\u00FAsqueda online, YouTube y la nube con Google Cloud.' },
+    'AMZN':  { pe: 41.3, mktcap: '2.2T', vol: '45M',  semana52h: 242.52, semana52l: 171.12, desc: 'L\u00EDder en e-commerce y computaci\u00F3n en la nube con AWS.' },
+    'TSLA':  { pe: 65.1, mktcap: '850B', vol: '112M', semana52h: 488.54, semana52l: 138.80, desc: 'Pionero en veh\u00EDculos el\u00E9ctricos y energ\u00EDa renovable.' },
+    'NVDA':  { pe: 52.4, mktcap: '2.8T', vol: '245M', semana52h: 153.13, semana52l: 66.25,  desc: 'L\u00EDder en chips de IA y gr\u00E1ficos. Motor de la revoluci\u00F3n del machine learning.' },
+    'VOO':   { pe: 22.1, mktcap: '580B', vol: '5M',   semana52h: 556.43, semana52l: 453.22, desc: 'ETF que replica el S&P 500. Exposici\u00F3n a las 500 mayores empresas de EE.UU.' },
+    'VTI':   { pe: 21.8, mktcap: '430B', vol: '4M',   semana52h: 295.41, semana52l: 236.87, desc: 'ETF del mercado total de EE.UU. M\u00E1s de 3.600 empresas en un solo fondo.' },
+    'QQQ':   { pe: 30.5, mktcap: '260B', vol: '38M',  semana52h: 540.81, semana52l: 414.50, desc: 'ETF del NASDAQ 100. Concentrado en las mayores tecnol\u00F3gicas.' },
+    'BND':   { pe: null, mktcap: '110B', vol: '8M',   semana52h: 77.84,  semana52l: 72.41,  desc: 'ETF de bonos del mercado total de EE.UU. Ideal para estabilizar el portafolio.' },
+    'SQM':   { pe: 18.2, mktcap: '12B',  vol: '2M',   semana52h: 55.20,  semana52l: 28.40,  desc: 'Empresa chilena l\u00EDder en litio y fertilizantes. Exporta a todo el mundo.' },
+    'COPEC': { pe: 14.5, mktcap: '8B',   vol: '1M',   semana52h: 8200,   semana52l: 6100,   desc: 'Holding chileno de energ\u00EDa y forestal. Presente en toda Latinoam\u00E9rica.' }
+  };
+  var stats = statsMap[ticker] || { pe: '--', mktcap: '--', vol: '--', semana52h: precioUSD * 1.2, semana52l: precioUSD * 0.8, desc: 'Activo financiero disponible para invertir.' };
 
   var form = document.getElementById('trade-form');
   if (!form) return;
   form.style.display = 'block';
+
+  var rango = stats.semana52h - stats.semana52l;
+  var pos = rango > 0 ? Math.round(((precioUSD - stats.semana52l) / rango) * 100) : 50;
+  pos = Math.max(2, Math.min(98, pos));
+  var barColor = pos > 60 ? '#059669' : '#f59e0b';
+
   form.innerHTML =
-    '<div style="background:#f9fafb;border-radius:12px;padding:14px 16px;margin-bottom:16px">' +
-    '<div style="display:flex;justify-content:space-between;margin-bottom:6px">' +
-    '<div style="font-size:14px;font-weight:700;color:var(--text-1)">' + ticker + ' \u2014 ' + nombre + '</div>' +
-    '<div style="font-size:11px;background:' + (precio && precio.ok ? '#f0fdf4' : '#f9fafb') + ';color:' + (precio && precio.ok ? '#059669' : 'var(--text-3)') + ';border-radius:20px;padding:2px 8px;font-weight:600">' + (precio && precio.ok ? '\u25CF LIVE' : 'DEMO') + '</div>' +
+    '<div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-radius:14px;padding:16px;margin-bottom:16px">' +
+    '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">' +
+    '<div>' +
+    '<div style="display:flex;align-items:center;gap:8px;margin-bottom:2px">' +
+    '<div style="font-size:20px;font-weight:700;color:var(--text-1)">' + ticker + '</div>' +
+    '<div style="font-size:11px;background:white;color:var(--text-3);border-radius:20px;padding:2px 8px">' + infoAccion.sector + '</div>' +
+    (precio && precio.ok ? '<div style="font-size:11px;background:#f0fdf4;color:#059669;border-radius:20px;padding:2px 8px;font-weight:600;border:1px solid #d1fae5">\u25CF LIVE</div>' : '') +
     '</div>' +
-    '<div style="font-size:22px;font-weight:700;color:var(--text-1)">US$' + precioUSD.toFixed(2) + '</div>' +
-    '<div style="font-size:12px;color:var(--text-3)">\u2248 $' + precioCLP.toLocaleString('es-CL') + ' CLP por acci\u00F3n</div>' +
+    '<div style="font-size:13px;color:var(--text-3)">' + nombre + '</div>' +
     '</div>' +
+    '<div style="text-align:right">' +
+    '<div style="font-size:26px;font-weight:700;color:var(--text-1)">US$' + precioUSD.toFixed(2) + '</div>' +
+    '<div style="font-size:13px;color:' + cambioColor + ';font-weight:600">' + cambioIcon + ' ' + Math.abs(cambioPct).toFixed(2) + '% hoy</div>' +
+    '</div>' +
+    '</div>' +
+    '<div style="font-size:12px;color:var(--text-3);line-height:1.5">' + stats.desc + '</div>' +
+    '</div>' +
+
+    '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px">' +
+    '<div style="background:#f9fafb;border-radius:10px;padding:10px;text-align:center">' +
+    '<div style="font-size:11px;color:var(--text-3);margin-bottom:3px">Mkt Cap</div>' +
+    '<div style="font-size:13px;font-weight:700;color:var(--text-1)">' + stats.mktcap + '</div>' +
+    '</div>' +
+    '<div style="background:#f9fafb;border-radius:10px;padding:10px;text-align:center">' +
+    '<div style="font-size:11px;color:var(--text-3);margin-bottom:3px">P/E Ratio</div>' +
+    '<div style="font-size:13px;font-weight:700;color:var(--text-1)">' + (stats.pe || '--') + '</div>' +
+    '</div>' +
+    '<div style="background:#f9fafb;border-radius:10px;padding:10px;text-align:center">' +
+    '<div style="font-size:11px;color:var(--text-3);margin-bottom:3px">Volumen</div>' +
+    '<div style="font-size:13px;font-weight:700;color:var(--text-1)">' + stats.vol + '</div>' +
+    '</div>' +
+    '</div>' +
+
+    '<div style="background:#f9fafb;border-radius:12px;padding:12px 14px;margin-bottom:16px">' +
+    '<div style="font-size:11px;color:var(--text-3);margin-bottom:8px">Rango 52 semanas</div>' +
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">' +
+    '<div style="font-size:12px;color:#dc2626;font-weight:600">US$' + stats.semana52l.toFixed(2) + '</div>' +
+    '<div style="font-size:12px;color:#059669;font-weight:600">US$' + stats.semana52h.toFixed(2) + '</div>' +
+    '</div>' +
+    '<div style="position:relative;background:#e5e7eb;border-radius:6px;height:6px">' +
+    '<div style="position:absolute;left:0;top:0;width:' + pos + '%;background:linear-gradient(90deg,#dc2626,' + barColor + ');height:6px;border-radius:6px"></div>' +
+    '<div style="position:absolute;left:' + pos + '%;top:-4px;width:14px;height:14px;background:white;border:2px solid #059669;border-radius:50%;transform:translateX(-50%)"></div>' +
+    '</div>' +
+    '</div>' +
+
+    '<div style="background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:12px 14px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center">' +
+    '<div style="font-size:12px;color:#92400e">Precio en CLP (TC: $' + TIPO_CAMBIO_USD_CLP + ')</div>' +
+    '<div style="font-size:15px;font-weight:700;color:#92400e">$' + precioCLP.toLocaleString('es-CL') + '</div>' +
+    '</div>' +
+
     '<div style="margin-bottom:16px">' +
-    '<label style="font-size:13px;font-weight:600;color:var(--text-2);display:block;margin-bottom:6px">Cantidad de acciones</label>' +
+    '<label style="font-size:13px;font-weight:600;color:var(--text-2);display:block;margin-bottom:8px">Cantidad de acciones</label>' +
     '<div style="display:flex;align-items:center;gap:12px">' +
-    '<div onclick="cambiarCantidad(-1)" style="width:40px;height:40px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;font-weight:700">\u2212</div>' +
-    '<div id="trade-cantidad" style="font-size:24px;font-weight:700;color:var(--text-1);flex:1;text-align:center">1</div>' +
-    '<div onclick="cambiarCantidad(1)" style="width:40px;height:40px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;font-weight:700">+</div>' +
+    '<div onclick="cambiarCantidad(-1)" style="width:44px;height:44px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;font-weight:700">\u2212</div>' +
+    '<div id="trade-cantidad" style="font-size:28px;font-weight:700;color:var(--text-1);flex:1;text-align:center">1</div>' +
+    '<div onclick="cambiarCantidad(1)" style="width:44px;height:44px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;font-weight:700">+</div>' +
     '</div>' +
     '</div>' +
-    '<div style="background:#f0fdf4;border-radius:12px;padding:12px 16px;margin-bottom:16px">' +
-    '<div style="display:flex;justify-content:space-between;margin-bottom:4px">' +
+
+    '<div id="trade-resumen" style="background:#f0fdf4;border-radius:12px;padding:14px 16px;margin-bottom:16px">' +
+    '<div style="display:flex;justify-content:space-between;margin-bottom:6px">' +
     '<div style="font-size:13px;color:var(--text-2)">Total a pagar</div>' +
-    '<div id="trade-total-clp" style="font-size:13px;font-weight:700;color:var(--text-1)">$' + precioCLP.toLocaleString('es-CL') + ' CLP</div>' +
+    '<div id="trade-total-clp" style="font-size:15px;font-weight:700;color:var(--text-1)">$' + precioCLP.toLocaleString('es-CL') + ' CLP</div>' +
     '</div>' +
     '<div style="display:flex;justify-content:space-between">' +
     '<div style="font-size:12px;color:var(--text-3)">Saldo despu\u00E9s</div>' +
-    '<div id="trade-saldo-post" style="font-size:12px;color:var(--text-3)">$' + (saldo.clp - precioCLP).toLocaleString('es-CL') + ' CLP</div>' +
+    '<div id="trade-saldo-post" style="font-size:13px;font-weight:600;color:' + (saldo.clp >= precioCLP ? '#059669' : '#dc2626') + '">$' + (saldo.clp - precioCLP).toLocaleString('es-CL') + ' CLP</div>' +
     '</div>' +
     '</div>' +
+
     '<div id="trade-error" style="color:#dc2626;font-size:13px;margin-bottom:10px;display:none"></div>' +
-    '<div onclick="confirmarCompra(\'' + ticker + '\',\'' + nombre + '\')" style="background:#059669;color:white;padding:14px;border-radius:12px;text-align:center;font-weight:700;font-size:15px;cursor:pointer">Confirmar compra</div>';
+    '<div onclick="confirmarCompra(\'' + ticker + '\',\'' + nombre + '\')" style="background:#059669;color:white;padding:15px;border-radius:12px;text-align:center;font-weight:700;font-size:16px;cursor:pointer">Confirmar compra</div>';
 
   window._tradeTickerActual = ticker;
   window._tradePrecioActual = precioUSD;
@@ -4127,7 +4211,8 @@ function confirmarCompra(ticker, nombre) {
   saldo.clp -= totalCLP;
   setSaldoPadre(uid, saldo);
 
-  var posiciones = getPortafolioPadre(uid);
+  var targetId = (window._compraPara && window._compraPara.id) ? window._compraPara.id : uid;
+  var posiciones = getPortafolioPadre(targetId);
   var existente = posiciones.find(function(p) { return p.ticker === ticker; });
   if (existente) {
     var totalCantidad = existente.cantidad + cantidad;
@@ -4136,15 +4221,17 @@ function confirmarCompra(ticker, nombre) {
   } else {
     posiciones.push({ ticker: ticker, nombre: nombre, cantidad: cantidad, precioCompra: precioUSD });
   }
-  setPortafolioPadre(uid, posiciones);
+  setPortafolioPadre(targetId, posiciones);
 
+  var destDesc = window._compraPara ? ' para ' + window._compraPara.nombre : '';
   FinSeedStore.saveMovimiento(uid, {
     tipo: 'compra',
     monto: totalCLP,
-    descripcion: 'Compra ' + ticker + ' \u00D7 ' + cantidad,
+    descripcion: 'Compra ' + ticker + ' \u00D7 ' + cantidad + destDesc,
     moneda: 'CLP'
   });
 
+  window._compraPara = null;
   cerrarTrade();
   mostrarToastJuego('\u2713 Compraste ' + cantidad + ' acci\u00F3n' + (cantidad > 1 ? 'es' : '') + ' de ' + ticker);
   renderPortafolioPadre();
