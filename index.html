@@ -5032,56 +5032,136 @@ function enviarMensaje() {
   }
 }
 
-function getUltimoMensajeChat(userId, role) {
+function getNotificacionesChat(userId, role) {
+  var notifs = [];
   var familiaId = userId;
   if (role === 'hijo') {
     var padre = getPadreReal(userId);
     if (padre) familiaId = padre.id;
   }
+
+  // 1. Chat grupal
   var keyGrupal = getChatKey('grupal', familiaId, null);
-  var mensajesGrupal = getMensajes(keyGrupal);
-  var ultimo = mensajesGrupal.length > 0 ? mensajesGrupal[mensajesGrupal.length - 1] : null;
-  if (!ultimo) return null;
-  if (ultimo.autorId === userId) return null;
-  var vistoClave = 'finseed_chat_visto_' + userId;
-  var visto = localStorage.getItem(vistoClave);
-  if (visto === String(ultimo.id)) return null;
-  return { mensaje: ultimo, keyGrupal: keyGrupal, familiaId: familiaId };
+  var msgsGrupal = getMensajes(keyGrupal);
+  if (msgsGrupal.length > 0) {
+    var ultimoGrupal = msgsGrupal[msgsGrupal.length - 1];
+    var vistoGrupal = localStorage.getItem('finseed_chat_visto_grupal_' + userId);
+    if (ultimoGrupal.autorId !== userId && vistoGrupal !== String(ultimoGrupal.id)) {
+      notifs.push({
+        tipo: 'grupal',
+        key: keyGrupal,
+        mensaje: ultimoGrupal,
+        titulo: 'Chat familiar',
+        subtitulo: ultimoGrupal.autorNombre || 'Familiar',
+        icono: '\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67',
+        contactoId: null,
+        contactoNombre: null
+      });
+    }
+  }
+
+  // 2. Chats privados
+  var contactos = [];
+  if (role === 'padre') {
+    var hijos = getHijosReales(userId);
+    if (!hijos || hijos.length === 0) {
+      hijos = [{ id: 'u2', nombre: 'Sof\u00EDa' }, { id: 'u3', nombre: 'Mateo' }];
+    }
+    contactos = hijos;
+  } else {
+    var padreReal = getPadreReal(userId);
+    if (padreReal) contactos = [{ id: padreReal.id, nombre: padreReal.nombre }];
+  }
+
+  contactos.forEach(function(c) {
+    var keyPriv = getChatKey('privado', userId, c.id);
+    var msgsPriv = getMensajes(keyPriv);
+    if (msgsPriv.length > 0) {
+      var ultimoPriv = msgsPriv[msgsPriv.length - 1];
+      var vistoPriv = localStorage.getItem('finseed_chat_visto_priv_' + userId + '_' + c.id);
+      if (ultimoPriv.autorId !== userId && vistoPriv !== String(ultimoPriv.id)) {
+        notifs.push({
+          tipo: 'privado',
+          key: keyPriv,
+          mensaje: ultimoPriv,
+          titulo: c.nombre,
+          subtitulo: c.nombre,
+          icono: (c.nombre || 'U').charAt(0).toUpperCase(),
+          contactoId: c.id,
+          contactoNombre: c.nombre
+        });
+      }
+    }
+  });
+
+  return notifs;
 }
 
-function marcarChatVisto(userId, mensajeId) {
-  localStorage.setItem('finseed_chat_visto_' + userId, String(mensajeId));
+function marcarNotifVista(userId, notif) {
+  if (notif.tipo === 'grupal') {
+    localStorage.setItem('finseed_chat_visto_grupal_' + userId, String(notif.mensaje.id));
+  } else {
+    localStorage.setItem('finseed_chat_visto_priv_' + userId + '_' + notif.contactoId, String(notif.mensaje.id));
+  }
 }
 
 function renderNotifChat(containerId, userId, role) {
   var el = document.getElementById(containerId);
   if (!el) return;
-  var info = getUltimoMensajeChat(userId, role);
-  if (!info) { el.style.display = 'none'; return; }
-  var m = info.mensaje;
-  var tiempo = formatHoraMensaje(m.fecha);
+  var notifs = getNotificacionesChat(userId, role);
+
+  if (notifs.length === 0) {
+    el.style.display = 'none';
+    el.innerHTML = '';
+    return;
+  }
+
   el.style.display = 'block';
-  el.innerHTML =
-    '<div onclick="abrirChatDesdeNotif(\'' + userId + '\',\'' + info.mensaje.id + '\')" style="background:white;border:1.5px solid #d1fae5;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;box-shadow:0 2px 8px rgba(22,163,74,0.08)">' +
-    '<div style="width:40px;height:40px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">\uD83D\uDCAC</div>' +
-    '<div style="flex:1;min-width:0">' +
-    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">' +
-    '<div style="font-size:13px;font-weight:700;color:var(--text-1)">' + (m.autorNombre || 'Familiar') + '</div>' +
-    '<div style="font-size:11px;color:var(--text-3)">' + tiempo + '</div>' +
-    '</div>' +
-    '<div style="font-size:13px;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + m.texto + '</div>' +
-    '</div>' +
-    '<div style="width:10px;height:10px;border-radius:50%;background:#16a34a;flex-shrink:0"></div>' +
-    '</div>';
+  el.innerHTML = notifs.map(function(n, idx) {
+    var tiempo = formatHoraMensaje(n.mensaje.fecha);
+    var esEmoji = n.icono.length > 1;
+    var avatarBg = n.tipo === 'grupal' ? '#059669' : '#16a34a';
+    return '<div onclick="abrirChatDesdeNotif(\'' + userId + '\',' + idx + ',\'' + role + '\')" style="background:white;border:1.5px solid #d1fae5;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;box-shadow:0 2px 8px rgba(22,163,74,0.06);margin-bottom:8px">' +
+      '<div style="width:42px;height:42px;border-radius:50%;background:' + avatarBg + ';display:flex;align-items:center;justify-content:center;font-size:' + (esEmoji ? '20' : '16') + 'px;font-weight:700;color:white;flex-shrink:0">' + n.icono + '</div>' +
+      '<div style="flex:1;min-width:0">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">' +
+      '<div style="font-size:13px;font-weight:700;color:var(--text-1)">' + n.titulo + '</div>' +
+      '<div style="font-size:11px;color:var(--text-3)">' + tiempo + '</div>' +
+      '</div>' +
+      (n.tipo === 'grupal' ? '<div style="font-size:11px;color:#059669;font-weight:600;margin-bottom:2px">' + n.subtitulo + '</div>' : '') +
+      '<div style="font-size:13px;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + n.mensaje.texto + '</div>' +
+      '</div>' +
+      '<div style="width:10px;height:10px;border-radius:50%;background:#16a34a;flex-shrink:0"></div>' +
+      '</div>';
+  }).join('');
+
+  window._notifsChatActuales = notifs;
 }
 
-function abrirChatDesdeNotif(userId, mensajeId) {
-  marcarChatVisto(userId, mensajeId);
+function abrirChatDesdeNotif(userId, idx, role) {
+  var notifs = window._notifsChatActuales || [];
+  var notif = notifs[idx];
+  if (!notif) { abrirChat(); return; }
+
+  marcarNotifVista(userId, notif);
+
   var notifP = document.getElementById('pp-notif-chat');
   var notifK = document.getElementById('kp-notif-chat');
-  if (notifP) notifP.style.display = 'none';
-  if (notifK) notifK.style.display = 'none';
+  if (notifP) { notifP.style.display = 'none'; notifP.innerHTML = ''; }
+  if (notifK) { notifK.style.display = 'none'; notifK.innerHTML = ''; }
+
   abrirChat();
+  setTimeout(function() {
+    if (notif.tipo === 'grupal') {
+      setChatTab('grupal');
+    } else {
+      setChatTab('privado');
+      setTimeout(function() {
+        abrirChatPrivado(notif.contactoId, notif.contactoNombre, notif.icono);
+        document.getElementById('chat-privado-selector').style.display = 'none';
+      }, 100);
+    }
+  }, 100);
 }
 
 function formatHoraMensaje(fecha) {
