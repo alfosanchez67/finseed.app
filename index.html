@@ -1005,8 +1005,11 @@
           <div id="ppf-familia-nombre" style="font-size:22px;font-weight:700;color:white">Familia</div>
           <div id="ppf-familia-stats" style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:4px">0 integrantes</div>
         </div>
-        <div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-bottom:4px;text-align:right">Código familiar</div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+          <div onclick="abrirChat()" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);border-radius:10px;padding:8px 12px;cursor:pointer;display:flex;align-items:center;gap:6px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            <span style="font-size:12px;font-weight:600;color:white">Chat</span>
+          </div>
           <div style="display:flex;align-items:center;gap:6px">
             <div id="ppf-codigo-mini" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);border-radius:8px;padding:6px 10px;font-size:13px;font-weight:700;color:white;letter-spacing:1px">--</div>
             <div onclick="copiarCodigoFamiliar()" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);border-radius:8px;padding:6px 10px;cursor:pointer">
@@ -1329,9 +1332,17 @@
 
     <!-- HEADER -->
     <div style="background:linear-gradient(160deg,#14532d 0%,#15803d 60%,#16a34a 100%);padding:44px 16px 20px">
-      <div style="font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:4px">Mi familia</div>
-      <div id="kpf-familia-nombre" style="font-size:22px;font-weight:700;color:white">Mi familia</div>
-      <div id="kpf-mi-posicion" style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:4px">Tu posición: --</div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:4px">Mi familia</div>
+          <div id="kpf-familia-nombre" style="font-size:22px;font-weight:700;color:white">Mi familia</div>
+          <div id="kpf-mi-posicion" style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:4px">Tu posici\u00F3n: --</div>
+        </div>
+        <div onclick="abrirChat()" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);border-radius:10px;padding:8px 12px;cursor:pointer;display:flex;align-items:center;gap:6px;margin-top:4px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          <span style="font-size:12px;font-weight:600;color:white">Chat</span>
+        </div>
+      </div>
     </div>
 
     <!-- TABS FAMILIA HIJO -->
@@ -4782,6 +4793,235 @@ function _registerUserLocal(nombre, email, pass, rol) {
   entrarApp(rol);
 }
 
+// ── CHAT FAMILIAR ────────────────────────────
+var _chatTabActual = 'grupal';
+var _chatPrivadoConId = null;
+var _chatPrivadoConNombre = null;
+
+function getChatKey(tipo, id1, id2) {
+  if (tipo === 'grupal') return 'finseed_chat_grupal_' + id1;
+  var ids = [id1, id2].sort();
+  return 'finseed_chat_privado_' + ids[0] + '_' + ids[1];
+}
+
+function getMensajes(key) {
+  return JSON.parse(localStorage.getItem(key) || '[]');
+}
+
+function guardarMensaje(key, mensaje) {
+  var mensajes = getMensajes(key);
+  mensajes.push(mensaje);
+  if (mensajes.length > 100) mensajes = mensajes.slice(-100);
+  localStorage.setItem(key, JSON.stringify(mensajes));
+}
+
+function abrirChat() {
+  var overlay = document.getElementById('chat-overlay');
+  if (!overlay) return;
+  overlay.style.display = 'flex';
+  overlay.style.flexDirection = 'column';
+  setChatTab('grupal');
+  renderChatGrupal();
+}
+
+function cerrarChat() {
+  var overlay = document.getElementById('chat-overlay');
+  if (overlay) overlay.style.display = 'none';
+}
+
+function setChatTab(tab) {
+  _chatTabActual = tab;
+  var grupalBtn     = document.getElementById('chat-tab-grupal');
+  var privadoBtn    = document.getElementById('chat-tab-privado');
+  var grupalContent = document.getElementById('chat-tab-grupal-content');
+  var privadoContent= document.getElementById('chat-tab-privado-content');
+
+  if (tab === 'grupal') {
+    if (grupalBtn)  { grupalBtn.style.color = '#059669'; grupalBtn.style.borderBottom = '2px solid #059669'; }
+    if (privadoBtn) { privadoBtn.style.color = 'var(--text-3)'; privadoBtn.style.borderBottom = '2px solid transparent'; }
+    if (grupalContent)  grupalContent.style.display  = 'flex';
+    if (privadoContent) privadoContent.style.display = 'none';
+    renderChatGrupal();
+  } else {
+    if (privadoBtn) { privadoBtn.style.color = '#059669'; privadoBtn.style.borderBottom = '2px solid #059669'; }
+    if (grupalBtn)  { grupalBtn.style.color = 'var(--text-3)'; grupalBtn.style.borderBottom = '2px solid transparent'; }
+    if (grupalContent)  grupalContent.style.display  = 'none';
+    if (privadoContent) privadoContent.style.display = 'flex';
+    abrirSelectorPrivado();
+  }
+}
+
+function renderChatGrupal() {
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid  = session.id   || 'u1';
+  var role = session.role || 'padre';
+
+  var familiaId = uid;
+  if (role === 'hijo') {
+    var padre = getPadreReal(uid);
+    if (padre) familiaId = padre.id;
+  }
+
+  var key = getChatKey('grupal', familiaId, null);
+  var mensajes = getMensajes(key);
+
+  var elTitulo = document.getElementById('chat-titulo');
+  var elSub    = document.getElementById('chat-subtitulo');
+  var elAv     = document.getElementById('chat-avatar');
+  if (elTitulo) elTitulo.textContent = 'Chat familiar';
+  if (elSub)    elSub.textContent    = 'Todos los integrantes';
+  if (elAv)     elAv.textContent     = '\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67';
+
+  var el = document.getElementById('chat-tab-grupal-content');
+  if (!el) return;
+
+  if (mensajes.length === 0) {
+    el.innerHTML = '<div style="text-align:center;padding:40px 20px">' +
+      '<div style="font-size:40px;margin-bottom:12px">\uD83D\uDCAC</div>' +
+      '<div style="font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:6px">\u00A1Empieza la conversaci\u00F3n!</div>' +
+      '<div style="font-size:13px;color:var(--text-3)">Comparte logros, celebra avances y mant\u00E9n a la familia conectada.</div>' +
+      '</div>';
+    window._chatContextKey = key;
+    return;
+  }
+
+  el.innerHTML = mensajes.map(function(m) {
+    var esMio = m.autorId === uid;
+    return '<div style="display:flex;flex-direction:' + (esMio ? 'row-reverse' : 'row') + ';align-items:flex-end;gap:8px">' +
+      (!esMio ? '<div style="width:28px;height:28px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;flex-shrink:0">' + (m.autorNombre || '?').charAt(0) + '</div>' : '') +
+      '<div style="max-width:75%">' +
+      (!esMio ? '<div style="font-size:11px;color:var(--text-3);margin-bottom:3px;padding-left:4px">' + (m.autorNombre || '?') + '</div>' : '') +
+      '<div style="background:' + (esMio ? '#059669' : 'white') + ';color:' + (esMio ? 'white' : 'var(--text-1)') + ';padding:10px 14px;border-radius:' + (esMio ? '18px 18px 4px 18px' : '18px 18px 18px 4px') + ';font-size:14px;line-height:1.5;border:' + (esMio ? 'none' : '1px solid var(--border)') + '">' + m.texto + '</div>' +
+      '<div style="font-size:10px;color:var(--text-3);margin-top:3px;' + (esMio ? 'text-align:right' : '') + '">' + formatHoraMensaje(m.fecha) + '</div>' +
+      '</div></div>';
+  }).join('');
+
+  setTimeout(function() { el.scrollTop = el.scrollHeight; }, 50);
+  window._chatContextKey = key;
+}
+
+function abrirSelectorPrivado() {
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid  = session.id   || 'u1';
+  var role = session.role || 'padre';
+
+  var selector = document.getElementById('chat-privado-selector');
+  var lista    = document.getElementById('chat-privado-lista');
+  if (!selector || !lista) return;
+
+  var contactos = [];
+  if (role === 'padre') {
+    var hijos = getHijosReales(uid);
+    if (!hijos || hijos.length === 0) {
+      hijos = [
+        { id: 'u2', nombre: 'Sof\u00EDa', avatar: 'S' },
+        { id: 'u3', nombre: 'Mateo',  avatar: 'M' }
+      ];
+    }
+    contactos = hijos;
+  } else {
+    var padre = getPadreReal(uid);
+    if (padre) contactos = [{ id: padre.id, nombre: padre.nombre, avatar: padre.nombre.charAt(0).toUpperCase() }];
+  }
+
+  if (contactos.length === 0) {
+    lista.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-3);font-size:13px">No tienes familia conectada a\u00FAn</div>';
+    selector.style.display = 'flex';
+    return;
+  }
+
+  lista.innerHTML = contactos.map(function(c) {
+    var key    = getChatKey('privado', uid, c.id);
+    var msgs   = getMensajes(key);
+    var ultimo = msgs.length > 0 ? msgs[msgs.length - 1] : null;
+    return '<div onclick="abrirChatPrivado(\'' + c.id + '\',\'' + c.nombre + '\',\'' + (c.avatar || c.nombre.charAt(0)) + '\')" style="display:flex;align-items:center;gap:12px;padding:14px;background:white;border-radius:14px;border:1px solid var(--border);cursor:pointer">' +
+      '<div style="width:44px;height:44px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:16px">' + (c.avatar || c.nombre.charAt(0)) + '</div>' +
+      '<div style="flex:1">' +
+      '<div style="font-size:15px;font-weight:600;color:var(--text-1)">' + c.nombre + '</div>' +
+      '<div style="font-size:12px;color:var(--text-3);margin-top:2px">' + (ultimo ? ultimo.texto.substring(0, 40) + (ultimo.texto.length > 40 ? '...' : '') : 'Sin mensajes a\u00FAn') + '</div>' +
+      '</div>' +
+      '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>' +
+      '</div>';
+  }).join('');
+
+  selector.style.display = 'flex';
+}
+
+function abrirChatPrivado(contactoId, contactoNombre, contactoAvatar) {
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || 'u1';
+
+  document.getElementById('chat-privado-selector').style.display = 'none';
+  _chatPrivadoConId     = contactoId;
+  _chatPrivadoConNombre = contactoNombre;
+
+  var key      = getChatKey('privado', uid, contactoId);
+  var mensajes = getMensajes(key);
+
+  var elTitulo = document.getElementById('chat-titulo');
+  var elSub    = document.getElementById('chat-subtitulo');
+  var elAv     = document.getElementById('chat-avatar');
+  if (elTitulo) elTitulo.textContent = contactoNombre;
+  if (elSub)    elSub.textContent    = 'Conversaci\u00F3n privada';
+  if (elAv)     elAv.textContent     = contactoAvatar || contactoNombre.charAt(0);
+
+  var el = document.getElementById('chat-tab-privado-content');
+  if (!el) return;
+
+  if (mensajes.length === 0) {
+    el.innerHTML = '<div style="text-align:center;padding:40px 20px">' +
+      '<div style="font-size:40px;margin-bottom:12px">\uD83D\uDD12</div>' +
+      '<div style="font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:6px">Conversaci\u00F3n privada con ' + contactoNombre + '</div>' +
+      '<div style="font-size:13px;color:var(--text-3)">Solo ustedes dos pueden ver estos mensajes.</div>' +
+      '</div>';
+  } else {
+    el.innerHTML = mensajes.map(function(m) {
+      var esMio = m.autorId === uid;
+      return '<div style="display:flex;flex-direction:' + (esMio ? 'row-reverse' : 'row') + ';align-items:flex-end;gap:8px">' +
+        (!esMio ? '<div style="width:28px;height:28px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;flex-shrink:0">' + (m.autorNombre || '?').charAt(0) + '</div>' : '') +
+        '<div style="max-width:75%">' +
+        '<div style="background:' + (esMio ? '#059669' : 'white') + ';color:' + (esMio ? 'white' : 'var(--text-1)') + ';padding:10px 14px;border-radius:' + (esMio ? '18px 18px 4px 18px' : '18px 18px 18px 4px') + ';font-size:14px;line-height:1.5;border:' + (esMio ? 'none' : '1px solid var(--border)') + '">' + m.texto + '</div>' +
+        '<div style="font-size:10px;color:var(--text-3);margin-top:3px;' + (esMio ? 'text-align:right' : '') + '">' + formatHoraMensaje(m.fecha) + '</div>' +
+        '</div></div>';
+    }).join('');
+  }
+
+  setTimeout(function() { el.scrollTop = el.scrollHeight; }, 50);
+  window._chatContextKey = key;
+}
+
+function enviarMensaje() {
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid    = session.id     || 'u1';
+  var nombre = session.nombre || 'Usuario';
+  var input  = document.getElementById('chat-input');
+  if (!input) return;
+  var texto = input.value.trim();
+  if (!texto) return;
+
+  var mensaje = { id: Date.now(), autorId: uid, autorNombre: nombre, texto: texto, fecha: new Date().toISOString() };
+  var key = window._chatContextKey;
+  if (!key) return;
+  guardarMensaje(key, mensaje);
+
+  input.value = '';
+  input.style.height = 'auto';
+
+  if (_chatTabActual === 'grupal') {
+    renderChatGrupal();
+  } else {
+    abrirChatPrivado(_chatPrivadoConId, _chatPrivadoConNombre, _chatPrivadoConNombre ? _chatPrivadoConNombre.charAt(0) : '?');
+  }
+}
+
+function formatHoraMensaje(fecha) {
+  var d   = new Date(fecha);
+  var hoy = new Date();
+  var esHoy = d.toDateString() === hoy.toDateString();
+  if (esHoy) return d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
+  return d.getDate() + '/' + (d.getMonth() + 1) + ' ' + d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
+}
+
 // ── ONBOARDING ────────────────────────────────
 var _onboardingStep = 0;
 var _onboardingRole = 'padre';
@@ -5003,6 +5243,50 @@ window.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <div id="juego-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;flex-direction:column;align-items:center;justify-content:flex-end"></div>
+
+<div id="chat-overlay" style="display:none;position:fixed;inset:0;z-index:9998;background:white;flex-direction:column">
+
+  <!-- HEADER CHAT -->
+  <div style="background:linear-gradient(160deg,#065f46 0%,#059669 100%);padding:44px 16px 16px;display:flex;align-items:center;gap:12px">
+    <div onclick="cerrarChat()" style="color:white;font-size:22px;cursor:pointer;padding:4px">\u2190</div>
+    <div id="chat-avatar" style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:14px">F</div>
+    <div style="flex:1">
+      <div id="chat-titulo" style="font-size:16px;font-weight:700;color:white">Chat familiar</div>
+      <div id="chat-subtitulo" style="font-size:12px;color:rgba(255,255,255,0.7)">Todos los integrantes</div>
+    </div>
+  </div>
+
+  <!-- TABS CHAT -->
+  <div style="display:flex;background:white;border-bottom:1px solid var(--border)">
+    <div id="chat-tab-grupal" onclick="setChatTab('grupal')" style="flex:1;padding:12px;text-align:center;font-size:13px;font-weight:600;color:#059669;border-bottom:2px solid #059669;cursor:pointer">Chat familiar</div>
+    <div id="chat-tab-privado" onclick="setChatTab('privado')" style="flex:1;padding:12px;text-align:center;font-size:13px;font-weight:600;color:var(--text-3);border-bottom:2px solid transparent;cursor:pointer">Mensajes privados</div>
+  </div>
+
+  <!-- CONTENIDO CHAT GRUPAL -->
+  <div id="chat-tab-grupal-content" style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:8px;background:#f9fafb"></div>
+
+  <!-- CONTENIDO CHAT PRIVADO -->
+  <div id="chat-tab-privado-content" style="flex:1;overflow-y:auto;padding:16px;display:none;flex-direction:column;gap:8px;background:#f9fafb"></div>
+
+  <!-- INPUT MENSAJE -->
+  <div style="padding:12px 16px;background:white;border-top:1px solid var(--border);display:flex;gap:10px;align-items:flex-end">
+    <textarea id="chat-input" placeholder="Escribe un mensaje..." rows="1" style="flex:1;padding:10px 14px;border:1px solid var(--border);border-radius:20px;font-size:14px;font-family:inherit;resize:none;outline:none;max-height:80px;line-height:1.4" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px'" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();enviarMensaje();}"></textarea>
+    <div onclick="enviarMensaje()" style="width:40px;height:40px;border-radius:50%;background:#059669;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </div>
+  </div>
+
+</div>
+
+<!-- SELECTOR CHAT PRIVADO -->
+<div id="chat-privado-selector" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.5);align-items:flex-end;justify-content:center">
+  <div style="background:white;border-radius:24px 24px 0 0;padding:24px;width:100%;max-width:390px">
+    <div style="font-size:17px;font-weight:700;color:var(--text-1);margin-bottom:4px">Mensaje privado</div>
+    <div style="font-size:13px;color:var(--text-3);margin-bottom:16px">\u00BFCon qui\u00E9n quieres hablar?</div>
+    <div id="chat-privado-lista" style="display:flex;flex-direction:column;gap:10px"></div>
+    <div onclick="document.getElementById('chat-privado-selector').style.display='none'" style="margin-top:16px;padding:12px;text-align:center;font-size:14px;color:var(--text-3);cursor:pointer">Cancelar</div>
+  </div>
+</div>
 
 <div id="trade-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:flex-end;justify-content:center">
   <div id="trade-contenido" style="background:white;border-radius:24px 24px 0 0;padding:24px;width:100%;max-width:390px;max-height:90vh;overflow-y:auto"></div>
