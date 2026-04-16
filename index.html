@@ -926,6 +926,20 @@
         <div id="port-activos" style="display:flex;flex-direction:column;gap:2px"></div>
       </div>
 
+      <!-- SALDO Y COMPRAR -->
+      <div style="margin-top:4px">
+        <div style="background:white;border:1px solid var(--border);border-radius:16px;padding:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <div>
+              <div style="font-size:13px;font-weight:600;color:var(--text-1)">Saldo disponible</div>
+              <div id="port-saldo-display" style="font-size:18px;font-weight:700;color:#059669">$0 CLP</div>
+            </div>
+            <div onclick="abrirDeposito()" style="background:#f0fdf4;border:1px solid #d1fae5;color:#059669;padding:8px 14px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer">+ Depositar</div>
+          </div>
+          <div onclick="abrirPantallaCompra()" style="background:#059669;color:white;padding:14px;border-radius:12px;text-align:center;font-weight:700;font-size:15px;cursor:pointer">Comprar acciones</div>
+        </div>
+      </div>
+
     </div>
 
     <!-- CONTENIDO TAB HIJOS -->
@@ -1482,46 +1496,72 @@ var FinSeedStore = {
   },
 
   fetchPortfolio: async function(userId) {
-    var mocks = {
+    // Para hijos, usar mock simple
+    var hijosMock = {
       'u2': {
-        total: 850.00,
-        cambioHoy: +1.1,
-        cambioPesos: +9.20,
-        moneda: 'USD',
+        total: 850.00, cambioHoy: +1.1, cambioPesos: +9.20, moneda: 'USD',
         activos: [
           { ticker: 'AAPL', nombre: 'Apple Inc.',       cantidad: 1, precioActual: 224.50, precioCompra: 200.00, valor: 224.50, cambioPct:  2.4 },
           { ticker: 'VOO',  nombre: 'Vanguard S&P 500', cantidad: 1, precioActual: 491.20, precioCompra: 480.00, valor: 491.20, cambioPct:  0.8 }
-        ],
-        preciosReales: false
+        ], preciosReales: false
       },
       'u3': {
-        total: 320.00,
-        cambioHoy: -0.5,
-        cambioPesos: -1.60,
-        moneda: 'USD',
+        total: 320.00, cambioHoy: -0.5, cambioPesos: -1.60, moneda: 'USD',
         activos: [
           { ticker: 'MSFT', nombre: 'Microsoft', cantidad: 1, precioActual: 320.00, precioCompra: 310.00, valor: 320.00, cambioPct: -0.5 }
-        ],
-        preciosReales: false
+        ], preciosReales: false
       }
     };
+    if (hijosMock[userId]) return hijosMock[userId];
 
-    var padreMock = {
-      total: 12450.80,
-      cambioHoy: +2.3,
-      cambioPesos: +280.50,
+    // Para padre: posiciones reales + precios Twelve Data
+    var posiciones = getPortafolioPadre(userId);
+    if (!posiciones || posiciones.length === 0) {
+      return { total: 0, cambioHoy: 0, cambioPesos: 0, moneda: 'USD', activos: [], preciosReales: false };
+    }
+
+    var tickers = posiciones.map(function(p) { return p.ticker; });
+    var precios = await fetchPreciosReales(tickers);
+
+    var activos = [];
+    var totalActual = 0;
+    var totalAnterior = 0;
+
+    posiciones.forEach(function(pos) {
+      var info = precios[pos.ticker];
+      var precioActual = info && info.ok ? info.precio : pos.precioCompra * (1 + (Math.random() - 0.48) * 0.02);
+      var precioAnterior = info && info.ok && info.precioAnterior ? info.precioAnterior : precioActual * 0.99;
+      var valor = precioActual * pos.cantidad;
+      var valorAnterior = precioAnterior * pos.cantidad;
+
+      totalActual += valor;
+      totalAnterior += valorAnterior;
+
+      activos.push({
+        ticker: pos.ticker,
+        nombre: pos.nombre || pos.ticker,
+        cantidad: pos.cantidad,
+        precioActual: precioActual,
+        precioCompra: pos.precioCompra,
+        precioAnterior: precioAnterior,
+        valor: valor,
+        cambioPct: precioAnterior ? ((precioActual - precioAnterior) / precioAnterior * 100) : 0,
+        moneda: 'USD',
+        precioReal: info && info.ok
+      });
+    });
+
+    var cambioHoyPct = totalAnterior > 0 ? ((totalActual - totalAnterior) / totalAnterior * 100) : 0;
+    var cambioHoyVal = totalActual - totalAnterior;
+
+    return {
+      total: totalActual,
+      cambioHoy: cambioHoyPct,
+      cambioPesos: cambioHoyVal,
       moneda: 'USD',
-      activos: [
-        { ticker: 'AAPL', nombre: 'Apple Inc.',       cantidad: 5,  precioActual: 224.50, precioCompra: 190.00, valor: 1122.50, cambioPct:  2.4 },
-        { ticker: 'TSLA', nombre: 'Tesla Inc.',       cantidad: 3,  precioActual: 248.30, precioCompra: 220.00, valor:  744.90, cambioPct: -1.2 },
-        { ticker: 'VOO',  nombre: 'Vanguard S&P 500', cantidad: 10, precioActual: 491.20, precioCompra: 450.00, valor: 4912.00, cambioPct:  0.8 },
-        { ticker: 'SQM',  nombre: 'SQM Chile',        cantidad: 20, precioActual:  43.80, precioCompra:  50.00, valor:  876.00, cambioPct: -0.9 },
-        { ticker: 'BND',  nombre: 'Vanguard Bonds',   cantidad: 15, precioActual:  75.07, precioCompra:  72.00, valor: 1126.05, cambioPct:  0.1 }
-      ],
-      preciosReales: false
+      activos: activos,
+      preciosReales: activos.some(function(a) { return a.precioReal; })
     };
-
-    return mocks[userId] || padreMock;
   },
 
   getHijos: function(padreId) {
@@ -1970,67 +2010,92 @@ function formatPct(n) {
   return (n >= 0 ? '+' : '') + (n * 100).toFixed(1) + '%';
 }
 
-// ── PRECIOS REALES — Finnhub ──
+// ── PRECIOS REALES — Twelve Data ──
 var _preciosCache = {};
 var _preciosCacheTime = {};
 var CACHE_MINUTOS = 5;
-const FINNHUB_KEY = 'd7efkq9r01qi33g63d2gd7efkq9r01qi33g63d30';
+const TWELVE_DATA_KEY = 'ff530d2eefb843578d1252071bdb0816';
 
-async function fetchPrecioReal(ticker) {
+async function fetchPreciosReales(tickers) {
   var ahora = Date.now();
-  if (_preciosCache[ticker] && (ahora - _preciosCacheTime[ticker]) < CACHE_MINUTOS * 60000) {
-    return _preciosCache[ticker];
+  var tickersFresh = tickers.filter(function(t) {
+    return !_preciosCache[t] || (ahora - (_preciosCacheTime[t] || 0)) > CACHE_MINUTOS * 60000;
+  });
+
+  if (tickersFresh.length > 0) {
+    try {
+      var symbols = tickersFresh.join(',');
+      var url = 'https://api.twelvedata.com/price?symbol=' + encodeURIComponent(symbols) + '&apikey=' + TWELVE_DATA_KEY;
+      var res = await fetch(url);
+      var data = await res.json();
+
+      tickersFresh.forEach(function(t) {
+        var item = tickersFresh.length === 1 ? data : data[t];
+        if (item && item.price && !item.code) {
+          var precioActual = parseFloat(item.price);
+          var precioAnterior = _preciosCache[t] ? _preciosCache[t].precio : precioActual * 0.99;
+          var cambio = precioAnterior ? ((precioActual - precioAnterior) / precioAnterior * 100) : 0;
+          _preciosCache[t] = { ticker: t, precio: precioActual, precioAnterior: precioAnterior, cambioPct: cambio, ok: true };
+          _preciosCacheTime[t] = ahora;
+        }
+      });
+    } catch(e) {
+      console.log('Twelve Data error:', e);
+    }
   }
-  try {
-    var url = 'https://finnhub.io/api/v1/quote?symbol=' + ticker + '&token=' + FINNHUB_KEY;
-    var res = await fetch(url);
-    var data = await res.json();
-    if (!data || !data.c || data.c === 0) throw new Error('Sin datos');
-    var precio = data.c;
-    var precioAnterior = data.pc;
-    var cambio = precioAnterior ? ((precio - precioAnterior) / precioAnterior * 100) : 0;
-    var info = {
-      ticker: ticker,
-      precio: precio,
-      precioAnterior: precioAnterior,
-      cambioPct: cambio,
-      moneda: 'USD',
-      nombre: ticker,
-      ok: true
-    };
-    _preciosCache[ticker] = info;
-    _preciosCacheTime[ticker] = ahora;
-    return info;
-  } catch(e) {
-    console.log('Error precio ' + ticker + ':', e);
-    return { ticker: ticker, precio: null, cambioPct: 0, ok: false };
-  }
+
+  var resultado = {};
+  tickers.forEach(function(t) {
+    resultado[t] = _preciosCache[t] || { ticker: t, precio: null, cambioPct: 0, ok: false };
+  });
+  return resultado;
 }
 
-async function fetchPreciosMultiples(tickers) {
-  var resultados = {};
-  await Promise.all(tickers.map(async function(t) {
-    resultados[t] = await fetchPrecioReal(t);
-  }));
-  return resultados;
+// ── SALDO Y PORTAFOLIO PADRE ──
+var TIPO_CAMBIO_USD_CLP = 950;
+
+function getSaldoPadre(userId) {
+  var key = 'finseed_saldo_' + userId;
+  var saved = localStorage.getItem(key);
+  if (saved) return JSON.parse(saved);
+  return { clp: 5000000, usd: 0 };
 }
 
-var _portafoliosDemo = {
-  'u1': [
-    { ticker: 'AAPL', cantidad: 5,  precioCompra: 190.00 },
-    { ticker: 'TSLA', cantidad: 3,  precioCompra: 220.00 },
-    { ticker: 'VOO',  cantidad: 10, precioCompra: 450.00 },
-    { ticker: 'SQM',  cantidad: 20, precioCompra: 50.00  },
-    { ticker: 'BND',  cantidad: 15, precioCompra: 72.00  }
-  ],
-  'u2': [
-    { ticker: 'AAPL', cantidad: 1, precioCompra: 200.00 },
-    { ticker: 'VOO',  cantidad: 1, precioCompra: 480.00 }
-  ],
-  'u3': [
-    { ticker: 'MSFT', cantidad: 1, precioCompra: 310.00 }
-  ]
-};
+function setSaldoPadre(userId, saldo) {
+  localStorage.setItem('finseed_saldo_' + userId, JSON.stringify(saldo));
+}
+
+function getPortafolioPadre(userId) {
+  var key = 'finseed_port_posiciones_' + userId;
+  var saved = localStorage.getItem(key);
+  if (saved) return JSON.parse(saved);
+  return [
+    { ticker: 'AAPL', nombre: 'Apple Inc.',        cantidad: 5,  precioCompra: 190.00 },
+    { ticker: 'TSLA', nombre: 'Tesla Inc.',         cantidad: 3,  precioCompra: 220.00 },
+    { ticker: 'VOO',  nombre: 'Vanguard S&P 500',   cantidad: 10, precioCompra: 450.00 },
+    { ticker: 'SQM',  nombre: 'SQM Chile',          cantidad: 20, precioCompra: 50.00  },
+    { ticker: 'BND',  nombre: 'Vanguard Bonds',     cantidad: 15, precioCompra: 72.00  }
+  ];
+}
+
+function setPortafolioPadre(userId, posiciones) {
+  localStorage.setItem('finseed_port_posiciones_' + userId, JSON.stringify(posiciones));
+}
+
+var _catalogoAcciones = [
+  { ticker: 'AAPL',  nombre: 'Apple Inc.',            sector: 'Tecnolog\u00EDa' },
+  { ticker: 'MSFT',  nombre: 'Microsoft',             sector: 'Tecnolog\u00EDa' },
+  { ticker: 'GOOGL', nombre: 'Alphabet (Google)',     sector: 'Tecnolog\u00EDa' },
+  { ticker: 'AMZN',  nombre: 'Amazon',                sector: 'Tecnolog\u00EDa' },
+  { ticker: 'TSLA',  nombre: 'Tesla',                 sector: 'Automotriz' },
+  { ticker: 'NVDA',  nombre: 'NVIDIA',                sector: 'Tecnolog\u00EDa' },
+  { ticker: 'VOO',   nombre: 'Vanguard S&P 500 ETF',  sector: 'ETF' },
+  { ticker: 'VTI',   nombre: 'Vanguard Total Market', sector: 'ETF' },
+  { ticker: 'QQQ',   nombre: 'Invesco NASDAQ 100',    sector: 'ETF' },
+  { ticker: 'BND',   nombre: 'Vanguard Bonds ETF',    sector: 'ETF' },
+  { ticker: 'SQM',   nombre: 'SQM Chile',             sector: 'Chile' },
+  { ticker: 'COPEC', nombre: 'Copec',                 sector: 'Chile' }
+];
 
 function getPctColor(n) {
   return n >= 0 ? 'var(--green)' : 'var(--danger)';
@@ -2675,6 +2740,7 @@ function renderActivosLista(activos) {
       '<div style="font-size:15px;font-weight:700;color:var(--text-1)">US$' + a.valor.toFixed(2) + '</div>' +
       '<div style="font-size:12px;color:' + colorDia + '">' + (gananciaDia >= 0 ? '+' : '') + gananciaDia.toFixed(2) + '% hoy</div>' +
       '<div style="font-size:11px;color:' + colorTotal + '">' + (gananciaTotal >= 0 ? '+' : '') + gananciaTotal.toFixed(1) + '% total</div>' +
+      '<div onclick="abrirPantallaVenta(\'' + a.ticker + '\')" style="font-size:11px;background:#fef2f2;color:#dc2626;border:1px solid #fecaca;border-radius:8px;padding:3px 10px;margin-top:6px;display:inline-block;cursor:pointer">Vender</div>' +
       '</div></div>';
   }).join('');
 }
@@ -2751,6 +2817,12 @@ async function renderPortafolioPadre() {
   renderDistribucion(port.activos);
   renderActivosLista(port.activos);
   renderGraficoPortafolio();
+
+  // Mostrar saldo disponible
+  var saldoActual = getSaldoPadre(uid);
+  var elSaldo = document.getElementById('port-saldo-display');
+  if (elSaldo) elSaldo.textContent = '$' + saldoActual.clp.toLocaleString('es-CL') + ' CLP disponible';
+
   setPortTab('mio');
 }
 
@@ -3922,6 +3994,299 @@ function cerrarJuego() {
   renderHijoJuegos();
 }
 
+// ── SIMULADOR DE MERCADO ──────────────────────
+
+function abrirPantallaCompra() {
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || 'u1';
+  var saldo = getSaldoPadre(uid);
+  var overlay = document.getElementById('trade-overlay');
+  var contenido = document.getElementById('trade-contenido');
+  if (!overlay || !contenido) return;
+
+  var html = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">' +
+    '<div style="font-size:18px;font-weight:700;color:var(--text-1)">Comprar acciones</div>' +
+    '<div onclick="cerrarTrade()" style="font-size:22px;color:var(--text-3);cursor:pointer">\u2715</div>' +
+    '</div>' +
+    '<div style="background:#f0fdf4;border-radius:12px;padding:12px 16px;margin-bottom:20px;display:flex;justify-content:space-between">' +
+    '<div style="font-size:13px;color:var(--text-2)">Saldo disponible</div>' +
+    '<div style="font-size:15px;font-weight:700;color:#059669">$' + saldo.clp.toLocaleString('es-CL') + ' CLP</div>' +
+    '</div>' +
+    '<div style="font-size:13px;font-weight:600;color:var(--text-2);margin-bottom:10px">Selecciona una acci\u00F3n</div>' +
+    '<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">';
+
+  _catalogoAcciones.forEach(function(acc) {
+    var precio = _preciosCache[acc.ticker];
+    var precioStr = precio && precio.ok ? 'US$' + precio.precio.toFixed(2) : 'Cargando...';
+    var cambioStr = precio && precio.ok ? (precio.cambioPct >= 0 ? '+' : '') + precio.cambioPct.toFixed(2) + '%' : '';
+    var cambioColor = precio && precio.cambioPct >= 0 ? '#059669' : '#dc2626';
+    html += '<div onclick="seleccionarAccion(\'' + acc.ticker + '\',\'' + acc.nombre + '\')" style="background:white;border:1px solid var(--border);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer" id="acc-item-' + acc.ticker + '">' +
+      '<div><div style="font-size:14px;font-weight:600;color:var(--text-1)">' + acc.ticker + '</div>' +
+      '<div style="font-size:12px;color:var(--text-3)">' + acc.nombre + ' \u00B7 ' + acc.sector + '</div></div>' +
+      '<div style="text-align:right"><div style="font-size:14px;font-weight:600;color:var(--text-1)">' + precioStr + '</div>' +
+      '<div style="font-size:12px;color:' + cambioColor + '">' + cambioStr + '</div></div>' +
+      '</div>';
+  });
+
+  html += '</div><div id="trade-form" style="display:none"></div>';
+  contenido.innerHTML = html;
+  overlay.style.display = 'flex';
+
+  fetchPreciosReales(_catalogoAcciones.map(function(a) { return a.ticker; })).then(function() {
+    _catalogoAcciones.forEach(function(acc) {
+      var precio = _preciosCache[acc.ticker];
+      var el = document.getElementById('acc-item-' + acc.ticker);
+      if (el && precio && precio.ok) {
+        var cambioColor = precio.cambioPct >= 0 ? '#059669' : '#dc2626';
+        var divs = el.querySelectorAll('div > div');
+        el.querySelector('div:last-child div:first-child').textContent = 'US$' + precio.precio.toFixed(2);
+        var cambioEl = el.querySelector('div:last-child div:last-child');
+        cambioEl.textContent = (precio.cambioPct >= 0 ? '+' : '') + precio.cambioPct.toFixed(2) + '%';
+        cambioEl.style.color = cambioColor;
+      }
+    });
+  });
+}
+
+function seleccionarAccion(ticker, nombre) {
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || 'u1';
+  var saldo = getSaldoPadre(uid);
+  var precio = _preciosCache[ticker];
+  var precioUSD = precio && precio.ok ? precio.precio : 100;
+  var precioCLP = Math.round(precioUSD * TIPO_CAMBIO_USD_CLP);
+
+  var form = document.getElementById('trade-form');
+  if (!form) return;
+  form.style.display = 'block';
+  form.innerHTML =
+    '<div style="background:#f9fafb;border-radius:12px;padding:14px 16px;margin-bottom:16px">' +
+    '<div style="display:flex;justify-content:space-between;margin-bottom:6px">' +
+    '<div style="font-size:14px;font-weight:700;color:var(--text-1)">' + ticker + ' \u2014 ' + nombre + '</div>' +
+    '<div style="font-size:11px;background:' + (precio && precio.ok ? '#f0fdf4' : '#f9fafb') + ';color:' + (precio && precio.ok ? '#059669' : 'var(--text-3)') + ';border-radius:20px;padding:2px 8px;font-weight:600">' + (precio && precio.ok ? '\u25CF LIVE' : 'DEMO') + '</div>' +
+    '</div>' +
+    '<div style="font-size:22px;font-weight:700;color:var(--text-1)">US$' + precioUSD.toFixed(2) + '</div>' +
+    '<div style="font-size:12px;color:var(--text-3)">\u2248 $' + precioCLP.toLocaleString('es-CL') + ' CLP por acci\u00F3n</div>' +
+    '</div>' +
+    '<div style="margin-bottom:16px">' +
+    '<label style="font-size:13px;font-weight:600;color:var(--text-2);display:block;margin-bottom:6px">Cantidad de acciones</label>' +
+    '<div style="display:flex;align-items:center;gap:12px">' +
+    '<div onclick="cambiarCantidad(-1)" style="width:40px;height:40px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;font-weight:700">\u2212</div>' +
+    '<div id="trade-cantidad" style="font-size:24px;font-weight:700;color:var(--text-1);flex:1;text-align:center">1</div>' +
+    '<div onclick="cambiarCantidad(1)" style="width:40px;height:40px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;font-weight:700">+</div>' +
+    '</div>' +
+    '</div>' +
+    '<div style="background:#f0fdf4;border-radius:12px;padding:12px 16px;margin-bottom:16px">' +
+    '<div style="display:flex;justify-content:space-between;margin-bottom:4px">' +
+    '<div style="font-size:13px;color:var(--text-2)">Total a pagar</div>' +
+    '<div id="trade-total-clp" style="font-size:13px;font-weight:700;color:var(--text-1)">$' + precioCLP.toLocaleString('es-CL') + ' CLP</div>' +
+    '</div>' +
+    '<div style="display:flex;justify-content:space-between">' +
+    '<div style="font-size:12px;color:var(--text-3)">Saldo despu\u00E9s</div>' +
+    '<div id="trade-saldo-post" style="font-size:12px;color:var(--text-3)">$' + (saldo.clp - precioCLP).toLocaleString('es-CL') + ' CLP</div>' +
+    '</div>' +
+    '</div>' +
+    '<div id="trade-error" style="color:#dc2626;font-size:13px;margin-bottom:10px;display:none"></div>' +
+    '<div onclick="confirmarCompra(\'' + ticker + '\',\'' + nombre + '\')" style="background:#059669;color:white;padding:14px;border-radius:12px;text-align:center;font-weight:700;font-size:15px;cursor:pointer">Confirmar compra</div>';
+
+  window._tradeTickerActual = ticker;
+  window._tradePrecioActual = precioUSD;
+  window._tradeCantidadActual = 1;
+  form.scrollIntoView({ behavior: 'smooth' });
+}
+
+function cambiarCantidad(delta) {
+  var nueva = Math.max(1, (window._tradeCantidadActual || 1) + delta);
+  window._tradeCantidadActual = nueva;
+  var precioCLP = Math.round((window._tradePrecioActual || 100) * TIPO_CAMBIO_USD_CLP);
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var saldo = getSaldoPadre(session.id || 'u1');
+  var elCant = document.getElementById('trade-cantidad');
+  if (elCant) elCant.textContent = nueva;
+  var elTotal = document.getElementById('trade-total-clp');
+  if (elTotal) elTotal.textContent = '$' + (precioCLP * nueva).toLocaleString('es-CL') + ' CLP';
+  var elSaldo = document.getElementById('trade-saldo-post');
+  if (elSaldo) elSaldo.textContent = '$' + (saldo.clp - precioCLP * nueva).toLocaleString('es-CL') + ' CLP';
+}
+
+function confirmarCompra(ticker, nombre) {
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || 'u1';
+  var cantidad = window._tradeCantidadActual || 1;
+  var precioUSD = window._tradePrecioActual || 100;
+  var precioCLP = Math.round(precioUSD * TIPO_CAMBIO_USD_CLP);
+  var totalCLP = precioCLP * cantidad;
+  var saldo = getSaldoPadre(uid);
+  var elErr = document.getElementById('trade-error');
+
+  if (saldo.clp < totalCLP) {
+    if (elErr) { elErr.textContent = 'Saldo insuficiente. Te faltan $' + (totalCLP - saldo.clp).toLocaleString('es-CL') + ' CLP.'; elErr.style.display = 'block'; }
+    return;
+  }
+
+  saldo.clp -= totalCLP;
+  setSaldoPadre(uid, saldo);
+
+  var posiciones = getPortafolioPadre(uid);
+  var existente = posiciones.find(function(p) { return p.ticker === ticker; });
+  if (existente) {
+    var totalCantidad = existente.cantidad + cantidad;
+    existente.precioCompra = ((existente.precioCompra * existente.cantidad) + (precioUSD * cantidad)) / totalCantidad;
+    existente.cantidad = totalCantidad;
+  } else {
+    posiciones.push({ ticker: ticker, nombre: nombre, cantidad: cantidad, precioCompra: precioUSD });
+  }
+  setPortafolioPadre(uid, posiciones);
+
+  FinSeedStore.saveMovimiento(uid, {
+    tipo: 'compra',
+    monto: totalCLP,
+    descripcion: 'Compra ' + ticker + ' \u00D7 ' + cantidad,
+    moneda: 'CLP'
+  });
+
+  cerrarTrade();
+  mostrarToastJuego('\u2713 Compraste ' + cantidad + ' acci\u00F3n' + (cantidad > 1 ? 'es' : '') + ' de ' + ticker);
+  renderPortafolioPadre();
+}
+
+function abrirPantallaVenta(ticker) {
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || 'u1';
+  var posiciones = getPortafolioPadre(uid);
+  var pos = posiciones.find(function(p) { return p.ticker === ticker; });
+  if (!pos) return;
+
+  var precio = _preciosCache[ticker];
+  var precioUSD = precio && precio.ok ? precio.precio : pos.precioCompra;
+  var precioCLP = Math.round(precioUSD * TIPO_CAMBIO_USD_CLP);
+  var ganancia = ((precioUSD - pos.precioCompra) / pos.precioCompra * 100);
+
+  var overlay = document.getElementById('trade-overlay');
+  var contenido = document.getElementById('trade-contenido');
+  if (!overlay || !contenido) return;
+
+  contenido.innerHTML =
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">' +
+    '<div style="font-size:18px;font-weight:700;color:var(--text-1)">Vender ' + ticker + '</div>' +
+    '<div onclick="cerrarTrade()" style="font-size:22px;color:var(--text-3);cursor:pointer">\u2715</div>' +
+    '</div>' +
+    '<div style="background:#f9fafb;border-radius:12px;padding:14px 16px;margin-bottom:16px">' +
+    '<div style="font-size:13px;color:var(--text-3);margin-bottom:4px">Tienes ' + pos.cantidad + ' acciones</div>' +
+    '<div style="font-size:22px;font-weight:700;color:var(--text-1)">US$' + precioUSD.toFixed(2) + '</div>' +
+    '<div style="font-size:12px;color:' + (ganancia >= 0 ? '#059669' : '#dc2626') + '">' + (ganancia >= 0 ? '+' : '') + ganancia.toFixed(2) + '% vs precio de compra</div>' +
+    '</div>' +
+    '<div style="margin-bottom:16px">' +
+    '<label style="font-size:13px;font-weight:600;color:var(--text-2);display:block;margin-bottom:6px">\u00BFCu\u00E1ntas acciones vender?</label>' +
+    '<div style="display:flex;align-items:center;gap:12px">' +
+    '<div onclick="cambiarCantidadVenta(-1,' + pos.cantidad + ')" style="width:40px;height:40px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;font-weight:700">\u2212</div>' +
+    '<div id="venta-cantidad" style="font-size:24px;font-weight:700;color:var(--text-1);flex:1;text-align:center">1</div>' +
+    '<div onclick="cambiarCantidadVenta(1,' + pos.cantidad + ')" style="width:40px;height:40px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;font-weight:700">+</div>' +
+    '</div>' +
+    '</div>' +
+    '<div style="background:#f0fdf4;border-radius:12px;padding:12px 16px;margin-bottom:16px">' +
+    '<div style="display:flex;justify-content:space-between;margin-bottom:4px">' +
+    '<div style="font-size:13px;color:var(--text-2)">Recibir\u00E1s</div>' +
+    '<div id="venta-total" style="font-size:13px;font-weight:700;color:#059669">$' + precioCLP.toLocaleString('es-CL') + ' CLP</div>' +
+    '</div>' +
+    '</div>' +
+    '<div onclick="confirmarVenta(\'' + ticker + '\',' + precioUSD + ',' + precioCLP + ',' + pos.cantidad + ')" style="background:#dc2626;color:white;padding:14px;border-radius:12px;text-align:center;font-weight:700;font-size:15px;cursor:pointer">Confirmar venta</div>';
+
+  window._ventaCantidadActual = 1;
+  window._ventaPrecioCLP = precioCLP;
+  overlay.style.display = 'flex';
+}
+
+function cambiarCantidadVenta(delta, max) {
+  var nueva = Math.max(1, Math.min(max, (window._ventaCantidadActual || 1) + delta));
+  window._ventaCantidadActual = nueva;
+  var el = document.getElementById('venta-cantidad'); if (el) el.textContent = nueva;
+  var elT = document.getElementById('venta-total'); if (elT) elT.textContent = '$' + ((window._ventaPrecioCLP || 0) * nueva).toLocaleString('es-CL') + ' CLP';
+}
+
+function confirmarVenta(ticker, precioUSD, precioCLP, cantidadMax) {
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || 'u1';
+  var cantidad = window._ventaCantidadActual || 1;
+  var totalCLP = precioCLP * cantidad;
+
+  var posiciones = getPortafolioPadre(uid);
+  var idx = posiciones.findIndex(function(p) { return p.ticker === ticker; });
+  if (idx >= 0) {
+    posiciones[idx].cantidad -= cantidad;
+    if (posiciones[idx].cantidad <= 0) posiciones.splice(idx, 1);
+  }
+  setPortafolioPadre(uid, posiciones);
+
+  var saldo = getSaldoPadre(uid);
+  saldo.clp += totalCLP;
+  setSaldoPadre(uid, saldo);
+
+  FinSeedStore.saveMovimiento(uid, {
+    tipo: 'retiro',
+    monto: totalCLP,
+    descripcion: 'Venta ' + ticker + ' \u00D7 ' + cantidad,
+    moneda: 'CLP'
+  });
+
+  cerrarTrade();
+  mostrarToastJuego('\u2713 Vendiste ' + cantidad + ' acci\u00F3n' + (cantidad > 1 ? 'es' : '') + ' de ' + ticker + ' \u00B7 +$' + totalCLP.toLocaleString('es-CL') + ' CLP');
+  renderPortafolioPadre();
+}
+
+function cerrarTrade() {
+  var overlay = document.getElementById('trade-overlay');
+  if (overlay) overlay.style.display = 'none';
+}
+
+function abrirDeposito() {
+  var overlay = document.getElementById('trade-overlay');
+  var contenido = document.getElementById('trade-contenido');
+  if (!overlay || !contenido) return;
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || 'u1';
+  var saldo = getSaldoPadre(uid);
+
+  contenido.innerHTML =
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">' +
+    '<div style="font-size:18px;font-weight:700;color:var(--text-1)">Depositar fondos</div>' +
+    '<div onclick="cerrarTrade()" style="font-size:22px;color:var(--text-3);cursor:pointer">\u2715</div>' +
+    '</div>' +
+    '<div style="background:#f0fdf4;border-radius:12px;padding:12px 16px;margin-bottom:20px">' +
+    '<div style="font-size:12px;color:var(--text-3)">Saldo actual</div>' +
+    '<div style="font-size:20px;font-weight:700;color:#059669">$' + saldo.clp.toLocaleString('es-CL') + ' CLP</div>' +
+    '</div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">' +
+    ['100000','250000','500000','1000000'].map(function(m) {
+      return '<div onclick="depositarMonto(' + m + ')" style="background:#f9fafb;border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;cursor:pointer;font-size:14px;font-weight:600;color:var(--text-1)">$' + parseInt(m).toLocaleString('es-CL') + '</div>';
+    }).join('') +
+    '</div>' +
+    '<div style="margin-bottom:16px">' +
+    '<input id="deposito-monto" type="number" placeholder="Otro monto en CLP" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:10px;font-size:15px;font-family:inherit;box-sizing:border-box">' +
+    '</div>' +
+    '<div onclick="depositarPersonalizado()" style="background:#059669;color:white;padding:14px;border-radius:12px;text-align:center;font-weight:700;font-size:15px;cursor:pointer">Depositar</div>';
+
+  overlay.style.display = 'flex';
+}
+
+function depositarMonto(monto) {
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || 'u1';
+  var saldo = getSaldoPadre(uid);
+  saldo.clp += monto;
+  setSaldoPadre(uid, saldo);
+  FinSeedStore.saveMovimiento(uid, { tipo: 'deposito', monto: monto, descripcion: 'Dep\u00F3sito simulado', moneda: 'CLP' });
+  cerrarTrade();
+  mostrarToastJuego('\u2713 Depositaste $' + monto.toLocaleString('es-CL') + ' CLP');
+  renderPortafolioPadre();
+}
+
+function depositarPersonalizado() {
+  var monto = parseInt(document.getElementById('deposito-monto').value);
+  if (!monto || monto <= 0) return;
+  depositarMonto(monto);
+}
+
 function mostrarToastJuego(msg) {
   var t = document.createElement('div');
   t.style.cssText = 'position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#1f2937;color:white;padding:10px 20px;border-radius:20px;font-size:13px;z-index:9999;white-space:nowrap';
@@ -4415,6 +4780,10 @@ window.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <div id="juego-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;flex-direction:column;align-items:center;justify-content:flex-end"></div>
+
+<div id="trade-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:flex-end;justify-content:center">
+  <div id="trade-contenido" style="background:white;border-radius:24px 24px 0 0;padding:24px;width:100%;max-width:390px;max-height:90vh;overflow-y:auto"></div>
+</div>
 
 <div id="onboarding-overlay" style="display:none;position:fixed;inset:0;z-index:10000;background:white;flex-direction:column">
 
