@@ -4160,6 +4160,7 @@ async function registerUser() {
       usuarios.push({ id: userId, nombre: nombre, email: email, pass: pass, role: rol, codigoFamilia: codigoFamilia });
       localStorage.setItem('finseed_users', JSON.stringify(usuarios));
 
+      localStorage.setItem('finseed_show_onboarding', 'true');
       entrarApp(rol);
     } else {
       _registerUserLocal(nombre, email, pass, rol);
@@ -4189,7 +4190,128 @@ function _registerUserLocal(nombre, email, pass, rol) {
   var session = { id: userId, role: rol, nombre: nombre, email: email };
   localStorage.setItem('finseed_session', JSON.stringify(session));
   FinSeedStore.session = { userId: userId, role: rol, nombre: nombre };
+  localStorage.setItem('finseed_show_onboarding', 'true');
   entrarApp(rol);
+}
+
+// ── ONBOARDING ────────────────────────────────
+var _onboardingStep = 0;
+var _onboardingRole = 'padre';
+
+var _slidesPadre = [
+  {
+    svg: '<svg viewBox="0 0 200 160" width="200" height="160" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="60" r="40" fill="#dcfce7"/><circle cx="100" cy="55" r="18" fill="#16a34a"/><path d="M60 110 Q100 90 140 110 L140 140 Q100 155 60 140 Z" fill="#16a34a"/><circle cx="60" cy="95" r="12" fill="#86efac"/><circle cx="140" cy="95" r="12" fill="#86efac"/><path d="M48 115 Q60 100 72 115" fill="#86efac"/><path d="M128 115 Q140 100 152 115" fill="#86efac"/><rect x="75" y="125" width="50" height="8" rx="4" fill="white" opacity="0.5"/></svg>',
+    titulo: '\u00A1Bienvenido a FinSeed!',
+    desc: 'La plataforma donde t\u00FA inviertes para el futuro de tus hijos y ellos aprenden finanzas jugando.',
+    color: '#16a34a'
+  },
+  {
+    svg: '<svg viewBox="0 0 200 160" width="200" height="160" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="40" width="160" height="100" rx="16" fill="#dcfce7"/><rect x="35" y="60" width="130" height="60" rx="10" fill="white"/><path d="M45 90 L75 70 L100 80 L130 60 L155 75" fill="none" stroke="#16a34a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="155" cy="75" r="5" fill="#16a34a"/><text x="45" y="110" font-size="10" fill="#6b7280">AAPL</text><text x="85" y="110" font-size="10" fill="#6b7280">TSLA</text><text x="125" y="110" font-size="10" fill="#6b7280">VOO</text></svg>',
+    titulo: 'Tu portafolio familiar',
+    desc: 'Visualiza tus inversiones y las de tus hijos en un solo lugar. Cada hijo tiene su propio portafolio.',
+    color: '#0284c7'
+  },
+  {
+    svg: '<svg viewBox="0 0 200 160" width="200" height="160" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="80" r="55" fill="#fef9c3"/><text x="100" y="60" text-anchor="middle" font-size="32">\uD83C\uDFAE</text><rect x="55" y="85" width="90" height="12" rx="6" fill="#e5e7eb"/><rect x="55" y="85" width="50" height="12" rx="6" fill="#16a34a"/><text x="100" y="120" text-anchor="middle" font-size="11" fill="#6b7280">+30 XP</text><circle cx="60" cy="45" r="10" fill="#fde68a"/><text x="60" y="49" text-anchor="middle" font-size="10">\u2B50</text><circle cx="140" cy="45" r="10" fill="#fde68a"/><text x="140" y="49" text-anchor="middle" font-size="10">\uD83D\uDD25</text></svg>',
+    titulo: 'Tus hijos aprenden jugando',
+    desc: 'Con juegos educativos, misiones diarias y un sistema de XP que los mantiene motivados cada d\u00EDa.',
+    color: '#f59e0b'
+  },
+  {
+    svg: '<svg viewBox="0 0 200 160" width="200" height="160" xmlns="http://www.w3.org/2000/svg"><rect x="30" y="30" width="140" height="100" rx="16" fill="#f0fdf4"/><text x="100" y="75" text-anchor="middle" font-size="28">\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67</text><rect x="50" y="95" width="100" height="8" rx="4" fill="#dcfce7"/><text x="100" y="115" text-anchor="middle" font-size="10" fill="#16a34a">Familia conectada</text><circle cx="55" cy="40" r="8" fill="#86efac"/><text x="55" y="44" text-anchor="middle" font-size="8">\uD83E\uDD47</text><circle cx="100" cy="35" r="8" fill="#fde68a"/><text x="100" y="39" text-anchor="middle" font-size="8">\u2B50</text><circle cx="145" cy="40" r="8" fill="#86efac"/><text x="145" y="44" text-anchor="middle" font-size="8">\uD83E\uDD48</text></svg>',
+    titulo: 'Toda la familia unida',
+    desc: 'Compite en el ranking familiar, alcancen metas juntos y celebren los logros de cada uno.',
+    color: '#7c3aed'
+  }
+];
+
+var _slidesHijo = [
+  {
+    svg: '<svg viewBox="0 0 200 160" width="200" height="160" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="70" r="50" fill="#dcfce7"/><text x="100" y="85" text-anchor="middle" font-size="48">\uD83C\uDF31</text></svg>',
+    titulo: '\u00A1Bienvenido a FinSeed!',
+    desc: 'Aprende sobre dinero, ahorro e inversiones jugando. \u00A1Cada d\u00EDa es una nueva aventura financiera!',
+    color: '#16a34a'
+  },
+  {
+    svg: '<svg viewBox="0 0 200 160" width="200" height="160" xmlns="http://www.w3.org/2000/svg"><rect x="25" y="25" width="150" height="110" rx="16" fill="#fef9c3"/><text x="100" y="75" text-anchor="middle" font-size="36">\uD83C\uDFAE</text><text x="100" y="105" text-anchor="middle" font-size="11" fill="#92400e">22 juegos disponibles</text><circle cx="50" cy="40" r="12" fill="#fde68a"/><text x="50" y="44" text-anchor="middle" font-size="10">Nv.1</text><circle cx="150" cy="40" r="12" fill="#fde68a" opacity="0.4"/><text x="150" y="44" text-anchor="middle" font-size="10" fill="#92400e" opacity="0.4">Nv.6</text></svg>',
+    titulo: 'Juegos que te ense\u00F1an',
+    desc: 'Desde qu\u00E9 es el dinero hasta criptomonedas. Completa juegos para subir de nivel y ganar XP.',
+    color: '#f59e0b'
+  },
+  {
+    svg: '<svg viewBox="0 0 200 160" width="200" height="160" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="80" r="55" fill="#fef2f2"/><text x="100" y="65" text-anchor="middle" font-size="28">\u2665\u2665\u2665\u2665\u2665</text><text x="100" y="95" text-anchor="middle" font-size="13" fill="#dc2626">5 vidas por d\u00EDa</text><text x="100" y="115" text-anchor="middle" font-size="11" fill="#6b7280">Se recargan a las 00:00</text></svg>',
+    titulo: 'Vidas y rachas',
+    desc: 'Tienes 5 vidas por d\u00EDa. Si respondes mal pierdes una. \u00A1Mant\u00E9n tu racha jugando todos los d\u00EDas!',
+    color: '#dc2626'
+  },
+  {
+    svg: '<svg viewBox="0 0 200 160" width="200" height="160" xmlns="http://www.w3.org/2000/svg"><rect x="30" y="20" width="140" height="120" rx="16" fill="#f0fdf4"/><text x="100" y="65" text-anchor="middle" font-size="28">\uD83C\uDFC6</text><text x="100" y="90" text-anchor="middle" font-size="12" fill="#15803d">Ranking familiar</text><rect x="50" y="100" width="100" height="6" rx="3" fill="#dcfce7"/><rect x="50" y="100" width="70" height="6" rx="3" fill="#16a34a"/><text x="100" y="125" text-anchor="middle" font-size="10" fill="#6b7280">Compite con tu familia</text></svg>',
+    titulo: 'Compite con tu familia',
+    desc: 'Gana XP, sube en el ranking familiar y demuestra qui\u00E9n sabe m\u00E1s de finanzas en casa.',
+    color: '#7c3aed'
+  }
+];
+
+function mostrarOnboarding(role) {
+  _onboardingStep = 0;
+  _onboardingRole = role || 'padre';
+  var overlay = document.getElementById('onboarding-overlay');
+  if (!overlay) return;
+  overlay.style.display = 'flex';
+  renderOnboardingSlide(0);
+}
+
+function renderOnboardingSlide(step) {
+  var slides = _onboardingRole === 'hijo' ? _slidesHijo : _slidesPadre;
+  var slide = slides[step];
+  if (!slide) return;
+
+  for (var i = 0; i < 4; i++) {
+    var dot = document.getElementById('ob-dot-' + i);
+    if (dot) dot.style.background = i <= step ? '#16a34a' : '#e5e7eb';
+  }
+
+  var container = document.getElementById('ob-slides');
+  if (container) {
+    container.innerHTML =
+      '<div style="margin-bottom:32px">' + slide.svg + '</div>' +
+      '<div style="font-size:24px;font-weight:700;color:var(--text-1);margin-bottom:12px;line-height:1.3">' + slide.titulo + '</div>' +
+      '<div style="font-size:15px;color:var(--text-3);line-height:1.6;max-width:300px">' + slide.desc + '</div>';
+  }
+
+  var btn = document.getElementById('ob-btn-next');
+  var slides_total = slides.length;
+  if (btn) {
+    if (step === slides_total - 1) {
+      btn.textContent = '\u00A1Empezar!';
+      btn.style.background = slide.color || '#16a34a';
+    } else {
+      btn.textContent = 'Siguiente';
+      btn.style.background = '#16a34a';
+    }
+  }
+
+  var skipBtn = document.getElementById('ob-btn-skip');
+  if (skipBtn) skipBtn.style.display = step === slides_total - 1 ? 'none' : 'block';
+}
+
+function onboardingNext() {
+  var slides = _onboardingRole === 'hijo' ? _slidesHijo : _slidesPadre;
+  if (_onboardingStep < slides.length - 1) {
+    _onboardingStep++;
+    renderOnboardingSlide(_onboardingStep);
+  } else {
+    terminarOnboarding();
+  }
+}
+
+function terminarOnboarding() {
+  var overlay = document.getElementById('onboarding-overlay');
+  if (overlay) overlay.style.display = 'none';
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  if (session.id) {
+    localStorage.setItem('finseed_onboarding_done_' + session.id, 'true');
+  }
 }
 
 function checkSession() {
@@ -4204,6 +4326,13 @@ function checkSession() {
 }
 
 function entrarApp(role, nombre) {
+  // Mostrar onboarding si es primera vez
+  var showOB = localStorage.getItem('finseed_show_onboarding');
+  if (showOB === 'true') {
+    localStorage.removeItem('finseed_show_onboarding');
+    setTimeout(function() { mostrarOnboarding(role); }, 800);
+  }
+
   var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
   FinSeedStore.session.userId = session.id     || null;
   FinSeedStore.session.role   = role;
@@ -4286,6 +4415,33 @@ window.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <div id="juego-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;flex-direction:column;align-items:center;justify-content:flex-end"></div>
+
+<div id="onboarding-overlay" style="display:none;position:fixed;inset:0;z-index:10000;background:white;flex-direction:column">
+
+  <!-- BARRA DE PROGRESO -->
+  <div style="padding:16px 24px 0;display:flex;gap:6px">
+    <div id="ob-dot-0" style="flex:1;height:4px;border-radius:4px;background:#16a34a;transition:background .3s"></div>
+    <div id="ob-dot-1" style="flex:1;height:4px;border-radius:4px;background:#e5e7eb;transition:background .3s"></div>
+    <div id="ob-dot-2" style="flex:1;height:4px;border-radius:4px;background:#e5e7eb;transition:background .3s"></div>
+    <div id="ob-dot-3" style="flex:1;height:4px;border-radius:4px;background:#e5e7eb;transition:background .3s"></div>
+  </div>
+
+  <!-- SKIP -->
+  <div style="padding:12px 24px 0;text-align:right">
+    <span onclick="terminarOnboarding()" style="font-size:13px;color:var(--text-3);cursor:pointer">Saltar</span>
+  </div>
+
+  <!-- SLIDES -->
+  <div id="ob-slides" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center">
+  </div>
+
+  <!-- BOTONES -->
+  <div style="padding:24px">
+    <div id="ob-btn-next" onclick="onboardingNext()" style="background:#16a34a;color:white;padding:16px;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;text-align:center;margin-bottom:12px">Siguiente</div>
+    <div id="ob-btn-skip" onclick="terminarOnboarding()" style="padding:12px;text-align:center;font-size:14px;color:var(--text-3);cursor:pointer">Saltar introducci&oacute;n</div>
+  </div>
+
+</div>
 
 </body>
 </html>
