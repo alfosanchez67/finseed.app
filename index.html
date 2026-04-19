@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>FinSeed</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -538,11 +540,7 @@
     <!-- Header verde compacto -->
     <div style="background:linear-gradient(160deg,#065f46 0%,#047857 60%,#059669 100%);padding:40px 24px 28px;text-align:center;border-radius:0 0 32px 32px;flex-shrink:0">
       <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 22V12"/>
-          <path d="M12 12C12 12 7 10 7 5a5 5 0 0 1 10 0c0 5-5 7-5 7z"/>
-          <path d="M12 12c0 0-3 2-3 6"/>
-        </svg>
+        <img src="logo.png" style="width:40px;height:40px;object-fit:contain" alt="FinSeed">
         <span style="font-size:22px;font-weight:700;color:white;letter-spacing:-0.5px">FinSeed</span>
       </div>
       <p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.5;max-width:240px;margin:0 auto">
@@ -747,7 +745,7 @@
   <div class="status-bar"><span>9:41</span><span>FinSeed</span></div>
 
   <div class="top-bar">
-    <span class="top-bar-title" id="padre-welcome">FinSeed</span>
+    <span class="top-bar-title" id="padre-welcome" style="display:flex;align-items:center;gap:6px"><img src="logo.png" style="width:28px;height:28px;object-fit:contain" alt="FinSeed">FinSeed</span>
     <button class="logout-btn" onclick="doLogout()">Salir</button>
   </div>
 
@@ -1219,7 +1217,7 @@
   <div class="status-bar"><span>9:41</span><span>FinSeed</span></div>
 
   <div class="top-bar" style="background:#15803d;border-bottom-color:#14532d;">
-    <span class="top-bar-title" id="hijo-welcome" style="color:#ffffff;">FinSeed</span>
+    <span class="top-bar-title" id="hijo-welcome" style="color:#ffffff;display:flex;align-items:center;gap:6px"><img src="logo.png" style="width:28px;height:28px;object-fit:contain" alt="FinSeed">FinSeed</span>
     <button class="logout-btn" style="color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.25);" onclick="doLogout()">Salir</button>
   </div>
 
