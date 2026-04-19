@@ -4851,7 +4851,7 @@ function seleccionarRol(rol) {
   document.getElementById('reg-tiene-hijos-no').classList.add('active');
   document.getElementById('reg-tiene-hijos-si').classList.remove('active');
   document.getElementById('reg-hijo-nombre-wrap').style.display = 'none';
-  setLoginRole(rol);
+  _loginRole = rol;
   showView('login');
 }
 
