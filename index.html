@@ -574,7 +574,7 @@
 
       <!-- YA TENGO CUENTA -->
       <div style="text-align:center;margin-bottom:16px">
-        <span style="font-size:13px;color:var(--text-3)">¿Ya tienes cuenta? <span onclick="showView('login')" style="color:var(--green);font-weight:600;cursor:pointer">Ingresar</span></span>
+        <span style="font-size:13px;color:var(--text-3)">¿Primera vez? <span onclick="showView('registro')" style="color:var(--green);font-weight:600;cursor:pointer">Crear cuenta</span></span>
       </div>
 
       <!-- PROPUESTA DE VALOR -->
@@ -665,7 +665,7 @@
     <button class="auth-submit" onclick="loginUser()">Ingresar</button>
 
     <div class="auth-switch">
-      ¿No tienes cuenta? <span onclick="showView('selector')">Crear cuenta</span>
+      ¿No tienes cuenta? <span onclick="showView('registro')">Crear cuenta</span>
     </div>
 
     <div class="demo-hint">
@@ -677,6 +677,10 @@
 
   <!-- ── Vista: Registro ── -->
   <div class="auth-panel" id="view-registro" style="display:none">
+
+    <div style="margin-bottom:16px">
+      <span onclick="showView('login')" style="font-size:13px;color:var(--text-3);cursor:pointer">&#8592; Volver a ingresar</span>
+    </div>
 
     <!-- Logo mini -->
     <div style="display:flex;justify-content:center;align-items:center;gap:7px;margin-bottom:20px;padding-top:8px">
@@ -4843,7 +4847,8 @@ function seleccionarRol(rol) {
   document.getElementById('reg-tiene-hijos-no').classList.add('active');
   document.getElementById('reg-tiene-hijos-si').classList.remove('active');
   document.getElementById('reg-hijo-nombre-wrap').style.display = 'none';
-  showView('registro');
+  setLoginRole(rol);
+  showView('login');
 }
 
 function toggleTieneHijos(tiene) {
