@@ -4856,8 +4856,6 @@ function toggleTieneHijos(tiene) {
 
 function setLoginRole(rol) {
   _loginRole = rol;
-  document.getElementById('pill-padre').classList.toggle('active', rol === 'padre');
-  document.getElementById('pill-hijo').classList.toggle('active', rol === 'hijo');
 }
 
 async function loginUser() {
@@ -5582,8 +5580,6 @@ function doLogout() {
   localStorage.removeItem('finseed_session');
   _loginRole = '';
   _selectedRole = '';
-  document.getElementById('pill-padre').classList.remove('active');
-  document.getElementById('pill-hijo').classList.remove('active');
   document.getElementById('app-padre').style.display   = 'none';
   document.getElementById('app-hijo').style.display    = 'none';
   document.getElementById('auth-screen').style.display = 'flex';
