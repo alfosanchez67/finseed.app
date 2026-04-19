@@ -5491,7 +5491,6 @@ function checkSession() {
 }
 
 function entrarApp(role, nombre) {
-  // Mostrar onboarding si es primera vez
   var showOB = localStorage.getItem('finseed_show_onboarding');
   if (showOB === 'true') {
     localStorage.removeItem('finseed_show_onboarding');
@@ -5511,19 +5510,37 @@ function entrarApp(role, nombre) {
     document.getElementById('app-hijo').style.display  = 'none';
     document.getElementById('nav-padre').style.display = 'flex';
     document.getElementById('nav-hijo').style.display  = 'none';
-    document.getElementById('pp-bienvenida').textContent  = bienvenida;
-    document.getElementById('padre-welcome').textContent  = 'FinSeed';
-    navigate_p('inicio');
-    setTimeout(function() { renderPadreInicio(); }, 150);
+    var elBP = document.getElementById('pp-bienvenida');
+    var elWP = document.getElementById('padre-welcome');
+    if (elBP) elBP.textContent = bienvenida;
+    if (elWP) elWP.textContent = 'FinSeed';
+    // Mostrar página inicio sin llamar navigate_p para evitar doble render
+    ['inicio','portafolio','familia','perfil'].forEach(function(p) {
+      var pg = document.getElementById('pp-' + p);
+      var nv = document.getElementById('pnav-' + p);
+      if (pg) pg.style.display = p === 'inicio' ? 'flex' : 'none';
+      if (nv) { if (p === 'inicio') nv.classList.add('active'); else nv.classList.remove('active'); }
+    });
+    // Un solo render con tiempo suficiente para el DOM
+    setTimeout(function() { renderPadreInicio(); }, 300);
   } else {
     document.getElementById('app-hijo').style.display  = 'flex';
     document.getElementById('app-padre').style.display = 'none';
     document.getElementById('nav-hijo').style.display  = 'flex';
     document.getElementById('nav-padre').style.display = 'none';
-    document.getElementById('kp-bienvenida').textContent = bienvenida;
-    document.getElementById('hijo-welcome').textContent  = 'FinSeed';
-    navigate_k('inicio');
-    setTimeout(function() { renderHijoInicio(); }, 150);
+    var elBK = document.getElementById('kp-bienvenida');
+    var elWK = document.getElementById('hijo-welcome');
+    if (elBK) elBK.textContent = bienvenida;
+    if (elWK) elWK.textContent = 'FinSeed';
+    // Mostrar página inicio sin llamar navigate_k para evitar doble render
+    ['inicio','juegos','familia','perfil'].forEach(function(p) {
+      var pg = document.getElementById('kp-' + p);
+      var nv = document.getElementById('knav-' + p);
+      if (pg) pg.style.display = p === 'inicio' ? 'flex' : 'none';
+      if (nv) { if (p === 'inicio') nv.classList.add('active'); else nv.classList.remove('active'); }
+    });
+    // Un solo render con tiempo suficiente para el DOM
+    setTimeout(function() { renderHijoInicio(); }, 300);
   }
 }
 
@@ -5538,7 +5555,7 @@ function navigate_p(page) {
       else            { nv.classList.remove('active'); }
     }
   });
-  if (page === 'inicio')     setTimeout(function() { renderPadreInicio(); }, 50);
+  if (page === 'inicio')     setTimeout(function() { renderPadreInicio(); }, 200);
   if (page === 'portafolio') renderPortafolioPadre();
   if (page === 'familia')    renderFamiliaPadre();
   if (page === 'perfil')     renderPerfilPadre();
@@ -5555,7 +5572,7 @@ function navigate_k(page) {
       else            { nv.classList.remove('active'); }
     }
   });
-  if (page === 'inicio')  setTimeout(function() { renderHijoInicio(); }, 50);
+  if (page === 'inicio')  setTimeout(function() { renderHijoInicio(); }, 200);
   if (page === 'juegos')  renderHijoJuegos();
   if (page === 'familia') renderFamiliaHijo();
   if (page === 'perfil')  { renderHijoPerfil(); }
