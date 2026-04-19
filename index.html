@@ -1608,10 +1608,7 @@ var FinSeedStore = {
     var key = 'finseed_solicitudes_' + padreId;
     var saved = localStorage.getItem(key);
     if (saved) return JSON.parse(saved);
-    return [
-      { id: 's1', hijoNombre: 'Sofía', hijoAvatar: 'S', accion: 'invertir', monto: 50000, ticker: 'NVDA', hace: 'hace 2h', estado: 'pendiente' },
-      { id: 's2', hijoNombre: 'Mateo', hijoAvatar: 'M', accion: 'retirar',  monto: 20000, ticker: 'AAPL', hace: 'hace 5h', estado: 'pendiente' }
-    ];
+    return [];
   },
   responderSolicitud: function(padreId, solicitudId, aprobado) {
     var key = 'finseed_solicitudes_' + padreId;
@@ -2474,7 +2471,6 @@ async function renderPadreInicio() {
   // ── ALERTAS ──
   var alertas = [
     { texto: 'AAPL subi\u00F3 +2.4% — tu portafolio gan\u00F3 $53.500', hace: 'Hace 1 hora', tipo: 'positivo' },
-    { texto: 'Sof\u00EDa complet\u00F3 \u00ABQu\u00E9 es el dinero?\u00BB +30 XP — \u00A1fel\u00EDcitala!', hace: 'Hace 3 horas', tipo: 'positivo' },
     { texto: 'TSLA baj\u00F3 -1.2% hoy', hace: 'Hace 4 horas', tipo: 'negativo' }
   ];
   var elAlertas = document.getElementById('pp-alertas-lista');
@@ -2920,11 +2916,16 @@ function abrirAccionPortafolio(accion) {
 
   var extraHTML = '';
   if (accion === 'distribuir') {
+    var sesD = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+    var uidD = sesD.id || FinSeedStore.session.userId || '';
+    var hijosD = getHijosReales(uidD);
+    var optsD = hijosD.length > 0
+      ? hijosD.map(function(h) { return '<option value="' + h.id + '">' + h.nombre + '</option>'; }).join('')
+      : '<option value="">Sin hijos registrados</option>';
     extraHTML = '<div style="margin-bottom:16px">' +
       '<label style="font-size:13px;color:var(--text-2);font-weight:600;display:block;margin-bottom:6px">Hijo destinatario</label>' +
       '<select id="accion-hijo" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:10px;font-size:15px;font-family:inherit;background:white;color:var(--text-1)">' +
-      '<option value="u2">Sofía</option><option value="u3">Mateo</option>' +
-      '</select></div>';
+      optsD + '</select></div>';
   }
 
   contenido.innerHTML =
@@ -4243,12 +4244,6 @@ function abrirSelectorHijoCompra() {
   var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
   var uid = session.id || 'u1';
   var hijos = getHijosReales(uid);
-  if (!hijos || hijos.length === 0) {
-    hijos = [
-      { id: 'u2', nombre: 'Sof\u00EDa', avatar: 'S', nivel: 4, xp: 340 },
-      { id: 'u3', nombre: 'Mateo',  avatar: 'M', nivel: 2, xp: 180 }
-    ];
-  }
   var overlay = document.getElementById('trade-overlay');
   var contenido = document.getElementById('trade-contenido');
   if (!overlay || !contenido) return;
@@ -4261,7 +4256,11 @@ function abrirSelectorHijoCompra() {
     '<div style="font-size:13px;color:var(--text-3);margin-bottom:16px">Selecciona el hijo al que quieres comprarle acciones. El saldo se descuenta de tu cuenta.</div>' +
     '<div style="display:flex;flex-direction:column;gap:10px">';
 
-  hijos.forEach(function(h) {
+  if (!hijos || hijos.length === 0) {
+    html += '<div style="text-align:center;padding:24px;color:var(--text-3);font-size:13px">Sin hijos registrados.<br>Ve a <b>Familia</b> para agregar hijos.</div>';
+  }
+
+  hijos && hijos.forEach(function(h) {
     var progHijo = FinSeedStore.getProgreso(h.id);
     html += '<div onclick="seleccionarHijoYComprar(\'' + h.id + '\',\'' + h.nombre + '\')" style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer">' +
       '<div style="width:48px;height:48px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:18px">' + h.avatar + '</div>' +
@@ -5160,14 +5159,7 @@ function abrirSelectorPrivado() {
 
   var contactos = [];
   if (role === 'padre') {
-    var hijos = getHijosReales(uid);
-    if (!hijos || hijos.length === 0) {
-      hijos = [
-        { id: 'u2', nombre: 'Sof\u00EDa', avatar: 'S' },
-        { id: 'u3', nombre: 'Mateo',  avatar: 'M' }
-      ];
-    }
-    contactos = hijos;
+    contactos = getHijosReales(uid) || [];
   } else {
     var padre = getPadreReal(uid);
     if (padre) contactos = [{ id: padre.id, nombre: padre.nombre, avatar: padre.nombre.charAt(0).toUpperCase() }];
@@ -5294,11 +5286,7 @@ function getNotificacionesChat(userId, role) {
   // 2. Chats privados
   var contactos = [];
   if (role === 'padre') {
-    var hijos = getHijosReales(userId);
-    if (!hijos || hijos.length === 0) {
-      hijos = [{ id: 'u2', nombre: 'Sof\u00EDa' }, { id: 'u3', nombre: 'Mateo' }];
-    }
-    contactos = hijos;
+    contactos = getHijosReales(userId) || [];
   } else {
     var padreReal = getPadreReal(userId);
     if (padreReal) contactos = [{ id: padreReal.id, nombre: padreReal.nombre }];
