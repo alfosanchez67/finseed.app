@@ -715,12 +715,16 @@
           <button id="reg-tiene-hijos-si"  onclick="toggleTieneHijos(true)">Sí, tengo hijos</button>
         </div>
       </div>
-      <div id="reg-hijo-nombre-wrap" class="hijo-nombre-field" style="display:none">
-        <div class="auth-field" style="margin-bottom:4px">
+      <div id="reg-hijos-wrap" style="display:none">
+        <div style="font-size:12px;color:var(--text-3);margin-bottom:10px">Plan Free: hasta 2 hijos</div>
+        <div class="auth-field" style="margin-bottom:10px">
           <label>Nombre del primer hijo</label>
-          <input id="reg-hijo-nombre" type="text" placeholder="Ej: Sofía">
+          <input id="reg-hijo-1" type="text" placeholder="Ej: Sofía">
         </div>
-        <div class="hijo-nombre-hint">Podrás agregar más hijos después</div>
+        <div class="auth-field" style="margin-bottom:4px">
+          <label>Nombre del segundo hijo <span style="color:var(--text-3);font-weight:400">(opcional)</span></label>
+          <input id="reg-hijo-2" type="text" placeholder="Ej: Mateo">
+        </div>
       </div>
     </div>
 
@@ -1580,12 +1584,7 @@ var FinSeedStore = {
   },
 
   getHijos: function(padreId) {
-    var reales = getHijosReales(padreId);
-    if (reales && reales.length > 0) return reales;
-    return [
-      { id: 'u2', nombre: 'Sofía', avatar: 'S', nivel: 4, xp: 340, racha: 7, vidas: 3, xpSemana: 120 },
-      { id: 'u3', nombre: 'Mateo', avatar: 'M', nivel: 2, xp: 180, racha: 3, vidas: 5, xpSemana: 60 }
-    ];
+    return getHijosReales(padreId) || [];
   },
 
   getProgreso: function(userId) {
@@ -2403,11 +2402,12 @@ async function renderPadreInicio() {
 
   // ── PORTAFOLIOS HIJOS ──
   var hijos = FinSeedStore.getHijos(uid);
+  var elHL = document.getElementById('pp-hijos-lista');
   if (!hijos || hijos.length === 0) {
-    hijos = [
-      { id: 'u2', nombre: 'Sofía', avatar: 'S', nivel: 4, xp: 340, racha: 7 },
-      { id: 'u3', nombre: 'Mateo', avatar: 'M', nivel: 2, xp: 180, racha: 3 }
-    ];
+    if (elHL) elHL.innerHTML = '<div style="text-align:center;padding:20px 16px;color:var(--text-3)">' +
+      '<div style="font-size:13px">Sin hijos registrados</div>' +
+      '<div style="font-size:12px;margin-top:4px">Ve a <b>Familia</b> para agregar hijos</div></div>';
+    hijos = [];
   }
   var hijosHTML = '';
   for (var i = 0; i < hijos.length; i++) {
@@ -2422,7 +2422,6 @@ async function renderPadreInicio() {
       '<div style="text-align:right"><div style="font-size:15px;font-weight:600;color:var(--text-1)">' + formatMoney(hp.total, hp.moneda) + '</div>' +
       '<div style="font-size:12px;color:' + cc + '">' + formatPct(hp.cambioHoy / 100) + ' hoy</div></div></div>';
   }
-  var elHL = document.getElementById('pp-hijos-lista');
   if (elHL) elHL.innerHTML = hijosHTML;
 
   // ── SOLICITUDES ──
@@ -2773,14 +2772,14 @@ async function renderPortHijos() {
   var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
   var uid = session.id || FinSeedStore.session.userId || 'u1';
   var hijos = FinSeedStore.getHijos(uid);
-  if (!hijos || hijos.length === 0) {
-    hijos = [
-      { id: 'u2', nombre: 'Sofía', avatar: 'S', nivel: 4 },
-      { id: 'u3', nombre: 'Mateo', avatar: 'M', nivel: 2 }
-    ];
-  }
   var el = document.getElementById('port-hijos-contenido');
   if (!el) return;
+  if (!hijos || hijos.length === 0) {
+    el.innerHTML = '<div style="text-align:center;padding:40px 16px;color:var(--text-3)">' +
+      '<div style="font-size:14px;font-weight:600;margin-bottom:6px">Sin hijos registrados</div>' +
+      '<div style="font-size:13px">Ve a <b>Familia</b> para agregar a tus hijos</div></div>';
+    return;
+  }
   var html = '';
   for (var i = 0; i < hijos.length; i++) {
     var hijo = hijos[i];
@@ -4842,7 +4841,7 @@ function seleccionarRol(rol) {
   _tieneHijos = false;
   document.getElementById('reg-tiene-hijos-no').classList.add('active');
   document.getElementById('reg-tiene-hijos-si').classList.remove('active');
-  document.getElementById('reg-hijo-nombre-wrap').style.display = 'none';
+  document.getElementById('reg-hijos-wrap').style.display = 'none';
   _loginRole = rol;
   showView('login');
 }
@@ -4851,7 +4850,7 @@ function toggleTieneHijos(tiene) {
   _tieneHijos = tiene;
   document.getElementById('reg-tiene-hijos-si').classList.toggle('active', tiene);
   document.getElementById('reg-tiene-hijos-no').classList.toggle('active', !tiene);
-  document.getElementById('reg-hijo-nombre-wrap').style.display = tiene ? 'block' : 'none';
+  document.getElementById('reg-hijos-wrap').style.display = tiene ? 'block' : 'none';
 }
 
 function setLoginRole(rol) {
@@ -4962,6 +4961,22 @@ async function registerUser() {
       usuarios.push({ id: userId, nombre: nombre, email: email, pass: pass, role: rol, codigoFamilia: codigoFamilia });
       localStorage.setItem('finseed_users', JSON.stringify(usuarios));
 
+      if (rol === 'padre' && _tieneHijos) {
+        var h1n = document.getElementById('reg-hijo-1') ? document.getElementById('reg-hijo-1').value.trim() : '';
+        var h2n = document.getElementById('reg-hijo-2') ? document.getElementById('reg-hijo-2').value.trim() : '';
+        var nombresH = [h1n, h2n].filter(function(n) { return n.length > 0; });
+        var hijosArr = [];
+        for (var hi = 0; hi < nombresH.length; hi++) {
+          var hId = 'u_' + (Date.now() + hi + 1);
+          usuarios.push({ id: hId, nombre: nombresH[hi], email: '', pass: '', role: 'hijo', padreId: userId, esSimulado: true });
+          localStorage.setItem('finseed_progreso_' + hId, JSON.stringify({ xp: 0, nivel: 1, racha: 0, monedasTotal: 0, xpSemana: 0, vidas: 5 }));
+          localStorage.setItem('finseed_port_posiciones_' + hId, JSON.stringify([]));
+          hijosArr.push({ id: hId, nombre: nombresH[hi] });
+        }
+        localStorage.setItem('finseed_users', JSON.stringify(usuarios));
+        localStorage.setItem('finseed_familia_' + userId, JSON.stringify({ padreId: userId, codigo: codigoFamilia, hijos: hijosArr }));
+      }
+
       localStorage.setItem('finseed_show_onboarding', 'true');
       entrarApp(rol);
     } else {
@@ -4988,6 +5003,21 @@ function _registerUserLocal(nombre, email, pass, rol) {
     var indice = JSON.parse(localStorage.getItem('finseed_codigos') || '{}');
     indice[codigoFamilia] = userId;
     localStorage.setItem('finseed_codigos', JSON.stringify(indice));
+  }
+  if (rol === 'padre' && _tieneHijos) {
+    var h1n = document.getElementById('reg-hijo-1') ? document.getElementById('reg-hijo-1').value.trim() : '';
+    var h2n = document.getElementById('reg-hijo-2') ? document.getElementById('reg-hijo-2').value.trim() : '';
+    var nombresH = [h1n, h2n].filter(function(n) { return n.length > 0; });
+    var hijosArr = [];
+    for (var hi = 0; hi < nombresH.length; hi++) {
+      var hId = 'u_' + (Date.now() + hi + 1);
+      usuarios.push({ id: hId, nombre: nombresH[hi], email: '', pass: '', role: 'hijo', padreId: userId, esSimulado: true });
+      localStorage.setItem('finseed_progreso_' + hId, JSON.stringify({ xp: 0, nivel: 1, racha: 0, monedasTotal: 0, xpSemana: 0, vidas: 5 }));
+      localStorage.setItem('finseed_port_posiciones_' + hId, JSON.stringify([]));
+      hijosArr.push({ id: hId, nombre: nombresH[hi] });
+    }
+    localStorage.setItem('finseed_users', JSON.stringify(usuarios));
+    localStorage.setItem('finseed_familia_' + userId, JSON.stringify({ padreId: userId, codigo: codigoFamilia, hijos: hijosArr }));
   }
   var session = { id: userId, role: rol, nombre: nombre, email: email };
   localStorage.setItem('finseed_session', JSON.stringify(session));
