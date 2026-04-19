@@ -5516,7 +5516,7 @@ function entrarApp(role, nombre) {
     document.getElementById('pp-bienvenida').textContent  = bienvenida;
     document.getElementById('padre-welcome').textContent  = 'FinSeed';
     navigate_p('inicio');
-    renderPadreInicio();
+    setTimeout(function() { renderPadreInicio(); }, 150);
   } else {
     document.getElementById('app-hijo').style.display  = 'flex';
     document.getElementById('app-padre').style.display = 'none';
@@ -5525,7 +5525,7 @@ function entrarApp(role, nombre) {
     document.getElementById('kp-bienvenida').textContent = bienvenida;
     document.getElementById('hijo-welcome').textContent  = 'FinSeed';
     navigate_k('inicio');
-    setTimeout(function() { renderHijoInicio(); }, 100);
+    setTimeout(function() { renderHijoInicio(); }, 150);
   }
 }
 
@@ -5540,7 +5540,7 @@ function navigate_p(page) {
       else            { nv.classList.remove('active'); }
     }
   });
-  if (page === 'inicio')     renderPadreInicio();
+  if (page === 'inicio')     setTimeout(function() { renderPadreInicio(); }, 50);
   if (page === 'portafolio') renderPortafolioPadre();
   if (page === 'familia')    renderFamiliaPadre();
   if (page === 'perfil')     renderPerfilPadre();
@@ -5557,7 +5557,7 @@ function navigate_k(page) {
       else            { nv.classList.remove('active'); }
     }
   });
-  if (page === 'inicio')  renderHijoInicio();
+  if (page === 'inicio')  setTimeout(function() { renderHijoInicio(); }, 50);
   if (page === 'juegos')  renderHijoJuegos();
   if (page === 'familia') renderFamiliaHijo();
   if (page === 'perfil')  { renderHijoPerfil(); }
