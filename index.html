@@ -2462,14 +2462,19 @@ async function renderPadreInicio() {
   var elMeta = document.getElementById('pp-meta-destacada');
   if (elMeta) {
     if (metaDestacada) {
-      var pctMeta = Math.min(100, Math.round(metaDestacada.actual / metaDestacada.meta * 100));
-      elMeta.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">' +
+      var pctMeta = Math.min(100, Math.round((metaDestacada.actual || 0) / (metaDestacada.meta || metaDestacada.objetivo || 1) * 100));
+      elMeta.innerHTML = '<div onclick="navigate_p(\'familia\');setTimeout(function(){setFamiliaTab(\'metas\')},50)" style="cursor:pointer">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">' +
         '<div><div style="font-size:14px;font-weight:600;color:var(--text-1)">' + (metaDestacada.emoji || '') + ' ' + metaDestacada.nombre + '</div>' +
-        '<div style="font-size:12px;color:var(--text-3);margin-top:2px">$' + metaDestacada.actual.toLocaleString('es-CL') + ' de $' + metaDestacada.meta.toLocaleString('es-CL') + '</div></div>' +
+        '<div style="font-size:12px;color:var(--text-3);margin-top:2px">$' + (metaDestacada.actual || 0).toLocaleString('es-CL') + ' de $' + (metaDestacada.meta || metaDestacada.objetivo || 0).toLocaleString('es-CL') + '</div></div>' +
         '<div style="font-size:18px;font-weight:700;color:' + (metaDestacada.color || '#059669') + '">' + pctMeta + '%</div></div>' +
-        '<div style="background:#f3f4f6;border-radius:6px;height:7px"><div style="background:' + (metaDestacada.color || '#059669') + ';height:7px;border-radius:6px;width:' + pctMeta + '%"></div></div>';
+        '<div style="background:#f3f4f6;border-radius:6px;height:7px"><div style="background:' + (metaDestacada.color || '#059669') + ';height:7px;border-radius:6px;width:' + pctMeta + '%"></div></div>' +
+        '</div>';
     } else {
-      elMeta.innerHTML = '<div style="text-align:center;padding:12px 0;font-size:13px;color:var(--text-3)">Sin metas activas — crea una en Familia</div>';
+      elMeta.innerHTML = '<div onclick="abrirNuevaMeta()" style="text-align:center;padding:12px 0;cursor:pointer">' +
+        '<div style="font-size:13px;color:var(--text-3);margin-bottom:8px">Sin metas activas</div>' +
+        '<div style="font-size:13px;color:#059669;font-weight:600">+ Crear primera meta</div>' +
+        '</div>';
     }
   }
 
@@ -3153,20 +3158,30 @@ function renderFamiliaPadre() {
   var elMetas = document.getElementById('ppf-metas');
   if (elMetas) {
     if (!metas || metas.length === 0) {
-      elMetas.innerHTML = '<div style="background:#f9fafb;border:1.5px dashed var(--border);border-radius:12px;padding:16px;text-align:center;color:var(--text-3);font-size:13px">A\u00FAn no hay metas. Toca &ldquo;+ Nueva&rdquo; para crear una.</div>';
+      elMetas.innerHTML = '<div onclick="abrirNuevaMeta()" style="background:#f9fafb;border:1.5px dashed var(--border);border-radius:14px;padding:24px;text-align:center;cursor:pointer">' +
+        '<div style="font-size:32px;margin-bottom:8px">\uD83C\uDFAF</div>' +
+        '<div style="font-size:14px;font-weight:600;color:var(--text-1);margin-bottom:4px">Crea tu primera meta</div>' +
+        '<div style="font-size:12px;color:var(--text-3);margin-bottom:12px">Establece objetivos financieros para la familia</div>' +
+        '<div style="background:#059669;color:white;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;display:inline-block">+ Nueva meta</div>' +
+        '</div>';
     } else {
-      elMetas.innerHTML = metas.map(function(m) {
+      elMetas.innerHTML = metas.map(function(m, i) {
         var pct = Math.min(100, Math.round((m.actual || 0) / (m.meta || m.objetivo || 1) * 100));
         var color = m.color || 'var(--green)';
-        return '<div style="background:white;border:1px solid var(--border);border-radius:14px;padding:16px">' +
-          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">' +
+        var completada = pct >= 100;
+        return '<div style="background:' + (completada ? '#f0fdf4' : 'white') + ';border:1.5px solid ' + (completada ? '#86efac' : 'var(--border)') + ';border-radius:14px;padding:16px">' +
+          '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">' +
           '<div style="display:flex;align-items:center;gap:10px">' +
-          '<div style="font-size:24px">' + (m.emoji || '\uD83C\uDFAF') + '</div>' +
-          '<div><div style="font-size:14px;font-weight:600;color:var(--text-1)">' + m.nombre + '</div>' +
-          '<div style="font-size:12px;color:var(--text-3)">$' + (m.actual || 0).toLocaleString('es-CL') + ' de $' + (m.meta || m.objetivo || 0).toLocaleString('es-CL') + '</div></div>' +
+          '<div style="font-size:26px">' + (m.emoji || '\uD83C\uDFAF') + '</div>' +
+          '<div><div style="font-size:14px;font-weight:600;color:var(--text-1)">' + m.nombre + (completada ? ' \u2713' : '') + '</div>' +
+          '<div style="font-size:12px;color:var(--text-3);margin-top:2px">$' + (m.actual || 0).toLocaleString('es-CL') + ' de $' + (m.meta || m.objetivo || 0).toLocaleString('es-CL') + '</div></div>' +
           '</div><div style="font-size:18px;font-weight:700;color:' + color + '">' + pct + '%</div></div>' +
-          '<div style="background:#f3f4f6;border-radius:6px;height:8px"><div style="background:' + color + ';height:8px;border-radius:6px;width:' + pct + '%"></div></div>' +
-          '</div>';
+          '<div style="background:#f3f4f6;border-radius:6px;height:8px;margin-bottom:12px"><div style="background:' + color + ';height:8px;border-radius:6px;width:' + pct + '%;transition:width .4s"></div></div>' +
+          '<div style="display:flex;gap:8px">' +
+          (completada ? '<div style="flex:1;text-align:center;font-size:12px;font-weight:600;color:#059669;padding:8px;background:#dcfce7;border-radius:8px">\uD83C\uDF89 Completada</div>' :
+            '<div onclick="abrirAbonarMeta(' + i + ')" style="flex:1;background:#059669;color:white;padding:9px;border-radius:9px;font-size:13px;font-weight:600;text-align:center;cursor:pointer">+ Abonar</div>') +
+          '<div onclick="abrirNuevaMeta(' + i + ')" style="padding:9px 14px;border:1px solid var(--border);border-radius:9px;font-size:13px;color:var(--text-3);cursor:pointer">Editar</div>' +
+          '</div></div>';
       }).join('');
     }
   }
@@ -3206,8 +3221,182 @@ function copiarCodigoFamiliar() {
   }
 }
 
-function abrirNuevaMeta() {
-  mostrarToastJuego('Próximamente: crear metas familiares');
+function abrirNuevaMeta(metaIdx) {
+  var overlay = document.getElementById('meta-overlay');
+  if (!overlay) return;
+  var esEdicion = metaIdx !== undefined;
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || 'u1';
+  var metas = FinSeedStore.getMetas(uid);
+  var meta = esEdicion ? metas[metaIdx] : null;
+
+  var emojisDisp = ['\uD83C\uDFAF','\uD83C\uDFD6\uFE0F','\uD83D\uDE97','\uD83C\uDFE0','\uD83D\uDCF1','\uD83D\uDCBB','\u2708\uFE0F','\uD83C\uDF93','\uD83D\uDC8D','\uD83C\uDFB8','\uD83C\uDF31','\uD83C\uDFCB\uFE0F','\uD83D\uDEF8','\uD83D\uDCDA','\uD83C\uDFAE'];
+  var emojiSelected = (meta && meta.emoji) ? meta.emoji : '🎯';
+  var colores = ['#059669','#3b82f6','#f59e0b','#ef4444','#8b5cf6','#06b6d4','#ec4899'];
+  var colorSel = (meta && meta.color) ? meta.color : '#059669';
+
+  document.getElementById('meta-overlay-contenido').innerHTML =
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">' +
+    '<div style="font-size:18px;font-weight:700;color:var(--text-1)">' + (esEdicion ? 'Editar meta' : 'Nueva meta familiar') + '</div>' +
+    '<div onclick="cerrarMetaOverlay()" style="font-size:22px;color:var(--text-3);cursor:pointer;line-height:1">&times;</div>' +
+    '</div>' +
+
+    // Emoji picker
+    '<div style="margin-bottom:16px">' +
+    '<div style="font-size:12px;font-weight:600;color:var(--text-2);margin-bottom:8px">Ícono</div>' +
+    '<div id="meta-emoji-picker" style="display:flex;flex-wrap:wrap;gap:8px">' +
+    emojisDisp.map(function(e) {
+      return '<div onclick="selMetaEmoji(this,\'' + e + '\')" data-emoji="' + e + '" style="width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;border:2px solid ' + (e === emojiSelected ? '#059669' : 'var(--border)') + ';background:' + (e === emojiSelected ? '#f0fdf4' : 'white') + '">' + e + '</div>';
+    }).join('') +
+    '</div></div>' +
+
+    // Nombre
+    '<div style="margin-bottom:14px">' +
+    '<div style="font-size:12px;font-weight:600;color:var(--text-2);margin-bottom:6px">Nombre de la meta</div>' +
+    '<input id="meta-nombre" type="text" maxlength="40" placeholder="Ej: Vacaciones en familia" value="' + (meta ? meta.nombre : '') + '" style="width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:inherit;outline:none;box-sizing:border-box">' +
+    '</div>' +
+
+    // Monto
+    '<div style="margin-bottom:14px">' +
+    '<div style="font-size:12px;font-weight:600;color:var(--text-2);margin-bottom:6px">Monto objetivo (CLP)</div>' +
+    '<input id="meta-monto" type="number" min="1000" step="1000" placeholder="Ej: 500000" value="' + (meta ? (meta.meta || meta.objetivo || '') : '') + '" style="width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:inherit;outline:none;box-sizing:border-box">' +
+    '</div>' +
+
+    // Color
+    '<div style="margin-bottom:20px">' +
+    '<div style="font-size:12px;font-weight:600;color:var(--text-2);margin-bottom:8px">Color</div>' +
+    '<div id="meta-color-picker" style="display:flex;gap:10px">' +
+    colores.map(function(c) {
+      return '<div onclick="selMetaColor(this,\'' + c + '\')" data-color="' + c + '" style="width:30px;height:30px;border-radius:50%;background:' + c + ';cursor:pointer;border:3px solid ' + (c === colorSel ? 'var(--text-1)' : 'transparent') + ';box-sizing:border-box"></div>';
+    }).join('') +
+    '</div></div>' +
+
+    '<div id="meta-error" style="font-size:12px;color:#dc2626;margin-bottom:12px;display:none"></div>' +
+
+    '<div onclick="guardarMeta(' + (esEdicion ? metaIdx : 'undefined') + ')" style="background:#059669;color:white;padding:14px;border-radius:12px;font-size:15px;font-weight:700;text-align:center;cursor:pointer">' + (esEdicion ? 'Guardar cambios' : 'Crear meta') + '</div>' +
+    (esEdicion ? '<div onclick="eliminarMeta(' + metaIdx + ')" style="margin-top:10px;padding:12px;text-align:center;font-size:14px;color:#dc2626;cursor:pointer;font-weight:600">Eliminar meta</div>' : '');
+
+  window._metaEmojiSel  = emojiSelected;
+  window._metaColorSel  = colorSel;
+  overlay.style.display = 'flex';
+}
+
+function selMetaEmoji(el, emoji) {
+  window._metaEmojiSel = emoji;
+  document.querySelectorAll('#meta-emoji-picker div').forEach(function(d) {
+    var sel = d.dataset.emoji === emoji;
+    d.style.border = '2px solid ' + (sel ? '#059669' : 'var(--border)');
+    d.style.background = sel ? '#f0fdf4' : 'white';
+  });
+}
+
+function selMetaColor(el, color) {
+  window._metaColorSel = color;
+  document.querySelectorAll('#meta-color-picker div').forEach(function(d) {
+    d.style.border = '3px solid ' + (d.dataset.color === color ? 'var(--text-1)' : 'transparent');
+  });
+}
+
+function guardarMeta(metaIdx) {
+  var nombre = (document.getElementById('meta-nombre').value || '').trim();
+  var montoRaw = document.getElementById('meta-monto').value;
+  var monto = parseInt(montoRaw, 10);
+  var errEl = document.getElementById('meta-error');
+
+  if (!nombre) { errEl.textContent = 'Ingresa un nombre para la meta.'; errEl.style.display = 'block'; return; }
+  if (!monto || monto < 1000) { errEl.textContent = 'El monto objetivo debe ser al menos $1.000.'; errEl.style.display = 'block'; return; }
+  errEl.style.display = 'none';
+
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || 'u1';
+  var metas = FinSeedStore.getMetas(uid);
+
+  var obj = { nombre: nombre, emoji: window._metaEmojiSel || '\uD83C\uDFAF', meta: monto, objetivo: monto, actual: 0, color: window._metaColorSel || '#059669' };
+  if (metaIdx !== undefined && metaIdx !== null) {
+    obj.actual = metas[metaIdx].actual || 0;
+    metas[metaIdx] = obj;
+  } else {
+    metas.push(obj);
+  }
+  localStorage.setItem('finseed_metas_' + uid, JSON.stringify(metas));
+  cerrarMetaOverlay();
+  renderFamiliaPadre();
+  if (metaIdx === undefined) {
+    navigate_p('familia');
+    setTimeout(function() { setFamiliaTab('metas'); }, 50);
+  }
+  mostrarToastJuego(metaIdx !== undefined ? '\u2713 Meta actualizada' : '\uD83C\uDFAF Meta creada');
+}
+
+function eliminarMeta(idx) {
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || 'u1';
+  var metas = FinSeedStore.getMetas(uid);
+  metas.splice(idx, 1);
+  localStorage.setItem('finseed_metas_' + uid, JSON.stringify(metas));
+  cerrarMetaOverlay();
+  renderFamiliaPadre();
+  mostrarToastJuego('Meta eliminada');
+}
+
+function abrirAbonarMeta(idx) {
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || 'u1';
+  var metas = FinSeedStore.getMetas(uid);
+  var m = metas[idx];
+  if (!m) return;
+  var falta = Math.max(0, (m.meta || m.objetivo || 0) - (m.actual || 0));
+
+  document.getElementById('meta-overlay-contenido').innerHTML =
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">' +
+    '<div style="font-size:18px;font-weight:700;color:var(--text-1)">' + (m.emoji || '🎯') + ' ' + m.nombre + '</div>' +
+    '<div onclick="cerrarMetaOverlay()" style="font-size:22px;color:var(--text-3);cursor:pointer;line-height:1">&times;</div>' +
+    '</div>' +
+    '<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:12px;padding:14px;margin-bottom:16px">' +
+    '<div style="display:flex;justify-content:space-between;margin-bottom:6px">' +
+    '<span style="font-size:13px;color:var(--text-3)">Acumulado</span>' +
+    '<span style="font-size:13px;font-weight:600;color:#059669">$' + (m.actual || 0).toLocaleString('es-CL') + '</span>' +
+    '</div>' +
+    '<div style="display:flex;justify-content:space-between">' +
+    '<span style="font-size:13px;color:var(--text-3)">Falta</span>' +
+    '<span style="font-size:13px;font-weight:600;color:var(--text-1)">$' + falta.toLocaleString('es-CL') + '</span>' +
+    '</div></div>' +
+    '<div style="font-size:12px;font-weight:600;color:var(--text-2);margin-bottom:6px">Monto a abonar (CLP)</div>' +
+    '<div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">' +
+    [10000,25000,50000,100000].map(function(v) {
+      return '<div onclick="document.getElementById(\'abono-monto\').value=' + v + '" style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;color:#059669;cursor:pointer">+$' + v.toLocaleString('es-CL') + '</div>';
+    }).join('') +
+    '</div>' +
+    '<input id="abono-monto" type="number" min="1000" step="1000" placeholder="Monto personalizado" style="width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:inherit;outline:none;box-sizing:border-box;margin-bottom:16px">' +
+    '<div id="meta-error" style="font-size:12px;color:#dc2626;margin-bottom:12px;display:none"></div>' +
+    '<div onclick="confirmarAbono(' + idx + ')" style="background:#059669;color:white;padding:14px;border-radius:12px;font-size:15px;font-weight:700;text-align:center;cursor:pointer">Abonar</div>' +
+    '<div onclick="abrirNuevaMeta(' + idx + ')" style="margin-top:10px;padding:12px;text-align:center;font-size:13px;color:var(--text-3);cursor:pointer">Editar meta</div>';
+
+  window._metaOverlay = document.getElementById('meta-overlay');
+  window._metaOverlay.style.display = 'flex';
+}
+
+function confirmarAbono(idx) {
+  var montoStr = document.getElementById('abono-monto').value;
+  var monto = parseInt(montoStr, 10);
+  var errEl = document.getElementById('meta-error');
+  if (!monto || monto < 1000) { errEl.textContent = 'Ingresa un monto válido (mínimo $1.000).'; errEl.style.display = 'block'; return; }
+
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || 'u1';
+  var metas = FinSeedStore.getMetas(uid);
+  if (!metas[idx]) return;
+  metas[idx].actual = Math.min(metas[idx].meta || metas[idx].objetivo || 0, (metas[idx].actual || 0) + monto);
+  localStorage.setItem('finseed_metas_' + uid, JSON.stringify(metas));
+  cerrarMetaOverlay();
+  renderFamiliaPadre();
+  var completada = metas[idx].actual >= (metas[idx].meta || metas[idx].objetivo || 0);
+  mostrarToastJuego(completada ? '\uD83C\uDF89 \u00A1Meta completada!' : '\u2713 Abono registrado: $' + monto.toLocaleString('es-CL'));
+}
+
+function cerrarMetaOverlay() {
+  var overlay = document.getElementById('meta-overlay');
+  if (overlay) overlay.style.display = 'none';
 }
 
 // ── Perfil padre ─────────────────────────────
@@ -5440,6 +5629,10 @@ window.addEventListener('DOMContentLoaded', function() {
 
 <div id="trade-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:flex-end;justify-content:center">
   <div id="trade-contenido" style="background:white;border-radius:24px 24px 0 0;padding:24px;width:100%;max-width:390px;max-height:90vh;overflow-y:auto"></div>
+</div>
+
+<div id="meta-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:flex-end;justify-content:center" onclick="if(event.target===this)cerrarMetaOverlay()">
+  <div id="meta-overlay-contenido" style="background:white;border-radius:24px 24px 0 0;padding:24px;width:100%;max-width:390px;max-height:92vh;overflow-y:auto"></div>
 </div>
 
 <div id="onboarding-overlay" style="display:none;position:fixed;inset:0;z-index:10000;background:white;flex-direction:column">
