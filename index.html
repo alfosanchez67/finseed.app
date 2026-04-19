@@ -672,7 +672,7 @@
   </div>
 
   <!-- ── Vista: Registro ── -->
-  <div class="auth-panel" id="view-registro" style="display:none">
+  <div class="auth-panel" id="view-registro" style="display:none;overflow-y:auto;padding-bottom:32px">
 
     <div style="margin-bottom:16px">
       <span onclick="showView('login')" style="font-size:13px;color:var(--text-3);cursor:pointer">&#8592; Volver a ingresar</span>
@@ -2564,10 +2564,20 @@ async function renderPadreInicio() {
 
   // ── LOGROS RECIENTES ──
   var logros = FinSeedStore.getLogros(uid).filter(function(l) { return l.obtenido; });
-  var logrosHijos = [
-    { nombre: 'Sofía', logro: 'Racha de 7 días', icono: '\uD83D\uDD25', fecha: 'Ayer' },
-    { nombre: 'Mateo', logro: 'Primera inversión', icono: '\uD83D\uDCC8', fecha: 'Esta semana' }
-  ];
+  var logrosHijos = [];
+  if (hijos && hijos.length > 0) {
+    hijos.forEach(function(h) {
+      var rachaH = getRacha(h.id);
+      if (rachaH.racha >= 3) {
+        logrosHijos.push({ nombre: h.nombre, logro: 'Racha de ' + rachaH.racha + ' d\u00EDas', icono: '\uD83D\uDD25', fecha: 'Activo' });
+      }
+      var progJuegosH = getProgresoJuegos(h.id);
+      var completadosH = Object.keys(progJuegosH).filter(function(k) { return progJuegosH[k].completado; }).length;
+      if (completadosH > 0) {
+        logrosHijos.push({ nombre: h.nombre, logro: completadosH + ' juego' + (completadosH > 1 ? 's' : '') + ' completado' + (completadosH > 1 ? 's' : ''), icono: '\uD83C\uDFAE', fecha: 'Reciente' });
+      }
+    });
+  }
   var logrosHTML = logrosHijos.map(function(l) {
     return '<div style="background:white;border:1px solid var(--border);border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:12px">' +
       '<div style="width:36px;height:36px;border-radius:50%;background:#fef9c3;display:flex;align-items:center;justify-content:center;font-size:18px">' + l.icono + '</div>' +
@@ -2585,7 +2595,13 @@ async function renderPadreInicio() {
     }).join('');
   }
   var elLW = document.getElementById('pp-logros-semana');
-  if (elLW) elLW.innerHTML = logrosHTML;
+  if (elLW) {
+    if (logrosHTML) {
+      elLW.innerHTML = logrosHTML;
+    } else {
+      elLW.innerHTML = '<div style="background:#f9fafb;border:1.5px dashed var(--border);border-radius:12px;padding:16px;text-align:center;font-size:13px;color:var(--text-3)">Los logros de tus hijos aparecer\u00E1n aqu\u00ED</div>';
+    }
+  }
 
   // ── SUGERENCIAS ──
   var sugs = FinSeedStore.getSugerencias();
