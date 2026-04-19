@@ -648,9 +648,9 @@
 
     <div id="login-error" class="auth-error"></div>
 
-    <div class="login-role-pills">
-      <button class="role-pill" id="pill-padre" onclick="setLoginRole('padre')">Padre</button>
-      <button class="role-pill" id="pill-hijo"  onclick="setLoginRole('hijo')">Hijo</button>
+    <div style="background:#f0fdf4;border-radius:10px;padding:8px 14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div style="font-size:13px;color:#059669;font-weight:600" id="login-rol-display">Entrando como Padre</div>
+      <div onclick="showView('selector')" style="font-size:12px;color:var(--text-3);cursor:pointer">Cambiar</div>
     </div>
 
     <div class="auth-field">
@@ -4835,6 +4835,10 @@ function showView(view) {
   document.getElementById('view-selector').style.display = (view === 'selector') ? 'block' : 'none';
   document.getElementById('view-login').style.display    = (view === 'login')    ? 'block' : 'none';
   document.getElementById('view-registro').style.display = (view === 'registro') ? 'block' : 'none';
+  if (view === 'login') {
+    var elRol = document.getElementById('login-rol-display');
+    if (elRol) elRol.textContent = 'Entrando como ' + (_loginRole === 'padre' ? 'Padre' : 'Hijo');
+  }
 }
 
 function seleccionarRol(rol) {
@@ -4872,7 +4876,6 @@ async function loginUser() {
   function showErr(msg) { if (elErr) { elErr.textContent = msg; elErr.style.display = 'block'; } }
   if (elErr) elErr.style.display = 'none';
 
-  if (!rol) return showErr('Selecciona si eres Padre o Hijo');
   if (!email || !pass) return showErr('Completa todos los campos');
 
   try {
