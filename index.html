@@ -4,6 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>FinSeed</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#059669">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="FinSeed">
+
+  <!-- SEO y redes sociales -->
+  <meta name="description" content="Planta tu semilla financiera y observa cómo crece. Invierte para tus hijos y aprende finanzas jugando.">
+  <meta property="og:title" content="FinSeed — Educación financiera familiar">
+  <meta property="og:description" content="Planta tu semilla financiera y observa cómo crece de manera individual o junto a tu familia.">
+  <meta property="og:image" content="https://finseed.vercel.app/logo.png">
+  <meta property="og:url" content="https://finseed.vercel.app">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FinSeed — Educación financiera familiar">
+  <meta name="twitter:description" content="Invierte para tus hijos y aprende finanzas jugando.">
+  <meta name="twitter:image" content="https://finseed.vercel.app/logo.png">
   <link rel="icon" type="image/png" href="logo.png">
   <link rel="apple-touch-icon" href="logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -92,6 +112,11 @@
 
     .auth-brand .brand-fin  { color: var(--green); }
     .auth-brand .brand-seed { color: var(--green-dark); }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.85; }
+    }
 
     .auth-logo-bar {
       width: 36px;
@@ -527,6 +552,11 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
+<div id="splash-screen" style="position:fixed;inset:0;z-index:99999;background:white;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s">
+  <img src="logo.png" style="width:80px;height:80px;object-fit:contain;border-radius:20px;margin-bottom:20px;animation:pulse 1.5s ease-in-out infinite" alt="FinSeed">
+  <div style="font-size:24px;font-weight:700;color:#059669;letter-spacing:-0.5px">FinSeed</div>
+  <div style="font-size:13px;color:#6b7280;margin-top:6px">Cargando...</div>
+</div>
 <div class="shell">
 
 <!-- ═══════════════════════════════════════
@@ -2046,7 +2076,7 @@ async function fetchPreciosReales(tickers) {
         }
       });
     } catch(e) {
-      console.log('Twelve Data error:', e);
+      console.error('Twelve Data error:', e);
     }
   }
 
@@ -3998,7 +4028,7 @@ async function saveProgresoJuego(userId, juegoId, completado, xpGanado) {
         updated_at: new Date().toISOString()
       }, { onConflict: 'usuario_id' });
     } catch(e) {
-      console.log('Supabase sync error (usando localStorage):', e);
+      console.error('Supabase sync error:', e);
     }
   }
 }
@@ -5626,6 +5656,16 @@ function doLogout() {
   document.getElementById('auth-screen').style.display = 'flex';
   showView('selector');
 }
+
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    var splash = document.getElementById('splash-screen');
+    if (splash) {
+      splash.style.opacity = '0';
+      setTimeout(function() { splash.style.display = 'none'; }, 500);
+    }
+  }, 800);
+});
 
 window.addEventListener('DOMContentLoaded', function() {
   initDemoUsers();
