@@ -1702,336 +1702,333 @@ var FinSeedStore = {
   },
 
   arbolJuegos: [
-    {
-      id: 'j01', nivel: 1, tema: 'Fundamentos',
-      nombre: '¿Qué es el dinero?',
-      desc: 'Descubre para qué sirve el dinero y cómo funciona',
-      xpRecompensa: 30, desbloqueaCon: null,
-      preguntas: [
-        { tipo: 'opcion',    pregunta: '¿Para qué sirve principalmente el dinero?', opciones: ['Para intercambiar bienes y servicios','Solo para guardar debajo del colchón','Para hacer amigos','Para decorar la casa'], correcta: 0, explicacion: 'El dinero es un medio de intercambio que nos permite comprar bienes y pagar servicios de forma fácil.' },
-        { tipo: 'completar', pregunta: 'El dinero nos permite _______ cosas sin necesidad de hacer trueque.', opciones: ['comprar','romper','ignorar','perder'], correcta: 0, explicacion: 'Sin dinero tendríamos que intercambiar directamente objetos, lo que se llama trueque.' },
-        { tipo: 'opcion',    pregunta: '¿Cuál de estas NO es una función del dinero?', opciones: ['Dar buena suerte','Servir como medio de pago','Guardar valor','Medir el precio de las cosas'], correcta: 0, explicacion: 'El dinero tiene 3 funciones: medio de pago, reserva de valor y unidad de medida. La suerte no es una función.' },
-        { tipo: 'opcion',    pregunta: '¿Qué era el trueque?', opciones: ['Intercambiar objetos sin usar dinero','Un tipo de moneda antigua','Una forma de ahorro','Un impuesto del gobierno'], correcta: 0, explicacion: 'El trueque era intercambiar bienes directamente: te doy manzanas, me das pan. El dinero lo reemplazó porque es mucho más práctico.' },
-        { tipo: 'completar', pregunta: 'El dinero tiene valor porque todos _______ que lo tiene.', opciones: ['aceptan','dudan','ignoran','inventan'], correcta: 0, explicacion: 'El dinero vale porque existe un acuerdo social: todos aceptamos que tiene valor. Sin ese acuerdo, un billete sería solo papel.' },
-        { tipo: 'opcion',    pregunta: '¿Cuál de estas es una forma de dinero moderno?', opciones: ['Transferencia bancaria','Intercambiar ropa','Pagar con manzanas','Dar regalos'], correcta: 0, explicacion: 'El dinero moderno incluye billetes, monedas y también formas digitales como transferencias, tarjetas y pagos online.' },
-        { tipo: 'simulacion', pregunta: 'Tienes $1.000 y compras un cuaderno de $600. ¿Cuánto te sobra para seguir ahorrando?', opciones: ['$400','$600','$100','$1.600'], correcta: 0, explicacion: '$1.000 - $600 = $400 disponibles. Guardar ese sobrante en vez de gastarlo es el primer paso del ahorro.' }
-      ]
-    },
-    {
-      id: 'j02', nivel: 1, tema: 'Fundamentos',
-      nombre: 'Ganar vs Gastar',
-      desc: 'Aprende la diferencia entre ingresos y gastos',
-      xpRecompensa: 30, desbloqueaCon: 'j01',
-      preguntas: [
-        { tipo: 'opcion',    pregunta: '¿Qué es un ingreso?', opciones: ['Dinero que entra a tu bolsillo','Dinero que gastas','Una deuda','Un descuento'], correcta: 0, explicacion: 'Un ingreso es todo el dinero que recibes: sueldo, mesada, regalo. Es lo que entra.' },
-        { tipo: 'simulacion', pregunta: 'Mesada: $10.000. Gastas $3.000 en dulces y $4.000 en el cine. ¿Cuánto puedes ahorrar?', opciones: ['$3.000','$7.000','$4.000','$1.000'], correcta: 0, explicacion: '$10.000 - $3.000 - $4.000 = $3.000 disponibles para ahorrar. Lo que no gastas puede crecer en el tiempo.' },
-        { tipo: 'completar', pregunta: 'Si gastas más de lo que ganas, tienes un _______ negativo.', opciones: ['balance','ahorro','ingreso','regalo'], correcta: 0, explicacion: 'Cuando los gastos superan los ingresos el balance es negativo. Eso significa que te estás endeudando.' },
-        { tipo: 'opcion',    pregunta: '¿Cuál de estos es un ejemplo de gasto?', opciones: ['Pagar el transporte','Recibir la mesada','Ganar un concurso','Que te regalen dinero'], correcta: 0, explicacion: 'Un gasto es dinero que sale de tu bolsillo. El transporte, la comida y el entretenimiento son gastos típicos.' },
-        { tipo: 'simulacion', pregunta: 'Ganas $50.000 al mes. Gastos: $35.000. ¿Cuánto puedes destinar al ahorro cada mes?', opciones: ['$15.000','$50.000','$35.000','$85.000'], correcta: 0, explicacion: '$50.000 - $35.000 = $15.000 para ahorrar. Ese dinero guardado cada mes se convierte en tu patrimonio futuro.' },
-        { tipo: 'completar', pregunta: 'El dinero que ganas se llama _______ y el dinero que pagas se llama gasto.', opciones: ['ingreso','deuda','ahorro','préstamo'], correcta: 0, explicacion: 'Ingreso es lo que entra, gasto es lo que sale. La diferencia entre ambos determina si estás ahorrando o endeudando.' },
-        { tipo: 'opcion',    pregunta: 'Si quieres aumentar tu ahorro, ¿qué puedes hacer?', opciones: ['Gastar menos o ganar más','Gastar más para que sobre menos','Ignorar tus gastos','Pedir prestado siempre'], correcta: 0, explicacion: 'Para ahorrar más tienes dos caminos: reducir gastos o aumentar ingresos. Lo ideal es hacer ambas cosas.' }
-      ]
-    },
-    {
-      id: 'j03', nivel: 1, tema: 'Ahorro',
-      nombre: 'El poder del ahorro',
-      desc: 'Descubre por qué ahorrar cambia tu futuro',
-      xpRecompensa: 40, desbloqueaCon: 'j02',
-      preguntas: [
-        { tipo: 'opcion',    pregunta: '¿Cuánto debería ahorrar una persona de cada $100 que gana?', opciones: ['Al menos $10','Nada, hay que gastar todo','$100 completos','Solo cuando sobra algo'], correcta: 0, explicacion: 'Una regla popular es ahorrar al menos el 10% de lo que ganas. Así construyes un fondo con el tiempo.' },
-        { tipo: 'simulacion', pregunta: 'Ahorras $5.000 cada mes durante 12 meses. ¿Cuánto habrás acumulado al final del año?', opciones: ['$60.000','$5.000','$120.000','$12.000'], correcta: 0, explicacion: '$5.000 × 12 = $60.000. El ahorro constante acumula sin que lo notes. En un año tienes para una meta importante.' },
-        { tipo: 'opcion',    pregunta: '¿Qué es un fondo de emergencia?', opciones: ['Dinero guardado para imprevistos','Plata para gastar en fiestas','Un préstamo del banco','Una inversión en bolsa'], correcta: 0, explicacion: 'El fondo de emergencia cubre gastos inesperados: una enfermedad, un arreglo. Idealmente 3-6 meses de gastos.' },
-        { tipo: 'completar', pregunta: 'Ahorrar significa _______ parte de tu dinero en lugar de gastarlo todo.', opciones: ['guardar','perder','ignorar','regalar'], correcta: 0, explicacion: 'Ahorrar es reservar una parte de tus ingresos para usarla después. Es la base de cualquier plan financiero.' },
-        { tipo: 'opcion',    pregunta: '¿Cuál es la mejor estrategia para ahorrar?', opciones: ['Ahorrar apenas recibes el dinero','Ahorrar lo que sobra al final del mes','Gastar primero y ver si queda algo','Solo ahorrar en diciembre'], correcta: 0, explicacion: 'Págate primero a ti mismo. Apenas recibes tu dinero, separa el ahorro. Lo que queda es para gastar.' },
-        { tipo: 'simulacion', pregunta: 'Meta: $100.000. Ahorras $8.000 por mes. ¿En cuántos meses alcanzas tu meta y puedes comprar lo que quieres?', opciones: ['13 meses','10 meses','8 meses','20 meses'], correcta: 0, explicacion: '$100.000 ÷ $8.000 = 12,5 → 13 meses completos. Las metas de ahorro requieren constancia pero siempre se logran.' },
-        { tipo: 'opcion',    pregunta: '¿Por qué es malo gastar todos tus ingresos sin ahorrar nada?', opciones: ['Quedas sin respaldo ante emergencias','Porque el dinero se vence','El banco te cobra multas','No hay ningún problema'], correcta: 0, explicacion: 'Sin ahorro, cualquier imprevisto te obliga a endeudarte. El ahorro es tu red de seguridad financiera.' }
-      ]
-    },
-    {
-      id: 'j04', nivel: 2, tema: 'Presupuesto',
-      nombre: 'Mi primer presupuesto',
-      desc: 'Aprende a planificar tus gastos como un experto',
-      xpRecompensa: 50, desbloqueaCon: 'j03',
-      preguntas: [
-        { tipo: 'opcion',    pregunta: '¿Qué es un presupuesto?', opciones: ['Un plan de cuánto ganar y gastar','Un tipo de cuenta bancaria','Una tarjeta de crédito','Un descuento en tiendas'], correcta: 0, explicacion: 'Un presupuesto es un plan que te dice cuánto dinero entra y cómo lo vas a usar. Te ayuda a no gastar de más.' },
-        { tipo: 'simulacion', pregunta: 'Regla 50/30/20: 50% necesidades, 30% gustos, 20% ahorro. Con $100.000 ¿cuánto guardas para tu futuro?', opciones: ['$20.000','$50.000','$30.000','$10.000'], correcta: 0, explicacion: '20% de $100.000 = $20.000 al ahorro. Esta regla te asegura que siempre estás construyendo tu patrimonio.' },
-        { tipo: 'completar', pregunta: 'Un gasto _______ es algo que pagas todos los meses, como el arriendo o la luz.', opciones: ['fijo','mágico','opcional','gratis'], correcta: 0, explicacion: 'Los gastos fijos son predecibles y se repiten. Los variables cambian cada mes, como la comida o el entretenimiento.' },
-        { tipo: 'simulacion', pregunta: 'Ganas $200.000. Gastos fijos: $80.000. Gustos: $60.000. ¿Cuánto puedes ahorrar o invertir?', opciones: ['$60.000','$80.000','$140.000','$20.000'], correcta: 0, explicacion: '$200.000 - $80.000 - $60.000 = $60.000 libres. Ese dinero puede ir a ahorro o inversiones para crecer.' },
-        { tipo: 'opcion',    pregunta: '¿Cuál de estos es un gasto variable?', opciones: ['Salir a comer','El arriendo','El sueldo','El seguro mensual'], correcta: 0, explicacion: 'Salir a comer varía cada mes. El arriendo en cambio es fijo: siempre el mismo monto, fácil de presupuestar.' },
-        { tipo: 'opcion',    pregunta: '¿Para qué sirve hacer un presupuesto?', opciones: ['Para saber a dónde va tu dinero','Para gastar más libremente','Para impresionar a otros','Solo lo necesitan las empresas'], correcta: 0, explicacion: 'El presupuesto te da control. Cuando sabes a dónde va tu dinero, puedes tomar mejores decisiones financieras.' },
-        { tipo: 'completar', pregunta: 'Si tus gastos superan tu presupuesto, debes _______ en alguna categoría.', opciones: ['recortar','ignorar','duplicar','celebrar'], correcta: 0, explicacion: 'Cuando gastas más de lo planeado, ajusta: recorta en gustos o variables para volver al equilibrio y proteger tu ahorro.' }
-      ]
-    },
-    {
-      id: 'j05', nivel: 2, tema: 'Inversión',
-      nombre: '¿Qué es invertir?',
-      desc: 'Entiende cómo tu dinero puede crecer solo',
-      xpRecompensa: 60, desbloqueaCon: 'j04',
-      preguntas: [
-        { tipo: 'opcion',    pregunta: '¿Cuál es la diferencia entre ahorrar e invertir?', opciones: ['Invertir hace crecer el dinero, ahorrar lo mantiene seguro','Son exactamente lo mismo','Ahorrar da más dinero que invertir','Invertir es solo para adultos ricos'], correcta: 0, explicacion: 'Ahorrar guarda tu dinero seguro pero casi no crece. Invertir pone tu dinero a trabajar, con algo de riesgo.' },
-        { tipo: 'opcion',    pregunta: '¿Qué es una acción?', opciones: ['Una parte pequeña de una empresa','Un billete especial del banco','Un tipo de ahorro sin riesgo','Una deuda que debes pagar'], correcta: 0, explicacion: 'Cuando compras una acción de Apple, eres dueño de una parte muy pequeña de Apple. Si crece, tu acción vale más.' },
-        { tipo: 'completar', pregunta: 'El _______ compuesto hace que tus ganancias generen más ganancias con el tiempo.', opciones: ['interés','gasto','impuesto','descuento'], correcta: 0, explicacion: 'El interés compuesto es la magia de las finanzas: ganas intereses sobre tus intereses anteriores. Crece exponencialmente.' },
-        { tipo: 'simulacion', pregunta: 'Inviertes $100.000 y ganas 10% al año. ¿Cuánto tienes después de 1 año gracias a tu inversión?', opciones: ['$110.000','$100.000','$10.000','$90.000'], correcta: 0, explicacion: '$100.000 + 10% = $110.000. Ese 10% extra es el premio por haber invertido en lugar de dejar el dinero quieto.' },
-        { tipo: 'opcion',    pregunta: '¿Qué significa que una inversión tiene riesgo?', opciones: ['Que podrías ganar o perder dinero','Que es ilegal','Que es muy difícil de hacer','Que necesitas ser experto'], correcta: 0, explicacion: 'Riesgo significa que el resultado es incierto. Podrías ganar más de lo esperado o también perder parte de lo invertido.' },
-        { tipo: 'opcion',    pregunta: '¿Qué es un ETF?', opciones: ['Un fondo que agrupa muchas acciones','Una cuenta de ahorro especial','Una criptomoneda','Un préstamo bancario'], correcta: 0, explicacion: 'ETF es una canasta de muchas acciones que puedes comprar como si fuera una sola. Diversifica fácil y con bajo costo.' },
-        { tipo: 'completar', pregunta: 'A mayor _______ potencial de una inversión, mayor es el riesgo que debes asumir.', opciones: ['ganancia','pérdida','ahorro','gasto'], correcta: 0, explicacion: 'Más retorno esperado = más riesgo. Las inversiones seguras dan poco. Las riesgosas pueden dar mucho o poco.' }
-      ]
-    },
-    {
-      id: 'j06', nivel: 2, tema: 'Bolsa',
-      nombre: 'La bolsa de valores',
-      desc: 'Descubre cómo funciona el mercado de acciones',
-      xpRecompensa: 70, desbloqueaCon: 'j05',
-      preguntas: [
-        { tipo: 'opcion',    pregunta: '¿Qué es la bolsa de valores?', opciones: ['Un mercado donde se compran y venden acciones','Una tienda de ropa cara','Un banco especial','Un juego de azar'], correcta: 0, explicacion: 'La bolsa es un mercado organizado donde miles de personas compran y venden acciones de empresas todos los días.' },
-        { tipo: 'simulacion', pregunta: 'Compraste 1 acción a $1.000. Hoy vale $1.200. ¿Cuánto ganaste en porcentaje gracias a invertir?', opciones: ['20%','12%','200%','2%'], correcta: 0, explicacion: '($1.200 - $1.000) ÷ $1.000 × 100 = 20% de retorno. Así funciona crecer dinero en la bolsa.' },
-        { tipo: 'opcion',    pregunta: '¿Qué significa diversificar?', opciones: ['No poner todos los huevos en la misma canasta','Comprar solo acciones de tecnología','Vender todo cuando baja la bolsa','Guardar el dinero en efectivo'], correcta: 0, explicacion: 'Diversificar es repartir tu inversión en varios activos. Si uno baja, los otros pueden compensar y proteger tu ahorro.' },
-        { tipo: 'completar', pregunta: 'Cuando la bolsa baja mucho y todos venden con miedo, se llama _______ de mercado.', opciones: ['pánico','fiesta','ahorro','ganancia'], correcta: 0, explicacion: 'El pánico de mercado ocurre cuando muchos venden al mismo tiempo por miedo, haciendo bajar aún más los precios.' },
-        { tipo: 'opcion',    pregunta: '¿Qué es el S&P 500?', opciones: ['Un índice con las 500 empresas más grandes de EE.UU.','Una acción de tecnología','Un banco de inversión','Una criptomoneda'], correcta: 0, explicacion: 'El S&P 500 mide el desempeño de las 500 empresas más grandes de EE.UU. Invertir en él es diversificar al máximo.' },
-        { tipo: 'simulacion', pregunta: 'Tienes $500.000 divididos en 5 acciones de $100.000 c/u. Una cae 50%. ¿Qué % de tu ahorro total pierdes?', opciones: ['10% ($50.000)','50% ($250.000)','20% ($100.000)','100% ($500.000)'], correcta: 0, explicacion: 'Pierdes $50.000, solo el 10% del total. Si hubieras puesto todo en esa acción, habrías perdido $250.000. Eso es diversificar.' },
-        { tipo: 'opcion',    pregunta: '¿Cuál es la mejor estrategia para un inversionista principiante?', opciones: ['Invertir poco a poco y de forma constante','Poner todo el dinero en una sola acción','Comprar y vender todos los días','Esperar a que la bolsa esté perfecta'], correcta: 0, explicacion: 'Invertir de forma constante reduce el riesgo de entrar en el momento equivocado. Es la estrategia más recomendada.' }
-      ]
-    },
-    {
-      id: 'j07', nivel: 3, tema: 'Deuda y Crédito',
-      nombre: '¿Qué es una deuda?',
-      desc: 'Entiende cuándo endeudarse tiene sentido',
-      xpRecompensa: 80, desbloqueaCon: 'j06',
-      preguntas: [
-        { tipo: 'opcion', pregunta: '¿Qué es una deuda?', opciones: ['Dinero que pediste prestado y debes devolver','Dinero que te regalaron','Una forma de ahorro','Un tipo de inversión'], correcta: 0, explicacion: 'Una deuda es cuando recibes dinero prestado y te comprometes a devolverlo, generalmente con intereses.' },
-        { tipo: 'opcion', pregunta: '¿Cuándo tiene sentido endeudarse?', opciones: ['Para comprar algo que genera más valor del que cuesta la deuda','Para comprar ropa cara','Para ir de vacaciones todos los años','Nunca tiene sentido'], correcta: 0, explicacion: 'Una deuda inteligente es la que te permite generar más dinero del que te cuesta. Por ejemplo, un préstamo para estudiar o para un negocio.' },
-        { tipo: 'completar', pregunta: 'La tasa de _______ es el costo que pagas por pedir dinero prestado.', opciones: ['interés','ahorro','cambio','retorno'], correcta: 0, explicacion: 'La tasa de interés es el precio del dinero. Si pides $100 al 10% anual, debes devolver $110 al cabo de un año.' },
-        { tipo: 'simulacion', pregunta: 'Pediste $200.000 al banco al 5% de interés anual. ¿Cuánto debes devolver en un año?', opciones: ['$210.000','$200.000','$205.000','$250.000'], correcta: 0, explicacion: '$200.000 × 5% = $10.000 de interés. Total a devolver: $210.000.' },
-        { tipo: 'opcion', pregunta: '¿Qué es la tarjeta de crédito?', opciones: ['Un préstamo de corto plazo que debes pagar cada mes','Dinero gratis del banco','Una cuenta de ahorro especial','Un tipo de inversión'], correcta: 0, explicacion: 'La tarjeta de crédito es un crédito rotativo. Si no pagas el total cada mes, cobran intereses muy altos.' },
-        { tipo: 'opcion', pregunta: '¿Cuál es el mayor riesgo de las deudas?', opciones: ['Que los intereses crezcan más rápido que tu capacidad de pago','Que el banco te llame mucho','Que baje la bolsa','Que suba la inflación'], correcta: 0, explicacion: 'Si no controlas tus deudas, los intereses se acumulan y puedes terminar debiendo mucho más de lo que pediste originalmente.' },
-        { tipo: 'completar', pregunta: 'Pagar siempre el mínimo de la tarjeta de crédito es una mala estrategia porque _______ se acumulan.', opciones: ['los intereses','los ahorros','los activos','las ganancias'], correcta: 0, explicacion: 'Al pagar solo el mínimo, el banco cobra intereses sobre el saldo restante. Así la deuda puede crecer indefinidamente.' }
-      ]
-    },
-    {
-      id: 'j08', nivel: 3, tema: 'Deuda y Crédito',
-      nombre: 'Crédito inteligente',
-      desc: 'Aprende a usar el crédito a tu favor',
-      xpRecompensa: 80, desbloqueaCon: 'j07',
-      preguntas: [
-        { tipo: 'opcion', pregunta: '¿Qué es el score o puntaje de crédito?', opciones: ['Una calificación de qué tan buen pagador eres','Tu sueldo mensual','El límite de tu tarjeta','Cuánto dinero tienes ahorrado'], correcta: 0, explicacion: 'El score crediticio es un número que indica tu historial de pagos. Un buen score te da acceso a mejores créditos con tasas más bajas.' },
-        { tipo: 'opcion', pregunta: '¿Cómo mejorar tu historial crediticio?', opciones: ['Pagando siempre a tiempo y no endeudándote de más','Pidiendo muchos créditos a la vez','No teniendo ninguna deuda nunca','Cambiando de banco frecuentemente'], correcta: 0, explicacion: 'La mejor manera de construir buen crédito es pagar puntualmente y mantener tus deudas bajo control.' },
-        { tipo: 'completar', pregunta: 'Una deuda "buena" es la que te ayuda a _______ valor, como estudiar o comprar una propiedad.', opciones: ['generar','perder','gastar','regalar'], correcta: 0, explicacion: 'Las deudas buenas invierten en tu futuro. Las malas financian consumo que se deprecia, como ropa o vacaciones.' },
-        { tipo: 'simulacion', pregunta: 'Tienes $500.000 en deuda al 24% anual. Si no pagas nada en un año, ¿cuánto deberás?', opciones: ['$620.000','$524.000','$500.000','$750.000'], correcta: 0, explicacion: '$500.000 × 24% = $120.000 de interés. Total: $620.000. Así de rápido crece una deuda sin pagar.' },
-        { tipo: 'opcion', pregunta: '¿Qué es refinanciar una deuda?', opciones: ['Reemplazar una deuda cara por una más barata','Pedir más dinero prestado','Ignorar la deuda antigua','Pagar todo de una vez'], correcta: 0, explicacion: 'Refinanciar significa conseguir un nuevo crédito con mejor tasa para pagar el anterior. Puede ahorrarte mucho dinero.' },
-        { tipo: 'opcion', pregunta: '¿Cuánto de tu ingreso debería ir al pago de deudas como máximo?', opciones: ['Menos del 30%','Más del 70%','El 50% exacto','No importa el porcentaje'], correcta: 0, explicacion: 'Expertos recomiendan que el pago de deudas no supere el 30% de tus ingresos para mantener tu salud financiera.' },
-        { tipo: 'completar', pregunta: 'El _______ es el porcentaje anual total que pagas por un crédito, incluyendo todos los costos.', opciones: ['CAE','IVA','PIB','CLP'], correcta: 0, explicacion: 'El CAE (Carga Anual Equivalente) incluye la tasa de interés más todos los cargos del crédito. Siempre compara el CAE, no solo la tasa.' }
-      ]
-    },
-    {
-      id: 'j09', nivel: 3, tema: 'Inflación',
-      nombre: '¿Qué es la inflación?',
-      desc: 'Descubre por qué el dinero pierde valor con el tiempo',
-      xpRecompensa: 90, desbloqueaCon: 'j08',
-      preguntas: [
-        { tipo: 'opcion', pregunta: '¿Qué es la inflación?', opciones: ['El aumento general de precios con el tiempo','Una forma de impuesto','El precio del dólar','La tasa de interés del banco'], correcta: 0, explicacion: 'La inflación es cuando los precios de los bienes y servicios suben con el tiempo, haciendo que el dinero valga menos.' },
-        { tipo: 'simulacion', pregunta: 'Si la inflación es 5% anual y hoy un pan cuesta $1.000, ¿cuánto costará en un año?', opciones: ['$1.050','$1.500','$1.000','$950'], correcta: 0, explicacion: '$1.000 × 5% = $50 más. El pan costará $1.050. Así funciona la inflación: todo sube de precio.' },
-        { tipo: 'opcion', pregunta: '¿Qué le pasa al poder adquisitivo cuando hay inflación?', opciones: ['Baja — puedes comprar menos con el mismo dinero','Sube — puedes comprar más','Se mantiene igual','Desaparece'], correcta: 0, explicacion: 'El poder adquisitivo es lo que puedes comprar con tu dinero. Con inflación, el mismo dinero compra menos cosas.' },
-        { tipo: 'completar', pregunta: 'Para que tus ahorros no pierdan valor con la inflación, deben crecer a una tasa _______ que la inflación.', opciones: ['mayor','menor','igual','negativa'], correcta: 0, explicacion: 'Si la inflación es 5% y tus ahorros ganan 3%, estás perdiendo poder adquisitivo. Necesitas superar la inflación.' },
-        { tipo: 'opcion', pregunta: '¿Quién controla la inflación en Chile?', opciones: ['El Banco Central','El Presidente','El Ministerio de Hacienda','Los supermercados'], correcta: 0, explicacion: 'El Banco Central de Chile controla la inflación principalmente subiendo o bajando la tasa de interés de referencia.' },
-        { tipo: 'opcion', pregunta: '¿Qué es el IPC?', opciones: ['El índice que mide la variación de precios de una canasta de bienes','El precio del dólar','La tasa de interés bancaria','El impuesto al consumo'], correcta: 0, explicacion: 'El IPC (Índice de Precios al Consumidor) mide cómo cambian los precios de una canasta representativa de productos y servicios.' },
-        { tipo: 'simulacion', pregunta: 'Tienes $1.000.000 en efectivo y la inflación anual es 6%. ¿Cuánto poder adquisitivo real tienes en un año?', opciones: ['$943.396','$1.060.000','$1.000.000','$900.000'], correcta: 0, explicacion: '$1.000.000 ÷ 1.06 ≈ $943.396. Tu dinero físicamente es el mismo pero compra menos. Por eso invertir es clave.' }
-      ]
-    },
-    {
-      id: 'j10', nivel: 3, tema: 'Inflación',
-      nombre: 'Cómo protegerse de la inflación',
-      desc: 'Estrategias para que tu dinero no pierda valor',
-      xpRecompensa: 90, desbloqueaCon: 'j09',
-      preguntas: [
-        { tipo: 'opcion', pregunta: '¿Cuál es la mejor protección contra la inflación?', opciones: ['Invertir en activos que suben más que la inflación','Guardar más efectivo','Gastar todo rápido antes que suban los precios','No hacer nada'], correcta: 0, explicacion: 'Los activos como acciones, bienes raíces e instrumentos indexados históricamente superan la inflación a largo plazo.' },
-        { tipo: 'opcion', pregunta: '¿Qué son los instrumentos indexados a la UF?', opciones: ['Instrumentos cuyo valor se ajusta automáticamente con la inflación','Acciones de empresas chilenas','Cuentas de ahorro normales','Monedas extranjeras'], correcta: 0, explicacion: 'La UF (Unidad de Fomento) se reajusta diariamente según la inflación. Los instrumentos en UF protegen tu dinero de la inflación automáticamente.' },
-        { tipo: 'completar', pregunta: 'Las acciones históricamente han sido una buena protección contra la inflación porque las empresas pueden _______ sus precios.', opciones: ['subir','bajar','congelar','eliminar'], correcta: 0, explicacion: 'Las empresas generalmente pueden traspasar la inflación a sus precios, lo que protege el valor de sus acciones a largo plazo.' },
-        { tipo: 'opcion', pregunta: '¿Qué es la inflación negativa o deflación?', opciones: ['Cuando los precios bajan generalizadamente','Cuando la inflación sube muy rápido','Cuando el dólar sube','Cuando baja la bolsa'], correcta: 0, explicacion: 'La deflación es la caída general de precios. Aunque suena bien, puede ser peligrosa porque la gente deja de gastar esperando precios más bajos.' },
-        { tipo: 'simulacion', pregunta: 'Tu sueldo es $800.000 y la inflación anual fue 8%. Para mantener tu poder adquisitivo, ¿cuánto debería ser tu nuevo sueldo?', opciones: ['$864.000','$808.000','$800.000','$880.000'], correcta: 0, explicacion: '$800.000 × 8% = $64.000 de ajuste. Necesitas ganar $864.000 para comprar lo mismo que antes.' },
-        { tipo: 'opcion', pregunta: '¿Qué tipo de bono protege específicamente contra la inflación?', opciones: ['Bonos indexados a la UF o al IPC','Bonos en dólares','Acciones de tecnología','Depósitos a plazo fijo en pesos'], correcta: 0, explicacion: 'Los bonos indexados ajustan su valor según la inflación, garantizando que tu retorno real sea positivo.' },
-        { tipo: 'completar', pregunta: 'Tener dinero solo en efectivo durante períodos de alta inflación significa que estás _______ poder adquisitivo.', opciones: ['perdiendo','ganando','manteniendo','duplicando'], correcta: 0, explicacion: 'El efectivo no se protege solo de la inflación. Cada año que pasa, tu dinero en efectivo compra menos cosas.' }
-      ]
-    },
-    {
-      id: 'j11', nivel: 4, tema: 'Fondos y Diversificación',
-      nombre: 'Fondos mutuos',
-      desc: 'Invierte en muchos activos con poco dinero',
-      xpRecompensa: 100, desbloqueaCon: 'j10',
-      preguntas: [
-        { tipo: 'opcion', pregunta: '¿Qué es un fondo mutuo?', opciones: ['Un pool de dinero de muchos inversores manejado por un experto','Una cuenta de ahorro con interés fijo','Una acción de una empresa grande','Un préstamo del banco'], correcta: 0, explicacion: 'Un fondo mutuo junta el dinero de muchos inversores y un gestor profesional lo invierte en una cartera diversificada.' },
-        { tipo: 'opcion', pregunta: '¿Cuál es la ventaja principal de un fondo mutuo?', opciones: ['Diversificación accesible desde montos pequeños','Garantía de retorno fijo','Sin riesgo de pérdida','Liquidez inmediata siempre'], correcta: 0, explicacion: 'Con poco dinero puedes acceder a una cartera diversificada que normalmente requeriría mucho más capital.' },
-        { tipo: 'completar', pregunta: 'La comisión que cobra el administrador del fondo se llama _______ de administración.', opciones: ['costo','ganancia','retorno','dividendo'], correcta: 0, explicacion: 'El costo o comisión de administración es lo que cobra el gestor por manejar el fondo. Siempre compara costos entre fondos similares.' },
-        { tipo: 'opcion', pregunta: '¿Qué diferencia hay entre un fondo mutuo y un ETF?', opciones: ['El ETF se transa en bolsa como una acción, el fondo mutuo no','Son exactamente lo mismo','El ETF tiene más riesgo siempre','El fondo mutuo es más barato siempre'], correcta: 0, explicacion: 'Los ETF se compran y venden en bolsa durante el día como acciones. Los fondos mutuos se valorizan al cierre del día.' },
-        { tipo: 'simulacion', pregunta: 'Inviertes $100.000 en un fondo que cobra 1% anual de comisión y rinde 8%. ¿Cuál es tu retorno neto?', opciones: ['7%','8%','9%','1%'], correcta: 0, explicacion: '8% de retorno bruto - 1% de comisión = 7% de retorno neto. Las comisiones impactan significativamente en el largo plazo.' },
-        { tipo: 'opcion', pregunta: '¿Qué es un fondo de renta fija?', opciones: ['Un fondo que invierte principalmente en bonos y deuda','Un fondo que garantiza retorno fijo','Un fondo solo de acciones','Un fondo inmobiliario'], correcta: 0, explicacion: 'Los fondos de renta fija invierten en bonos y otros instrumentos de deuda. Son más estables pero generalmente con menores retornos.' },
-        { tipo: 'opcion', pregunta: '¿Qué son los APV en Chile?', opciones: ['Ahorro Previsional Voluntario con beneficios tributarios','Un tipo de fondo mutuo extranjero','Una cuenta bancaria especial','Un seguro de vida'], correcta: 0, explicacion: 'El APV te permite ahorrar para la jubilación con beneficios tributarios. El Estado te devuelve parte de lo que inviertes.' }
-      ]
-    },
-    {
-      id: 'j12', nivel: 4, tema: 'Fondos y Diversificación',
-      nombre: 'Diversificación avanzada',
-      desc: 'Construye un portafolio sólido para cualquier mercado',
-      xpRecompensa: 100, desbloqueaCon: 'j11',
-      preguntas: [
-        { tipo: 'opcion', pregunta: '¿Qué es la correlación entre activos?', opciones: ['Cómo se mueven juntos o en direcciones opuestas','El precio de dos activos','La rentabilidad combinada','El riesgo total de la cartera'], correcta: 0, explicacion: 'La correlación mide si dos activos suben y bajan juntos. Activos con baja correlación se complementan bien en un portafolio.' },
-        { tipo: 'opcion', pregunta: '¿Qué es la asignación de activos o asset allocation?', opciones: ['Decidir qué porcentaje de tu portafolio va en cada tipo de activo','Elegir qué acciones individuales comprar','Cuándo comprar y vender','El retorno esperado de tu portafolio'], correcta: 0, explicacion: 'Asset allocation es la decisión más importante de inversión: cuánto poner en acciones, bonos, efectivo y otros activos.' },
-        { tipo: 'completar', pregunta: 'A mayor edad y cercanía a la jubilación, generalmente se recomienda tener mayor proporción de activos de _______ fija.', opciones: ['renta','deuda','riesgo','capital'], correcta: 0, explicacion: 'Con la edad, el portafolio tiende a volverse más conservador: más bonos (renta fija) y menos acciones para proteger el capital.' },
-        { tipo: 'simulacion', pregunta: 'Portafolio: 60% acciones (+15%), 40% bonos (-2%). ¿Cuál es el retorno total del portafolio?', opciones: ['8.2%','13%','6.5%','15%'], correcta: 0, explicacion: '60% × 15% = 9% + 40% × (-2%) = -0.8%. Total: 8.2%. Así la diversificación suaviza los resultados.' },
-        { tipo: 'opcion', pregunta: '¿Qué es el rebalanceo de portafolio?', opciones: ['Ajustar periódicamente para mantener la asignación de activos objetivo','Vender todo cuando baja el mercado','Comprar más del activo que más subió','Cambiar de estrategia cada mes'], correcta: 0, explicacion: 'El rebalanceo es vender lo que subió mucho y comprar lo que bajó para mantener tu estrategia original. Se hace periódicamente.' },
-        { tipo: 'opcion', pregunta: '¿Qué son los activos alternativos?', opciones: ['Inversiones fuera de acciones y bonos tradicionales como arte, commodities o criptos','Acciones de empresas pequeñas','Bonos de alto riesgo','Depósitos a plazo'], correcta: 0, explicacion: 'Los alternativos como commodities, bienes raíces o criptomonedas pueden añadir diversificación porque se mueven diferente a acciones y bonos.' },
-        { tipo: 'completar', pregunta: 'Invertir la misma cantidad cada mes independiente del precio se llama _______ cost averaging.', opciones: ['dollar','euro','peso','value'], correcta: 0, explicacion: 'Dollar cost averaging es invertir un monto fijo periódicamente. Compras más cuando el precio está bajo y menos cuando está alto, promediando el costo.' }
-      ]
-    },
-    {
-      id: 'j13', nivel: 4, tema: 'Criptomonedas',
-      nombre: '¿Qué son las criptomonedas?',
-      desc: 'Entiende el mundo de los activos digitales',
-      xpRecompensa: 110, desbloqueaCon: 'j12',
-      preguntas: [
-        { tipo: 'opcion', pregunta: '¿Qué es una criptomoneda?', opciones: ['Una moneda digital descentralizada que usa criptografía','Una moneda del gobierno en formato digital','Una acción de empresa tecnológica','Un tipo de bono digital'], correcta: 0, explicacion: 'Las criptomonedas son monedas digitales que funcionan sin banco central ni gobierno. Usan criptografía para asegurar las transacciones.' },
-        { tipo: 'opcion', pregunta: '¿Qué es el Bitcoin?', opciones: ['La primera y más conocida criptomoneda','Una empresa de tecnología','Una moneda creada por el gobierno de EE.UU.','Un tipo de ETF'], correcta: 0, explicacion: 'Bitcoin fue la primera criptomoneda, creada en 2009. Es descentralizada, tiene oferta limitada de 21 millones de monedas.' },
-        { tipo: 'completar', pregunta: 'La tecnología detrás de las criptomonedas se llama _______, que es un registro distribuido e inmutable.', opciones: ['blockchain','internet','cloud','IA'], correcta: 0, explicacion: 'Blockchain es una cadena de bloques de datos encadenados. Cada transacción queda registrada para siempre y no se puede modificar.' },
-        { tipo: 'opcion', pregunta: '¿Cuál es el mayor riesgo de las criptomonedas?', opciones: ['Alta volatilidad — pueden bajar 80% en poco tiempo','Que el banco las congele','Que el gobierno las elimine','Que sean muy lentas para transar'], correcta: 0, explicacion: 'Las criptomonedas son extremadamente volátiles. Bitcoin ha caído más de 80% varias veces en su historia. No son aptas para dinero que no puedes perder.' },
-        { tipo: 'opcion', pregunta: '¿Qué es una stablecoin?', opciones: ['Una criptomoneda cuyo valor está atado a una moneda tradicional como el dólar','La criptomoneda más antigua','Una crypto sin volatilidad garantizada por el gobierno','Un tipo de NFT'], correcta: 0, explicacion: 'Las stablecoins como USDT o USDC mantienen su valor 1:1 con el dólar. Son útiles para operar en el mundo crypto sin exponerse a la volatilidad.' },
-        { tipo: 'opcion', pregunta: '¿Qué porcentaje del portafolio recomiendan los expertos para criptomonedas?', opciones: ['Menos del 5-10% para la mayoría de inversores','El 50% o más','Nada, son ilegales','El mismo que acciones'], correcta: 0, explicacion: 'Por su alta volatilidad, la mayoría de expertos recomienda limitar la exposición a criptos a un pequeño porcentaje del portafolio total.' },
-        { tipo: 'completar', pregunta: 'Las criptomonedas son _______, lo que significa que ningún banco o gobierno las controla.', opciones: ['descentralizadas','reguladas','garantizadas','aseguradas'], correcta: 0, explicacion: 'La descentralización es la característica central de las criptos. No dependen de ninguna institución central para funcionar.' }
-      ]
-    },
-    {
-      id: 'j14', nivel: 4, tema: 'Criptomonedas',
-      nombre: 'Cripto avanzado',
-      desc: 'DeFi, NFTs y el ecosistema digital',
-      xpRecompensa: 110, desbloqueaCon: 'j13',
-      preguntas: [
-        { tipo: 'opcion', pregunta: '¿Qué es DeFi?', opciones: ['Finanzas descentralizadas — servicios financieros sin intermediarios','Un tipo de criptomoneda','Una exchange de criptos','Un fondo de inversión en cripto'], correcta: 0, explicacion: 'DeFi (Decentralized Finance) son servicios financieros como préstamos, ahorro e intercambios que funcionan sin bancos mediante contratos inteligentes.' },
-        { tipo: 'opcion', pregunta: '¿Qué es un NFT?', opciones: ['Token único no fungible que representa propiedad digital','Una criptomoneda nueva','Un tipo de contrato inteligente','Una exchange descentralizada'], correcta: 0, explicacion: 'NFT (Non-Fungible Token) es un token único que certifica la propiedad de un activo digital. A diferencia de Bitcoin, cada NFT es único e irrepetible.' },
-        { tipo: 'completar', pregunta: 'Una _______ es una plataforma donde puedes comprar y vender criptomonedas, como Buda.com o Binance.', opciones: ['exchange','wallet','blockchain','stablecoin'], correcta: 0, explicacion: 'Las exchanges son los mercados de criptomonedas. Pueden ser centralizadas (con empresa detrás) o descentralizadas (DEX, funcionan con código).' },
-        { tipo: 'opcion', pregunta: '¿Qué es una wallet de criptomonedas?', opciones: ['Un programa que guarda tus claves para acceder a tus criptos','Una cuenta bancaria digital','Un tipo de exchange','Una criptomoneda estable'], correcta: 0, explicacion: 'La wallet no guarda las criptos sino las claves privadas que te dan acceso a ellas. Sin las claves, no tienes acceso a tus fondos.' },
-        { tipo: 'opcion', pregunta: '¿Qué significa "not your keys, not your coins"?', opciones: ['Si no controlas tus claves privadas, no controlas realmente tus criptos','Que debes guardar las monedas físicamente','Que las criptos no son tuyas legalmente','Que debes usar solo exchanges reguladas'], correcta: 0, explicacion: 'Si dejas tus criptos en una exchange y esta quiebra o es hackeada, puedes perder todo. Controlar tus claves privadas es controlar tus fondos.' },
-        { tipo: 'opcion', pregunta: '¿Qué es el halving de Bitcoin?', opciones: ['Un evento cada 4 años que reduce a la mitad la recompensa de minar Bitcoin','Cuando Bitcoin pierde la mitad de su valor','Una división de Bitcoin en dos monedas','El límite máximo de Bitcoin'], correcta: 0, explicacion: 'El halving ocurre cada ~4 años y reduce la cantidad de nuevos Bitcoin que se crean. Al reducir la oferta nueva, históricamente ha impulsado el precio.' },
-        { tipo: 'completar', pregunta: 'El _______ es la red que permite crear contratos inteligentes y es la base de la mayoría de proyectos DeFi.', opciones: ['Ethereum','Bitcoin','Solana','Cardano'], correcta: 0, explicacion: 'Ethereum fue la primera blockchain en incorporar contratos inteligentes programables, lo que permitió crear DeFi, NFTs y miles de aplicaciones.' }
-      ]
-    },
-    {
-      id: 'j15', nivel: 5, tema: 'Bienes Raíces',
-      nombre: 'Invertir en propiedades',
-      desc: 'Entiende el mercado inmobiliario como activo',
-      xpRecompensa: 120, desbloqueaCon: 'j14',
-      preguntas: [
-        { tipo: 'opcion', pregunta: '¿Por qué los bienes raíces son considerados una buena inversión?', opciones: ['Generan renta y tienden a apreciarse con el tiempo','Son completamente seguros sin riesgo','Siempre suben de precio','Son la inversión con mejor liquidez'], correcta: 0, explicacion: 'Los bienes raíces generan renta por arriendo y generalmente se aprecian a largo plazo, además de ser una protección contra la inflación.' },
-        { tipo: 'opcion', pregunta: '¿Qué es el cap rate o tasa de capitalización?', opciones: ['El ingreso anual neto dividido por el precio de la propiedad','El precio de arriendo mensual','La plusvalía anual de la propiedad','El costo de mantención anual'], correcta: 0, explicacion: 'Cap rate = ingreso neto anual ÷ precio. Si una propiedad cuesta $100M y arrienda neto $5M al año, el cap rate es 5%.' },
-        { tipo: 'simulacion', pregunta: 'Compras una propiedad en $80.000.000 y arriendas en $400.000 al mes. ¿Cuál es tu cap rate anual aproximado?', opciones: ['6%','4%','8%','10%'], correcta: 0, explicacion: '$400.000 × 12 = $4.800.000 al año ÷ $80.000.000 = 6% de cap rate. Es una métrica clave para evaluar inversiones inmobiliarias.' },
-        { tipo: 'completar', pregunta: 'La _______ es el aumento de valor de una propiedad con el tiempo por factores como ubicación y desarrollo del sector.', opciones: ['plusvalía','depreciación','inflación','amortización'], correcta: 0, explicacion: 'La plusvalía es la ganancia de capital de una propiedad. Una buena ubicación, mejoras en el barrio y escasez de terrenos la impulsan.' },
-        { tipo: 'opcion', pregunta: '¿Qué es un REIT?', opciones: ['Un fondo que invierte en bienes raíces y se transa en bolsa','Una empresa constructora','Un tipo de hipoteca','Un crédito inmobiliario especial'], correcta: 0, explicacion: 'REIT (Real Estate Investment Trust) permite invertir en bienes raíces desde montos pequeños, como si fuera una acción. Pagan dividendos regulares.' },
-        { tipo: 'opcion', pregunta: '¿Cuál es el mayor riesgo de invertir en propiedades?', opciones: ['Baja liquidez — vender puede tomar meses','Alta volatilidad diaria','Pérdida total del capital','Que el gobierno la confisque'], correcta: 0, explicacion: 'A diferencia de las acciones, vender una propiedad puede tomar meses. Si necesitas el dinero rápido, puede ser un problema.' },
-        { tipo: 'opcion', pregunta: '¿Qué es el apalancamiento en bienes raíces?', opciones: ['Usar deuda (hipoteca) para comprar una propiedad de mayor valor','Arrendar varias propiedades a la vez','Comprar propiedades en remate','Invertir en REIT con crédito'], correcta: 0, explicacion: 'Con una hipoteca puedes controlar una propiedad de $100M poniendo solo $20M. Si sube a $120M ganaste $20M sobre tu inversión de $20M = 100% de retorno.' }
-      ]
-    },
-    {
-      id: 'j16', nivel: 5, tema: 'Impuestos',
-      nombre: 'Impuestos y finanzas personales',
-      desc: 'Entiende cómo los impuestos afectan tu dinero',
-      xpRecompensa: 120, desbloqueaCon: 'j15',
-      preguntas: [
-        { tipo: 'opcion', pregunta: '¿Qué es el impuesto a la renta?', opciones: ['Un impuesto que pagas sobre lo que ganas','Un impuesto a las compras','Un impuesto a las propiedades','Un impuesto a las exportaciones'], correcta: 0, explicacion: 'El impuesto a la renta grava tus ingresos. En Chile es progresivo: a más ingresos, mayor tasa de impuesto.' },
-        { tipo: 'opcion', pregunta: '¿Qué es el IVA?', opciones: ['Impuesto al Valor Agregado que pagas en casi todas las compras','Impuesto a la renta de las empresas','Un impuesto solo para importaciones','Un arancel bancario'], correcta: 0, explicacion: 'El IVA en Chile es 19% y se aplica a la mayoría de bienes y servicios. Ya viene incluido en los precios que ves.' },
-        { tipo: 'completar', pregunta: 'Una _______ tributaria es una deducción legal que reduce cuánto impuesto debes pagar.', opciones: ['rebaja','evasión','multa','deuda'], correcta: 0, explicacion: 'Las rebajas tributarias son incentivos legales del gobierno. El APV, gastos de educación y otros permiten reducir tu base imponible.' },
-        { tipo: 'opcion', pregunta: '¿Qué es la evasión de impuestos?', opciones: ['No pagar impuestos que legalmente debes pagar — es ilegal','Usar beneficios tributarios legales','Pagar menos impuestos optimizando legalmente','Declarar menos ingresos por error'], correcta: 0, explicacion: 'La evasión es ilegal y tiene multas severas. Distinta es la elusión: usar instrumentos legales para pagar menos impuestos dentro de la ley.' },
-        { tipo: 'simulacion', pregunta: 'Ganas $1.000.000 al mes. Si el impuesto a la renta es 8% sobre ese tramo, ¿cuánto pagas de impuesto al mes?', opciones: ['$80.000','$8.000','$180.000','$100.000'], correcta: 0, explicacion: '$1.000.000 × 8% = $80.000 de impuesto mensual. Tu sueldo líquido sería $920.000.' },
-        { tipo: 'opcion', pregunta: '¿Qué ventaja tributaria tiene el APV en Chile?', opciones: ['El Estado bonifica hasta el 15% de lo ahorrado o puedes descontarlo de impuestos','Está exento de IVA','No pagas impuesto a la renta nunca','El banco te da mejor tasa de interés'], correcta: 0, explicacion: 'Con APV Régimen A, el Estado bonifica el 15% de lo ahorrado (tope anual). Con Régimen B, descontás el ahorro de tu base imponible.' },
-        { tipo: 'opcion', pregunta: '¿Qué es la operación renta en Chile?', opciones: ['El proceso anual de declarar y ajustar impuestos pagados durante el año','El pago mensual de impuestos','El registro de propiedades','La declaración de IVA mensual'], correcta: 0, explicacion: 'Cada abril en Chile se hace la operación renta: se declaran los ingresos del año anterior y se devuelve o cobra la diferencia de impuestos.' }
-      ]
-    },
-    {
-      id: 'j17', nivel: 5, tema: 'Emprendimiento',
-      nombre: 'Finanzas del emprendedor',
-      desc: 'Lo que todo emprendedor debe saber de finanzas',
-      xpRecompensa: 130, desbloqueaCon: 'j16',
-      preguntas: [
-        { tipo: 'opcion', pregunta: '¿Qué es el capital de trabajo?', opciones: ['El dinero disponible para operar el negocio día a día','La inversión inicial del negocio','Las ganancias del último mes','El valor total de la empresa'], correcta: 0, explicacion: 'El capital de trabajo es lo que necesitas para pagar sueldos, proveedores y gastos mientras esperas que los clientes paguen.' },
-        { tipo: 'opcion', pregunta: '¿Qué es el flujo de caja o cashflow?', opciones: ['El movimiento real de dinero que entra y sale del negocio','La ganancia contable del negocio','El patrimonio total de la empresa','Las ventas brutas del mes'], correcta: 0, explicacion: 'Puedes tener utilidades contables pero quebrar por falta de caja. El cashflow es el oxígeno del negocio: sin él, muere aunque sea rentable.' },
-        { tipo: 'completar', pregunta: 'El punto de _______ es cuando los ingresos igualan los costos y el negocio empieza a ser rentable.', opciones: ['equilibrio','partida','quiebre','máximo'], correcta: 0, explicacion: 'El punto de equilibrio (break-even) te dice cuánto debes vender para cubrir todos tus costos. Sobre eso, todo es ganancia.' },
-        { tipo: 'simulacion', pregunta: 'Tu negocio tiene costos fijos de $500.000 al mes y gana $200 por producto. ¿Cuántos debes vender para llegar al punto de equilibrio?', opciones: ['2.500 unidades','500 unidades','5.000 unidades','1.000 unidades'], correcta: 0, explicacion: '$500.000 ÷ $200 = 2.500 unidades. Bajo esa cantidad pierdes dinero, sobre esa cantidad ganas.' },
-        { tipo: 'opcion', pregunta: '¿Qué es el EBITDA?', opciones: ['Ganancia antes de intereses, impuestos, depreciación y amortización','Las ventas totales de la empresa','El flujo de caja libre','La deuda total de la empresa'], correcta: 0, explicacion: 'EBITDA mide la capacidad operativa real del negocio, sin los efectos contables. Es muy usado para valorar empresas.' },
-        { tipo: 'opcion', pregunta: '¿Qué es el capital de riesgo o venture capital?', opciones: ['Inversión en startups a cambio de participación accionaria','Un préstamo bancario para empresas','Una subvención del gobierno','Un fondo mutuo de acciones'], correcta: 0, explicacion: 'El venture capital financia startups con alto potencial de crecimiento a cambio de acciones. Los inversores asumen alto riesgo esperando grandes retornos.' },
-        { tipo: 'completar', pregunta: 'La valorización de una startup usando múltiplos de ventas se expresa como un _______ de sus ingresos anuales.', opciones: ['múltiplo','porcentaje','dividendo','interés'], correcta: 0, explicacion: 'Si una startup factura $100M anuales y se valora en 5x ventas, vale $500M. Los múltiplos varían por industria y tasa de crecimiento.' }
-      ]
-    },
-    {
-      id: 'j18', nivel: 5, tema: 'Emprendimiento',
-      nombre: 'Valorización y equity',
-      desc: 'Cómo se valora una empresa y qué es ser dueño',
-      xpRecompensa: 130, desbloqueaCon: 'j17',
-      preguntas: [
-        { tipo: 'opcion', pregunta: '¿Qué es el equity o patrimonio de una empresa?', opciones: ['La parte de la empresa que pertenece a los dueños','Las deudas de la empresa','Las ventas anuales','El efectivo disponible'], correcta: 0, explicacion: 'Equity = Activos - Pasivos. Es lo que realmente pertenece a los dueños después de pagar todas las deudas.' },
-        { tipo: 'opcion', pregunta: '¿Qué es dilución en el contexto de startups?', opciones: ['Cuando tu porcentaje de la empresa disminuye al entrar nuevos inversores','Cuando bajan las ventas','Cuando un socio se va','Cuando la empresa quiebra'], correcta: 0, explicacion: 'Al levantar capital, se crean nuevas acciones. Tu porcentaje baja pero el valor total puede subir. Dilución no es mala si la empresa crece.' },
-        { tipo: 'completar', pregunta: 'El _______ es el valor de mercado de todas las acciones de una empresa.', opciones: ['market cap','EBITDA','float','revenue'], correcta: 0, explicacion: 'Market cap = precio de la acción × número de acciones. Apple tiene un market cap de ~3 billones de dólares.' },
-        { tipo: 'opcion', pregunta: '¿Qué es un term sheet?', opciones: ['Documento que resume los términos de una inversión antes del contrato final','El contrato definitivo de inversión','Un estado financiero','Un acuerdo de confidencialidad'], correcta: 0, explicacion: 'El term sheet es no vinculante y resume las condiciones principales: valorización, monto, porcentaje y derechos especiales.' },
-        { tipo: 'simulacion', pregunta: 'Tu startup vale $1.000.000 y un inversor pone $250.000. ¿Qué porcentaje de la empresa recibe?', opciones: ['20%','25%','10%','33%'], correcta: 0, explicacion: 'Post-money valuation = $1.000.000 + $250.000 = $1.250.000. El inversor pone $250.000 ÷ $1.250.000 = 20% de la empresa.' },
-        { tipo: 'opcion', pregunta: '¿Qué es el vesting de acciones?', opciones: ['Un mecanismo que entrega acciones gradualmente según permanencia o hitos','Recibir todas las acciones de una vez al firmar','Un tipo de dividendo diferido','La venta de acciones a empleados'], correcta: 0, explicacion: 'El vesting protege a la empresa: si un fundador o empleado se va antes de tiempo, no se lleva todas sus acciones. Típicamente es 4 años con 1 año de cliff.' },
-        { tipo: 'opcion', pregunta: '¿Qué es un exit en el mundo startup?', opciones: ['Cuando los inversores recuperan su dinero vía venta o IPO','Cuando un socio abandona la empresa','El cierre de la empresa','La primera ronda de inversión'], correcta: 0, explicacion: 'Exit es cuando los inversores y fundadores realizan su inversión: vendiendo la empresa (M&A) o saliendo a bolsa (IPO).' }
-      ]
-    },
-    {
-      id: 'j19', nivel: 6, tema: 'Mercados Globales',
-      nombre: 'Divisas y tipo de cambio',
-      desc: 'Cómo funciona el mercado de monedas internacionales',
-      xpRecompensa: 140, desbloqueaCon: 'j18',
-      preguntas: [
-        { tipo: 'opcion', pregunta: '¿Qué es el tipo de cambio?', opciones: ['El precio de una moneda expresado en otra','La tasa de interés internacional','El precio del oro','La inflación entre dos países'], correcta: 0, explicacion: 'El tipo de cambio te dice cuántos pesos chilenos necesitas para comprar un dólar, euro u otra moneda.' },
-        { tipo: 'simulacion', pregunta: 'El dólar está a $900 CLP. Tienes US$500. ¿Cuántos pesos tienes?', opciones: ['$450.000','$9.000','$4.500','$900.000'], correcta: 0, explicacion: '$500 × $900 = $450.000 pesos chilenos. Así se hace la conversión básica de divisas.' },
-        { tipo: 'opcion', pregunta: '¿Qué hace que el dólar suba en Chile?', opciones: ['Mayor demanda de dólares, incertidumbre o caída del precio del cobre','Que suba la bolsa chilena','Que baje la inflación en EE.UU.','Que el gobierno imprima más pesos'], correcta: 0, explicacion: 'El dólar sube cuando hay más demanda (fuga de capitales, incertidumbre) o cuando cae el precio del cobre, principal exportación de Chile.' },
-        { tipo: 'completar', pregunta: 'El _______ es la moneda de reserva mundial más usada en comercio internacional y transacciones financieras.', opciones: ['dólar','euro','yuan','yen'], correcta: 0, explicacion: 'El dólar estadounidense es la moneda de reserva global. La mayoría de commodities como el petróleo y el cobre se transan en dólares.' },
-        { tipo: 'opcion', pregunta: '¿Por qué es útil tener parte de tus ahorros en dólares?', opciones: ['Protección contra devaluación del peso y diversificación de moneda','Porque siempre sube','Porque el gobierno lo exige','Por menores impuestos'], correcta: 0, explicacion: 'Tener ahorros en dólares protege contra la devaluación del peso local. Es una forma de diversificación que usan muchos inversores latinoamericanos.' },
-        { tipo: 'opcion', pregunta: '¿Qué es el Forex?', opciones: ['El mercado global de intercambio de divisas, el más grande del mundo','La bolsa de valores de Nueva York','Un tipo de criptomoneda','Un índice bursátil internacional'], correcta: 0, explicacion: 'Forex (Foreign Exchange) mueve más de $7 billones diarios, más que todas las bolsas del mundo juntas. Opera 24/7.' },
-        { tipo: 'opcion', pregunta: '¿Cómo afecta el precio del cobre al peso chileno?', opciones: ['Cuando sube el cobre, el peso tiende a fortalecerse frente al dólar','Son completamente independientes','Cuando sube el cobre, sube el dólar en Chile','El cobre no afecta al tipo de cambio'], correcta: 0, explicacion: 'Chile es el mayor productor de cobre del mundo. Cuando el cobre sube, entran más dólares al país, fortaleciendo el peso chileno.' }
-      ]
-    },
-    {
-      id: 'j20', nivel: 6, tema: 'Mercados Globales',
-      nombre: 'Economía global',
-      desc: 'Cómo se conecta la economía mundial con tu bolsillo',
-      xpRecompensa: 140, desbloqueaCon: 'j19',
-      preguntas: [
-        { tipo: 'opcion', pregunta: '¿Qué es el PIB?', opciones: ['El valor total de bienes y servicios producidos en un país en un año','El presupuesto del gobierno','La deuda total del país','El ingreso promedio por persona'], correcta: 0, explicacion: 'El PIB (Producto Interno Bruto) mide el tamaño de la economía. Si crece, hay más empleo y producción. Si cae, hay recesión.' },
-        { tipo: 'opcion', pregunta: '¿Qué es una recesión técnica?', opciones: ['Dos trimestres consecutivos de caída del PIB','Cuando sube el desempleo un mes','Cuando baja la bolsa más de 20%','Cuando hay inflación alta'], correcta: 0, explicacion: 'Se dice que hay recesión técnica cuando el PIB cae dos trimestres seguidos. Generalmente viene con más desempleo y menor consumo.' },
-        { tipo: 'completar', pregunta: 'La _______ de la Reserva Federal de EE.UU. afecta las tasas de interés en todo el mundo, incluyendo Chile.', opciones: ['tasa','deuda','inflación','moneda'], correcta: 0, explicacion: 'Cuando la Fed sube su tasa, el dinero global fluye hacia EE.UU. buscando mayor retorno, afectando las monedas y tasas de todos los países.' },
-        { tipo: 'opcion', pregunta: '¿Qué es un mercado bear o bajista?', opciones: ['Cuando el mercado cae más de 20% desde su máximo','Cuando hay poca liquidez','Cuando suben las tasas de interés','Cuando hay alta inflación'], correcta: 0, explicacion: 'Bear market es una caída sostenida de más de 20%. El opuesto es bull market (mercado alcista). Los osos atacan hacia abajo, los toros hacia arriba.' },
-        { tipo: 'opcion', pregunta: '¿Qué son los commodities?', opciones: ['Materias primas como petróleo, cobre, oro y trigo que se transan globalmente','Acciones de empresas grandes','Monedas de economías emergentes','Bonos de gobiernos'], correcta: 0, explicacion: 'Los commodities son materias primas estandarizadas. Chile exporta cobre (commodity), cuyo precio impacta directamente nuestra economía.' },
-        { tipo: 'opcion', pregunta: '¿Cómo afecta la guerra comercial entre EE.UU. y China a Chile?', opciones: ['Puede afectar el precio del cobre y reducir la demanda de materias primas','No tiene ningún efecto','Solo afecta a empresas que exportan a EE.UU.','Solo afecta al tipo de cambio'], correcta: 0, explicacion: 'China es el mayor comprador del cobre chileno. Cuando la economía china se desacelera por tensiones comerciales, la demanda de cobre cae, afectando a Chile.' },
-        { tipo: 'completar', pregunta: 'Cuando los bancos centrales bajan las tasas de interés, generalmente los precios de las _______ suben porque el dinero busca mayor retorno.', opciones: ['acciones','deudas','monedas','materias primas'], correcta: 0, explicacion: 'Tasas bajas hacen que el dinero salga de instrumentos de renta fija (que pagan menos) y entre a acciones buscando mayor retorno, impulsando su precio.' }
-      ]
-    },
-    {
-      id: 'j21', nivel: 6, tema: 'Retiro y Largo Plazo',
-      nombre: 'Pensiones y jubilación',
-      desc: 'Planifica hoy para vivir bien mañana',
-      xpRecompensa: 150, desbloqueaCon: 'j20',
-      preguntas: [
-        { tipo: 'opcion', pregunta: '¿Qué es el sistema de AFP en Chile?', opciones: ['Sistema de capitalización individual donde ahorras para tu propia jubilación','Un seguro de vida del gobierno','Un fondo mutuo bancario','Un ahorro administrado por el Estado'], correcta: 0, explicacion: 'En Chile cada trabajador ahorra el 10% de su sueldo en su cuenta individual de AFP. Al jubilarte, usas ese fondo para financiarte.' },
-        { tipo: 'opcion', pregunta: '¿Cuántos multifondos existen en la AFP?', opciones: ['5 fondos: A (más riesgo) a E (menos riesgo)','3 fondos','7 fondos','Solo 1 fondo'], correcta: 0, explicacion: 'Existen 5 multifondos (A al E). El A tiene más acciones y más riesgo/retorno. El E es más conservador con bonos. Puedes elegir y cambiar.' },
-        { tipo: 'completar', pregunta: 'El _______ es el período en que idealmente debes hacer crecer tu fondo de pensiones aprovechando el interés compuesto.', opciones: ['largo plazo','corto plazo','mediano plazo','mes a mes'], correcta: 0, explicacion: 'El tiempo es el activo más valioso en las pensiones. Empezar a ahorrar a los 25 puede duplicar lo que tendrás vs empezar a los 35.' },
-        { tipo: 'simulacion', pregunta: 'Si ahorras $50.000 al mes desde los 25 hasta los 65 con 6% de retorno anual, ¿cuánto aprox. tendrás?', opciones: ['~$100.000.000','~$24.000.000','~$50.000.000','~$200.000.000'], correcta: 0, explicacion: 'El interés compuesto a lo largo de 40 años transforma $50.000/mes en ~$100 millones. Este es el poder del ahorro temprano.' },
-        { tipo: 'opcion', pregunta: '¿Qué es la pensión garantizada universal en Chile?', opciones: ['Un beneficio estatal para quienes tienen pensiones bajas','La pensión mínima de la AFP','Un seguro privado de jubilación','El fondo E de la AFP'], correcta: 0, explicacion: 'La PGU garantiza una pensión mínima para quienes tienen fondos insuficientes. Es un complemento del Estado al sistema AFP.' },
-        { tipo: 'opcion', pregunta: '¿Por qué es importante diversificar también la jubilación más allá de la AFP?', opciones: ['Porque la AFP puede no ser suficiente y hay instrumentos complementarios como APV o bienes raíces','Porque la AFP puede quebrar','Porque el Estado puede tomar los fondos','Porque solo funciona en Chile'], correcta: 0, explicacion: 'Los expertos recomiendan no depender solo de la AFP. El APV, bienes raíces y otras inversiones complementan para una jubilación más holgada.' },
-        { tipo: 'opcion', pregunta: '¿Qué es la "regla del 4%" en planificación de retiro?', opciones: ['Puedes retirar el 4% de tu fondo anualmente sin agotarlo en 30 años','Debes ahorrar el 4% de tu sueldo','La AFP cobra 4% de comisión','Tu fondo debe crecer al menos 4% anual'], correcta: 0, explicacion: 'La regla del 4% dice que si tienes un portafolio diversificado, puedes retirar el 4% anual y tu dinero durará ~30 años. Es una guía de planificación.' }
-      ]
-    },
-    {
-      id: 'j22', nivel: 6, tema: 'Retiro y Largo Plazo',
-      nombre: 'Libertad financiera',
-      desc: 'El concepto más avanzado de las finanzas personales',
-      xpRecompensa: 150, desbloqueaCon: 'j21',
-      preguntas: [
-        { tipo: 'opcion', pregunta: '¿Qué es la libertad financiera?', opciones: ['Cuando tus activos generan suficiente ingreso para cubrir tus gastos sin trabajar','Tener mucho dinero en el banco','No tener deudas','Ganar un sueldo muy alto'], correcta: 0, explicacion: 'Libertad financiera es cuando tus inversiones generan ingresos pasivos que cubren tu estilo de vida. Ya no necesitas intercambiar tiempo por dinero.' },
-        { tipo: 'opcion', pregunta: '¿Qué es el movimiento FIRE?', opciones: ['Financial Independence, Retire Early — jubilarse mucho antes ahorrando agresivamente','Un tipo de inversión en energía','Una estrategia de trading','Un fondo de inversión europeo'], correcta: 0, explicacion: 'FIRE propone ahorrar el 50-70% del ingreso durante 10-15 años para jubilarse joven. Requiere frugalidad extrema y buenos retornos de inversión.' },
-        { tipo: 'completar', pregunta: 'El _______ financiero es el punto en que tus ingresos pasivos igualan tus gastos mensuales.', opciones: ['punto de equilibrio','break-even','punto FIRE','capital mínimo'], correcta: 0, explicacion: 'Cuando tus inversiones generan lo mismo que gastas, eres financieramente libre. No importa si trabajas o no — ya cubriste tus necesidades.' },
-        { tipo: 'simulacion', pregunta: 'Gastas $1.500.000 al mes. Con la regla del 4%, ¿cuánto capital necesitas para ser financieramente libre?', opciones: ['$450.000.000','$18.000.000','$150.000.000','$1.000.000.000'], correcta: 0, explicacion: '$1.500.000 × 12 = $18.000.000 al año. $18.000.000 ÷ 4% = $450.000.000. Ese es tu número de libertad financiera.' },
-        { tipo: 'opcion', pregunta: '¿Qué son los ingresos pasivos?', opciones: ['Dinero que recibes sin intercambiar activamente tu tiempo por él','El sueldo de tu trabajo principal','Los bonos de tu empresa','Las comisiones de ventas'], correcta: 0, explicacion: 'Los ingresos pasivos son: arriendo de propiedades, dividendos de acciones, intereses de bonos, regalías. Tu dinero trabaja mientras tú no.' },
-        { tipo: 'opcion', pregunta: '¿Qué es el net worth o patrimonio neto?', opciones: ['Todo lo que tienes menos todo lo que debes','Tu sueldo anual','El valor de tus inversiones','Cuánto tienes en el banco'], correcta: 0, explicacion: 'Net worth = Activos - Pasivos. Es la foto real de tu situación financiera. La libertad financiera se construye aumentando este número.' },
-        { tipo: 'completar', pregunta: 'La _______ financiera se alcanza construyendo activos que generan ingresos, no solo ahorrando dinero en efectivo.', opciones: ['libertad','seguridad','deuda','liquidez'], correcta: 0, explicacion: 'Guardar dinero en efectivo no da libertad financiera porque la inflación lo erosiona. Los activos productivos (acciones, propiedades) son los que generan libertad.' }
-      ]
-    }
+
+  // ═══════════════════════════════
+  // INTRODUCCIÓN — obligatoria para desbloquear todo
+  // ═══════════════════════════════
+  {
+    id: 'intro_1', camino: 'intro', nivel: 1,
+    nombre: '¿Qué es el dinero?',
+    desc: 'El origen y función del dinero en la economía',
+    emoji: '💵', dificultad: 'Fácil', xpRecompensa: 20,
+    desbloqueaCon: null,
+    preguntas: [
+      { tipo: 'opcion', pregunta: '¿Cuál es la función principal del dinero?', opciones: ['Medio de intercambio de bienes y servicios', 'Objeto de colección', 'Material de construcción', 'Herramienta de trabajo'], correcta: 0, explicacion: 'El dinero es un medio de intercambio que permite comprar bienes y pagar servicios sin necesidad de trueque directo.' },
+      { tipo: 'completar', pregunta: 'Antes del dinero, las personas intercambiaban objetos directamente. Eso se llamaba _______.', opciones: ['trueque', 'comercio', 'mercado', 'banca'], correcta: 0, explicacion: 'El trueque es el intercambio directo de bienes sin dinero de por medio. El dinero surgió para facilitar estas transacciones.' },
+      { tipo: 'simulacion', pregunta: 'Tienes $1.000 y compras algo de $600. ¿Cuánto recibes de vuelto?', opciones: ['$400', '$600', '$1.600', '$200'], correcta: 0, explicacion: '$1.000 - $600 = $400 de vuelto. El dinero permite transacciones exactas.' },
+      { tipo: 'opcion', pregunta: '¿Cuál de estas NO es una forma de dinero moderno?', opciones: ['Una piedra del jardín', 'Transferencia bancaria', 'Billete de $1.000', 'Pago con tarjeta'], correcta: 0, explicacion: 'El dinero moderno incluye billetes, monedas y formas digitales como transferencias y pagos electrónicos.' },
+      { tipo: 'opcion', pregunta: '¿Qué le da valor al dinero?', opciones: ['El acuerdo colectivo de que lo tiene', 'El papel con que está hecho', 'El color verde', 'La firma del presidente'], correcta: 0, explicacion: 'El dinero tiene valor porque existe un acuerdo social: todos aceptamos que vale. Sin ese consenso, un billete sería solo papel.' }
+    ]
+  },
+  {
+    id: 'intro_2', camino: 'intro', nivel: 1,
+    nombre: 'Ingresos y gastos',
+    desc: 'La diferencia entre lo que entra y lo que sale',
+    emoji: '⚖️', dificultad: 'Fácil', xpRecompensa: 20,
+    desbloqueaCon: 'intro_1',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '¿Qué es un ingreso?', opciones: ['Dinero que recibes', 'Dinero que gastas', 'Una deuda', 'Un impuesto'], correcta: 0, explicacion: 'Un ingreso es todo el dinero que entra a tu bolsillo: sueldo, mesada, premio, etc.' },
+      { tipo: 'simulacion', pregunta: 'Ganas $50.000 y gastas $35.000. ¿Cuánto te queda?', opciones: ['$15.000', '$85.000', '$50.000', '$35.000'], correcta: 0, explicacion: '$50.000 - $35.000 = $15.000. Eso es tu balance: lo que sobra después de todos los gastos.' },
+      { tipo: 'completar', pregunta: 'Si gastas más de lo que ganas, tu balance es _______.', opciones: ['negativo', 'positivo', 'neutro', 'doble'], correcta: 0, explicacion: 'Balance negativo significa que tus gastos superan tus ingresos. Eso implica deuda si se mantiene en el tiempo.' },
+      { tipo: 'opcion', pregunta: '¿Cuál de estos es un ejemplo de gasto?', opciones: ['Pagar el transporte', 'Recibir la mesada', 'Ganar un concurso', 'Cobrar un trabajo'], correcta: 0, explicacion: 'Un gasto es dinero que sale. El transporte, la comida y el arriendo son gastos típicos.' },
+      { tipo: 'simulacion', pregunta: 'Mes 1: ingresos $200.000, gastos $180.000. Mes 2: ingresos $200.000, gastos $220.000. ¿En qué mes hubo déficit?', opciones: ['Mes 2', 'Mes 1', 'Ambos', 'Ninguno'], correcta: 0, explicacion: 'En el Mes 2 los gastos ($220.000) superaron los ingresos ($200.000), generando un déficit de $20.000.' }
+    ]
+  },
+  {
+    id: 'intro_3', camino: 'intro', nivel: 1,
+    nombre: 'El concepto de ahorro',
+    desc: 'Qué es ahorrar y por qué importa',
+    emoji: '🐷', dificultad: 'Fácil', xpRecompensa: 20,
+    desbloqueaCon: 'intro_2',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '¿Qué es el ahorro?', opciones: ['Parte del ingreso que no se gasta', 'Un tipo de inversión', 'Un préstamo bancario', 'Un impuesto al consumo'], correcta: 0, explicacion: 'El ahorro es la porción de tus ingresos que decides no gastar. Se guarda para uso futuro.' },
+      { tipo: 'simulacion', pregunta: 'Si ahorras $5.000 por mes durante 12 meses, ¿cuánto acumulas?', opciones: ['$60.000', '$5.000', '$12.000', '$120.000'], correcta: 0, explicacion: '$5.000 × 12 = $60.000. El ahorro constante acumula capital con el tiempo.' },
+      { tipo: 'opcion', pregunta: '¿Qué es un fondo de emergencia?', opciones: ['Dinero reservado para gastos imprevistos', 'Una inversión en bolsa', 'Un crédito del banco', 'Un plan de pensiones'], correcta: 0, explicacion: 'El fondo de emergencia cubre gastos inesperados: una enfermedad, un arreglo urgente. Evita endeudarse ante imprevistos.' },
+      { tipo: 'completar', pregunta: 'La regla general recomienda ahorrar al menos el _______ % de los ingresos.', opciones: ['10', '50', '1', '90'], correcta: 0, explicacion: 'El 10% es un punto de referencia común. Significa que de cada $100 que ganas, guardas $10.' },
+      { tipo: 'simulacion', pregunta: 'Tu meta de ahorro es $100.000. Ahorras $8.000 por mes. ¿Cuántos meses necesitas?', opciones: ['13 meses', '8 meses', '10 meses', '100 meses'], correcta: 0, explicacion: '$100.000 ÷ $8.000 = 12,5 → necesitas 13 meses completos para alcanzar la meta.' }
+    ]
+  },
+
+  // ═══════════════════════════════
+  // CAMINO 1: AHORRO Y PRESUPUESTO
+  // ═══════════════════════════════
+  {
+    id: 'ahorro_1', camino: 'ahorro', nivel: 2,
+    nombre: 'Mi primer presupuesto',
+    desc: 'Cómo planificar ingresos y gastos',
+    emoji: '📋', dificultad: 'Fácil', xpRecompensa: 30,
+    desbloqueaCon: 'intro_3',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '¿Qué es un presupuesto?', opciones: ['Plan que organiza ingresos y gastos', 'Un tipo de cuenta bancaria', 'Una tarjeta de crédito', 'Un estado de cuenta'], correcta: 0, explicacion: 'Un presupuesto es un plan financiero que asigna el dinero disponible a diferentes categorías de gasto.' },
+      { tipo: 'opcion', pregunta: '¿Qué es un gasto fijo?', opciones: ['Un gasto que se repite igual cada mes', 'Un gasto que varía cada mes', 'Un gasto de lujo', 'Un gasto imprevisto'], correcta: 0, explicacion: 'Los gastos fijos son predecibles y constantes: arriendo, cuenta de luz, suscripciones mensuales.' },
+      { tipo: 'simulacion', pregunta: 'La regla 50/30/20: 50% necesidades, 30% gustos, 20% ahorro. Con $100.000, ¿cuánto va a ahorro?', opciones: ['$20.000', '$50.000', '$30.000', '$10.000'], correcta: 0, explicacion: '$100.000 × 20% = $20.000 para ahorro.' },
+      { tipo: 'completar', pregunta: 'Los gastos que cambian cada mes, como la comida o el entretenimiento, se llaman gastos _______.', opciones: ['variables', 'fijos', 'nulos', 'dobles'], correcta: 0, explicacion: 'Los gastos variables fluctúan mes a mes. Son más difíciles de controlar pero también más fáciles de reducir.' },
+      { tipo: 'simulacion', pregunta: 'Ingresos: $200.000. Gastos fijos: $80.000. Gastos variables: $70.000. ¿Cuánto queda disponible?', opciones: ['$50.000', '$150.000', '$80.000', '$200.000'], correcta: 0, explicacion: '$200.000 - $80.000 - $70.000 = $50.000 disponibles para ahorro u otros gastos.' }
+    ]
+  },
+  {
+    id: 'ahorro_2', camino: 'ahorro', nivel: 2,
+    nombre: 'Interés simple vs compuesto',
+    desc: 'Cómo crece el dinero con el tiempo',
+    emoji: '📈', dificultad: 'Medio', xpRecompensa: 40,
+    desbloqueaCon: 'ahorro_1',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '¿Qué es el interés simple?', opciones: ['Interés calculado solo sobre el capital inicial', 'Interés sobre intereses acumulados', 'Un tipo de cuenta bancaria', 'La tasa del banco central'], correcta: 0, explicacion: 'El interés simple se calcula siempre sobre el mismo capital. Si depositas $100 al 10% anual, cada año ganas $10.' },
+      { tipo: 'simulacion', pregunta: 'Depositas $100.000 al 5% de interés simple anual. ¿Cuánto tienes después de 2 años?', opciones: ['$110.000', '$105.000', '$100.000', '$115.000'], correcta: 0, explicacion: '$100.000 × 5% = $5.000 por año. En 2 años: $100.000 + $10.000 = $110.000.' },
+      { tipo: 'opcion', pregunta: '¿Qué es el interés compuesto?', opciones: ['Interés que se calcula sobre el capital más los intereses acumulados', 'Interés fijo siempre igual', 'Un impuesto bancario', 'El costo de un préstamo'], correcta: 0, explicacion: 'Con interés compuesto, los intereses se suman al capital y generan más intereses. El dinero crece exponencialmente.' },
+      { tipo: 'simulacion', pregunta: 'Depositas $100.000 al 10% compuesto anual. Año 1: $110.000. ¿Cuánto tienes al final del año 2?', opciones: ['$121.000', '$120.000', '$110.000', '$100.000'], correcta: 0, explicacion: '$110.000 × 10% = $11.000. Total año 2: $121.000. El interés compuesto genera $1.000 más que el simple.' },
+      { tipo: 'completar', pregunta: 'El interés compuesto hace que los intereses generen más _______, acelerando el crecimiento del capital.', opciones: ['intereses', 'gastos', 'deudas', 'impuestos'], correcta: 0, explicacion: 'Este es el principio del interés compuesto: los intereses se reinvierten y generan nuevos intereses.' }
+    ]
+  },
+  {
+    id: 'ahorro_3', camino: 'ahorro', nivel: 2,
+    nombre: 'Depósitos a plazo',
+    desc: 'Cómo funcionan los instrumentos de ahorro bancario',
+    emoji: '🏦', dificultad: 'Medio', xpRecompensa: 40,
+    desbloqueaCon: 'ahorro_2',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '¿Qué es un depósito a plazo?', opciones: ['Dinero depositado en el banco por un período fijo a cambio de una tasa de interés', 'Una cuenta corriente sin límite', 'Un préstamo bancario', 'Una tarjeta de débito'], correcta: 0, explicacion: 'En un depósito a plazo el banco paga una tasa de interés pactada a cambio de que no retires el dinero durante el plazo acordado.' },
+      { tipo: 'simulacion', pregunta: 'Depositas $500.000 a 90 días al 4% anual. ¿Cuánto interés ganas aproximadamente?', opciones: ['$4.932', '$20.000', '$500', '$2.000'], correcta: 0, explicacion: '$500.000 × 4% × (90/365) ≈ $4.932.' },
+      { tipo: 'opcion', pregunta: '¿Qué pasa si retiras un depósito a plazo antes del vencimiento?', opciones: ['Generalmente pierdes parte o todo el interés pactado', 'Ganas más interés por el retiro anticipado', 'No pasa nada, es igual', 'El banco te cobra una multa fija de $100.000'], correcta: 0, explicacion: 'El retiro anticipado de un depósito a plazo generalmente implica una penalización en los intereses.' },
+      { tipo: 'completar', pregunta: 'A mayor _______ de un depósito a plazo, generalmente mayor es la tasa de interés ofrecida.', opciones: ['plazo', 'riesgo', 'liquidez', 'gasto'], correcta: 0, explicacion: 'Los bancos ofrecen tasas más altas por plazos más largos porque tienen el dinero disponible por más tiempo.' },
+      { tipo: 'opcion', pregunta: '¿Qué es la cuenta de ahorro a diferencia del depósito a plazo?', opciones: ['Permite depósitos y retiros en cualquier momento con menor tasa de interés', 'Tiene mayor tasa de interés', 'Requiere plazo mínimo de 1 año', 'No genera intereses'], correcta: 0, explicacion: 'La cuenta de ahorro tiene mayor liquidez pero generalmente ofrece menor tasa de interés que el depósito a plazo.' }
+    ]
+  },
+
+  // ═══════════════════════════════
+  // CAMINO 2: INVERSIÓN Y BOLSA
+  // ═══════════════════════════════
+  {
+    id: 'bolsa_1', camino: 'bolsa', nivel: 2,
+    nombre: '¿Qué es invertir?',
+    desc: 'Diferencia entre ahorrar e invertir',
+    emoji: '🌱', dificultad: 'Fácil', xpRecompensa: 30,
+    desbloqueaCon: 'intro_3',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '¿Cuál es la diferencia principal entre ahorrar e invertir?', opciones: ['Invertir busca hacer crecer el dinero asumiendo riesgo; ahorrar lo conserva con menor riesgo', 'Son lo mismo', 'Ahorrar siempre da más dinero', 'Invertir no tiene riesgo'], correcta: 0, explicacion: 'Ahorrar conserva el capital con bajo riesgo. Invertir busca aumentarlo asumiendo la posibilidad de pérdida.' },
+      { tipo: 'opcion', pregunta: '¿Qué es una acción?', opciones: ['Una fracción de la propiedad de una empresa', 'Un préstamo al banco', 'Un tipo de moneda', 'Un depósito a plazo'], correcta: 0, explicacion: 'Comprar una acción te hace propietario de una parte proporcional de esa empresa.' },
+      { tipo: 'simulacion', pregunta: 'Compras 10 acciones a $1.000 cada una. El precio sube a $1.200. ¿Cuánto valen ahora tus acciones?', opciones: ['$12.000', '$10.000', '$2.000', '$1.200'], correcta: 0, explicacion: '10 acciones × $1.200 = $12.000. Ganaste $2.000 sobre tu inversión inicial de $10.000.' },
+      { tipo: 'opcion', pregunta: '¿Qué es un bono?', opciones: ['Un préstamo que le haces a una empresa o gobierno a cambio de intereses', 'Una acción preferente', 'Un tipo de cuenta bancaria', 'Un fondo mutuo'], correcta: 0, explicacion: 'Al comprar un bono le prestas dinero al emisor (empresa o gobierno) que se compromete a devolverlo con intereses.' },
+      { tipo: 'completar', pregunta: 'A mayor retorno esperado de una inversión, mayor es el _______ asociado.', opciones: ['riesgo', 'ahorro', 'plazo', 'descuento'], correcta: 0, explicacion: 'Esta es la relación fundamental en finanzas: mayor retorno potencial implica mayor riesgo de pérdida.' }
+    ]
+  },
+  {
+    id: 'bolsa_2', camino: 'bolsa', nivel: 2,
+    nombre: 'La bolsa de valores',
+    desc: 'Cómo funciona el mercado de acciones',
+    emoji: '🏛️', dificultad: 'Fácil', xpRecompensa: 30,
+    desbloqueaCon: 'bolsa_1',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '¿Qué es la bolsa de valores?', opciones: ['Mercado organizado donde se compran y venden instrumentos financieros', 'Un banco especializado', 'Una tienda de divisas', 'Una institución del gobierno'], correcta: 0, explicacion: 'La bolsa es un mercado regulado donde participantes compran y venden acciones, bonos y otros instrumentos.' },
+      { tipo: 'opcion', pregunta: '¿Qué es el S&P 500?', opciones: ['Índice que mide el desempeño de las 500 mayores empresas de EE.UU.', 'El precio del dólar', 'Una empresa de tecnología', 'El índice de la bolsa chilena'], correcta: 0, explicacion: 'El S&P 500 es un índice bursátil que agrupa las 500 empresas más grandes de EE.UU. por capitalización de mercado.' },
+      { tipo: 'simulacion', pregunta: 'Una acción abre en $100 y cierra en $97. ¿Cuál es el cambio porcentual?', opciones: ['-3%', '+3%', '-97%', '+97%'], correcta: 0, explicacion: '($97 - $100) ÷ $100 × 100 = -3%. La acción bajó un 3% en el día.' },
+      { tipo: 'opcion', pregunta: '¿Qué significa que una acción paga dividendos?', opciones: ['La empresa distribuye parte de sus utilidades a los accionistas', 'La acción sube de precio automáticamente', 'El accionista debe pagar al banco', 'La empresa devuelve el capital invertido'], correcta: 0, explicacion: 'Los dividendos son distribuciones de utilidades que la empresa hace a sus accionistas, generalmente en efectivo.' },
+      { tipo: 'opcion', pregunta: '¿Qué es el market cap o capitalización de mercado?', opciones: ['Precio de la acción multiplicado por el número total de acciones', 'Las utilidades anuales de la empresa', 'La deuda total de la empresa', 'El precio máximo histórico de la acción'], correcta: 0, explicacion: 'Market cap = precio acción × número de acciones. Indica el valor total de mercado de una empresa.' }
+    ]
+  },
+  {
+    id: 'bolsa_3', camino: 'bolsa', nivel: 2,
+    nombre: 'ETFs e índices',
+    desc: 'Invertir en canastas de activos',
+    emoji: '🧺', dificultad: 'Medio', xpRecompensa: 40,
+    desbloqueaCon: 'bolsa_2',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '¿Qué es un ETF?', opciones: ['Fondo que agrupa múltiples activos y se transa en bolsa como una acción', 'Una acción individual de alta tecnología', 'Un tipo de bono gubernamental', 'Una cuenta de ahorro indexada'], correcta: 0, explicacion: 'ETF (Exchange Traded Fund) es un fondo que replica un índice o canasta de activos y se compra/vende en bolsa.' },
+      { tipo: 'opcion', pregunta: '¿Qué ventaja tiene un ETF sobre comprar acciones individuales?', opciones: ['Diversificación automática con una sola compra', 'Mayor retorno garantizado', 'Sin comisiones de ningún tipo', 'Protección total ante pérdidas'], correcta: 0, explicacion: 'Un ETF del S&P 500 da exposición a 500 empresas con una sola transacción, diversificando automáticamente.' },
+      { tipo: 'simulacion', pregunta: 'Un ETF tiene 100 acciones de diferentes empresas. Una empresa quiebra. ¿Qué porcentaje máximo pierdes?', opciones: ['1%', '100%', '50%', '10%'], correcta: 0, explicacion: 'Si una de 100 empresas quiebra y tenía igual ponderación, pierdes aproximadamente 1% del total. Eso es diversificación.' },
+      { tipo: 'completar', pregunta: 'El VOO es un ETF que replica el desempeño del índice _______.', opciones: ['S&P 500', 'NASDAQ', 'Dow Jones', 'Russell 2000'], correcta: 0, explicacion: 'VOO es el ETF de Vanguard que sigue al S&P 500, compuesto por las 500 mayores empresas de EE.UU.' },
+      { tipo: 'opcion', pregunta: '¿Qué es el TER o costo total de un ETF?', opciones: ['El porcentaje anual que cobra el fondo por administración', 'El precio de compra de una cuota', 'La diferencia entre precio de compra y venta', 'El impuesto que cobra el gobierno'], correcta: 0, explicacion: 'El TER (Total Expense Ratio) es el costo anual de administración del ETF, expresado como porcentaje del capital invertido.' }
+    ]
+  },
+  {
+    id: 'bolsa_4', camino: 'bolsa', nivel: 2,
+    nombre: 'Análisis de una acción',
+    desc: 'Cómo leer los datos de una empresa',
+    emoji: '🔍', dificultad: 'Difícil', xpRecompensa: 60,
+    desbloqueaCon: 'bolsa_3',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '¿Qué mide el ratio P/E (precio/utilidad)?', opciones: ['Cuántas veces el precio de la acción cubre las utilidades anuales por acción', 'El precio de la acción dividido por el número de empleados', 'La deuda de la empresa sobre sus activos', 'El dividendo anual por acción'], correcta: 0, explicacion: 'P/E = Precio / Utilidad por acción. Un P/E de 20 significa que pagas $20 por cada $1 de utilidad anual.' },
+      { tipo: 'simulacion', pregunta: 'Una acción cuesta $500 y la empresa gana $25 por acción al año. ¿Cuál es el P/E?', opciones: ['20', '25', '500', '0.05'], correcta: 0, explicacion: 'P/E = $500 ÷ $25 = 20. Los inversores pagan 20 veces las utilidades anuales por esta acción.' },
+      { tipo: 'opcion', pregunta: '¿Qué son los ingresos (revenue) de una empresa?', opciones: ['El total de ventas antes de descontar costos', 'Las utilidades netas después de impuestos', 'El valor de los activos totales', 'El dinero en caja'], correcta: 0, explicacion: 'Revenue o ingresos es el total de ventas de la empresa antes de deducir ningún costo.' },
+      { tipo: 'completar', pregunta: 'La deuda neta de una empresa es su deuda total _______ su efectivo disponible.', opciones: ['menos', 'más', 'multiplicada por', 'dividida por'], correcta: 0, explicacion: 'Deuda neta = Deuda total - Efectivo. Indica cuánta deuda real tiene la empresa considerando sus recursos líquidos.' },
+      { tipo: 'opcion', pregunta: '¿Qué indica un ROE (retorno sobre patrimonio) alto?', opciones: ['La empresa genera mucha utilidad por cada peso de capital de los accionistas', 'La empresa tiene mucha deuda', 'El precio de la acción está alto', 'Los dividendos son altos'], correcta: 0, explicacion: 'ROE = Utilidad neta ÷ Patrimonio. Un ROE alto indica que la empresa es eficiente generando ganancias con el capital invertido.' }
+    ]
+  },
+
+  // ═══════════════════════════════
+  // CAMINO 3: CRIPTOMONEDAS
+  // ═══════════════════════════════
+  {
+    id: 'cripto_1', camino: 'cripto', nivel: 2,
+    nombre: 'Qué son las criptomonedas',
+    desc: 'Fundamentos de los activos digitales',
+    emoji: '🪙', dificultad: 'Fácil', xpRecompensa: 30,
+    desbloqueaCon: 'intro_3',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '¿Qué es una criptomoneda?', opciones: ['Moneda digital que opera sin banco central usando criptografía', 'Una moneda extranjera digital', 'Un tipo de acción tecnológica', 'Un bono digital del gobierno'], correcta: 0, explicacion: 'Las criptomonedas son monedas digitales descentralizadas que usan criptografía para asegurar transacciones sin intermediarios.' },
+      { tipo: 'opcion', pregunta: '¿Qué es el Bitcoin?', opciones: ['La primera criptomoneda descentralizada, creada en 2009', 'Una empresa de pagos digitales', 'Una moneda creada por el gobierno de EE.UU.', 'Un tipo de ETF tecnológico'], correcta: 0, explicacion: 'Bitcoin fue creado en 2009 por Satoshi Nakamoto. Tiene un límite máximo de 21 millones de unidades.' },
+      { tipo: 'completar', pregunta: 'La tecnología que registra todas las transacciones de criptomonedas se llama _______.', opciones: ['blockchain', 'internet', 'nube', 'servidor'], correcta: 0, explicacion: 'Blockchain es una cadena de bloques de datos inmutable y distribuida. Cada transacción queda registrada permanentemente.' },
+      { tipo: 'opcion', pregunta: '¿Cuál es la característica principal de las criptomonedas respecto a los bancos?', opciones: ['Son descentralizadas: ningún banco o gobierno las controla', 'Son más seguras que el dinero físico', 'Están respaldadas por oro', 'Son emitidas por bancos centrales'], correcta: 0, explicacion: 'La descentralización es la característica definitoria: las criptos operan en redes distribuidas sin autoridad central.' },
+      { tipo: 'opcion', pregunta: '¿Cuál es el mayor riesgo conocido de las criptomonedas?', opciones: ['Alta volatilidad de precio', 'Que el gobierno las prohíba globalmente', 'Que se acabe el internet', 'Que los bancos las copien'], correcta: 0, explicacion: 'Las criptomonedas pueden perder el 80% de su valor en meses. Bitcoin ha tenido múltiples caídas superiores al 80% en su historia.' }
+    ]
+  },
+  {
+    id: 'cripto_2', camino: 'cripto', nivel: 2,
+    nombre: 'Cómo funciona blockchain',
+    desc: 'La tecnología detrás de las criptomonedas',
+    emoji: '🔗', dificultad: 'Medio', xpRecompensa: 40,
+    desbloqueaCon: 'cripto_1',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '¿Qué es un bloque en blockchain?', opciones: ['Un conjunto de transacciones verificadas agrupadas', 'Una criptomoneda específica', 'Una wallet digital', 'Un tipo de contrato'], correcta: 0, explicacion: 'Cada bloque contiene un grupo de transacciones verificadas, la hora, y un código que lo vincula al bloque anterior.' },
+      { tipo: 'opcion', pregunta: '¿Qué es el mining o minería de criptomonedas?', opciones: ['Proceso de verificar transacciones y añadir nuevos bloques a cambio de una recompensa', 'Comprar criptomonedas en exchanges', 'Crear una nueva criptomoneda', 'Guardar criptomonedas en una wallet'], correcta: 0, explicacion: 'Los mineros usan poder computacional para verificar transacciones y añadir bloques. La recompensa son nuevas unidades de la criptomoneda.' },
+      { tipo: 'completar', pregunta: 'Una vez registrada en blockchain, una transacción es prácticamente _______ de modificar.', opciones: ['imposible', 'fácil', 'costosa', 'lenta'], correcta: 0, explicacion: 'La inmutabilidad es una propiedad clave del blockchain: los registros no pueden alterarse sin romper toda la cadena posterior.' },
+      { tipo: 'opcion', pregunta: '¿Qué es Ethereum a diferencia de Bitcoin?', opciones: ['Una blockchain que permite contratos inteligentes y aplicaciones descentralizadas', 'Una versión mejorada de Bitcoin', 'Una criptomoneda emitida por Europa', 'Un tipo de ETF de criptomonedas'], correcta: 0, explicacion: 'Ethereum introdujo los contratos inteligentes: programas que se ejecutan automáticamente en la blockchain.' },
+      { tipo: 'opcion', pregunta: '¿Qué es una wallet de criptomonedas?', opciones: ['Software que almacena las claves para acceder a tus criptomonedas en la blockchain', 'Una cuenta bancaria digital', 'Un exchange de criptomonedas', 'Una aplicación para comprar Bitcoin'], correcta: 0, explicacion: 'La wallet no guarda las criptos (que están en blockchain), sino las claves privadas que permiten acceder a ellas.' }
+    ]
+  },
+  {
+    id: 'cripto_3', camino: 'cripto', nivel: 2,
+    nombre: 'El ecosistema cripto',
+    desc: 'Exchanges, stablecoins y DeFi',
+    emoji: '🌐', dificultad: 'Difícil', xpRecompensa: 60,
+    desbloqueaCon: 'cripto_2',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '¿Qué es un exchange de criptomonedas?', opciones: ['Plataforma donde se compran y venden criptomonedas', 'Una wallet descentralizada', 'Un tipo de blockchain', 'Una criptomoneda estable'], correcta: 0, explicacion: 'Los exchanges son mercados de criptomonedas. Pueden ser centralizados (CEX, como Binance) o descentralizados (DEX).' },
+      { tipo: 'opcion', pregunta: '¿Qué es una stablecoin?', opciones: ['Criptomoneda cuyo valor está atado a un activo estable como el dólar', 'La criptomoneda más antigua', 'Una cripto con bajo volumen de trading', 'Un tipo de NFT'], correcta: 0, explicacion: 'Stablecoins como USDT o USDC mantienen valor 1:1 con el dólar, reduciendo la volatilidad típica de las criptomonedas.' },
+      { tipo: 'completar', pregunta: 'DeFi significa Finanzas _______, servicios financieros sin intermediarios centralizados.', opciones: ['Descentralizadas', 'Digitales', 'Derivadas', 'Directas'], correcta: 0, explicacion: 'DeFi (Decentralized Finance) reemplaza bancos e intermediarios con contratos inteligentes en blockchain.' },
+      { tipo: 'opcion', pregunta: '¿Qué significa "not your keys, not your coins"?', opciones: ['Sin tus claves privadas, no tienes control real de tus criptomonedas', 'Debes guardar físicamente tus monedas', 'Las criptos no son tuyas legalmente', 'Solo los bancos pueden guardar criptomonedas'], correcta: 0, explicacion: 'Si almacenas en un exchange y este quiebra o es hackeado, puedes perder todo. Controlar las claves privadas es controlar los fondos.' },
+      { tipo: 'opcion', pregunta: '¿Qué es el halving de Bitcoin?', opciones: ['Evento cada ~4 años que reduce a la mitad la recompensa por minar', 'Cuando el precio de Bitcoin baja 50%', 'La división de Bitcoin en dos monedas', 'El límite máximo de emisión de Bitcoin'], correcta: 0, explicacion: 'El halving reduce la cantidad de Bitcoin nuevo que se crea. Históricamente ha impactado la dinámica de oferta y precio.' }
+    ]
+  },
+
+  // ═══════════════════════════════
+  // CAMINO 4: BIENES RAÍCES
+  // ═══════════════════════════════
+  {
+    id: 'bienes_1', camino: 'bienes_raices', nivel: 2,
+    nombre: 'Inversión inmobiliaria básica',
+    desc: 'Fundamentos de invertir en propiedades',
+    emoji: '🏠', dificultad: 'Fácil', xpRecompensa: 30,
+    desbloqueaCon: 'intro_3',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '¿Por qué se considera la propiedad raíz un activo?', opciones: ['Genera renta por arriendo y puede apreciarse con el tiempo', 'Nunca pierde valor', 'Es completamente líquida', 'No requiere mantenimiento'], correcta: 0, explicacion: 'Los bienes raíces son activos porque pueden generar ingresos por arriendo y apreciarse en valor a lo largo del tiempo.' },
+      { tipo: 'simulacion', pregunta: 'Compras una propiedad en $80M y la arriendas en $400.000/mes. ¿Cuál es el cap rate anual?', opciones: ['6%', '4%', '8%', '0.5%'], correcta: 0, explicacion: 'Cap rate = (Arriendo anual ÷ Precio) = ($4.800.000 ÷ $80.000.000) = 6%.' },
+      { tipo: 'opcion', pregunta: '¿Qué es la plusvalía de una propiedad?', opciones: ['El aumento de valor de la propiedad con el tiempo', 'El ingreso por arriendo mensual', 'El costo de las reparaciones', 'El impuesto territorial'], correcta: 0, explicacion: 'La plusvalía es la ganancia de capital: el incremento en el precio de la propiedad desde su compra.' },
+      { tipo: 'completar', pregunta: 'La principal desventaja de invertir en propiedades es su baja _______, ya que venderla puede tomar meses.', opciones: ['liquidez', 'rentabilidad', 'seguridad', 'accesibilidad'], correcta: 0, explicacion: 'A diferencia de las acciones, una propiedad no se puede vender inmediatamente. El proceso puede durar meses.' },
+      { tipo: 'opcion', pregunta: '¿Qué es un REIT?', opciones: ['Fondo que invierte en bienes raíces y se transa en bolsa', 'Un contrato de arriendo especial', 'Un tipo de hipoteca', 'Una empresa constructora'], correcta: 0, explicacion: 'REIT (Real Estate Investment Trust) permite invertir en bienes raíces desde montos pequeños, como si fuera una acción en bolsa.' }
+    ]
+  },
+  {
+    id: 'bienes_2', camino: 'bienes_raices', nivel: 2,
+    nombre: 'Financiamiento y apalancamiento',
+    desc: 'Cómo usar deuda para comprar propiedades',
+    emoji: '🏗️', dificultad: 'Medio', xpRecompensa: 40,
+    desbloqueaCon: 'bienes_1',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '¿Qué es una hipoteca?', opciones: ['Préstamo bancario para comprar propiedad, con la misma como garantía', 'Un tipo de arriendo especial', 'Un seguro de la propiedad', 'Un impuesto a la compraventa'], correcta: 0, explicacion: 'Una hipoteca es un crédito donde la propiedad sirve como garantía. Si no pagas, el banco puede quedarse con ella.' },
+      { tipo: 'simulacion', pregunta: 'Compras propiedad de $100M poniendo $20M propios y $80M con hipoteca. La propiedad sube a $120M. ¿Cuánto ganaste sobre tu capital propio?', opciones: ['100%', '20%', '25%', '80%'], correcta: 0, explicacion: 'Ganaste $20M sobre una inversión propia de $20M = 100% de retorno. Eso es el efecto del apalancamiento.' },
+      { tipo: 'opcion', pregunta: '¿Qué es el pie o cuota inicial en la compra de una propiedad?', opciones: ['El porcentaje del precio que se paga al contado', 'La primera cuota de la hipoteca', 'Los gastos notariales', 'El impuesto de compraventa'], correcta: 0, explicacion: 'El pie es el pago inicial al contado. En Chile suele ser el 20-30% del valor de la propiedad.' },
+      { tipo: 'completar', pregunta: 'El apalancamiento amplifica tanto las _______ como las pérdidas de una inversión.', opciones: ['ganancias', 'deudas', 'arriendos', 'impuestos'], correcta: 0, explicacion: 'El apalancamiento es una espada de doble filo: magnifica los retornos positivos pero también las pérdidas.' },
+      { tipo: 'opcion', pregunta: '¿Qué es la tasa de interés de una hipoteca fija?', opciones: ['Tasa que no cambia durante toda la vida del crédito', 'Tasa que sube con la inflación', 'Tasa que varía según el mercado mensualmente', 'Tasa subsidiada por el gobierno'], correcta: 0, explicacion: 'Con tasa fija, el dividendo mensual no cambia durante el plazo del crédito, independiente de las variaciones del mercado.' }
+    ]
+  },
+
+  // ═══════════════════════════════
+  // CAMINO 5: EMPRENDIMIENTO
+  // ═══════════════════════════════
+  {
+    id: 'emprend_1', camino: 'emprendimiento', nivel: 2,
+    nombre: 'Finanzas de un negocio',
+    desc: 'Los conceptos financieros básicos de toda empresa',
+    emoji: '🚀', dificultad: 'Fácil', xpRecompensa: 30,
+    desbloqueaCon: 'intro_3',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '¿Qué es el capital de trabajo?', opciones: ['Dinero disponible para las operaciones diarias del negocio', 'La inversión inicial del negocio', 'Las utilidades del último mes', 'El patrimonio total de la empresa'], correcta: 0, explicacion: 'El capital de trabajo es el dinero que necesitas para operar: pagar sueldos, proveedores y gastos corrientes.' },
+      { tipo: 'opcion', pregunta: '¿Qué es el flujo de caja (cashflow)?', opciones: ['El movimiento real de dinero que entra y sale del negocio', 'Las utilidades contables', 'El valor de los activos', 'Las ventas brutas'], correcta: 0, explicacion: 'Cashflow es el dinero real que entra y sale. Un negocio puede tener utilidades contables pero morir por falta de caja.' },
+      { tipo: 'simulacion', pregunta: 'Tu negocio tiene costos fijos de $500.000/mes y gana $200 por producto. ¿Cuántos debes vender para cubrir costos?', opciones: ['2.500 unidades', '500 unidades', '200 unidades', '5.000 unidades'], correcta: 0, explicacion: '$500.000 ÷ $200 = 2.500 unidades. Ese es el punto de equilibrio.' },
+      { tipo: 'completar', pregunta: 'El punto de equilibrio es cuando los ingresos igualan los _______, sin ganancia ni pérdida.', opciones: ['costos', 'activos', 'impuestos', 'dividendos'], correcta: 0, explicacion: 'En el punto de equilibrio (break-even) los ingresos cubren exactamente todos los costos. Sobre ese punto hay ganancia.' },
+      { tipo: 'opcion', pregunta: '¿Qué significa que un negocio es rentable?', opciones: ['Sus ingresos superan sus costos totales', 'Tiene muchos empleados', 'Está registrado legalmente', 'Tiene muchas ventas aunque gaste más'], correcta: 0, explicacion: 'Rentabilidad significa que los ingresos superan todos los costos, generando utilidad neta positiva.' }
+    ]
+  },
+  {
+    id: 'emprend_2', camino: 'emprendimiento', nivel: 2,
+    nombre: 'Valorización y financiamiento',
+    desc: 'Cómo se valora y financia una startup',
+    emoji: '💼', dificultad: 'Medio', xpRecompensa: 40,
+    desbloqueaCon: 'emprend_1',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '¿Qué es el equity de una empresa?', opciones: ['La parte de la empresa que pertenece a los dueños (activos menos pasivos)', 'Las deudas totales', 'Las ventas anuales', 'El efectivo en caja'], correcta: 0, explicacion: 'Equity = Activos - Pasivos. Es el valor neto que pertenece a los accionistas.' },
+      { tipo: 'simulacion', pregunta: 'Tu startup vale $1.000.000 pre-money. Un inversor pone $250.000. ¿Qué porcentaje recibe?', opciones: ['20%', '25%', '10%', '33%'], correcta: 0, explicacion: 'Post-money = $1.250.000. El inversor pone $250.000 ÷ $1.250.000 = 20% de la empresa.' },
+      { tipo: 'opcion', pregunta: '¿Qué es la dilución en el contexto de startups?', opciones: ['Reducción del porcentaje de propiedad al emitir nuevas acciones', 'La reducción de las ventas', 'El retiro de un socio', 'La disminución del valor de la empresa'], correcta: 0, explicacion: 'Cuando entran nuevos inversores y se emiten acciones, el porcentaje de los dueños anteriores se reduce.' },
+      { tipo: 'completar', pregunta: 'El EBITDA mide las ganancias antes de intereses, impuestos, depreciación y _______.', opciones: ['amortización', 'ventas', 'dividendos', 'activos'], correcta: 0, explicacion: 'EBITDA (Earnings Before Interest, Taxes, Depreciation and Amortization) mide la rentabilidad operativa pura del negocio.' },
+      { tipo: 'opcion', pregunta: '¿Qué es el venture capital?', opciones: ['Inversión en startups de alto crecimiento a cambio de participación accionaria', 'Un préstamo bancario para empresas', 'Una subvención gubernamental', 'Un fondo de pensiones'], correcta: 0, explicacion: 'El venture capital financia startups con alto potencial a cambio de acciones. Los inversores asumen alto riesgo buscando altos retornos.' }
+    ]
+  },
+
+  // ═══════════════════════════════
+  // CAMINO 6: ECONOMÍA Y MACRO
+  // ═══════════════════════════════
+  {
+    id: 'macro_1', camino: 'economia', nivel: 2,
+    nombre: 'Inflación y poder adquisitivo',
+    desc: 'Cómo los precios afectan tu dinero',
+    emoji: '📉', dificultad: 'Fácil', xpRecompensa: 30,
+    desbloqueaCon: 'intro_3',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '¿Qué es la inflación?', opciones: ['Aumento generalizado y sostenido de precios en la economía', 'El precio del dólar', 'La tasa de interés del banco', 'El crecimiento del PIB'], correcta: 0, explicacion: 'La inflación mide cuánto suben los precios en promedio. Si la inflación es 5%, lo que costaba $100 ahora cuesta $105.' },
+      { tipo: 'simulacion', pregunta: 'La inflación anual es 6%. Un pan que costaba $1.000 hoy, ¿cuánto costará en un año?', opciones: ['$1.060', '$1.600', '$1.006', '$940'], correcta: 0, explicacion: '$1.000 × 6% = $60 de aumento. El pan costará $1.060.' },
+      { tipo: 'opcion', pregunta: '¿Qué le pasa al poder adquisitivo cuando hay inflación?', opciones: ['Disminuye: con el mismo dinero compras menos', 'Aumenta: puedes comprar más', 'Se mantiene igual', 'Depende del país'], correcta: 0, explicacion: 'Con inflación, el mismo dinero compra menos bienes y servicios. El poder adquisitivo es inversamente proporcional a la inflación.' },
+      { tipo: 'completar', pregunta: 'El IPC (Índice de Precios al Consumidor) mide la variación de precios de una _______ representativa de bienes.', opciones: ['canasta', 'bolsa', 'caja', 'cuenta'], correcta: 0, explicacion: 'El IPC es el indicador oficial de inflación. Mide cómo cambian los precios de una canasta representativa de bienes y servicios.' },
+      { tipo: 'opcion', pregunta: '¿Quién controla la inflación en Chile?', opciones: ['El Banco Central de Chile', 'El Ministerio de Hacienda', 'El Presidente de la República', 'Los supermercados'], correcta: 0, explicacion: 'El Banco Central de Chile maneja la política monetaria y usa la tasa de interés como herramienta para controlar la inflación.' }
+    ]
+  },
+  {
+    id: 'macro_2', camino: 'economia', nivel: 2,
+    nombre: 'PIB, tasas e indicadores',
+    desc: 'Los indicadores clave de la economía',
+    emoji: '🌍', dificultad: 'Medio', xpRecompensa: 40,
+    desbloqueaCon: 'macro_1',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '¿Qué es el PIB?', opciones: ['El valor total de bienes y servicios producidos en un país en un año', 'El presupuesto del gobierno', 'La deuda total del país', 'El ingreso promedio por persona'], correcta: 0, explicacion: 'El PIB (Producto Interno Bruto) mide el tamaño de la economía. Si crece, hay más producción y empleo.' },
+      { tipo: 'opcion', pregunta: '¿Qué es una recesión técnica?', opciones: ['Dos trimestres consecutivos de caída del PIB', 'Inflación superior al 10%', 'Caída de la bolsa superior al 20%', 'Desempleo sobre el 15%'], correcta: 0, explicacion: 'Se define recesión técnica cuando el PIB cae durante dos trimestres consecutivos.' },
+      { tipo: 'simulacion', pregunta: 'La tasa de desempleo es 8%. Si hay 1.000.000 de personas en la fuerza laboral, ¿cuántas están desempleadas?', opciones: ['80.000', '8.000', '800.000', '8'], correcta: 0, explicacion: '1.000.000 × 8% = 80.000 personas desempleadas.' },
+      { tipo: 'completar', pregunta: 'Cuando el Banco Central sube la tasa de interés, el crédito se encarece y el consumo tiende a _______.', opciones: ['reducirse', 'aumentar', 'duplicarse', 'mantenerse'], correcta: 0, explicacion: 'Tasas más altas encarecen los préstamos, reduciendo el consumo y la inversión. Es la herramienta principal para controlar la inflación.' },
+      { tipo: 'opcion', pregunta: '¿Qué es el tipo de cambio?', opciones: ['El precio de una moneda expresado en otra', 'La tasa de inflación internacional', 'El precio del oro', 'La tasa de interés global'], correcta: 0, explicacion: 'El tipo de cambio indica cuántas unidades de una moneda se necesitan para comprar una unidad de otra.' }
+    ]
+  },
+
+  // ═══════════════════════════════
+  // CAMINO 7: IMPUESTOS Y ESTADO
+  // ═══════════════════════════════
+  {
+    id: 'impuesto_1', camino: 'impuestos', nivel: 2,
+    nombre: 'Cómo funcionan los impuestos',
+    desc: 'Los impuestos y su rol en la economía',
+    emoji: '📑', dificultad: 'Fácil', xpRecompensa: 30,
+    desbloqueaCon: 'intro_3',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '¿Para qué sirven los impuestos?', opciones: ['Financiar servicios públicos como salud, educación e infraestructura', 'Enriquecer al gobierno', 'Controlar la inflación directamente', 'Regular los precios del mercado'], correcta: 0, explicacion: 'Los impuestos son la principal fuente de financiamiento del Estado para proveer bienes y servicios públicos.' },
+      { tipo: 'opcion', pregunta: '¿Qué es el IVA en Chile?', opciones: ['Impuesto al Valor Agregado del 19% aplicado a la mayoría de bienes y servicios', 'Impuesto a la renta de las empresas', 'Un arancel a las importaciones', 'Impuesto solo al lujo'], correcta: 0, explicacion: 'El IVA en Chile es 19% y se aplica a casi todos los bienes y servicios. Ya viene incluido en los precios que ves.' },
+      { tipo: 'simulacion', pregunta: 'Compras algo en $84.000 con IVA incluido (19%). ¿Cuánto es el precio neto sin IVA?', opciones: ['$70.588', '$65.000', '$80.000', '$84.000'], correcta: 0, explicacion: 'Precio neto = $84.000 ÷ 1,19 = $70.588. El IVA de $13.412 ya está incluido en el precio final.' },
+      { tipo: 'opcion', pregunta: '¿Qué es el impuesto a la renta?', opciones: ['Impuesto que grava los ingresos de personas y empresas', 'Impuesto a las compras', 'Impuesto a las propiedades', 'Impuesto al comercio exterior'], correcta: 0, explicacion: 'El impuesto a la renta grava lo que ganas. En Chile es progresivo: a mayores ingresos, mayor tasa de impuesto.' },
+      { tipo: 'completar', pregunta: 'La evasión de impuestos es _______ y puede resultar en multas y sanciones penales.', opciones: ['ilegal', 'legal', 'opcional', 'recomendable'], correcta: 0, explicacion: 'Evadir impuestos es un delito. Distinto es la planificación tributaria: usar instrumentos legales para pagar menos dentro de la ley.' }
+    ]
+  },
+  {
+    id: 'impuesto_2', camino: 'impuestos', nivel: 2,
+    nombre: 'AFP y pensiones en Chile',
+    desc: 'Cómo funciona el sistema previsional',
+    emoji: '🌅', dificultad: 'Medio', xpRecompensa: 40,
+    desbloqueaCon: 'impuesto_1',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '¿Cómo funciona el sistema de AFP en Chile?', opciones: ['Cada trabajador ahorra el 10% de su sueldo en su cuenta individual para jubilación', 'El Estado administra un fondo común para todos', 'Las empresas pagan las pensiones de sus trabajadores', 'Los trabajadores no contribuyen, solo las empresas'], correcta: 0, explicacion: 'El sistema chileno es de capitalización individual: cada persona ahorra en su propia cuenta y al jubilarse usa esos fondos.' },
+      { tipo: 'opcion', pregunta: '¿Cuántos multifondos existen en las AFP chilenas?', opciones: ['5 (A al E, de mayor a menor riesgo)', '3', '7', '10'], correcta: 0, explicacion: 'Existen 5 multifondos: A (más riesgo/retorno) hasta E (más conservador). Los afiliados pueden elegir y cambiar.' },
+      { tipo: 'simulacion', pregunta: 'Tu sueldo es $800.000 y cotizas 10% en AFP. ¿Cuánto va a tu cuenta mensualmente?', opciones: ['$80.000', '$8.000', '$800', '$800.000'], correcta: 0, explicacion: '$800.000 × 10% = $80.000 mensuales a tu cuenta de AFP.' },
+      { tipo: 'opcion', pregunta: '¿Qué es el APV (Ahorro Previsional Voluntario)?', opciones: ['Ahorro adicional a la AFP con beneficios tributarios del Estado', 'Un seguro de vida obligatorio', 'Un tipo de cuenta corriente', 'La cotización obligatoria del 10%'], correcta: 0, explicacion: 'El APV permite ahorrar más para la jubilación y tiene incentivos del Estado: bonificación del 15% o descuento de impuestos.' },
+      { tipo: 'completar', pregunta: 'A mayor edad, generalmente se recomienda cambiar a multifondos más _______ para proteger el capital acumulado.', opciones: ['conservadores', 'riesgosos', 'líquidos', 'rentables'], correcta: 0, explicacion: 'Con menor tiempo para recuperar pérdidas, los trabajadores mayores suelen preferir fondos con menor riesgo (D o E).' }
+    ]
+  }
+
   ]
 
 };
@@ -3609,110 +3606,134 @@ function irAlJuegoDestacado() {
 // ── Juegos hijo ──────────────────────────────
 
 function renderHijoJuegos() {
-  var uid = FinSeedStore.session.userId || 'u2';
   var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
-  uid = session.id || uid;
+  var uid = session.id || 'u2';
   var prog = getProgresoJuegos(uid);
   var juegos = FinSeedStore.arbolJuegos;
   var el = document.getElementById('kp-juegos');
   if (!el) return;
 
-  // Agrupar por tema
-  var temas = {};
-  var temasOrden = [];
-  juegos.forEach(function(j) {
-    if (!temas[j.tema]) { temas[j.tema] = []; temasOrden.push(j.tema); }
-    temas[j.tema].push(j);
-  });
+  var completados = Object.keys(prog).filter(function(k) { return prog[k].completado; }).length;
+  var xpTotal = Object.keys(prog).reduce(function(s,k) { return s + (prog[k].xpGanado||0); }, 0);
 
-  var completadosTotal = Object.keys(prog).filter(function(k) { return prog[k].completado; }).length;
-  var xpTotal = Object.keys(prog).reduce(function(sum, k) { return sum + (prog[k].xpGanado || 0); }, 0);
-  var pctTotal = Math.round(completadosTotal / juegos.length * 100);
-
-  var html = '<div style="padding:16px">';
+  var html = '<div style="padding:0 0 24px">';
 
   // HEADER STATS
-  html += '<div style="background:linear-gradient(135deg,#14532d,#16a34a);border-radius:16px;padding:16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center">' +
-    '<div><div style="font-size:12px;color:rgba(255,255,255,0.75)">Tu progreso</div>' +
-    '<div style="font-size:22px;font-weight:700;color:white">' + completadosTotal + ' / ' + juegos.length + '</div>' +
-    '<div style="font-size:11px;color:rgba(255,255,255,0.7)">juegos completados</div></div>' +
-    '<div style="text-align:right"><div style="font-size:12px;color:rgba(255,255,255,0.75)">XP ganado</div>' +
-    '<div style="font-size:22px;font-weight:700;color:#86efac">' + xpTotal + '</div>' +
-    '<div style="font-size:11px;color:rgba(255,255,255,0.7)">puntos totales</div></div>' +
+  html += '<div style="background:linear-gradient(135deg,#14532d,#16a34a);padding:20px 16px;display:flex;justify-content:space-between;align-items:center">' +
+    '<div><div style="font-size:13px;color:rgba(255,255,255,0.75)">Tu progreso</div>' +
+    '<div style="font-size:24px;font-weight:700;color:white">' + completados + ' / ' + juegos.length + '</div>' +
+    '<div style="font-size:12px;color:rgba(255,255,255,0.7)">juegos completados</div></div>' +
+    '<div style="text-align:right"><div style="font-size:13px;color:rgba(255,255,255,0.75)">XP ganado</div>' +
+    '<div style="font-size:24px;font-weight:700;color:#86efac">' + xpTotal + '</div>' +
+    '<div style="font-size:12px;color:rgba(255,255,255,0.7)">puntos totales</div></div>' +
     '</div>';
 
-  // BARRA PROGRESO TOTAL
-  html += '<div style="margin-bottom:20px">' +
-    '<div style="display:flex;justify-content:space-between;margin-bottom:6px">' +
-    '<div style="font-size:12px;font-weight:600;color:var(--text-2)">Camino al dominio financiero</div>' +
-    '<div style="font-size:12px;color:var(--text-3)">' + pctTotal + '%</div></div>' +
-    '<div style="background:#f3f4f6;border-radius:8px;height:8px">' +
-    '<div style="background:linear-gradient(90deg,#16a34a,#22c55e);height:8px;border-radius:8px;width:' + pctTotal + '%;transition:width .5s"></div>' +
-    '</div></div>';
+  // INTRO SECTION
+  var juegosIntro = juegos.filter(function(j) { return j.camino === 'intro'; });
+  var introCompleta = juegosIntro.every(function(j) { return prog[j.id] && prog[j.id].completado; });
 
-  // Recordatorio misiones
-  var misionesHoy = getMisionesDelDia(uid);
-  var completadasHoy = misionesHoy.filter(function(m) { return m.completada; }).length;
-  var xpPendiente = misionesHoy.filter(function(m) { return !m.completada; }).reduce(function(s, m) { return s + m.xp; }, 0);
+  html += '<div style="padding:16px 16px 8px">';
+  html += '<div style="font-size:12px;font-weight:700;color:var(--text-3);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">\uD83C\uDF31 Introducci\u00F3n \u2014 empieza aqu\u00ED</div>';
 
-  html += '<div onclick="navigate_k(\'inicio\')" style="background:' + (completadasHoy===3?'#f0fdf4':'#fffbeb') + ';border:1px solid ' + (completadasHoy===3?'#86efac':'#fde68a') + ';border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:16px;cursor:pointer">' +
-    '<div style="font-size:24px">' + (completadasHoy===3?'\uD83C\uDFC6':'\uD83C\uDFAF') + '</div>' +
-    '<div style="flex:1">' +
-    '<div style="font-size:13px;font-weight:600;color:var(--text-1)">' + (completadasHoy===3?'\u00A1Misiones completadas!':'Misiones del d\u00EDa: ' + completadasHoy + '/3') + '</div>' +
-    '<div style="font-size:12px;color:var(--text-3);margin-top:2px">' + (completadasHoy===3?'Vuelve ma\u00F1ana por nuevas misiones':'+' + xpPendiente + ' XP disponibles') + '</div>' +
-    '</div>' +
-    '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>' +
+  juegosIntro.forEach(function(j, idx) {
+    var completado = !!(prog[j.id] && prog[j.id].completado);
+    var desbloqueado = juegoDesbloqueado(j.id, uid);
+    html += renderJuegoCard(j, completado, desbloqueado, !completado && desbloqueado);
+    if (idx < juegosIntro.length - 1) {
+      html += '<div style="width:2px;height:16px;background:' + (completado?'#16a34a':'#e5e7eb') + ';margin:0 auto 0 29px"></div>';
+    }
+  });
+  html += '</div>';
+
+  // CAMINOS TEMÁTICOS
+  var caminos = [
+    { id: 'ahorro',         nombre: 'Ahorro y Presupuesto', emoji: '\uD83D\uDC37', color: '#0284c7', bgColor: '#eff6ff' },
+    { id: 'bolsa',          nombre: 'Inversi\u00F3n y Bolsa',    emoji: '\uD83D\uDCC8', color: '#059669', bgColor: '#f0fdf4' },
+    { id: 'cripto',         nombre: 'Criptomonedas',        emoji: '\uD83E\uDE99', color: '#f59e0b', bgColor: '#fffbeb' },
+    { id: 'bienes_raices',  nombre: 'Bienes Ra\u00EDces',   emoji: '\uD83C\uDFE0', color: '#0891b2', bgColor: '#f0f9ff' },
+    { id: 'emprendimiento', nombre: 'Emprendimiento',       emoji: '\uD83D\uDE80', color: '#7c3aed', bgColor: '#faf5ff' },
+    { id: 'economia',       nombre: 'Econom\u00EDa y Macro', emoji: '\uD83C\uDF0D', color: '#1d4ed8', bgColor: '#eff6ff' },
+    { id: 'impuestos',      nombre: 'Impuestos y Estado',   emoji: '\uD83D\uDCD1', color: '#374151', bgColor: '#f8fafc' }
+  ];
+
+  html += '<div style="padding:0 16px 4px">';
+  html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">' +
+    '<div style="height:1px;flex:1;background:' + (introCompleta?'#16a34a':'#e5e7eb') + '"></div>' +
+    '<div style="font-size:12px;font-weight:700;color:' + (introCompleta?'#16a34a':'var(--text-3)') + ';white-space:nowrap">' + (introCompleta ? '\u2713 Elige tu camino' : '\uD83D\uDD12 Completa la introducci\u00F3n') + '</div>' +
+    '<div style="height:1px;flex:1;background:' + (introCompleta?'#16a34a':'#e5e7eb') + '"></div>' +
     '</div>';
 
-  // ÁRBOL POR TEMAS
-  temasOrden.forEach(function(tema) {
-    var juegosDelTema = temas[tema];
-    var completadosTema = juegosDelTema.filter(function(j) { return prog[j.id] && prog[j.id].completado; }).length;
-    var nivel = juegosDelTema[0].nivel;
-    var temaCompleto = completadosTema === juegosDelTema.length;
-    var primerDesbloqueado = juegoDesbloqueado(juegosDelTema[0].id, uid);
+  html += '<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">';
 
-    html += '<div style="margin-bottom:20px">';
+  caminos.forEach(function(camino) {
+    var juegosCamino = juegos.filter(function(j) { return j.camino === camino.id; });
+    var completadosCamino = juegosCamino.filter(function(j) { return prog[j.id] && prog[j.id].completado; }).length;
+    var disponible = introCompleta;
+    var pct = juegosCamino.length > 0 ? Math.round(completadosCamino / juegosCamino.length * 100) : 0;
 
-    // Cabecera tema
-    html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">' +
-      '<div style="height:1px;width:12px;background:var(--border);flex-shrink:0"></div>' +
-      '<div style="font-size:11px;font-weight:700;color:' + (temaCompleto ? '#16a34a' : primerDesbloqueado ? 'var(--text-2)' : 'var(--text-3)') + ';letter-spacing:0.8px;text-transform:uppercase;white-space:nowrap">' +
-      (temaCompleto ? '\u2713 ' : '') + tema + ' \xB7 Nv.' + nivel + '</div>' +
-      '<div style="height:1px;flex:1;background:var(--border)"></div>' +
-      '<div style="font-size:11px;color:var(--text-3);flex-shrink:0">' + completadosTema + '/' + juegosDelTema.length + '</div>' +
+    html += '<div style="border-radius:16px;overflow:hidden">';
+    html += '<div onclick="' + (disponible ? 'expandirCamino(\'' + camino.id + '\')' : '') + '" id="camino-header-' + camino.id + '" style="background:' + (disponible?camino.bgColor:'#f9fafb') + ';border:1.5px solid ' + (disponible?camino.color:'#e5e7eb') + ';border-radius:16px;padding:16px;cursor:' + (disponible?'pointer':'default') + ';opacity:' + (disponible?'1':'0.5') + '">' +
+      '<div style="display:flex;align-items:center;gap:12px">' +
+      '<div style="width:44px;height:44px;border-radius:12px;background:' + (disponible?'white':'#f3f4f6') + ';display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">' + camino.emoji + '</div>' +
+      '<div style="flex:1">' +
+      '<div style="font-size:14px;font-weight:700;color:' + (disponible?'var(--text-1)':'var(--text-3)') + '">' + camino.nombre + '</div>' +
+      '<div style="font-size:12px;color:var(--text-3);margin-top:2px">' + completadosCamino + ' / ' + juegosCamino.length + ' juegos \u00B7 ' + pct + '%</div>' +
+      '</div>' +
+      '<div style="font-size:20px;color:' + camino.color + ';transition:transform .25s" id="camino-arrow-' + camino.id + '">' + (disponible ? '\u203A' : '\uD83D\uDD12') + '</div>' +
+      '</div>' +
+      (pct > 0 ? '<div style="background:rgba(0,0,0,0.06);border-radius:6px;height:4px;margin-top:12px"><div style="background:' + camino.color + ';height:4px;border-radius:6px;width:' + pct + '%"></div></div>' : '') +
       '</div>';
 
-    // Cards del tema
-    html += '<div style="display:flex;flex-direction:column;gap:8px">';
-    juegosDelTema.forEach(function(j) {
-      var desbloqueado = juegoDesbloqueado(j.id, uid);
+    // Contenido expandible
+    html += '<div id="camino-contenido-' + camino.id + '" style="display:none;padding:8px 0 0;flex-direction:column;gap:8px">';
+    juegosCamino.forEach(function(j) {
       var completado = !!(prog[j.id] && prog[j.id].completado);
-      var bgColor = completado ? '#f0fdf4' : 'white';
-      var borderColor = completado ? '#16a34a' : desbloqueado ? 'var(--border)' : '#e5e7eb';
-      var opacity = desbloqueado ? '1' : '0.5';
-      var icono = completado ? '\u2713' : desbloqueado ? '\u25B6' : '\uD83D\uDD12';
-      var iconoBg = completado ? '#dcfce7' : desbloqueado ? '#f0fdf4' : '#f3f4f6';
-      var iconoColor = completado ? '#16a34a' : desbloqueado ? '#16a34a' : '#9ca3af';
-      var xpColor = completado ? '#16a34a' : desbloqueado ? '#16a34a' : '#9ca3af';
-
-      html += '<div onclick="' + (desbloqueado ? 'abrirJuego(\'' + j.id + '\')' : '') + '" style="background:' + bgColor + ';border:1.5px solid ' + borderColor + ';border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;' + (desbloqueado ? 'cursor:pointer;' : '') + 'opacity:' + opacity + '">' +
-        '<div style="width:42px;height:42px;border-radius:12px;background:' + iconoBg + ';display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;color:' + iconoColor + ';font-weight:700">' + icono + '</div>' +
-        '<div style="flex:1;min-width:0">' +
-          '<div style="font-size:14px;font-weight:600;color:var(--text-1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + j.nombre + '</div>' +
-          '<div style="font-size:11px;color:var(--text-3);margin-top:2px">' + j.desc + '</div>' +
-        '</div>' +
-        '<div style="text-align:right;flex-shrink:0">' +
-          '<div style="font-size:13px;font-weight:700;color:' + xpColor + '">+' + j.xpRecompensa + ' XP</div>' +
-          (completado ? '<div style="font-size:10px;color:#16a34a;margin-top:2px">Completado</div>' : desbloqueado ? '<div style="font-size:10px;color:var(--text-3);margin-top:2px">Disponible</div>' : '<div style="font-size:10px;color:#9ca3af;margin-top:2px">Bloqueado</div>') +
-        '</div>' +
-      '</div>';
+      var desbloqueado = juegoDesbloqueado(j.id, uid);
+      html += renderJuegoCard(j, completado, desbloqueado, !completado && desbloqueado);
     });
-    html += '</div></div>';
+    html += '</div>';
+    html += '</div>';
   });
 
-  html += '</div>';
+  html += '</div>'; // cierra caminos list
+  html += '</div>'; // cierra padding section
+  html += '</div>'; // cierra main div
   el.innerHTML = html;
+}
+
+function renderJuegoCard(j, completado, desbloqueado, esNext) {
+  var bgColor   = completado ? '#f0fdf4' : 'white';
+  var border    = completado ? '#16a34a' : esNext ? '#16a34a' : '#e5e7eb';
+  var opacity   = desbloqueado ? '1' : '0.45';
+  var icono     = completado ? '\u2713' : desbloqueado ? (j.emoji || '\u25B6') : '\uD83D\uDD12';
+  var iconoBg   = completado ? '#dcfce7' : desbloqueado ? '#f0fdf4' : '#f3f4f6';
+  var iconoColor = completado ? '#16a34a' : '#374151';
+  var difColors = { 'F\u00E1cil':'#059669','Medio':'#f59e0b','Dif\u00EDcil':'#dc2626' };
+  var difColor  = difColors[j.dificultad] || '#6b7280';
+  return '<div onclick="' + (desbloqueado ? 'abrirJuego(\'' + j.id + '\')' : '') + '" style="background:' + bgColor + ';border:1.5px solid ' + border + ';border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;' + (desbloqueado?'cursor:pointer;':'') + 'opacity:' + opacity + (esNext?';box-shadow:0 2px 8px rgba(22,163,74,0.15)':'') + '">' +
+    '<div style="width:42px;height:42px;border-radius:12px;background:' + iconoBg + ';display:flex;align-items:center;justify-content:center;font-size:' + (completado?'18px':'22px') + ';flex-shrink:0;color:' + iconoColor + ';font-weight:700">' + icono + '</div>' +
+    '<div style="flex:1;min-width:0">' +
+    '<div style="font-size:14px;font-weight:600;color:var(--text-1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + j.nombre + '</div>' +
+    '<div style="font-size:11px;color:var(--text-3);margin-top:2px">' + j.desc + '</div>' +
+    '<div style="font-size:10px;font-weight:600;color:' + difColor + ';margin-top:4px">' + (j.dificultad||'') + '</div>' +
+    '</div>' +
+    '<div style="text-align:right;flex-shrink:0">' +
+    '<div style="font-size:13px;font-weight:700;color:' + (completado?'#16a34a':'#374151') + '">+' + j.xpRecompensa + ' XP</div>' +
+    (completado ? '<div style="font-size:10px;color:#16a34a;margin-top:2px">\u2713 Completado</div>' : desbloqueado ? '<div style="font-size:10px;color:var(--text-3);margin-top:2px">Disponible</div>' : '<div style="font-size:10px;color:#9ca3af;margin-top:2px">Bloqueado</div>') +
+    '</div>' +
+    '</div>';
+}
+
+function expandirCamino(caminoId) {
+  var contenido = document.getElementById('camino-contenido-' + caminoId);
+  var arrow = document.getElementById('camino-arrow-' + caminoId);
+  if (!contenido) return;
+  var visible = contenido.style.display === 'flex';
+  contenido.style.display = visible ? 'none' : 'flex';
+  contenido.style.flexDirection = 'column';
+  contenido.style.gap = '8px';
+  contenido.style.paddingTop = '8px';
+  if (arrow) arrow.style.transform = visible ? '' : 'rotate(90deg)';
 }
 
 // ── Familia hijo ─────────────────────────────
