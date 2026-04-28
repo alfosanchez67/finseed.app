@@ -6363,6 +6363,10 @@ function terminarSwipeGame() {
   progUser.xp += xp;
   progUser.xpSemana += xp;
   localStorage.setItem('finseed_progreso_' + uid, JSON.stringify(progUser));
+  // Marcar como completado para desbloquear juegos siguientes
+  var progJuegos = getProgresoJuegos(uid);
+  progJuegos[_swipeGameData.id] = { completado: aprobado, xpGanado: xp, fecha: new Date().toISOString() };
+  localStorage.setItem('finseed_juegos_' + uid, JSON.stringify(progJuegos));
   if (typeof actualizarProgresoMisiones === 'function') {
     actualizarProgresoMisiones(uid, 'juegos', 1);
     actualizarProgresoMisiones(uid, 'correctas', _swipeState.aciertos);
@@ -6623,6 +6627,10 @@ function mostrarResultadoBuild() {
   progUser.xp += _buildGameData.xpRecompensa;
   progUser.xpSemana += _buildGameData.xpRecompensa;
   localStorage.setItem('finseed_progreso_' + uid, JSON.stringify(progUser));
+  // Marcar como completado para desbloquear juegos siguientes
+  var progJuegosB = getProgresoJuegos(uid);
+  progJuegosB[_buildGameData.id] = { completado: true, xpGanado: _buildGameData.xpRecompensa, fecha: new Date().toISOString() };
+  localStorage.setItem('finseed_juegos_' + uid, JSON.stringify(progJuegosB));
 
   if (typeof actualizarProgresoMisiones === 'function') {
     actualizarProgresoMisiones(uid, 'juegos', 1);
@@ -6677,3 +6685,4 @@ function cerrarBuildGame() {
 
 </body>
 </html>
+
