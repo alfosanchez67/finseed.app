@@ -118,6 +118,12 @@
       50% { transform: scale(1.05); opacity: 0.85; }
     }
 
+    @keyframes swipeFeedback {
+      0% { transform: translate(-50%,-50%) scale(0.5); opacity: 1; }
+      50% { transform: translate(-50%,-70%) scale(1.2); opacity: 1; }
+      100% { transform: translate(-50%,-90%) scale(1); opacity: 0; }
+    }
+
     .auth-logo-bar {
       width: 36px;
       height: 3px;
@@ -1702,6 +1708,19 @@ var FinSeedStore = {
   },
 
   arbolJuegos: [
+
+  // ═══════════════════════════════
+  // SWIPE — juego especial
+  // ═══════════════════════════════
+  {
+    id: 'swipe_necesidad', camino: 'intro', nivel: 0,
+    nombre: '\u00bfNecesidad o Capricho?',
+    desc: 'Desliza para clasificar en 30 segundos',
+    emoji: '\u{1F0CF}', dificultad: 'F\u00e1cil', xpRecompensa: 40,
+    desbloqueaCon: null,
+    tipoJuego: 'swipe',
+    preguntas: []
+  },
 
   // ═══════════════════════════════
   // INTRODUCCIÓN — obligatoria para desbloquear todo
@@ -4300,6 +4319,10 @@ function abrirJuego(juegoId) {
     return;
   }
   var juego = FinSeedStore.arbolJuegos.find(function(j) { return j.id === juegoId; });
+  if (juego && juego.tipoJuego === 'swipe') {
+    abrirSwipeGame();
+    return;
+  }
   if (!juego) return;
   _juegoActivo     = juego;
   _juegoStep       = 0;
@@ -6000,6 +6023,338 @@ window.addEventListener('DOMContentLoaded', function() {
   </div>
 
 </div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SWIPE GAME: ¿Necesidad o Capricho?                        -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div id="swipe-overlay" style="display:none;position:fixed;inset:0;z-index:10000;background:#f8fafc;flex-direction:column">
+
+  <!-- HEADER -->
+  <div style="background:linear-gradient(135deg,#14532d,#16a34a);padding:44px 16px 16px;display:flex;align-items:center;gap:12px">
+    <div onclick="cerrarSwipeGame()" style="color:white;cursor:pointer;padding:4px">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </div>
+    <div style="flex:1">
+      <div style="font-size:16px;font-weight:700;color:white">&iquest;Necesidad o Capricho?</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.75)">Desliza para clasificar</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.2);border-radius:20px;padding:4px 12px">
+      <span id="swipe-timer" style="font-size:16px;font-weight:700;color:white">30</span>
+      <span style="font-size:12px;color:rgba(255,255,255,0.8)">s</span>
+    </div>
+  </div>
+
+  <!-- BARRA PROGRESO -->
+  <div style="background:#e5e7eb;height:4px">
+    <div id="swipe-progress-bar" style="background:#16a34a;height:4px;width:0%;transition:width .3s"></div>
+  </div>
+
+  <!-- SCORE -->
+  <div style="display:flex;justify-content:center;gap:32px;padding:12px">
+    <div style="text-align:center">
+      <div id="swipe-aciertos" style="font-size:24px;font-weight:700;color:#16a34a">0</div>
+      <div style="font-size:11px;color:var(--text-3)">&#10003; Correctas</div>
+    </div>
+    <div style="text-align:center">
+      <div id="swipe-errores" style="font-size:24px;font-weight:700;color:#dc2626">0</div>
+      <div style="font-size:11px;color:var(--text-3)">&#10007; Errores</div>
+    </div>
+  </div>
+
+  <!-- INDICADORES SWIPE -->
+  <div style="display:flex;justify-content:space-between;padding:0 24px;margin-bottom:8px">
+    <div id="swipe-hint-left" style="background:#fef2f2;border:2px solid #fecaca;border-radius:12px;padding:8px 16px;font-size:13px;font-weight:700;color:#dc2626;opacity:0.4;transition:opacity .15s">&larr; CAPRICHO</div>
+    <div id="swipe-hint-right" style="background:#f0fdf4;border:2px solid #86efac;border-radius:12px;padding:8px 16px;font-size:13px;font-weight:700;color:#16a34a;opacity:0.4;transition:opacity .15s">NECESIDAD &rarr;</div>
+  </div>
+
+  <!-- ÁREA DE CARDS -->
+  <div id="swipe-cards-area" style="flex:1;display:flex;align-items:center;justify-content:center;position:relative;padding:0 16px">
+  </div>
+
+  <!-- INSTRUCCIÓN -->
+  <div style="padding:16px;text-align:center;font-size:13px;color:var(--text-3)">
+    Desliza la card o usa los botones
+  </div>
+
+  <!-- BOTONES ALTERNATIVOS -->
+  <div style="display:flex;gap:12px;padding:0 24px 32px">
+    <div onclick="responderSwipe('capricho')" style="flex:1;background:#fef2f2;border:2px solid #fecaca;border-radius:14px;padding:14px;text-align:center;font-size:14px;font-weight:700;color:#dc2626;cursor:pointer">&larr; Capricho</div>
+    <div onclick="responderSwipe('necesidad')" style="flex:1;background:#f0fdf4;border:2px solid #86efac;border-radius:14px;padding:14px;text-align:center;font-size:14px;font-weight:700;color:#16a34a;cursor:pointer">Necesidad &rarr;</div>
+  </div>
+
+</div>
+
+<!-- RESULTADO SWIPE -->
+<div id="swipe-resultado" style="display:none;position:fixed;inset:0;z-index:10001;background:white;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center">
+  <div id="swipe-resultado-emoji" style="font-size:64px;margin-bottom:16px">&#x1F389;</div>
+  <div id="swipe-resultado-titulo" style="font-size:24px;font-weight:700;color:var(--text-1);margin-bottom:8px">&iexcl;Excelente!</div>
+  <div id="swipe-resultado-desc" style="font-size:15px;color:var(--text-3);margin-bottom:24px"></div>
+  <div style="background:#f0fdf4;border-radius:16px;padding:20px 32px;margin-bottom:24px">
+    <div id="swipe-xp-ganado" style="font-size:36px;font-weight:700;color:#16a34a">+40 XP</div>
+    <div style="font-size:13px;color:#15803d;margin-top:4px">ganados</div>
+  </div>
+  <div style="display:flex;gap:16px;margin-bottom:24px">
+    <div style="text-align:center;background:#f9fafb;border-radius:12px;padding:14px 20px">
+      <div id="swipe-final-aciertos" style="font-size:28px;font-weight:700;color:#16a34a">0</div>
+      <div style="font-size:12px;color:var(--text-3)">correctas</div>
+    </div>
+    <div style="text-align:center;background:#f9fafb;border-radius:12px;padding:14px 20px">
+      <div id="swipe-final-errores" style="font-size:28px;font-weight:700;color:#dc2626">0</div>
+      <div style="font-size:12px;color:var(--text-3)">errores</div>
+    </div>
+  </div>
+  <div onclick="cerrarSwipeGame()" style="background:#16a34a;color:white;padding:14px 48px;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;width:100%">Volver a juegos</div>
+  <div onclick="iniciarSwipeGame()" style="margin-top:12px;font-size:14px;color:#16a34a;cursor:pointer;font-weight:600">Jugar de nuevo</div>
+</div>
+
+<script>
+var _swipeGameData = {
+  id: 'swipe_necesidad',
+  nombre: '\u00bfNecesidad o Capricho?',
+  instruccion: 'Desliza \u2192 si es necesidad, \u2190 si es capricho',
+  xpRecompensa: 40,
+  cards: [
+    { texto: 'Zapatos escolares', emoji: '\ud83d\udc5f', respuesta: 'necesidad', color: '#f0fdf4' },
+    { texto: 'Zapatillas de marca $80.000', emoji: '\ud83d\udc60', respuesta: 'capricho', color: '#fef2f2' },
+    { texto: 'Almuerzo del d\u00eda', emoji: '\ud83c\udf71', respuesta: 'necesidad', color: '#f0fdf4' },
+    { texto: 'Postre extra en el recreo', emoji: '\ud83c\udf70', respuesta: 'capricho', color: '#fef2f2' },
+    { texto: 'Cuadernos para el colegio', emoji: '\ud83d\udcd3', respuesta: 'necesidad', color: '#f0fdf4' },
+    { texto: 'Videojuego nuevo', emoji: '\ud83c\udfae', respuesta: 'capricho', color: '#fef2f2' },
+    { texto: 'Medicamentos cuando est\u00e1s enfermo', emoji: '\ud83d\udc8a', respuesta: 'necesidad', color: '#f0fdf4' },
+    { texto: 'Ropa de \u00faltimo grito', emoji: '\ud83d\udc57', respuesta: 'capricho', color: '#fef2f2' },
+    { texto: 'Transporte al colegio', emoji: '\ud83d\ude8c', respuesta: 'necesidad', color: '#f0fdf4' },
+    { texto: 'Dulces en la tienda', emoji: '\ud83c\udf6c', respuesta: 'capricho', color: '#fef2f2' },
+    { texto: 'Agua para tomar', emoji: '\ud83d\udca7', respuesta: 'necesidad', color: '#f0fdf4' },
+    { texto: 'Juguete que ya tienes igual', emoji: '\ud83e\uddf8', respuesta: 'capricho', color: '#fef2f2' },
+    { texto: 'Libro de texto del colegio', emoji: '\ud83d\udcda', respuesta: 'necesidad', color: '#f0fdf4' },
+    { texto: 'Suscripci\u00f3n de streaming', emoji: '\ud83d\udcfa', respuesta: 'capricho', color: '#fef2f2' },
+    { texto: 'Abrigo para el invierno', emoji: '\ud83e\udde5', respuesta: 'necesidad', color: '#f0fdf4' }
+  ]
+};
+
+var _swipeState = {
+  cards: [],
+  cardActual: 0,
+  aciertos: 0,
+  errores: 0,
+  activo: false,
+  startX: 0,
+  currentX: 0,
+  dragging: false
+};
+
+function abrirSwipeGame() {
+  var overlay = document.getElementById('swipe-overlay');
+  if (!overlay) return;
+  overlay.style.display = 'flex';
+  overlay.style.flexDirection = 'column';
+  iniciarSwipeGame();
+}
+
+function iniciarSwipeGame() {
+  var resultado = document.getElementById('swipe-resultado');
+  if (resultado) resultado.style.display = 'none';
+  var cards = _swipeGameData.cards.slice();
+  for (var i = cards.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = cards[i]; cards[i] = cards[j]; cards[j] = tmp;
+  }
+  _swipeState.cards = cards.slice(0, 10);
+  _swipeState.cardActual = 0;
+  _swipeState.aciertos = 0;
+  _swipeState.errores = 0;
+  _swipeState.activo = true;
+  document.getElementById('swipe-aciertos').textContent = '0';
+  document.getElementById('swipe-errores').textContent = '0';
+  document.getElementById('swipe-progress-bar').style.width = '0%';
+  renderSwipeCard();
+  iniciarTimerSwipe();
+}
+
+function renderSwipeCard() {
+  var area = document.getElementById('swipe-cards-area');
+  if (!area) return;
+  var idx = _swipeState.cardActual;
+  if (idx >= _swipeState.cards.length) { terminarSwipeGame(); return; }
+  var card = _swipeState.cards[idx];
+  var restantes = _swipeState.cards.length - idx;
+  var html = '';
+  for (var s = Math.min(2, restantes - 1); s > 0; s--) {
+    html += '<div style="position:absolute;width:300px;height:200px;background:white;border:1.5px solid #e5e7eb;border-radius:24px;transform:rotate(' + (s * 3) + 'deg) translateY(' + (s * 6) + 'px);z-index:' + (10 - s) + '"></div>';
+  }
+  html += '<div id="swipe-card-main" style="position:relative;width:300px;height:200px;background:white;border:2px solid #e5e7eb;border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,0.08);z-index:10;cursor:grab;transition:none;user-select:none">' +
+    '<div style="font-size:56px;margin-bottom:12px">' + card.emoji + '</div>' +
+    '<div style="font-size:18px;font-weight:700;color:var(--text-1);text-align:center;padding:0 16px">' + card.texto + '</div>' +
+    '<div style="position:absolute;top:12px;right:16px;font-size:12px;color:var(--text-3)">' + (idx + 1) + '/' + _swipeState.cards.length + '</div>' +
+    '</div>';
+  area.innerHTML = html;
+  var cardEl = document.getElementById('swipe-card-main');
+  if (cardEl) {
+    cardEl.addEventListener('touchstart', swipeTouchStart, { passive: true });
+    cardEl.addEventListener('touchmove', swipeTouchMove, { passive: true });
+    cardEl.addEventListener('touchend', swipeTouchEnd);
+    cardEl.addEventListener('mousedown', swipeMouseDown);
+  }
+  document.getElementById('swipe-progress-bar').style.width = (idx / _swipeState.cards.length * 100) + '%';
+}
+
+function swipeTouchStart(e) {
+  _swipeState.startX = e.touches[0].clientX;
+  _swipeState.dragging = true;
+}
+
+function swipeTouchMove(e) {
+  if (!_swipeState.dragging) return;
+  _swipeState.currentX = e.touches[0].clientX - _swipeState.startX;
+  var card = document.getElementById('swipe-card-main');
+  if (card) {
+    card.style.transform = 'translateX(' + _swipeState.currentX + 'px) rotate(' + (_swipeState.currentX * 0.1) + 'deg)';
+    card.style.borderColor = _swipeState.currentX > 0 ? '#86efac' : '#fca5a5';
+  }
+  var hintL = document.getElementById('swipe-hint-left');
+  var hintR = document.getElementById('swipe-hint-right');
+  if (_swipeState.currentX < -30) { if(hintL) hintL.style.opacity='1'; if(hintR) hintR.style.opacity='0.3'; }
+  else if (_swipeState.currentX > 30) { if(hintR) hintR.style.opacity='1'; if(hintL) hintL.style.opacity='0.3'; }
+  else { if(hintL) hintL.style.opacity='0.4'; if(hintR) hintR.style.opacity='0.4'; }
+}
+
+function swipeTouchEnd(e) {
+  if (!_swipeState.dragging) return;
+  _swipeState.dragging = false;
+  if (_swipeState.currentX > 80) { animarSwipe('derecha'); }
+  else if (_swipeState.currentX < -80) { animarSwipe('izquierda'); }
+  else {
+    var card = document.getElementById('swipe-card-main');
+    if (card) { card.style.transform = ''; card.style.borderColor = '#e5e7eb'; }
+    var hintL = document.getElementById('swipe-hint-left');
+    var hintR = document.getElementById('swipe-hint-right');
+    if(hintL) hintL.style.opacity='0.4';
+    if(hintR) hintR.style.opacity='0.4';
+  }
+  _swipeState.currentX = 0;
+}
+
+function swipeMouseDown(e) {
+  _swipeState.startX = e.clientX;
+  _swipeState.dragging = true;
+  document.addEventListener('mousemove', swipeMouseMove);
+  document.addEventListener('mouseup', swipeMouseUp);
+}
+
+function swipeMouseMove(e) {
+  if (!_swipeState.dragging) return;
+  _swipeState.currentX = e.clientX - _swipeState.startX;
+  var card = document.getElementById('swipe-card-main');
+  if (card) {
+    card.style.transform = 'translateX(' + _swipeState.currentX + 'px) rotate(' + (_swipeState.currentX * 0.1) + 'deg)';
+    card.style.borderColor = _swipeState.currentX > 0 ? '#86efac' : '#fca5a5';
+  }
+}
+
+function swipeMouseUp(e) {
+  document.removeEventListener('mousemove', swipeMouseMove);
+  document.removeEventListener('mouseup', swipeMouseUp);
+  swipeTouchEnd(e);
+}
+
+function animarSwipe(direccion) {
+  var card = document.getElementById('swipe-card-main');
+  var respuesta = direccion === 'derecha' ? 'necesidad' : 'capricho';
+  if (card) {
+    card.style.transition = 'transform .3s ease, opacity .3s';
+    card.style.transform = 'translateX(' + (direccion === 'derecha' ? '400px' : '-400px') + ') rotate(' + (direccion === 'derecha' ? '20' : '-20') + 'deg)';
+    card.style.opacity = '0';
+  }
+  setTimeout(function() { procesarRespuestaSwipe(respuesta); }, 300);
+}
+
+function responderSwipe(respuesta) {
+  if (!_swipeState.activo) return;
+  animarSwipe(respuesta === 'necesidad' ? 'derecha' : 'izquierda');
+}
+
+function procesarRespuestaSwipe(respuesta) {
+  if (!_swipeState.activo) return;
+  var card = _swipeState.cards[_swipeState.cardActual];
+  var correcto = respuesta === card.respuesta;
+  if (correcto) { _swipeState.aciertos++; mostrarFeedbackSwipe(true); }
+  else { _swipeState.errores++; mostrarFeedbackSwipe(false); }
+  document.getElementById('swipe-aciertos').textContent = _swipeState.aciertos;
+  document.getElementById('swipe-errores').textContent = _swipeState.errores;
+  _swipeState.cardActual++;
+  setTimeout(function() {
+    if (_swipeState.cardActual >= _swipeState.cards.length) { terminarSwipeGame(); }
+    else { renderSwipeCard(); }
+  }, 400);
+}
+
+function mostrarFeedbackSwipe(correcto) {
+  var area = document.getElementById('swipe-cards-area');
+  var fb = document.createElement('div');
+  fb.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:48px;z-index:20;animation:swipeFeedback .4s ease forwards;pointer-events:none';
+  fb.textContent = correcto ? '\u2705' : '\u274c';
+  if (area) area.appendChild(fb);
+  setTimeout(function() { if (fb.parentNode) fb.parentNode.removeChild(fb); }, 400);
+}
+
+var _swipeTimer = null;
+var _swipeTimerSegundos = 30;
+
+function iniciarTimerSwipe() {
+  _swipeTimerSegundos = 30;
+  document.getElementById('swipe-timer').textContent = '30';
+  if (_swipeTimer) clearInterval(_swipeTimer);
+  _swipeTimer = setInterval(function() {
+    _swipeTimerSegundos--;
+    var el = document.getElementById('swipe-timer');
+    if (el) {
+      el.textContent = _swipeTimerSegundos;
+      el.style.color = _swipeTimerSegundos <= 5 ? '#fca5a5' : 'white';
+    }
+    if (_swipeTimerSegundos <= 0) { clearInterval(_swipeTimer); terminarSwipeGame(); }
+  }, 1000);
+}
+
+function terminarSwipeGame() {
+  _swipeState.activo = false;
+  if (_swipeTimer) clearInterval(_swipeTimer);
+  var total = _swipeState.aciertos + _swipeState.errores;
+  var pct = total > 0 ? Math.round(_swipeState.aciertos / total * 100) : 0;
+  var aprobado = pct >= 60;
+  var xp = aprobado ? _swipeGameData.xpRecompensa : Math.round(_swipeGameData.xpRecompensa * 0.3);
+  var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
+  var uid = session.id || FinSeedStore.session.userId || 'u2';
+  var progUser = FinSeedStore.getProgreso(uid);
+  progUser.xp += xp;
+  progUser.xpSemana += xp;
+  localStorage.setItem('finseed_progreso_' + uid, JSON.stringify(progUser));
+  if (typeof actualizarProgresoMisiones === 'function') {
+    actualizarProgresoMisiones(uid, 'juegos', 1);
+    actualizarProgresoMisiones(uid, 'correctas', _swipeState.aciertos);
+  }
+  var emojis = pct === 100 ? '\ud83c\udfc6' : pct >= 80 ? '\ud83c\udf89' : pct >= 60 ? '\ud83d\udc4d' : '\ud83d\udcaa';
+  var titulos = pct === 100 ? '\u00a1Perfecto!' : pct >= 80 ? '\u00a1Muy bien!' : pct >= 60 ? '\u00a1Bien!' : '\u00a1Sigue practicando!';
+  document.getElementById('swipe-resultado-emoji').textContent = emojis;
+  document.getElementById('swipe-resultado-titulo').textContent = titulos;
+  document.getElementById('swipe-resultado-desc').textContent = _swipeState.aciertos + ' de ' + (_swipeState.aciertos + _swipeState.errores) + ' correctas (' + pct + '%)';
+  document.getElementById('swipe-xp-ganado').textContent = '+' + xp + ' XP';
+  document.getElementById('swipe-final-aciertos').textContent = _swipeState.aciertos;
+  document.getElementById('swipe-final-errores').textContent = _swipeState.errores;
+  var resultado = document.getElementById('swipe-resultado');
+  if (resultado) { resultado.style.display = 'flex'; resultado.style.flexDirection = 'column'; }
+}
+
+function cerrarSwipeGame() {
+  if (_swipeTimer) clearInterval(_swipeTimer);
+  _swipeState.activo = false;
+  var overlay = document.getElementById('swipe-overlay');
+  var resultado = document.getElementById('swipe-resultado');
+  if (overlay) overlay.style.display = 'none';
+  if (resultado) resultado.style.display = 'none';
+  if (typeof renderHijoJuegos === 'function') renderHijoJuegos();
+}
+</script>
 
 </body>
 </html>
