@@ -2029,6 +2029,232 @@ var FinSeedStore = {
     ]
   }
 
+  ,
+
+  // ═══════════════════════════════
+  // AHORRO — juegos adicionales
+  // ═══════════════════════════════
+  {
+    id: 'ahorro_4', camino: 'ahorro', nivel: 2,
+    nombre: 'La UF y la inflaci\u00F3n',
+    desc: 'C\u00F3mo proteger el ahorro de la inflaci\u00F3n',
+    emoji: '\uD83C\uDDE8\uD83C\uDDF1', dificultad: 'Medio', xpRecompensa: 50,
+    desbloqueaCon: 'ahorro_3',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es la UF en Chile?', opciones: ['Unidad de Fomento: valor que se reajusta diariamente seg\u00FAn la inflaci\u00F3n', 'Un tipo de moneda extranjera', 'Una cuenta bancaria especial', 'El precio del d\u00F3lar en Chile'], correcta: 0, explicacion: 'La UF es una unidad de cuenta chilena que se actualiza diariamente seg\u00FAn el IPC, protegiendo autom\u00E1ticamente contra la inflaci\u00F3n.' },
+      { tipo: 'simulacion', pregunta: 'La UF vale $37.000 hoy. Un arriendo es 10 UF. \u00BFCu\u00E1nto pagas en pesos?', opciones: ['$370.000', '$37.000', '$3.700.000', '$37.000.000'], correcta: 0, explicacion: '10 UF \u00D7 $37.000 = $370.000. Al estar en UF, el arriendo se reajusta autom\u00E1ticamente con la inflaci\u00F3n.' },
+      { tipo: 'opcion', pregunta: '\u00BFPor qu\u00E9 guardar dinero en efectivo durante alta inflaci\u00F3n es perjudicial?', opciones: ['Pierde poder adquisitivo: cada mes compra menos cosas', 'Porque el banco lo confisca', 'Porque el efectivo se deteriora f\u00EDsicamente', 'No hay ning\u00FAn problema'], correcta: 0, explicacion: 'Con 6% de inflaci\u00F3n anual, $1.000.000 en efectivo compra lo equivalente a $943.000 un a\u00F1o despu\u00E9s.' },
+      { tipo: 'simulacion', pregunta: 'Tienes $1.000.000 en efectivo. La inflaci\u00F3n anual es 8%. \u00BFCu\u00E1nto poder adquisitivo real tienes en un a\u00F1o?', opciones: ['$925.926', '$1.080.000', '$920.000', '$1.000.000'], correcta: 0, explicacion: '$1.000.000 \u00F7 1,08 \u2248 $925.926. Tu dinero nominalmente es igual pero compra menos.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 instrumento protege autom\u00E1ticamente el ahorro de la inflaci\u00F3n en Chile?', opciones: ['Dep\u00F3sito a plazo en UF', 'Cuenta corriente en pesos', 'Efectivo bajo el colch\u00F3n', 'Cuenta vista'], correcta: 0, explicacion: 'Un dep\u00F3sito en UF ajusta el capital seg\u00FAn la inflaci\u00F3n m\u00E1s una tasa de inter\u00E9s real adicional.' }
+    ]
+  },
+  {
+    id: 'ahorro_5', camino: 'ahorro', nivel: 2,
+    nombre: 'Metas de ahorro',
+    desc: 'C\u00F3mo planificar y alcanzar objetivos financieros',
+    emoji: '\uD83C\uDFAF', dificultad: 'Dif\u00EDcil', xpRecompensa: 60,
+    desbloqueaCon: 'ahorro_4',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 caracteriza a una meta financiera efectiva?', opciones: ['Tiene monto espec\u00EDfico, plazo definido y es alcanzable', 'Es lo m\u00E1s grande posible', 'No tiene plazo para ser flexible', 'Depende de que otros te ayuden'], correcta: 0, explicacion: 'Las metas efectivas son espec\u00EDficas, medibles, alcanzables, relevantes y con plazo definido (SMART).' },
+      { tipo: 'simulacion', pregunta: 'Quieres ahorrar $2.400.000 en 24 meses. \u00BFCu\u00E1nto debes ahorrar por mes?', opciones: ['$100.000', '$200.000', '$2.400.000', '$24.000'], correcta: 0, explicacion: '$2.400.000 \u00F7 24 meses = $100.000 mensuales.' },
+      { tipo: 'opcion', pregunta: '\u00BFCu\u00E1l es la ventaja de automatizar el ahorro?', opciones: ['El dinero se separa antes de que puedas gastarlo', 'Genera mayor tasa de inter\u00E9s', 'Evita pagar impuestos', 'El banco te da un bono'], correcta: 0, explicacion: 'Al automatizar, el ahorro ocurre sin decisi\u00F3n consciente. Se reduce la tentaci\u00F3n de gastar ese dinero.' },
+      { tipo: 'completar', pregunta: 'El m\u00E9todo "p\u00E1gate primero" consiste en separar el ahorro _______ de recibir el ingreso, antes de gastar.', opciones: ['inmediatamente despu\u00E9s', 'al final del mes', 'cuando sobre algo', 'una vez al a\u00F1o'], correcta: 0, explicacion: 'Separar el ahorro al recibir el ingreso garantiza que siempre se ahorre, independiente de los gastos del mes.' },
+      { tipo: 'simulacion', pregunta: 'Ahorras $80.000/mes al 4% anual de inter\u00E9s compuesto. \u00BFCu\u00E1nto acumulas aproximadamente en 3 a\u00F1os?', opciones: ['$3.040.000', '$2.880.000', '$3.200.000', '$2.400.000'], correcta: 0, explicacion: 'Con inter\u00E9s compuesto mensual al 4% anual, $80.000/mes durante 36 meses genera aproximadamente $3.040.000.' }
+    ]
+  },
+
+  // ═══════════════════════════════
+  // BOLSA — juegos adicionales
+  // ═══════════════════════════════
+  {
+    id: 'bolsa_5', camino: 'bolsa', nivel: 2,
+    nombre: 'Diversificaci\u00F3n y riesgo',
+    desc: 'C\u00F3mo construir un portafolio equilibrado',
+    emoji: '\u2696\uFE0F', dificultad: 'Medio', xpRecompensa: 50,
+    desbloqueaCon: 'bolsa_4',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es la diversificaci\u00F3n en inversiones?', opciones: ['Distribuir el capital en m\u00FAltiples activos para reducir el riesgo', 'Invertir todo en el activo con mayor retorno hist\u00F3rico', 'Cambiar de inversi\u00F3n frecuentemente', 'Guardar parte del dinero en efectivo siempre'], correcta: 0, explicacion: 'Diversificar reduce el riesgo espec\u00EDfico: si un activo cae, otros pueden compensar. No elimina el riesgo de mercado.' },
+      { tipo: 'simulacion', pregunta: 'Tienes $1.000.000 en 10 activos distintos. Uno quiebra completamente. \u00BFCu\u00E1nto pierdes como m\u00E1ximo?', opciones: ['$100.000 (10%)', '$1.000.000 (100%)', '$500.000 (50%)', '$200.000 (20%)'], correcta: 0, explicacion: 'Con igual ponderaci\u00F3n, una quiebra total representa el 10% del portafolio. La diversificaci\u00F3n limita el impacto.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es la correlaci\u00F3n entre activos?', opciones: ['Medida de c\u00F3mo se mueven juntos dos activos', 'El retorno combinado de dos activos', 'La diferencia de precio entre dos activos', 'El riesgo total de un portafolio'], correcta: 0, explicacion: 'Correlaci\u00F3n alta (+1): se mueven igual. Correlaci\u00F3n baja o negativa: se mueven diferente o inverso. Activos poco correlacionados diversifican mejor.' },
+      { tipo: 'completar', pregunta: 'El dollar cost averaging consiste en invertir un monto _______ en per\u00EDodos regulares, independiente del precio.', opciones: ['fijo', 'variable', 'creciente', 'decreciente'], correcta: 0, explicacion: 'Invertir un monto fijo peri\u00F3dicamente compra m\u00E1s unidades cuando el precio est\u00E1 bajo y menos cuando est\u00E1 alto, promediando el costo.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es el asset allocation?', opciones: ['La distribuci\u00F3n del capital entre distintas clases de activos', 'La selecci\u00F3n de acciones individuales', 'El momento de comprar o vender', 'El retorno esperado del portafolio'], correcta: 0, explicacion: 'Asset allocation decide qu\u00E9 porcentaje va a acciones, bonos, efectivo y otros. Es una de las decisiones m\u00E1s importantes en inversi\u00F3n.' }
+    ]
+  },
+  {
+    id: 'bolsa_6', camino: 'bolsa', nivel: 2,
+    nombre: 'Mercados alcistas y bajistas',
+    desc: 'Ciclos del mercado y sus caracter\u00EDsticas',
+    emoji: '\uD83D\uDC02', dificultad: 'Dif\u00EDcil', xpRecompensa: 60,
+    desbloqueaCon: 'bolsa_5',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es un mercado alcista (bull market)?', opciones: ['Per\u00EDodo sostenido de subida de precios, generalmente m\u00E1s del 20% desde m\u00EDnimos', 'Cuando suben solo las acciones tecnol\u00F3gicas', 'Cualquier d\u00EDa que sube la bolsa', 'Per\u00EDodo de baja volatilidad'], correcta: 0, explicacion: 'Bull market es un per\u00EDodo prolongado de subida. Hist\u00F3ricamente han durado m\u00E1s y subido m\u00E1s que los mercados bajistas.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 define a un mercado bajista (bear market)?', opciones: ['Ca\u00EDda sostenida del 20% o m\u00E1s desde m\u00E1ximos recientes', 'Cualquier correcci\u00F3n de precios', 'Per\u00EDodo de alta inflaci\u00F3n', 'Cuando baja el volumen de transacciones'], correcta: 0, explicacion: 'Bear market se define como ca\u00EDda del 20%+ desde m\u00E1ximos. El S&P 500 ha tenido m\u00FAltiples bear markets en su historia.' },
+      { tipo: 'simulacion', pregunta: 'El S&P 500 est\u00E1 en 5.000 puntos. Para entrar en bear market, \u00BFa qu\u00E9 nivel debe caer?', opciones: ['4.000 puntos', '4.500 puntos', '3.000 puntos', '4.900 puntos'], correcta: 0, explicacion: '5.000 \u00D7 (1 - 0,20) = 4.000. Una ca\u00EDda del 20% desde 5.000 lleva el \u00EDndice a 4.000 puntos.' },
+      { tipo: 'completar', pregunta: 'Una correcci\u00F3n de mercado se define como una ca\u00EDda de entre el 10% y el _______ desde m\u00E1ximos recientes.', opciones: ['20%', '5%', '50%', '30%'], correcta: 0, explicacion: 'Las correcciones (-10% a -20%) son normales y frecuentes. El bear market comienza formalmente al superar el -20%.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es la volatilidad en el contexto burs\u00E1til?', opciones: ['La magnitud de las variaciones de precio de un activo', 'El volumen de transacciones diarias', 'La diferencia entre precio m\u00E1ximo y m\u00EDnimo del a\u00F1o', 'La velocidad de subida de una acci\u00F3n'], correcta: 0, explicacion: 'Volatilidad mide cu\u00E1nto fluctua el precio. Alta volatilidad implica mayores movimientos (sube y baja m\u00E1s), lo que equivale a mayor riesgo.' }
+    ]
+  },
+
+  // ═══════════════════════════════
+  // CRIPTO — juegos adicionales
+  // ═══════════════════════════════
+  {
+    id: 'cripto_4', camino: 'cripto', nivel: 2,
+    nombre: 'NFTs y Web3',
+    desc: 'Tokens \u00FAnicos y la econom\u00EDa digital',
+    emoji: '\uD83D\uDDBC\uFE0F', dificultad: 'Medio', xpRecompensa: 50,
+    desbloqueaCon: 'cripto_3',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es un NFT?', opciones: ['Token no fungible: activo digital \u00FAnico verificado en blockchain', 'Una criptomoneda estable', 'Un tipo de contrato inteligente de pr\u00E9stamo', 'Una acci\u00F3n de empresa tecnol\u00F3gica'], correcta: 0, explicacion: 'NFT (Non-Fungible Token) certifica propiedad \u00FAnica de un activo digital. A diferencia del Bitcoin, cada NFT es distinto e irrepetible.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 significa "fungible" en el contexto financiero?', opciones: ['Intercambiable por otro id\u00E9ntico del mismo valor', 'Que puede quemarse o destruirse', 'Que tiene alto riesgo de p\u00E9rdida', 'Que est\u00E1 regulado por el gobierno'], correcta: 0, explicacion: 'Un billete de $1.000 es fungible: cualquier otro billete de $1.000 vale igual. Un NFT no es fungible: cada uno es \u00FAnico.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es Web3?', opciones: ['Visi\u00F3n de internet descentralizado basado en blockchain', 'La tercera versi\u00F3n del navegador Chrome', 'Un protocolo de seguridad web', 'Una red social descentralizada'], correcta: 0, explicacion: 'Web3 propone una internet donde los usuarios controlan sus datos y activos digitales mediante blockchain, sin depender de empresas centralizadas.' },
+      { tipo: 'completar', pregunta: 'Los contratos inteligentes son programas que se ejecutan _______ en blockchain cuando se cumplen condiciones predefinidas.', opciones: ['autom\u00E1ticamente', 'manualmente', 'mensualmente', 'aleatoriamente'], correcta: 0, explicacion: 'Los smart contracts ejecutan acciones autom\u00E1ticamente sin intermediarios cuando las condiciones programadas se cumplen.' },
+      { tipo: 'opcion', pregunta: '\u00BFCu\u00E1l es el principal riesgo de los NFTs como inversi\u00F3n?', opciones: ['Alta especulaci\u00F3n y baja liquidez: pueden perder valor r\u00E1pidamente', 'Que el gobierno los confisque', 'Que el blockchain desaparezca', 'Que el artista los duplique'], correcta: 0, explicacion: 'Los NFTs son altamente especulativos. Muchos han perdido m\u00E1s del 90% de su valor. La liquidez puede ser muy baja o nula.' }
+    ]
+  },
+  {
+    id: 'cripto_5', camino: 'cripto', nivel: 2,
+    nombre: 'Regulaci\u00F3n y riesgos cripto',
+    desc: 'El marco regulatorio y los riesgos reales',
+    emoji: '\u26A0\uFE0F', dificultad: 'Dif\u00EDcil', xpRecompensa: 60,
+    desbloqueaCon: 'cripto_4',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 pas\u00F3 con el exchange FTX en 2022?', opciones: ['Quebr\u00F3 por mala gesti\u00F3n de fondos, causando p\u00E9rdidas millonarias a usuarios', 'Fue comprado por Bitcoin', 'Se fusion\u00F3 con Binance', 'El gobierno lo cerr\u00F3 preventivamente'], correcta: 0, explicacion: 'FTX, uno de los mayores exchanges, quebr\u00F3 en 2022. Millones de usuarios perdieron sus fondos. Ilustra el riesgo de custodiar cripto en exchanges.' },
+      { tipo: 'opcion', pregunta: '\u00BFC\u00F3mo tributan las criptomonedas en la mayor\u00EDa de pa\u00EDses?', opciones: ['Las ganancias est\u00E1n sujetas a impuestos como cualquier ganancia de capital', 'No tributan porque son descentralizadas', 'Solo tributan si superas cierto monto', 'Est\u00E1n exentas de impuestos globalmente'], correcta: 0, explicacion: 'En la mayor\u00EDa de jurisdicciones, las ganancias por venta de criptomonedas est\u00E1n sujetas al impuesto a las ganancias de capital.' },
+      { tipo: 'completar', pregunta: 'El lavado de dinero con criptomonedas es _______ en todos los pa\u00EDses y perseguido por autoridades financieras.', opciones: ['ilegal', 'legal', 'aceptable', 'regulado diferente'], correcta: 0, explicacion: 'A pesar de la descentralizaci\u00F3n, los reguladores rastrean transacciones sospechosas. El lavado de activos es delito universal.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es un rug pull en el ecosistema cripto?', opciones: ['Estafa donde los creadores de un proyecto desaparecen con los fondos de inversores', 'Una ca\u00EDda brusca del mercado cripto', 'El retiro masivo de liquidez por ballenas', 'Un ataque hacker a un exchange'], correcta: 0, explicacion: 'Rug pull ocurre cuando los creadores de un token abandonan el proyecto y venden sus tokens, dejando a los inversores con activos sin valor.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 regula la CMF en Chile respecto a las criptomonedas?', opciones: ['Supervisa actividades relacionadas pero las cripto no tienen el mismo estatus que valores tradicionales', 'Las proh\u00EDbe completamente', 'Las garantiza como moneda de curso legal', 'No tiene jurisdicci\u00F3n sobre activos digitales'], correcta: 0, explicacion: 'La CMF chilena supervisa algunas actividades cripto pero a\u00FAn no existe un marco regulatorio completo. El sector opera en zona gris.' }
+    ]
+  },
+
+  // ═══════════════════════════════
+  // BIENES RAÍCES — juegos adicionales
+  // ═══════════════════════════════
+  {
+    id: 'bienes_3', camino: 'bienes_raices', nivel: 2,
+    nombre: 'Mercado inmobiliario chileno',
+    desc: 'Caracter\u00EDsticas del mercado de propiedades en Chile',
+    emoji: '\uD83C\uDFD9\uFE0F', dificultad: 'Medio', xpRecompensa: 50,
+    desbloqueaCon: 'bienes_2',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es el DFL2 en Chile?', opciones: ['Beneficio tributario para propiedades peque\u00F1as que exime parte del impuesto territorial', 'Un tipo de cr\u00E9dito hipotecario especial', 'Un subsidio habitacional del gobierno', 'El registro oficial de propiedades'], correcta: 0, explicacion: 'El DFL2 es una franquicia tributaria para propiedades de hasta 140 m\u00B2. Exime del impuesto territorial por ciertos a\u00F1os.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es el Conservador de Bienes Ra\u00EDces?', opciones: ['Instituci\u00F3n que registra oficialmente las propiedades y sus due\u00F1os', 'Una inmobiliaria del Estado', 'El organismo que fija precios de arriendo', 'Un banco especializado en hipotecas'], correcta: 0, explicacion: 'El CBR registra todas las propiedades, sus due\u00F1os e hipotecas. Es el registro oficial de la propiedad ra\u00EDz en Chile.' },
+      { tipo: 'simulacion', pregunta: 'Compras una propiedad de $100M con 80% de hipoteca a 20 a\u00F1os al 4% anual. \u00BFAproximadamente cu\u00E1nto es el dividendo mensual?', opciones: ['$484.000', '$333.000', '$666.000', '$400.000'], correcta: 0, explicacion: '$80M al 4% a 20 a\u00F1os tiene un dividendo aproximado de $484.000.' },
+      { tipo: 'completar', pregunta: 'La plusval\u00EDa de una propiedad depende principalmente de su _______, desarrollo del sector y oferta disponible.', opciones: ['ubicaci\u00F3n', 'tama\u00F1o', 'antig\u00FCedad', 'color'], correcta: 0, explicacion: '"Location, location, location" es el mantra del sector inmobiliario. La ubicaci\u00F3n determina en gran medida la plusval\u00EDa futura.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es el subsidio habitacional DS49 en Chile?', opciones: ['Subsidio del gobierno para familias de bajos ingresos que permite comprar vivienda sin deuda', 'Un cr\u00E9dito hipotecario blando del Estado', 'Un beneficio tributario para propietarios', 'Un arriendo subsidiado por el gobierno'], correcta: 0, explicacion: 'El DS49 es un subsidio que entrega el Estado a familias vulnerables para adquirir vivienda. No es un pr\u00E9stamo, no se devuelve.' }
+    ]
+  },
+  {
+    id: 'bienes_4', camino: 'bienes_raices', nivel: 2,
+    nombre: 'Arriendos e inversi\u00F3n inmobiliaria',
+    desc: 'C\u00F3mo generar renta con propiedades',
+    emoji: '\uD83D\uDD11', dificultad: 'Dif\u00EDcil', xpRecompensa: 60,
+    desbloqueaCon: 'bienes_3',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es el yield o rentabilidad bruta de arriendo?', opciones: ['Arriendo anual dividido por el precio de la propiedad, expresado en porcentaje', 'El ingreso neto despu\u00E9s de gastos', 'La ganancia de capital anual', 'El dividendo de la hipoteca'], correcta: 0, explicacion: 'Yield bruto = (Arriendo anual \u00F7 Precio) \u00D7 100. No considera gastos como contribuciones, administraci\u00F3n y mantenci\u00F3n.' },
+      { tipo: 'simulacion', pregunta: 'Propiedad: $120M. Arriendo: $480.000/mes. Gastos anuales: $600.000. \u00BFCu\u00E1l es el yield neto?', opciones: ['4,3%', '4,8%', '5%', '3,8%'], correcta: 0, explicacion: 'Arriendo anual: $5.760.000. Neto: $5.160.000. Yield neto: ($5.160.000 \u00F7 $120.000.000) \u00D7 100 = 4,3%.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 son las contribuciones de bienes ra\u00EDces?', opciones: ['Impuesto anual que pagan los propietarios al municipio seg\u00FAn el ava\u00FAluo fiscal', 'El gasto de mantenci\u00F3n de la propiedad', 'Los gastos comunes del edificio', 'El seguro de la propiedad'], correcta: 0, explicacion: 'Las contribuciones son el impuesto territorial. Se calculan como porcentaje del ava\u00FAluo fiscal, que puede diferir del valor de mercado.' },
+      { tipo: 'completar', pregunta: 'Un contrato de arriendo en Chile tiene una duraci\u00F3n m\u00EDnima legal de _______ a\u00F1o(s) si no se especifica otro plazo.', opciones: ['1', '2', '3', '6 meses'], correcta: 0, explicacion: 'Seg\u00FAn la ley de arriendo chilena, si el contrato no especifica plazo, se entiende celebrado por 1 a\u00F1o.' },
+      { tipo: 'opcion', pregunta: '\u00BFCu\u00E1l es la principal ventaja de un REIT frente a comprar propiedad directamente?', opciones: ['Mayor liquidez: se puede vender en cualquier momento en bolsa', 'Mayor retorno garantizado', 'Sin ning\u00FAn costo de administraci\u00F3n', 'Exenci\u00F3n total de impuestos'], correcta: 0, explicacion: 'Los REITs se transan en bolsa como acciones, permitiendo entrar y salir del mercado inmobiliario con alta liquidez.' }
+    ]
+  },
+
+  // ═══════════════════════════════
+  // EMPRENDIMIENTO — juegos adicionales
+  // ═══════════════════════════════
+  {
+    id: 'emprend_3', camino: 'emprendimiento', nivel: 2,
+    nombre: 'Estados financieros',
+    desc: 'C\u00F3mo leer los reportes de una empresa',
+    emoji: '\uD83D\uDCCA', dificultad: 'Medio', xpRecompensa: 50,
+    desbloqueaCon: 'emprend_2',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 muestra el estado de resultados?', opciones: ['Ingresos, costos y utilidad de un per\u00EDodo espec\u00EDfico', 'Los activos y pasivos de la empresa', 'El flujo de dinero en efectivo', 'La estructura de propiedad de la empresa'], correcta: 0, explicacion: 'El estado de resultados (P&L) muestra si la empresa gan\u00F3 o perdi\u00F3 dinero en un per\u00EDodo, detallando ingresos y todos los costos.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 muestra el balance general?', opciones: ['Activos, pasivos y patrimonio en un momento espec\u00EDfico', 'Las ventas del trimestre', 'El flujo de caja del a\u00F1o', 'Los dividendos pagados'], correcta: 0, explicacion: 'El balance es una foto del estado financiero: lo que tiene la empresa (activos), lo que debe (pasivos) y lo que pertenece a los due\u00F1os (patrimonio).' },
+      { tipo: 'completar', pregunta: 'La ecuaci\u00F3n contable fundamental es: Activos = Pasivos + _______.', opciones: ['Patrimonio', 'Ingresos', 'Utilidades', 'Capital'], correcta: 0, explicacion: 'Esta ecuaci\u00F3n siempre debe cuadrar: todo lo que tiene la empresa (activos) est\u00E1 financiado por deudas (pasivos) o por los due\u00F1os (patrimonio).' },
+      { tipo: 'simulacion', pregunta: 'Una empresa tiene activos por $500M y pasivos por $300M. \u00BFCu\u00E1l es su patrimonio?', opciones: ['$200M', '$800M', '$300M', '$500M'], correcta: 0, explicacion: 'Patrimonio = Activos - Pasivos = $500M - $300M = $200M.' },
+      { tipo: 'opcion', pregunta: '\u00BFPor qu\u00E9 una empresa puede tener utilidades pero quedarse sin caja?', opciones: ['Porque las ventas pueden estar registradas pero no cobradas a\u00FAn', 'Es imposible que ocurra eso', 'Porque paga muchos impuestos', 'Porque tiene muchos activos fijos'], correcta: 0, explicacion: 'La contabilidad registra ingresos cuando se vende, no cuando se cobra. Una empresa puede tener utilidades contables pero caja negativa si sus clientes no han pagado.' }
+    ]
+  },
+  {
+    id: 'emprend_4', camino: 'emprendimiento', nivel: 2,
+    nombre: 'Modelos de negocio',
+    desc: 'C\u00F3mo las empresas generan dinero',
+    emoji: '\uD83D\uDCA1', dificultad: 'Dif\u00EDcil', xpRecompensa: 60,
+    desbloqueaCon: 'emprend_3',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es un modelo de negocio?', opciones: ['La forma en que una empresa crea, entrega y captura valor', 'El plan de marketing de la empresa', 'El organigrama de la organizaci\u00F3n', 'El registro legal de la empresa'], correcta: 0, explicacion: 'El modelo de negocio describe c\u00F3mo la empresa gana dinero: qu\u00E9 ofrece, a qui\u00E9n, c\u00F3mo llega al cliente y qu\u00E9 cobra.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es el modelo SaaS (Software as a Service)?', opciones: ['Software que se paga por suscripci\u00F3n mensual o anual en vez de compra \u00FAnica', 'Venta tradicional de licencias de software', 'Un tipo de consultor\u00EDa tecnol\u00F3gica', 'Desarrollo de software a medida'], correcta: 0, explicacion: 'SaaS cobra suscripci\u00F3n recurrente por acceso al software. Genera ingresos predecibles y escalables. Ejemplo: Netflix, Spotify, Office 365.' },
+      { tipo: 'completar', pregunta: 'El MRR (Monthly Recurring Revenue) mide los _______ mensuales predecibles de una empresa de suscripci\u00F3n.', opciones: ['ingresos', 'gastos', 'clientes', 'productos'], correcta: 0, explicacion: 'MRR es la m\u00E9trica clave para empresas de suscripci\u00F3n. Indica cu\u00E1nto dinero recurrente entra cada mes.' },
+      { tipo: 'simulacion', pregunta: 'Una startup tiene 500 clientes pagando $10.000/mes cada uno. \u00BFCu\u00E1l es su MRR?', opciones: ['$5.000.000', '$500.000', '$10.000.000', '$60.000.000'], correcta: 0, explicacion: '500 clientes \u00D7 $10.000 = $5.000.000 de MRR. El ARR (anual) ser\u00EDa $60.000.000.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es el churn rate?', opciones: ['Porcentaje de clientes que cancela su suscripci\u00F3n en un per\u00EDodo', 'La tasa de crecimiento de nuevos clientes', 'El costo de adquirir un nuevo cliente', 'El ingreso promedio por usuario'], correcta: 0, explicacion: 'Churn es la tasa de cancelaci\u00F3n. Un churn alto significa que pierdes clientes r\u00E1pido, lo que destruye valor aunque adquieras muchos.' }
+    ]
+  },
+
+  // ═══════════════════════════════
+  // ECONOMÍA — juegos adicionales
+  // ═══════════════════════════════
+  {
+    id: 'macro_3', camino: 'economia', nivel: 2,
+    nombre: 'Comercio internacional',
+    desc: 'C\u00F3mo el comercio global afecta la econom\u00EDa',
+    emoji: '\uD83D\uDEA2', dificultad: 'Medio', xpRecompensa: 50,
+    desbloqueaCon: 'macro_2',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es la balanza comercial?', opciones: ['Diferencia entre exportaciones e importaciones de un pa\u00EDs', 'El tipo de cambio oficial', 'La deuda externa total', 'El presupuesto del gobierno'], correcta: 0, explicacion: 'Super\u00E1vit comercial: exportaciones > importaciones. D\u00E9ficit: importaciones > exportaciones. Chile suele tener super\u00E1vit por el cobre.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 producto representa la mayor parte de las exportaciones chilenas?', opciones: ['Cobre', 'Salm\u00F3n', 'Vino', 'Litio'], correcta: 0, explicacion: 'El cobre representa m\u00E1s del 50% de las exportaciones chilenas. Chile produce cerca del 27% del cobre mundial.' },
+      { tipo: 'completar', pregunta: 'Cuando Chile exporta m\u00E1s cobre, entran m\u00E1s _______ al pa\u00EDs, lo que tiende a fortalecer el peso chileno.', opciones: ['d\u00F3lares', 'euros', 'yuanes', 'pesos'], correcta: 0, explicacion: 'El cobre se vende en d\u00F3lares. Mayor exportaci\u00F3n = mayor entrada de d\u00F3lares = mayor demanda de pesos = peso m\u00E1s fuerte.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 son los aranceles?', opciones: ['Impuestos que se aplican a las importaciones al ingresar a un pa\u00EDs', 'Subsidios a las exportaciones', 'Impuestos al consumo interno', 'Restricciones de cantidad a las importaciones'], correcta: 0, explicacion: 'Los aranceles encarecen los productos importados, protegiendo a los productores locales pero aumentando los precios para los consumidores.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es el TPP-11 o CPTPP?', opciones: ['Acuerdo de libre comercio entre 11 pa\u00EDses del Pac\u00EDfico, incluyendo Chile', 'Un tratado militar del Pac\u00EDfico', 'Una organizaci\u00F3n econ\u00F3mica latinoamericana', 'Un acuerdo de moneda com\u00FAn'], correcta: 0, explicacion: 'El CPTPP es un tratado de libre comercio entre 11 pa\u00EDses que elimina o reduce aranceles y barreras al comercio entre ellos.' }
+    ]
+  },
+  {
+    id: 'macro_4', camino: 'economia', nivel: 2,
+    nombre: 'Crisis econ\u00F3micas',
+    desc: 'Qu\u00E9 son y c\u00F3mo ocurren las crisis',
+    emoji: '\uD83D\uDCC9', dificultad: 'Dif\u00EDcil', xpRecompensa: 60,
+    desbloqueaCon: 'macro_3',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 caus\u00F3 la crisis financiera de 2008?', opciones: ['Colapso del mercado hipotecario subprime en EE.UU. que se propag\u00F3 globalmente', 'La quiebra de varios pa\u00EDses europeos simult\u00E1neamente', 'Una ca\u00EDda del precio del petr\u00F3leo', 'Una crisis bancaria en Asia'], correcta: 0, explicacion: 'La crisis de 2008 comenz\u00F3 con hipotecas de alto riesgo (subprime) que se empaquetaron en productos financieros complejos vendidos globalmente.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es la inflaci\u00F3n descontrolada o hiperinflaci\u00F3n?', opciones: ['Inflaci\u00F3n extremadamente alta, t\u00EDpicamente superior al 50% mensual', 'Inflaci\u00F3n sobre el 10% anual', 'Deflaci\u00F3n seguida de inflaci\u00F3n', 'Alta inflaci\u00F3n durante m\u00E1s de 10 a\u00F1os'], correcta: 0, explicacion: 'La hiperinflaci\u00F3n destruye el valor de la moneda r\u00E1pidamente. Alemania en 1923 y Venezuela m\u00E1s recientemente son ejemplos hist\u00F3ricos.' },
+      { tipo: 'completar', pregunta: 'Durante una recesi\u00F3n, el desempleo tiende a _______ y el consumo a disminuir.', opciones: ['aumentar', 'bajar', 'mantenerse', 'desaparecer'], correcta: 0, explicacion: 'En recesi\u00F3n las empresas reducen producci\u00F3n y personal. El desempleo sube, el consumo cae, generando un ciclo que profundiza la recesi\u00F3n.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es la pol\u00EDtica fiscal expansiva?', opciones: ['El gobierno aumenta el gasto p\u00FAblico y/o reduce impuestos para estimular la econom\u00EDa', 'El banco central baja las tasas de inter\u00E9s', 'El gobierno reduce el d\u00E9ficit fiscal', 'Se aumentan los impuestos para financiar deuda'], correcta: 0, explicacion: 'La pol\u00EDtica fiscal expansiva inyecta dinero en la econom\u00EDa v\u00EDa gasto o reducci\u00F3n de impuestos. Se usa para combatir recesiones.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es el riesgo sist\u00E9mico?', opciones: ['Riesgo de que el colapso de una parte del sistema financiero afecte a todo el sistema', 'El riesgo espec\u00EDfico de una empresa', 'La posibilidad de p\u00E9rdida en una inversi\u00F3n', 'El riesgo de tipo de cambio'], correcta: 0, explicacion: 'El riesgo sist\u00E9mico es el "riesgo de contagio". La quiebra de Lehman Brothers en 2008 desencaden\u00F3 una crisis global por este efecto.' }
+    ]
+  },
+
+  // ═══════════════════════════════
+  // IMPUESTOS — juegos adicionales
+  // ═══════════════════════════════
+  {
+    id: 'impuesto_3', camino: 'impuestos', nivel: 2,
+    nombre: 'Operaci\u00F3n renta en Chile',
+    desc: 'C\u00F3mo funciona la declaraci\u00F3n anual de impuestos',
+    emoji: '\uD83D\uDCDD', dificultad: 'Medio', xpRecompensa: 50,
+    desbloqueaCon: 'impuesto_2',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '\u00BFCu\u00E1ndo se realiza la operaci\u00F3n renta en Chile?', opciones: ['Cada a\u00F1o en abril por los ingresos del a\u00F1o anterior', 'Cada mes junto al pago de IVA', 'Cada a\u00F1o en diciembre', 'Solo cuando el SII lo solicita'], correcta: 0, explicacion: 'La operaci\u00F3n renta ocurre en abril de cada a\u00F1o. Se declaran los ingresos del a\u00F1o anterior y se ajusta lo pagado mensualmente.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es el SII en Chile?', opciones: ['Servicio de Impuestos Internos: organismo que administra los impuestos', 'Seguro de Invalidez e Invalidez', 'Sistema de Informaci\u00F3n Inmobiliaria', 'Superintendencia de Instituciones del Estado'], correcta: 0, explicacion: 'El SII es el organismo del Estado encargado de aplicar y fiscalizar el cumplimiento de las obligaciones tributarias en Chile.' },
+      { tipo: 'completar', pregunta: 'Si en la operaci\u00F3n renta se pagaron m\u00E1s impuestos de lo que correspond\u00EDa, el SII _______ la diferencia al contribuyente.', opciones: ['devuelve', 'cobra', 'ignora', 'invierte'], correcta: 0, explicacion: 'Si retuvieron m\u00E1s impuestos de los que deb\u00EDas pagar, el SII te devuelve la diferencia. Si retuvieron menos, debes pagar.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es una boleta de honorarios?', opciones: ['Documento que emite un trabajador independiente por sus servicios', 'Una factura de empresa', 'Un comprobante de pago de IVA', 'Un certificado de retenci\u00F3n'], correcta: 0, explicacion: 'Los trabajadores independientes (boleta de honorarios) pagan impuestos diferente a los trabajadores dependientes (sueldo con liquidaci\u00F3n).' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 son los gastos rechazados para efectos tributarios?', opciones: ['Gastos que el SII no acepta como deducibles del impuesto a la renta', 'Gastos que superan el presupuesto', 'Deudas incobrables de la empresa', 'Gastos pagados en efectivo'], correcta: 0, explicacion: 'No todos los gastos reducen la base imponible. El SII define qu\u00E9 gastos son aceptados como deducibles seg\u00FAn la actividad.' }
+    ]
+  },
+  {
+    id: 'impuesto_4', camino: 'impuestos', nivel: 2,
+    nombre: 'Planificaci\u00F3n tributaria legal',
+    desc: 'Instrumentos legales para optimizar impuestos',
+    emoji: '\u2696\uFE0F', dificultad: 'Dif\u00EDcil', xpRecompensa: 60,
+    desbloqueaCon: 'impuesto_3',
+    preguntas: [
+      { tipo: 'opcion', pregunta: '\u00BFCu\u00E1l es la diferencia entre evasi\u00F3n y elusi\u00F3n tributaria?', opciones: ['Evasi\u00F3n es ilegal (no pagar lo que debes); elusi\u00F3n es legal (usar instrumentos para pagar menos)', 'Son sin\u00F3nimos, ambas son ilegales', 'Elusi\u00F3n es ilegal y evasi\u00F3n es permitida', 'No existe diferencia legal'], correcta: 0, explicacion: 'Evasi\u00F3n: ocultar ingresos o inflar gastos falsamente = delito. Elusi\u00F3n: usar mecanismos legales para reducir la carga tributaria = permitido.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 beneficio tributario ofrece el APV R\u00E9gimen A?', opciones: ['El Estado bonifica el 15% de lo ahorrado, con tope anual', 'Descuento del ahorro de la base imponible', 'Exenci\u00F3n total del impuesto a la renta', 'Devoluci\u00F3n del IVA de las inversiones'], correcta: 0, explicacion: 'APV R\u00E9gimen A: el Estado deposita el 15% de lo ahorrado directamente en tu cuenta. Ideal si tu tasa de impuesto es baja.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 beneficio ofrece el APV R\u00E9gimen B?', opciones: ['El ahorro se descuenta de la base imponible, reduciendo el impuesto del a\u00F1o', 'El Estado aporta el 15% adicional', 'Los retiros est\u00E1n exentos de impuesto siempre', 'No paga cotizaciones en AFP'], correcta: 0, explicacion: 'APV R\u00E9gimen B permite descontar el ahorro de tu renta imponible. Conviene si tu tasa de impuesto marginal es alta (m\u00E1s del 15%).' },
+      { tipo: 'completar', pregunta: 'Las p\u00E9rdidas de capital en inversiones pueden _______ las ganancias de capital para reducir el impuesto.', opciones: ['compensar', 'duplicar', 'ignorar', 'multiplicar'], correcta: 0, explicacion: 'En muchos sistemas tributarios, las p\u00E9rdidas en inversiones pueden usarse para compensar ganancias, reduciendo la base imponible.' },
+      { tipo: 'opcion', pregunta: '\u00BFQu\u00E9 es una sociedad de inversi\u00F3n?', opciones: ['Empresa creada para gestionar inversiones con posibles ventajas tributarias', 'Un tipo de fondo mutuo', 'Una cooperativa de ahorro', 'Una AFP privada'], correcta: 0, explicacion: 'Crear una sociedad de inversi\u00F3n puede ofrecer ventajas tributarias en Chile, como diferir el pago de impuestos sobre ganancias no retiradas.' }
+    ]
+  }
+
   ]
 
 };
