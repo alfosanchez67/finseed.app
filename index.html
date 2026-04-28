@@ -6395,7 +6395,7 @@ function cerrarSwipeGame() {
 </script>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
-<!-- BUILD GAME: Construye tu Meta                             -->
+<!-- BUILD GAME: El Presupuesto del Mes                        -->
 <!-- ═══════════════════════════════════════════════════════════ -->
 
 <div id="build-overlay" style="display:none;position:fixed;inset:0;z-index:10000;background:#f8fafc;flex-direction:column">
@@ -6405,106 +6405,126 @@ function cerrarSwipeGame() {
     <div onclick="cerrarBuildGame()" style="color:white;cursor:pointer">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
     </div>
-    <div>
-      <div style="font-size:16px;font-weight:700;color:white">Construye tu Meta</div>
-      <div style="font-size:12px;color:rgba(255,255,255,0.75)">&iquest;Cu&aacute;nto tiempo necesitas ahorrar?</div>
+    <div style="flex:1">
+      <div style="font-size:16px;font-weight:700;color:white">El Presupuesto del Mes</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.75)">Decide cu&aacute;nto ahorrar cada mes</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.2);border-radius:20px;padding:4px 12px;text-align:center">
+      <div id="build-mes-num" style="font-size:16px;font-weight:700;color:white">Mes 1</div>
     </div>
   </div>
 
   <!-- SELECTOR DE META -->
   <div id="build-selector" style="flex:1;padding:20px;overflow-y:auto;display:flex;flex-direction:column">
-    <div style="font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:16px;text-align:center">&iquest;Para qu&eacute; quieres ahorrar?</div>
+    <div style="font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:4px;text-align:center">&iquest;Para qu&eacute; quieres ahorrar?</div>
+    <div style="font-size:12px;color:var(--text-3);margin-bottom:16px;text-align:center">Recibes $100.000 por mes</div>
     <div id="build-metas-lista" style="display:flex;flex-direction:column;gap:10px"></div>
   </div>
 
   <!-- JUEGO ACTIVO -->
-  <div id="build-juego" style="display:none;flex:1;flex-direction:column;padding:20px">
+  <div id="build-juego" style="display:none;flex:1;flex-direction:column;overflow-y:auto;padding:16px;gap:12px">
 
-    <!-- META INFO -->
-    <div id="build-meta-info" style="text-align:center;margin-bottom:20px">
-      <div id="build-meta-emoji" style="font-size:56px;margin-bottom:8px">&#x1F6B2;</div>
-      <div id="build-meta-nombre" style="font-size:20px;font-weight:700;color:var(--text-1)">Bicicleta</div>
-      <div id="build-meta-precio" style="font-size:14px;color:var(--text-3);margin-top:4px">Meta: $120.000</div>
-    </div>
-
-    <!-- BARRA DE PROGRESO VISUAL -->
-    <div style="background:white;border:1px solid var(--border);border-radius:20px;padding:20px;margin-bottom:20px">
-      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
-        <div style="font-size:13px;color:var(--text-3)">Ahorro actual</div>
-        <div id="build-pct-texto" style="font-size:13px;font-weight:700;color:#16a34a">0%</div>
+    <!-- META Y PROGRESO -->
+    <div style="background:white;border:1px solid var(--border);border-radius:16px;padding:16px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <div id="build-emoji-display" style="font-size:36px">&#x1F6B2;</div>
+        <div style="flex:1">
+          <div id="build-nombre-display" style="font-size:15px;font-weight:700;color:var(--text-1)">Bicicleta</div>
+          <div id="build-progreso-texto" style="font-size:12px;color:var(--text-3);margin-top:2px">$0 de $180.000</div>
+        </div>
+        <div id="build-pct-display" style="font-size:22px;font-weight:700;color:#16a34a">0%</div>
       </div>
-      <div style="background:#f3f4f6;border-radius:12px;height:24px;overflow:hidden;margin-bottom:12px;position:relative">
-        <div id="build-barra" style="background:linear-gradient(90deg,#16a34a,#22c55e);height:24px;border-radius:12px;width:0%;transition:width .5s ease"></div>
-      </div>
-      <div style="display:flex;justify-content:space-between">
-        <div style="text-align:center">
-          <div id="build-ahorro-actual" style="font-size:18px;font-weight:700;color:#16a34a">$0</div>
-          <div style="font-size:11px;color:var(--text-3)">Ahorrado</div>
-        </div>
-        <div style="text-align:center">
-          <div id="build-meses-texto" style="font-size:18px;font-weight:700;color:var(--text-1)">0</div>
-          <div style="font-size:11px;color:var(--text-3)">Meses</div>
-        </div>
-        <div style="text-align:center">
-          <div id="build-falta-texto" style="font-size:18px;font-weight:700;color:#f59e0b">$0</div>
-          <div style="font-size:11px;color:var(--text-3)">Falta</div>
-        </div>
+      <div style="background:#f3f4f6;border-radius:10px;height:16px;overflow:hidden">
+        <div id="build-barra-meta" style="background:linear-gradient(90deg,#16a34a,#22c55e);height:16px;border-radius:10px;width:0%;transition:width .4s ease"></div>
       </div>
     </div>
 
-    <!-- ÁREA DE MONEDAS CAYENDO -->
-    <div id="build-coins-area" style="flex:1;position:relative;display:flex;align-items:center;justify-content:center;min-height:80px">
-      <div style="font-size:13px;color:var(--text-3);text-align:center" id="build-hint">Toca el bot&oacute;n para ahorrar cada mes</div>
+    <!-- SLIDER DE AHORRO -->
+    <div style="background:white;border:1px solid var(--border);border-radius:16px;padding:16px">
+      <div style="font-size:14px;font-weight:600;color:var(--text-1);margin-bottom:4px">&iquest;Cu&aacute;nto ahorras este mes?</div>
+      <div style="font-size:12px;color:var(--text-3);margin-bottom:14px">Ingresos del mes: <strong>$100.000</strong></div>
+      <input type="range" id="build-slider" min="0" max="100" value="50" step="5" oninput="actualizarSliderBuild(this.value)" style="width:100%;height:6px;border-radius:6px;outline:none;cursor:pointer;accent-color:#16a34a;margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;gap:8px">
+        <div style="flex:1;background:#fef2f2;border-radius:12px;padding:10px;text-align:center">
+          <div id="build-gasto-display" style="font-size:17px;font-weight:700;color:#dc2626">$50.000</div>
+          <div style="font-size:11px;color:var(--text-3);margin-top:2px">&#x1F4B8; Gastos</div>
+        </div>
+        <div style="flex:1;background:#f0fdf4;border-radius:12px;padding:10px;text-align:center">
+          <div id="build-ahorro-display" style="font-size:17px;font-weight:700;color:#16a34a">$50.000</div>
+          <div style="font-size:11px;color:var(--text-3);margin-top:2px">&#x1F437; Ahorro</div>
+        </div>
+      </div>
     </div>
 
-    <!-- BOTÓN AHORRAR -->
-    <div id="build-btn-ahorrar" onclick="ahorrarMes()" style="background:#16a34a;color:white;padding:18px;border-radius:16px;text-align:center;font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(22,163,74,0.3)">
-      &#x1F4B0; Ahorrar un mes
+    <!-- PREDICCIÓN -->
+    <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px">
+      <div style="font-size:24px">&#x1F4C5;</div>
+      <div>
+        <div style="font-size:13px;color:#92400e;font-weight:600">Con este ahorro llegarás en</div>
+        <div id="build-prediccion" style="font-size:18px;font-weight:700;color:#f59e0b">-- meses</div>
+      </div>
     </div>
-    <div id="build-ahorro-por-mes" style="text-align:center;font-size:12px;color:var(--text-3);margin-top:8px"></div>
+
+    <!-- QUÉ PUEDES COMPRAR CON LOS GASTOS -->
+    <div style="background:white;border:1px solid var(--border);border-radius:14px;padding:14px">
+      <div style="font-size:13px;font-weight:600;color:var(--text-1);margin-bottom:8px">Con $<span id="build-gasto-label">50.000</span> en gastos puedes:</div>
+      <div id="build-gastos-items" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+    </div>
+
+    <!-- BOTÓN CONFIRMAR MES -->
+    <div onclick="confirmarMesBuild()" id="build-btn-confirmar" style="background:#16a34a;color:white;padding:16px;border-radius:14px;text-align:center;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(22,163,74,0.25)">
+      &#x2713; Confirmar mes <span id="build-mes-btn">1</span>
+    </div>
 
   </div>
-
 </div>
 
-<!-- CONFETTI Y RESULTADO BUILD -->
-<div id="build-resultado" style="display:none;position:fixed;inset:0;z-index:10001;background:white;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center">
+<!-- RESULTADO BUILD -->
+<div id="build-resultado" style="display:none;position:fixed;inset:0;z-index:10001;background:white;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center;overflow-y:auto">
   <div id="build-confetti-area" style="position:absolute;inset:0;pointer-events:none;overflow:hidden"></div>
-  <div style="font-size:72px;margin-bottom:16px;animation:bounce 0.6s ease infinite alternate" id="build-meta-emoji-final">&#x1F6B2;</div>
-  <div style="font-size:26px;font-weight:700;color:var(--text-1);margin-bottom:8px">&iexcl;Meta alcanzada!</div>
-  <div id="build-resultado-desc" style="font-size:15px;color:var(--text-3);margin-bottom:24px"></div>
-  <div style="background:#f0fdf4;border-radius:16px;padding:20px 32px;margin-bottom:16px;width:100%">
-    <div style="font-size:36px;font-weight:700;color:#16a34a">+50 XP</div>
-    <div style="font-size:13px;color:#15803d;margin-top:4px">ganados</div>
+  <div id="build-emoji-final" style="font-size:72px;margin-bottom:12px">&#x1F6B2;</div>
+  <div style="font-size:24px;font-weight:700;color:var(--text-1);margin-bottom:8px">&iexcl;Meta alcanzada!</div>
+  <div id="build-resultado-subtitulo" style="font-size:14px;color:var(--text-3);margin-bottom:20px"></div>
+  <div style="background:#f9fafb;border-radius:14px;padding:16px;width:100%;margin-bottom:16px;text-align:left">
+    <div style="font-size:13px;font-weight:600;color:var(--text-2);margin-bottom:10px">Tu historial de ahorro</div>
+    <div id="build-historial" style="display:flex;flex-direction:column;gap:6px"></div>
   </div>
-  <div style="background:#f9fafb;border-radius:14px;padding:16px;width:100%;margin-bottom:24px">
-    <div style="font-size:13px;color:var(--text-3);margin-bottom:8px">Lo que aprendiste</div>
-    <div id="build-leccion" style="font-size:14px;font-weight:600;color:var(--text-1);line-height:1.5"></div>
+  <div style="background:#f0fdf4;border-radius:14px;padding:16px 24px;margin-bottom:20px;width:100%">
+    <div style="font-size:32px;font-weight:700;color:#16a34a">+50 XP</div>
+    <div style="font-size:13px;color:#15803d">ganados</div>
   </div>
-  <div onclick="cerrarBuildGame()" style="background:#16a34a;color:white;padding:14px;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;width:100%">Volver a juegos</div>
-  <div onclick="reiniciarBuildGame()" style="margin-top:12px;font-size:14px;color:#16a34a;cursor:pointer;font-weight:600">Probar otra meta</div>
+  <div onclick="cerrarBuildGame()" style="background:#16a34a;color:white;padding:14px;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;width:100%;margin-bottom:10px">Volver a juegos</div>
+  <div onclick="reiniciarBuildGame()" style="font-size:14px;color:#16a34a;cursor:pointer;font-weight:600">Probar otra meta</div>
 </div>
 
 <script>
 var _buildGameData = {
   id: 'build_meta',
-  nombre: 'Construye tu Meta',
+  nombre: 'El Presupuesto del Mes',
   xpRecompensa: 50,
+  ingreso: 100000,
   metas: [
-    { id: 'bici', nombre: 'Bicicleta', emoji: '\ud83d\udeb2', precio: 120000, ahorroPor: 10000, meses: 12, color: '#16a34a' },
-    { id: 'consola', nombre: 'Consola de juegos', emoji: '\ud83c\udfae', precio: 250000, ahorroPor: 20000, meses: 13, color: '#7c3aed' },
-    { id: 'viaje', nombre: 'Viaje familiar', emoji: '\u2708\ufe0f', precio: 500000, ahorroPor: 50000, meses: 10, color: '#0284c7' },
-    { id: 'laptop', nombre: 'Computador', emoji: '\ud83d\udcbb', precio: 400000, ahorroPor: 40000, meses: 10, color: '#f59e0b' },
-    { id: 'mascota', nombre: 'Cuidado mascota', emoji: '\ud83d\udc15', precio: 80000, ahorroPor: 8000, meses: 10, color: '#dc2626' }
+    { id: 'bici',    nombre: 'Bicicleta',         emoji: '🚲', precio: 180000, color: '#16a34a' },
+    { id: 'consola', nombre: 'Consola de juegos',  emoji: '🎮', precio: 300000, color: '#7c3aed' },
+    { id: 'viaje',   nombre: 'Viaje familiar',     emoji: '✈️', precio: 500000, color: '#0284c7' },
+    { id: 'laptop',  nombre: 'Computador',         emoji: '💻', precio: 400000, color: '#f59e0b' },
+    { id: 'perro',   nombre: 'Accesorios mascota', emoji: '🐕', precio: 120000, color: '#dc2626' }
+  ],
+  gastos: [
+    { nombre: 'Comida',          emoji: '🍕', costo: 15000 },
+    { nombre: 'Entretenimiento', emoji: '🎬', costo: 20000 },
+    { nombre: 'Ropa',            emoji: '👕', costo: 25000 },
+    { nombre: 'Tecnología', emoji: '📱', costo: 30000 }
   ]
 };
 
 var _buildState = {
   metaSeleccionada: null,
-  ahorroActual: 0,
-  mesesAhorrados: 0,
+  ahorroAcumulado: 0,
+  mes: 0,
+  porcentajeAhorro: 50,
   activo: false,
-  animando: false
+  historial: []
 };
 
 function abrirBuildGame() {
@@ -6512,6 +6532,8 @@ function abrirBuildGame() {
   if (!overlay) return;
   overlay.style.display = 'flex';
   overlay.style.flexDirection = 'column';
+  var resultado = document.getElementById('build-resultado');
+  if (resultado) resultado.style.display = 'none';
   renderBuildSelector();
 }
 
@@ -6520,19 +6542,18 @@ function renderBuildSelector() {
   var juego = document.getElementById('build-juego');
   if (sel) { sel.style.display = 'flex'; sel.style.flexDirection = 'column'; }
   if (juego) juego.style.display = 'none';
-
   var lista = document.getElementById('build-metas-lista');
   if (!lista) return;
-
   lista.innerHTML = _buildGameData.metas.map(function(m) {
-    return '<div onclick="seleccionarMetaBuild(\'' + m.id + '\')" style="background:white;border:2px solid ' + m.color + '30;border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer">' +
-      '<div style="width:56px;height:56px;border-radius:14px;background:' + m.color + '15;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0">' + m.emoji + '</div>' +
+    var mesesMin = Math.ceil(m.precio / _buildGameData.ingreso);
+    return '<div onclick="seleccionarMetaBuild(\'' + m.id + '\')" style="background:white;border:2px solid ' + m.color + '30;border-radius:16px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer">' +
+      '<div style="font-size:36px">' + m.emoji + '</div>' +
       '<div style="flex:1">' +
-      '<div style="font-size:16px;font-weight:700;color:var(--text-1)">' + m.nombre + '</div>' +
-      '<div style="font-size:13px;color:var(--text-3);margin-top:2px">Meta: $' + m.precio.toLocaleString('es-CL') + '</div>' +
-      '<div style="font-size:12px;color:' + m.color + ';margin-top:2px">$' + m.ahorroPor.toLocaleString('es-CL') + '/mes &rarr; ' + m.meses + ' meses</div>' +
+      '<div style="font-size:15px;font-weight:700;color:var(--text-1)">' + m.nombre + '</div>' +
+      '<div style="font-size:12px;color:var(--text-3)">Cuesta $' + m.precio.toLocaleString('es-CL') + '</div>' +
+      '<div style="font-size:11px;color:' + m.color + ';margin-top:2px">Mínimo ' + mesesMin + ' meses ahorrando todo</div>' +
       '</div>' +
-      '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="' + m.color + '" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>' +
+      '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="' + m.color + '" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>' +
       '</div>';
   }).join('');
 }
@@ -6540,114 +6561,128 @@ function renderBuildSelector() {
 function seleccionarMetaBuild(metaId) {
   var meta = _buildGameData.metas.find(function(m) { return m.id === metaId; });
   if (!meta) return;
-
   _buildState.metaSeleccionada = meta;
-  _buildState.ahorroActual = 0;
-  _buildState.mesesAhorrados = 0;
+  _buildState.ahorroAcumulado = 0;
+  _buildState.mes = 0;
+  _buildState.porcentajeAhorro = 50;
   _buildState.activo = true;
-  _buildState.animando = false;
-
-  document.getElementById('build-selector').style.display = 'none';
+  _buildState.historial = [];
+  var sel = document.getElementById('build-selector');
   var juego = document.getElementById('build-juego');
-  juego.style.display = 'flex';
-  juego.style.flexDirection = 'column';
-
-  document.getElementById('build-meta-emoji').textContent = meta.emoji;
-  document.getElementById('build-meta-nombre').textContent = meta.nombre;
-  document.getElementById('build-meta-precio').textContent = 'Meta: $' + meta.precio.toLocaleString('es-CL');
-  document.getElementById('build-ahorro-por-mes').textContent = 'Cada mes ahorras $' + meta.ahorroPor.toLocaleString('es-CL');
-  var hint = document.getElementById('build-hint');
-  if (hint) hint.style.display = 'block';
-
-  actualizarUIBuild();
+  if (sel) sel.style.display = 'none';
+  if (juego) { juego.style.display = 'flex'; juego.style.flexDirection = 'column'; }
+  document.getElementById('build-emoji-display').textContent = meta.emoji;
+  document.getElementById('build-nombre-display').textContent = meta.nombre;
+  var slider = document.getElementById('build-slider');
+  if (slider) slider.value = 50;
+  actualizarSliderBuild(50);
+  actualizarUIBuildMeta();
 }
 
-function ahorrarMes() {
-  if (!_buildState.activo || _buildState.animando) return;
+function actualizarSliderBuild(valor) {
+  _buildState.porcentajeAhorro = parseInt(valor);
+  var ingreso = _buildGameData.ingreso;
+  var ahorro = Math.round(ingreso * valor / 100);
+  var gasto = ingreso - ahorro;
   var meta = _buildState.metaSeleccionada;
-  if (!meta) return;
-
-  _buildState.animando = true;
-  _buildState.ahorroActual = Math.min(_buildState.ahorroActual + meta.ahorroPor, meta.precio);
-  _buildState.mesesAhorrados++;
-
-  var area = document.getElementById('build-coins-area');
-  if (area) {
-    var moneda = document.createElement('div');
-    moneda.textContent = '\ud83e\ude99';
-    moneda.style.cssText = 'position:absolute;font-size:32px;top:-20px;left:' + (30 + Math.random() * 40) + '%;animation:coinDrop .6s ease forwards;pointer-events:none';
-    area.appendChild(moneda);
-    var hint = document.getElementById('build-hint');
-    if (hint) hint.style.display = 'none';
-    setTimeout(function() { if (moneda.parentNode) moneda.parentNode.removeChild(moneda); }, 600);
-  }
-
-  if (navigator.vibrate) navigator.vibrate(50);
-
-  setTimeout(function() {
-    actualizarUIBuild();
-    _buildState.animando = false;
-    if (_buildState.ahorroActual >= meta.precio) {
-      setTimeout(function() { mostrarResultadoBuild(); }, 300);
+  var elA = document.getElementById('build-ahorro-display');
+  var elG = document.getElementById('build-gasto-display');
+  var elGL = document.getElementById('build-gasto-label');
+  if (elA) elA.textContent = '$' + ahorro.toLocaleString('es-CL');
+  if (elG) elG.textContent = '$' + gasto.toLocaleString('es-CL');
+  if (elGL) elGL.textContent = gasto.toLocaleString('es-CL');
+  var elPred = document.getElementById('build-prediccion');
+  if (elPred && meta) {
+    if (ahorro <= 0) {
+      elPred.textContent = '∞ nunca llegarás';
+      elPred.style.color = '#dc2626';
+    } else {
+      var mesesRestantes = Math.ceil((meta.precio - _buildState.ahorroAcumulado) / ahorro);
+      elPred.textContent = (_buildState.mes + mesesRestantes) + ' meses en total';
+      elPred.style.color = mesesRestantes <= 6 ? '#16a34a' : '#f59e0b';
     }
-  }, 400);
+  }
+  var items = document.getElementById('build-gastos-items');
+  if (items) {
+    var gastosAffordable = _buildGameData.gastos.filter(function(g) { return g.costo <= gasto; });
+    if (gastosAffordable.length === 0) {
+      items.innerHTML = '<div style="font-size:12px;color:var(--text-3)">Casi nada... ¡pero llegarás antes a tu meta!</div>';
+    } else {
+      items.innerHTML = gastosAffordable.map(function(g) {
+        return '<div style="background:#f9fafb;border-radius:10px;padding:6px 10px;font-size:12px;display:flex;align-items:center;gap:4px">' + g.emoji + ' <span>' + g.nombre + '</span></div>';
+      }).join('');
+    }
+  }
 }
 
-function actualizarUIBuild() {
+function actualizarUIBuildMeta() {
   var meta = _buildState.metaSeleccionada;
   if (!meta) return;
-
-  var pct = Math.min(100, Math.round(_buildState.ahorroActual / meta.precio * 100));
-  var falta = Math.max(0, meta.precio - _buildState.ahorroActual);
-  var barraColor = pct < 30 ? '#f59e0b' : pct < 70 ? '#16a34a' : '#22c55e';
-
-  var barra = document.getElementById('build-barra');
-  if (barra) { barra.style.width = pct + '%'; barra.style.background = 'linear-gradient(90deg,' + barraColor + ',#86efac)'; }
-
-  var pctEl = document.getElementById('build-pct-texto');
+  var pct = Math.min(100, Math.round(_buildState.ahorroAcumulado / meta.precio * 100));
+  var barra = document.getElementById('build-barra-meta');
+  if (barra) barra.style.width = pct + '%';
+  var pctEl = document.getElementById('build-pct-display');
   if (pctEl) pctEl.textContent = pct + '%';
+  var progEl = document.getElementById('build-progreso-texto');
+  if (progEl) progEl.textContent = '$' + _buildState.ahorroAcumulado.toLocaleString('es-CL') + ' de $' + meta.precio.toLocaleString('es-CL');
+  var mesEl = document.getElementById('build-mes-num');
+  if (mesEl) mesEl.textContent = 'Mes ' + (_buildState.mes + 1);
+  var mesBtnEl = document.getElementById('build-mes-btn');
+  if (mesBtnEl) mesBtnEl.textContent = _buildState.mes + 1;
+}
 
-  var ahorroEl = document.getElementById('build-ahorro-actual');
-  if (ahorroEl) ahorroEl.textContent = '$' + _buildState.ahorroActual.toLocaleString('es-CL');
-
-  var mesesEl = document.getElementById('build-meses-texto');
-  if (mesesEl) mesesEl.textContent = _buildState.mesesAhorrados;
-
-  var faltaEl = document.getElementById('build-falta-texto');
-  if (faltaEl) faltaEl.textContent = '$' + falta.toLocaleString('es-CL');
+function confirmarMesBuild() {
+  if (!_buildState.activo) return;
+  var meta = _buildState.metaSeleccionada;
+  var ingreso = _buildGameData.ingreso;
+  var ahorro = Math.round(ingreso * _buildState.porcentajeAhorro / 100);
+  var gasto = ingreso - ahorro;
+  _buildState.mes++;
+  _buildState.ahorroAcumulado = Math.min(_buildState.ahorroAcumulado + ahorro, meta.precio);
+  _buildState.historial.push({ mes: _buildState.mes, ahorro: ahorro, gasto: gasto, acumulado: _buildState.ahorroAcumulado });
+  var btn = document.getElementById('build-btn-confirmar');
+  if (btn) { btn.style.background = '#22c55e'; setTimeout(function() { btn.style.background = '#16a34a'; }, 300); }
+  if (navigator.vibrate) navigator.vibrate(40);
+  actualizarUIBuildMeta();
+  actualizarSliderBuild(_buildState.porcentajeAhorro);
+  if (_buildState.ahorroAcumulado >= meta.precio) {
+    setTimeout(function() { mostrarResultadoBuild(); }, 400);
+  }
 }
 
 function mostrarResultadoBuild() {
   _buildState.activo = false;
   var meta = _buildState.metaSeleccionada;
-
   var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
   var uid = session.id || FinSeedStore.session.userId || 'u2';
   var progUser = FinSeedStore.getProgreso(uid);
   progUser.xp += _buildGameData.xpRecompensa;
   progUser.xpSemana += _buildGameData.xpRecompensa;
   localStorage.setItem('finseed_progreso_' + uid, JSON.stringify(progUser));
-  // Marcar como completado para desbloquear juegos siguientes
   var progJuegosB = getProgresoJuegos(uid);
   progJuegosB[_buildGameData.id] = { completado: true, xpGanado: _buildGameData.xpRecompensa, fecha: new Date().toISOString() };
   localStorage.setItem('finseed_juegos_' + uid, JSON.stringify(progJuegosB));
-
-  if (typeof actualizarProgresoMisiones === 'function') {
-    actualizarProgresoMisiones(uid, 'juegos', 1);
-  }
-
+  if (typeof actualizarProgresoMisiones === 'function') actualizarProgresoMisiones(uid, 'juegos', 1);
   var resultado = document.getElementById('build-resultado');
   if (!resultado) return;
-
-  document.getElementById('build-meta-emoji-final').textContent = meta.emoji;
-  document.getElementById('build-resultado-desc').textContent =
-    'Ahorraste $' + meta.ahorroPor.toLocaleString('es-CL') + ' por mes durante ' + _buildState.mesesAhorrados + ' meses';
-  document.getElementById('build-leccion').textContent =
-    'Ahorrar $' + meta.ahorroPor.toLocaleString('es-CL') + ' cada mes durante ' + meta.meses + ' meses acumula $' + meta.precio.toLocaleString('es-CL') + '. Las metas se logran con constancia.';
-
+  document.getElementById('build-emoji-final').textContent = meta.emoji;
+  var avgAhorro = Math.round(_buildState.historial.reduce(function(s,h){return s+h.ahorro;},0) / _buildState.historial.length);
+  document.getElementById('build-resultado-subtitulo').textContent =
+    'Lo lograste en ' + _buildState.mes + ' meses ahorrando un promedio de $' + avgAhorro.toLocaleString('es-CL') + '/mes';
+  var histEl = document.getElementById('build-historial');
+  if (histEl) {
+    histEl.innerHTML = _buildState.historial.map(function(h) {
+      var pct = Math.round(h.ahorro / _buildGameData.ingreso * 100);
+      return '<div style="display:flex;align-items:center;gap:8px">' +
+        '<div style="font-size:11px;color:var(--text-3);width:40px">Mes ' + h.mes + '</div>' +
+        '<div style="flex:1;background:#f3f4f6;border-radius:6px;height:8px;overflow:hidden">' +
+        '<div style="background:#16a34a;height:8px;border-radius:6px;width:' + pct + '%"></div></div>' +
+        '<div style="font-size:11px;font-weight:600;color:#16a34a;width:32px;text-align:right">' + pct + '%</div>' +
+        '</div>';
+    }).join('');
+  }
   resultado.style.display = 'flex';
   resultado.style.flexDirection = 'column';
-
   lanzarConfettiBuild();
 }
 
