@@ -106,7 +106,6 @@ FinSeed conecta a padres e hijos en una experiencia financiera compartida:
 | Usuarios activos mensuales | 1.000 |
 | Conversión Free → Premium | 8% |
 | Retención día 30 | 40% |
-| NPS | +50 |
 
 ---
 
@@ -114,20 +113,20 @@ FinSeed conecta a padres e hijos en una experiencia financiera compartida:
 
 ### Q2 2025 — Validación
 - [x] MVP funcional con flujo completo
-- [x] Primeros usuarios reales (familias beta)
+- [x] Primeros usuarios beta
 - [ ] 50 familias activas
 - [ ] Feedback loop establecido
 
 ### Q3 2025 — Crecimiento
 - [ ] Integración Vector Capital (portafolio real)
-- [ ] Migración React Native (iOS + Android)
+- [ ] Migración React Native
 - [ ] Lanzamiento App Store y Google Play
 - [ ] 500 familias activas
 
 ### Q4 2025 — Escala
-- [ ] Expansión a otros países latinoamericanos
-- [ ] B2B: colegios y empresas
-- [ ] Serie A / levantamiento de capital
+- [ ] Expansión latinoamericana
+- [ ] Canal B2B (colegios y empresas)
+- [ ] Levantamiento de capital Serie A
 
 ---
 
