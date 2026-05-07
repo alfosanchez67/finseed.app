@@ -121,4 +121,4 @@
 
 ---
 
-*Actualizado: Mayo 2025*
+*Actualizado: Mayo 2026*

@@ -1,25 +1,25 @@
-# 📅 FinSeed — Planificación 3 Meses (Mayo - Julio 2025)
+# 📅 FinSeed — Planificación 3 Meses (Mayo - Julio 2026)
 
 ## RESUMEN EJECUTIVO
 
 | Mes | Foco Principal | Meta Clave |
 |-----|---------------|------------|
-| Mayo 2025 | Validación + Marketing | 50 familias activas |
-| Junio 2025 | Monetización + Contenido | Primeros ingresos reales |
-| Julio 2025 | Escala + App nativa | 500 familias activas |
+| Mayo 2026 | Validación + Marketing | 50 familias activas |
+| Junio 2026 | Monetización + Contenido | Primeros ingresos reales |
+| Julio 2026 | Escala + App nativa | 500 familias activas |
 
 > ⚠️ El portafolio opera con simulación durante toda esta etapa. La integración con broker real es una épica futura que se activa solo después de tracción validada y acuerdos regulatorios.
 
 ---
 
-## 🗓️ MAYO 2025 — Validación
+## 🗓️ MAYO 2026 — Validación
 
 ### Semana 1 (1-7 Mayo)
+- [x] App en producción con splash screen y UI pulida
 - [ ] Compartir app a 20 familias conocidas
 - [ ] Crear cuenta TikTok e Instagram @finseed.cl
 - [ ] Grabar primer video demo (60 segundos)
 - [ ] Configurar Google Analytics en la app
-- [ ] Definir métricas de seguimiento semanal
 
 ### Semana 2 (8-14 Mayo)
 - [ ] Publicar 3 videos en TikTok e Instagram
@@ -44,7 +44,7 @@
 
 ---
 
-## 🗓️ JUNIO 2025 — Monetización
+## 🗓️ JUNIO 2026 — Monetización
 
 ### Semana 1 (1-7 Junio)
 - [ ] Lanzar plan Premium con cobro real
@@ -76,7 +76,7 @@
 
 ---
 
-## 🗓️ JULIO 2025 — Escala
+## 🗓️ JULIO 2026 — Escala
 
 ### Semana 1 (1-7 Julio)
 - [ ] Meta: 300 familias registradas
@@ -121,7 +121,7 @@
 
 ---
 
-## 🔮 Q3 2025 — Portafolio Real (condicional)
+## 🔮 Q3 2026 — Portafolio Real (condicional)
 
 > Se activa **solo si** al cierre de Julio se cumplen:
 > - 500+ familias activas
@@ -132,7 +132,7 @@
 - [ ] Integración API broker (Vector Capital u otro)
 - [ ] Flujo KYC (verificación de identidad)
 - [ ] Beta cerrada con 20 familias Premium
-- [ ] Lanzamiento portafolio real Q4 2025
+- [ ] Lanzamiento portafolio real Q4 2026
 
 ---
 

@@ -111,22 +111,25 @@ FinSeed conecta a padres e hijos en una experiencia financiera compartida:
 
 ## 🗺️ Roadmap
 
-### Q2 2025 — Validación
+### Q2 2026 — Validación y primeros ingresos
 - [x] MVP funcional con flujo completo
-- [x] Primeros usuarios beta
+- [x] App en producción (finseed.vercel.app)
+- [x] Splash screen, UI pulida y responsive
 - [ ] 50 familias activas
-- [ ] Feedback loop establecido
+- [ ] Primeros ingresos Premium (Mercado Pago / Stripe)
+- [ ] Presencia en TikTok e Instagram activa
 
-### Q3 2025 — Crecimiento
-- [ ] Integración Vector Capital (portafolio real)
-- [ ] Migración React Native
+### Q3 2026 — Crecimiento
+- [ ] App nativa iOS y Android (React Native)
 - [ ] Lanzamiento App Store y Google Play
 - [ ] 500 familias activas
+- [ ] Canal B2B con colegios piloto
+- [ ] Integración portafolio real (condicional a tracción)
 
-### Q4 2025 — Escala
+### Q4 2026 — Escala
 - [ ] Expansión latinoamericana
-- [ ] Canal B2B (colegios y empresas)
-- [ ] Levantamiento de capital Serie A
+- [ ] Levantamiento de capital ángel o aceleradoras
+- [ ] 1.000+ usuarios activos mensuales
 
 ---
 
