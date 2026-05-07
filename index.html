@@ -2597,43 +2597,33 @@ function setPortafolioPadre(userId, posiciones) {
   localStorage.setItem('finseed_port_posiciones_' + userId, JSON.stringify(posiciones));
 }
 
-var _tickerLogos = {
-  'AAPL':  'https://cdn.brandfetch.io/idnrCPuv87/w/400/h/400/theme/dark/icon.png?c=1dxbfHSJFAPEwi1',
-  'MSFT':  'https://cdn.brandfetch.io/idMI7BI1-s/w/400/h/400/theme/dark/icon.png',
-  'GOOGL': 'https://cdn.brandfetch.io/id6O2oGzv-/w/400/h/400/theme/dark/icon.png',
-  'AMZN':  'https://cdn.brandfetch.io/idawOgYOsG/w/400/h/400/theme/dark/icon.png',
-  'TSLA':  'https://cdn.brandfetch.io/id2S5-pAcu/w/400/h/400/theme/dark/icon.png',
-  'NVDA':  'https://cdn.brandfetch.io/idvOetKbBb/w/400/h/400/theme/dark/icon.png',
-  'VOO':   null,
-  'VTI':   null,
-  'QQQ':   null,
-  'BND':   null,
-  'SQM':   null,
-  'COPEC': null
-};
-
-var _tickerEmojis = {
-  'AAPL':  '🍎',
-  'MSFT':  '🪟',
-  'GOOGL': '🔍',
-  'AMZN':  '📦',
-  'TSLA':  '⚡',
-  'NVDA':  '🖥️',
-  'VOO':   '🧺',
-  'VTI':   '🧺',
-  'QQQ':   '💹',
-  'BND':   '📊',
-  'SQM':   '🇨🇱',
-  'COPEC': '⛽'
+var _tickerDomains = {
+  'AAPL':  'apple.com',
+  'MSFT':  'microsoft.com',
+  'GOOGL': 'google.com',
+  'AMZN':  'amazon.com',
+  'TSLA':  'tesla.com',
+  'NVDA':  'nvidia.com',
+  'VOO':   'vanguard.com',
+  'VTI':   'vanguard.com',
+  'QQQ':   'invesco.com',
+  'BND':   'vanguard.com',
+  'SQM':   'sqm.com',
+  'COPEC': 'copec.cl'
 };
 
 function getTickerLogo(ticker, size) {
   size = size || 36;
-  var url = _tickerLogos[ticker];
-  var emoji = _tickerEmojis[ticker] || ticker.charAt(0);
-  var fallback = '<div style="width:' + size + 'px;height:' + size + 'px;border-radius:10px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:' + Math.round(size * 0.5) + 'px;flex-shrink:0">' + emoji + '</div>';
-  if (!url) return fallback;
-  return '<img src="' + url + '" width="' + size + '" height="' + size + '" style="border-radius:10px;object-fit:contain;border:1px solid #f3f4f6;background:white;flex-shrink:0" onerror="this.outerHTML=\'' + fallback.replace(/'/g, "\\'") + '\'">';
+  var domain = _tickerDomains[ticker];
+  var letter = ticker.charAt(0);
+  var colors = { 'A':'#555','M':'#0078d4','G':'#4285f4','T':'#cc0000','N':'#76b900','V':'#c8102e','B':'#6b6b6b','S':'#005a9e','C':'#e30613','Q':'#003087' };
+  var bg = colors[letter] || '#374151';
+  var fallbackHtml = '<div style="width:' + size + 'px;height:' + size + 'px;min-width:' + size + 'px;border-radius:10px;background:' + bg + ';display:flex;align-items:center;justify-content:center;font-size:' + Math.round(size*0.4) + 'px;font-weight:700;color:white;flex-shrink:0">' + letter + '</div>';
+  if (!domain) return fallbackHtml;
+  var url = 'https://img.logo.dev/' + domain + '?token=pk_UJhVnhEbTXqb8SVhMHpPqA&size=64&format=png';
+  return '<div style="width:' + size + 'px;height:' + size + 'px;min-width:' + size + 'px;border-radius:10px;background:white;border:1px solid #f3f4f6;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0">' +
+    '<img src="' + url + '" width="' + (size-8) + '" height="' + (size-8) + '" style="object-fit:contain" onerror="this.parentElement.innerHTML=\'' + letter + '\';this.parentElement.style.background=\'' + bg + '\';this.parentElement.style.color=\'white\';this.parentElement.style.fontWeight=\'700\';this.parentElement.style.fontSize=\'' + Math.round(size*0.4) + 'px\';this.parentElement.style.justifyContent=\'center\'">' +
+    '</div>';
 }
 
 var _catalogoAcciones = [
