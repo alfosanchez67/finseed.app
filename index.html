@@ -2599,6 +2599,29 @@ function setPortafolioPadre(userId, posiciones) {
   localStorage.setItem('finseed_port_posiciones_' + userId, JSON.stringify(posiciones));
 }
 
+var _tickerLogos = {
+  'AAPL':  'https://logo.clearbit.com/apple.com',
+  'MSFT':  'https://logo.clearbit.com/microsoft.com',
+  'GOOGL': 'https://logo.clearbit.com/google.com',
+  'AMZN':  'https://logo.clearbit.com/amazon.com',
+  'TSLA':  'https://logo.clearbit.com/tesla.com',
+  'NVDA':  'https://logo.clearbit.com/nvidia.com',
+  'VOO':   'https://logo.clearbit.com/vanguard.com',
+  'VTI':   'https://logo.clearbit.com/vanguard.com',
+  'QQQ':   'https://logo.clearbit.com/invesco.com',
+  'BND':   'https://logo.clearbit.com/vanguard.com',
+  'SQM':   'https://logo.clearbit.com/sqm.com',
+  'COPEC': 'https://logo.clearbit.com/copec.cl'
+};
+
+function getTickerLogo(ticker, size) {
+  size = size || 32;
+  var url = _tickerLogos[ticker];
+  if (!url) return '<div style="width:' + size + 'px;height:' + size + 'px;border-radius:8px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--text-2)">' + ticker.charAt(0) + '</div>';
+  return '<img src="' + url + '" width="' + size + '" height="' + size + '" style="border-radius:8px;object-fit:contain;border:1px solid #f3f4f6;background:white" onerror="this.style.display=\'none\';this.nextSibling.style.display=\'flex\'">' +
+    '<div style="display:none;width:' + size + 'px;height:' + size + 'px;border-radius:8px;background:#f3f4f6;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--text-2)">' + ticker.charAt(0) + '</div>';
+}
+
 var _catalogoAcciones = [
   { ticker: 'AAPL',  nombre: 'Apple Inc.',            sector: 'Tecnolog\u00EDa' },
   { ticker: 'MSFT',  nombre: 'Microsoft',             sector: 'Tecnolog\u00EDa' },
@@ -3267,8 +3290,10 @@ function renderActivosLista(activos) {
     var colorDia = gananciaDia >= 0 ? '#059669' : '#dc2626';
 
     return '<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid #f3f4f6">' +
+      '<div style="display:flex;align-items:center;gap:10px">' +
+      getTickerLogo(a.ticker, 36) +
       '<div>' +
-      '<div style="display:flex;align-items:center;gap:8px">' +
+      '<div style="display:flex;align-items:center;gap:6px">' +
       '<div style="font-size:14px;font-weight:700;color:var(--text-1)">' + a.ticker + '</div>' +
       (a.precioReal
         ? '<div style="font-size:10px;background:#f0fdf4;color:#059669;border:1px solid #d1fae5;border-radius:20px;padding:1px 6px;font-weight:600">LIVE</div>'
@@ -3276,6 +3301,7 @@ function renderActivosLista(activos) {
       '</div>' +
       '<div style="font-size:12px;color:var(--text-3);margin-top:2px">' + a.nombre + ' \xB7 ' + a.cantidad + ' acciones</div>' +
       '<div style="font-size:11px;color:var(--text-3);margin-top:1px">Compra: US$' + a.precioCompra.toFixed(2) + ' \xB7 Actual: US$' + a.precioActual.toFixed(2) + '</div>' +
+      '</div>' +
       '</div>' +
       '<div style="text-align:right">' +
       '<div style="font-size:15px;font-weight:700;color:var(--text-1)">US$' + a.valor.toFixed(2) + '</div>' +
@@ -4894,10 +4920,12 @@ function abrirCatalogoParaHijo() {
     var cambioStr = precio && precio.ok ? (precio.cambioPct >= 0 ? '+' : '') + precio.cambioPct.toFixed(2) + '%' : '';
     var cambioColor = precio && precio.cambioPct >= 0 ? '#059669' : '#dc2626';
     html += '<div onclick="seleccionarAccion(\'' + acc.ticker + '\',\'' + acc.nombre + '\')" id="acc-item-' + acc.ticker + '" style="background:white;border:1px solid var(--border);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer">' +
+      '<div style="display:flex;align-items:center;gap:10px">' +
+      getTickerLogo(acc.ticker, 36) +
       '<div>' +
       '<div style="font-size:14px;font-weight:700;color:var(--text-1)">' + acc.ticker + '</div>' +
-      '<div style="font-size:12px;color:var(--text-3);margin-top:1px">' + acc.nombre + '</div>' +
-      '<div style="font-size:11px;color:var(--text-3);margin-top:1px">' + acc.sector + '</div>' +
+      '<div style="font-size:12px;color:var(--text-3);margin-top:1px">' + acc.nombre + ' \xB7 ' + acc.sector + '</div>' +
+      '</div>' +
       '</div>' +
       '<div style="text-align:right">' +
       '<div id="acc-precio-' + acc.ticker + '" style="font-size:14px;font-weight:600;color:var(--text-1)">' + precioStr + '</div>' +
@@ -4948,10 +4976,12 @@ function abrirPantallaCompra() {
     var cambioStr = precio && precio.ok ? (precio.cambioPct >= 0 ? '+' : '') + precio.cambioPct.toFixed(2) + '%' : '';
     var cambioColor = precio && precio.cambioPct >= 0 ? '#059669' : '#dc2626';
     html += '<div onclick="seleccionarAccion(\'' + acc.ticker + '\',\'' + acc.nombre + '\')" id="acc-item-' + acc.ticker + '" style="background:white;border:1px solid var(--border);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer">' +
+      '<div style="display:flex;align-items:center;gap:10px">' +
+      getTickerLogo(acc.ticker, 36) +
       '<div>' +
       '<div style="font-size:14px;font-weight:700;color:var(--text-1)">' + acc.ticker + '</div>' +
-      '<div style="font-size:12px;color:var(--text-3);margin-top:1px">' + acc.nombre + '</div>' +
-      '<div style="font-size:11px;color:var(--text-3);margin-top:1px">' + acc.sector + '</div>' +
+      '<div style="font-size:12px;color:var(--text-3);margin-top:1px">' + acc.nombre + ' \xB7 ' + acc.sector + '</div>' +
+      '</div>' +
       '</div>' +
       '<div style="text-align:right">' +
       '<div id="acc-precio-' + acc.ticker + '" style="font-size:14px;font-weight:600;color:var(--text-1)">' + precioStr + '</div>' +
@@ -5020,12 +5050,17 @@ async function seleccionarAccion(ticker, nombre) {
     '<div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-radius:14px;padding:16px;margin-bottom:16px">' +
     '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">' +
     '<div>' +
+    '<div style="display:flex;align-items:center;gap:12px;margin-bottom:2px">' +
+    getTickerLogo(ticker, 40) +
+    '<div>' +
     '<div style="display:flex;align-items:center;gap:8px;margin-bottom:2px">' +
     '<div style="font-size:20px;font-weight:700;color:var(--text-1)">' + ticker + '</div>' +
     '<div style="font-size:11px;background:white;color:var(--text-3);border-radius:20px;padding:2px 8px">' + infoAccion.sector + '</div>' +
     (precio && precio.ok ? '<div style="font-size:11px;background:#f0fdf4;color:#059669;border-radius:20px;padding:2px 8px;font-weight:600;border:1px solid #d1fae5">\u25CF LIVE</div>' : '') +
     '</div>' +
     '<div style="font-size:13px;color:var(--text-3)">' + nombre + '</div>' +
+    '</div>' +
+    '</div>' +
     '</div>' +
     '<div style="text-align:right">' +
     '<div style="font-size:26px;font-weight:700;color:var(--text-1)">US$' + precioUSD.toFixed(2) + '</div>' +
