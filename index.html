@@ -2580,6 +2580,163 @@ function setSaldoPadre(userId, saldo) {
   localStorage.setItem('finseed_saldo_' + userId, JSON.stringify(saldo));
 }
 
+function calcularNivelArbolAprendizaje(uid) {
+  var prog = FinSeedStore.getProgreso(uid);
+  var xp = prog.xp || 0;
+  var racha = prog.racha || 0;
+  var juegosCompletos = Object.keys(getProgresoJuegos(uid)).filter(function(k) {
+    return getProgresoJuegos(uid)[k].completado;
+  }).length;
+  var score = (xp / 50) + (racha * 2) + (juegosCompletos * 3);
+  if (score < 5)   return 1;
+  if (score < 15)  return 2;
+  if (score < 35)  return 3;
+  if (score < 70)  return 4;
+  if (score < 120) return 5;
+  return 6;
+}
+
+function renderArbolAprendizaje(uid) {
+  var nivel = calcularNivelArbolAprendizaje(uid);
+  var prog = FinSeedStore.getProgreso(uid);
+  var labels = ['Semilla', 'Brote', 'Plántula', 'Árbol joven', 'Árbol maduro', 'Árbol maestro'];
+  var label = labels[nivel - 1];
+
+  var trunkH   = [0, 20, 35, 50, 60, 70][nivel - 1];
+  var trunkY   = 95 - trunkH;
+  var l1Show   = nivel >= 2;
+  var l2Show   = nivel >= 3;
+  var l3Show   = nivel >= 4;
+  var l4Show   = nivel >= 5;
+  var l5Show   = nivel >= 6;
+
+  var green1     = '#15803d';
+  var green2     = '#16a34a';
+  var green3     = '#22c55e';
+  var green4     = '#4ade80';
+  var brown      = '#92400e';
+
+  return '<div style="text-align:center">' +
+    '<svg width="120" height="110" viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg">' +
+    '<ellipse cx="60" cy="98" rx="30" ry="6" fill="#d97706" opacity="0.3"/>' +
+    (trunkH > 0 ? '<rect x="56" y="' + trunkY + '" width="8" height="' + trunkH + '" rx="3" fill="' + brown + '"/>' : '') +
+    (nivel === 1 ? '<ellipse cx="60" cy="94" rx="8" ry="5" fill="' + brown + '"/><ellipse cx="60" cy="90" rx="3" ry="6" fill="' + green2 + '"/>' : '') +
+    (l1Show ? '<ellipse cx="60" cy="' + (trunkY + 4) + '" rx="22" ry="16" fill="' + green1 + '"/>' : '') +
+    (l2Show ? '<ellipse cx="60" cy="' + (trunkY - 8) + '" rx="18" ry="14" fill="' + green2 + '"/>' : '') +
+    (l3Show ? '<ellipse cx="42" cy="' + (trunkY + 2) + '" rx="14" ry="11" fill="' + green2 + '"/>' +
+              '<ellipse cx="78" cy="' + (trunkY + 2) + '" rx="14" ry="11" fill="' + green2 + '"/>' : '') +
+    (l4Show ? '<ellipse cx="60" cy="' + (trunkY - 18) + '" rx="14" ry="11" fill="' + green3 + '"/>' +
+              '<ellipse cx="44" cy="' + (trunkY - 8) + '" rx="11" ry="9" fill="' + green3 + '"/>' +
+              '<ellipse cx="76" cy="' + (trunkY - 8) + '" rx="11" ry="9" fill="' + green3 + '"/>' : '') +
+    (l5Show ? '<ellipse cx="60" cy="' + (trunkY - 26) + '" rx="16" ry="12" fill="' + green4 + '"/>' +
+              '<ellipse cx="60" cy="' + (trunkY - 16) + '" rx="20" ry="14" fill="' + green3 + '"/>' +
+              '<circle cx="48" cy="' + (trunkY - 22) + '" r="3" fill="#fde68a"/>' +
+              '<circle cx="72" cy="' + (trunkY - 22) + '" r="3" fill="#fde68a"/>' +
+              '<circle cx="60" cy="' + (trunkY - 32) + '" r="3" fill="#fde68a"/>' : '') +
+    '</svg>' +
+    '<div style="font-size:11px;font-weight:700;color:#15803d;margin-top:2px">' + label + '</div>' +
+    '<div style="font-size:10px;color:var(--text-3)">' + (prog.xp || 0) + ' XP \xB7 Racha ' + (prog.racha || 0) + 'd</div>' +
+    '</div>';
+}
+
+function calcularEstadoArbolPortafolio(uid) {
+  var posiciones = getPortafolioPadre(uid);
+  if (!posiciones || posiciones.length === 0) return { estado: 'semilla', pct: 0, valorTotal: 0 };
+
+  var valorTotal = 0;
+  var valorCompra = 0;
+  posiciones.forEach(function(pos) {
+    var precio = _preciosCache[pos.ticker];
+    var precioActual = precio && precio.ok ? precio.precio : pos.precioCompra;
+    valorTotal += precioActual * pos.cantidad;
+    valorCompra += pos.precioCompra * pos.cantidad;
+  });
+
+  var pct = valorCompra > 0 ? ((valorTotal - valorCompra) / valorCompra * 100) : 0;
+
+  var estado;
+  if (posiciones.length === 0)  estado = 'semilla';
+  else if (pct <= -15)          estado = 'seco';
+  else if (pct <= -5)           estado = 'marchito';
+  else if (pct <= 0)            estado = 'estable';
+  else if (pct <= 5)            estado = 'creciendo';
+  else if (pct <= 15)           estado = 'floreciendo';
+  else                          estado = 'exuberante';
+
+  return { estado: estado, pct: pct, valorTotal: valorTotal };
+}
+
+function renderArbolPortafolio(uid) {
+  var info = calcularEstadoArbolPortafolio(uid);
+  var estado = info.estado;
+  var pct = info.pct;
+
+  var configs = {
+    semilla:     { label: 'Sin invertir',    hojas: 0, hojaColor: '#92400e',  troncoColor: '#92400e'  },
+    seco:        { label: 'Mercado bajista', hojas: 1, hojaColor: '#7f1d1d',  troncoColor: '#78350f'  },
+    marchito:    { label: 'En pérdida', hojas: 2, hojaColor: '#d97706',  troncoColor: '#92400e'  },
+    estable:     { label: 'Estable',         hojas: 3, hojaColor: '#4b5563',  troncoColor: '#92400e'  },
+    creciendo:   { label: 'Creciendo',       hojas: 3, hojaColor: '#16a34a',  troncoColor: '#92400e'  },
+    floreciendo: { label: 'Floreciendo',     hojas: 4, hojaColor: '#22c55e',  troncoColor: '#78350f'  },
+    exuberante:  { label: 'Exuberante',      hojas: 5, hojaColor: '#4ade80',  troncoColor: '#713f12'  }
+  };
+
+  var cfg = configs[estado] || configs.semilla;
+  var hc = cfg.hojaColor;
+  var tc = cfg.troncoColor;
+  var pctStr = (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%';
+  var pctColor = pct >= 0 ? '#16a34a' : '#dc2626';
+
+  var svg = '<svg width="120" height="110" viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg">';
+  svg += '<ellipse cx="60" cy="98" rx="30" ry="6" fill="#d97706" opacity="0.3"/>';
+
+  if (estado === 'semilla') {
+    svg += '<ellipse cx="60" cy="94" rx="8" ry="5" fill="' + tc + '"/>';
+    svg += '<ellipse cx="60" cy="90" rx="3" ry="5" fill="#d97706" opacity="0.6"/>';
+  } else if (estado === 'seco') {
+    svg += '<rect x="57" y="60" width="6" height="34" rx="2" fill="' + tc + '"/>';
+    svg += '<line x1="60" y1="70" x2="42" y2="58" stroke="' + tc + '" stroke-width="3" stroke-linecap="round"/>';
+    svg += '<line x1="60" y1="70" x2="78" y2="58" stroke="' + tc + '" stroke-width="3" stroke-linecap="round"/>';
+    svg += '<line x1="60" y1="65" x2="48" y2="52" stroke="' + tc + '" stroke-width="2" stroke-linecap="round"/>';
+    svg += '<line x1="60" y1="65" x2="72" y2="52" stroke="' + tc + '" stroke-width="2" stroke-linecap="round"/>';
+    svg += '<ellipse cx="38" cy="62" rx="5" ry="3" fill="#7f1d1d" opacity="0.5" transform="rotate(-20 38 62)"/>';
+    svg += '<ellipse cx="82" cy="65" rx="4" ry="3" fill="#7f1d1d" opacity="0.4" transform="rotate(15 82 65)"/>';
+  } else if (estado === 'marchito') {
+    svg += '<rect x="57" y="58" width="6" height="36" rx="2" fill="' + tc + '"/>';
+    svg += '<ellipse cx="60" cy="58" rx="24" ry="16" fill="' + hc + '" opacity="0.6"/>';
+    svg += '<ellipse cx="44" cy="62" rx="12" ry="8" fill="' + hc + '" opacity="0.5"/>';
+    svg += '<ellipse cx="76" cy="62" rx="12" ry="8" fill="' + hc + '" opacity="0.5"/>';
+    svg += '<ellipse cx="30" cy="75" rx="5" ry="3" fill="' + hc + '" opacity="0.6" transform="rotate(-30 30 75)"/>';
+  } else {
+    var trunkH = cfg.hojas >= 3 ? 36 : 28;
+    var trunkY = 94 - trunkH;
+    svg += '<rect x="57" y="' + trunkY + '" width="6" height="' + trunkH + '" rx="2" fill="' + tc + '"/>';
+    svg += '<ellipse cx="60" cy="' + (trunkY + 4) + '" rx="26" ry="18" fill="' + hc + '"/>';
+    if (cfg.hojas >= 3) {
+      svg += '<ellipse cx="60" cy="' + (trunkY - 8) + '" rx="20" ry="14" fill="' + hc + '"/>';
+      svg += '<ellipse cx="44" cy="' + (trunkY + 2) + '" rx="14" ry="10" fill="' + hc + '" opacity="0.9"/>';
+      svg += '<ellipse cx="76" cy="' + (trunkY + 2) + '" rx="14" ry="10" fill="' + hc + '" opacity="0.9"/>';
+    }
+    if (cfg.hojas >= 4) {
+      svg += '<ellipse cx="60" cy="' + (trunkY - 18) + '" rx="15" ry="11" fill="' + hc + '"/>';
+    }
+    if (cfg.hojas >= 5) {
+      svg += '<ellipse cx="60" cy="' + (trunkY - 26) + '" rx="12" ry="9" fill="#86efac"/>';
+      svg += '<circle cx="46" cy="' + (trunkY - 10) + '" r="3" fill="#fde68a"/>';
+      svg += '<circle cx="74" cy="' + (trunkY - 10) + '" r="3" fill="#fde68a"/>';
+      svg += '<circle cx="60" cy="' + (trunkY - 30) + '" r="3" fill="#fde68a"/>';
+    }
+  }
+
+  svg += '</svg>';
+
+  return '<div style="text-align:center">' +
+    svg +
+    '<div style="font-size:11px;font-weight:700;color:' + (pct >= 0 ? '#15803d' : '#dc2626') + ';margin-top:2px">' + cfg.label + '</div>' +
+    '<div style="font-size:10px;color:' + pctColor + ';font-weight:600">' + (estado === 'semilla' ? 'Empieza a invertir' : pctStr + ' total') + '</div>' +
+    '</div>';
+}
+
 function getPortafolioPadre(userId) {
   var key = 'finseed_port_posiciones_' + userId;
   var saved = localStorage.getItem(key);
@@ -3400,6 +3557,20 @@ async function renderPortafolioPadre() {
   var saldoActual = getSaldoPadre(uid);
   var elSaldo = document.getElementById('port-saldo-display');
   if (elSaldo) elSaldo.textContent = '$' + saldoActual.clp.toLocaleString('es-CL') + ' CLP disponible';
+
+  // Árbol de portafolio
+  var arbolHtml =
+    '<div style="margin:0 0 16px;background:white;border:1px solid var(--border);border-radius:16px;padding:16px">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">' +
+    '<div style="font-size:13px;font-weight:700;color:var(--text-1)">🌳 Árbol de tu portafolio</div>' +
+    '</div>' +
+    '<div style="display:flex;align-items:center;gap:16px">' +
+    renderArbolPortafolio(uid) +
+    '<div style="flex:1;font-size:12px;color:var(--text-3);line-height:1.6">Tu árbol refleja el rendimiento real de tus inversiones. Crece cuando el mercado sube y se seca cuando baja.</div>' +
+    '</div>' +
+    '</div>';
+  var portContainer = document.getElementById('port-tab-mio');
+  if (portContainer) portContainer.insertAdjacentHTML('afterbegin', arbolHtml);
 
   setPortTab('mio');
 }
@@ -4464,6 +4635,31 @@ function renderHijoPerfil() {
         (l.obtenido ? '<div style="font-size:11px;color:#92400e;font-weight:600;white-space:nowrap">' + l.fecha + '</div>' : '') +
         '</div>';
     }).join('');
+  }
+
+  // Árboles de aprendizaje y portafolio
+  var elPerfil = document.getElementById('kp-perfil');
+  var arbolesCard = document.createElement('div');
+  arbolesCard.style.cssText = 'margin:16px;background:white;border:1px solid var(--border);border-radius:16px;padding:16px';
+  arbolesCard.innerHTML =
+    '<div style="font-size:13px;font-weight:700;color:var(--text-1);margin-bottom:14px;text-align:center">🌳 Mis árboles</div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">' +
+    '<div style="background:#f0fdf4;border-radius:12px;padding:12px 8px">' +
+    '<div style="font-size:11px;font-weight:600;color:#15803d;text-align:center;margin-bottom:8px">📚 Aprendizaje</div>' +
+    renderArbolAprendizaje(uid) +
+    '</div>' +
+    '<div style="background:#f9fafb;border-radius:12px;padding:12px 8px">' +
+    '<div style="font-size:11px;font-weight:600;color:var(--text-2);text-align:center;margin-bottom:8px">💼 Portafolio</div>' +
+    renderArbolPortafolio(uid) +
+    '</div>' +
+    '</div>';
+  if (elPerfil) {
+    var firstCard = elPerfil.querySelector('[style*="border-radius"]');
+    if (firstCard && firstCard.parentNode) {
+      firstCard.parentNode.insertBefore(arbolesCard, firstCard.nextSibling);
+    } else {
+      elPerfil.appendChild(arbolesCard);
+    }
   }
 
   // Vinculación familiar
