@@ -2598,26 +2598,42 @@ function setPortafolioPadre(userId, posiciones) {
 }
 
 var _tickerLogos = {
-  'AAPL':  'https://logo.clearbit.com/apple.com',
-  'MSFT':  'https://logo.clearbit.com/microsoft.com',
-  'GOOGL': 'https://logo.clearbit.com/google.com',
-  'AMZN':  'https://logo.clearbit.com/amazon.com',
-  'TSLA':  'https://logo.clearbit.com/tesla.com',
-  'NVDA':  'https://logo.clearbit.com/nvidia.com',
-  'VOO':   'https://logo.clearbit.com/vanguard.com',
-  'VTI':   'https://logo.clearbit.com/vanguard.com',
-  'QQQ':   'https://logo.clearbit.com/invesco.com',
-  'BND':   'https://logo.clearbit.com/vanguard.com',
-  'SQM':   'https://logo.clearbit.com/sqm.com',
-  'COPEC': 'https://logo.clearbit.com/copec.cl'
+  'AAPL':  'https://cdn.brandfetch.io/idnrCPuv87/w/400/h/400/theme/dark/icon.png?c=1dxbfHSJFAPEwi1',
+  'MSFT':  'https://cdn.brandfetch.io/idMI7BI1-s/w/400/h/400/theme/dark/icon.png',
+  'GOOGL': 'https://cdn.brandfetch.io/id6O2oGzv-/w/400/h/400/theme/dark/icon.png',
+  'AMZN':  'https://cdn.brandfetch.io/idawOgYOsG/w/400/h/400/theme/dark/icon.png',
+  'TSLA':  'https://cdn.brandfetch.io/id2S5-pAcu/w/400/h/400/theme/dark/icon.png',
+  'NVDA':  'https://cdn.brandfetch.io/idvOetKbBb/w/400/h/400/theme/dark/icon.png',
+  'VOO':   null,
+  'VTI':   null,
+  'QQQ':   null,
+  'BND':   null,
+  'SQM':   null,
+  'COPEC': null
+};
+
+var _tickerEmojis = {
+  'AAPL':  '🍎',
+  'MSFT':  '🪟',
+  'GOOGL': '🔍',
+  'AMZN':  '📦',
+  'TSLA':  '⚡',
+  'NVDA':  '🖥️',
+  'VOO':   '🧺',
+  'VTI':   '🧺',
+  'QQQ':   '💹',
+  'BND':   '📊',
+  'SQM':   '🇨🇱',
+  'COPEC': '⛽'
 };
 
 function getTickerLogo(ticker, size) {
-  size = size || 32;
+  size = size || 36;
   var url = _tickerLogos[ticker];
-  if (!url) return '<div style="width:' + size + 'px;height:' + size + 'px;border-radius:8px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--text-2)">' + ticker.charAt(0) + '</div>';
-  return '<img src="' + url + '" width="' + size + '" height="' + size + '" style="border-radius:8px;object-fit:contain;border:1px solid #f3f4f6;background:white" onerror="this.style.display=\'none\';this.nextSibling.style.display=\'flex\'">' +
-    '<div style="display:none;width:' + size + 'px;height:' + size + 'px;border-radius:8px;background:#f3f4f6;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--text-2)">' + ticker.charAt(0) + '</div>';
+  var emoji = _tickerEmojis[ticker] || ticker.charAt(0);
+  var fallback = '<div style="width:' + size + 'px;height:' + size + 'px;border-radius:10px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:' + Math.round(size * 0.5) + 'px;flex-shrink:0">' + emoji + '</div>';
+  if (!url) return fallback;
+  return '<img src="' + url + '" width="' + size + '" height="' + size + '" style="border-radius:10px;object-fit:contain;border:1px solid #f3f4f6;background:white;flex-shrink:0" onerror="this.outerHTML=\'' + fallback.replace(/'/g, "\\'") + '\'">';
 }
 
 var _catalogoAcciones = [
