@@ -2905,7 +2905,7 @@ function abrirArbolJuegosPadre() {
   var introCompleta = juegos.filter(function(j){ return j.camino==='intro'; }).every(function(j){ return progJuegos[j.id]&&progJuegos[j.id].completado; });
 
   var html = '<div style="background:linear-gradient(135deg,#14532d,#16a34a);padding:44px 16px 16px;display:flex;align-items:center;gap:12px">' +
-    '<div onclick="document.getElementById(\'arbol-padre-overlay\').style.display=\'none\'" style="color:white;cursor:pointer">' +
+    '<div onclick="var e=document.getElementById(\'arbol-padre-overlay\');if(e)e.style.display=\'none\'" style="color:white;cursor:pointer">' +
     '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>' +
     '</div>' +
     '<div style="flex:1">' +
@@ -2986,7 +2986,7 @@ function abrirArbolJuegosHijo(hijoId, hijoNombre) {
   var xpTotal = Object.keys(progJuegos).reduce(function(s,k) { return s + (progJuegos[k].xpGanado||0); }, 0);
 
   var html = '<div style="background:linear-gradient(135deg,#14532d,#16a34a);padding:44px 16px 16px;display:flex;align-items:center;gap:12px">' +
-    '<div onclick="document.getElementById(\'arbol-hijo-overlay\').style.display=\'none\'" style="color:white;cursor:pointer">' +
+    '<div onclick="var e=document.getElementById(\'arbol-hijo-overlay\');if(e)e.style.display=\'none\'" style="color:white;cursor:pointer">' +
     '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>' +
     '</div>' +
     '<div style="flex:1">' +
@@ -3121,7 +3121,8 @@ async function renderPadreInicio() {
           '<div onclick="responderSol(\'' + uid + '\',\'' + s.id + '\',false)" style="background:#f9fafb;border:1px solid var(--border);color:var(--text-2);padding:6px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;text-align:center">Ver</div>' +
           '</div></div>';
       }).join('');
-      document.getElementById('pp-solicitudes-lista').innerHTML = solHTML;
+      var elSol = document.getElementById('pp-solicitudes-lista');
+      if (elSol) elSol.innerHTML = solHTML;
     }
   }
 
@@ -3194,7 +3195,7 @@ async function renderPadreInicio() {
   var completadosPadre = Object.keys(progJuegosPadre).filter(function(k){ return progJuegosPadre[k].completado; }).length;
   var xpPadre = Object.keys(progJuegosPadre).reduce(function(s,k){ return s + (progJuegosPadre[k].xpGanado || 0); }, 0);
   var elJD = document.getElementById('pp-juego-destacado');
-  if (elJD) elJD.outerHTML = '<div onclick="abrirArbolJuegosPadre()" style="background:white;border:1px solid #e5e7eb;border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;margin-top:4px" id="pp-juego-destacado"><div style="font-size:36px;flex-shrink:0">🌳</div><div style="flex:1"><div style="font-size:15px;font-weight:700;color:#15803d">Mi árbol de aprendizaje</div><div style="font-size:12px;color:#166534;margin-top:2px">' + completadosPadre + ' juegos completados · ' + xpPadre + ' XP</div></div><div style="font-size:20px;color:#16a34a">›</div></div>';
+  if (elJD) elJD.outerHTML = '<div onclick="abrirArbolJuegosPadre()" style="background:white;border:1px solid #e5e7eb;border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;margin-top:4px" id="pp-juego-destacado-2"><div style="font-size:36px;flex-shrink:0">🌳</div><div style="flex:1"><div style="font-size:15px;font-weight:700;color:#15803d">Mi árbol de aprendizaje</div><div style="font-size:12px;color:#166534;margin-top:2px">' + completadosPadre + ' juegos completados · ' + xpPadre + ' XP</div></div><div style="font-size:20px;color:#16a34a">›</div></div>';
 
   // ── PROGRESO HIJOS ──
   var progHTML = '';
@@ -3922,7 +3923,8 @@ function abrirNuevaMeta(metaIdx) {
   var colores = ['#059669','#3b82f6','#f59e0b','#ef4444','#8b5cf6','#06b6d4','#ec4899'];
   var colorSel = (meta && meta.color) ? meta.color : '#059669';
 
-  document.getElementById('meta-overlay-contenido').innerHTML =
+  var elMOC = document.getElementById('meta-overlay-contenido');
+  if (elMOC) elMOC.innerHTML =
     '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">' +
     '<div style="font-size:18px;font-weight:700;color:var(--text-1)">' + (esEdicion ? 'Editar meta' : 'Nueva meta familiar') + '</div>' +
     '<div onclick="cerrarMetaOverlay()" style="font-size:22px;color:var(--text-3);cursor:pointer;line-height:1">&times;</div>' +
@@ -4034,7 +4036,8 @@ function abrirAbonarMeta(idx) {
   if (!m) return;
   var falta = Math.max(0, (m.meta || m.objetivo || 0) - (m.actual || 0));
 
-  document.getElementById('meta-overlay-contenido').innerHTML =
+  var elMOC2 = document.getElementById('meta-overlay-contenido');
+  if (elMOC2) elMOC2.innerHTML =
     '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">' +
     '<div style="font-size:18px;font-weight:700;color:var(--text-1)">' + (m.emoji || '🎯') + ' ' + m.nombre + '</div>' +
     '<div onclick="cerrarMetaOverlay()" style="font-size:22px;color:var(--text-3);cursor:pointer;line-height:1">&times;</div>' +
@@ -4051,22 +4054,22 @@ function abrirAbonarMeta(idx) {
     '<div style="font-size:12px;font-weight:600;color:var(--text-2);margin-bottom:6px">Monto a abonar (CLP)</div>' +
     '<div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">' +
     [10000,25000,50000,100000].map(function(v) {
-      return '<div onclick="document.getElementById(\'abono-monto\').value=' + v + '" style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;color:#059669;cursor:pointer">+$' + v.toLocaleString('es-CL') + '</div>';
+      return '<div onclick="var e=document.getElementById(\'abono-monto\');if(e)e.value=' + v + '" style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;color:#059669;cursor:pointer">+$' + v.toLocaleString('es-CL') + '</div>';
     }).join('') +
     '</div>' +
     '<input id="abono-monto" type="number" min="1000" step="1000" placeholder="Monto personalizado" style="width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:inherit;outline:none;box-sizing:border-box;margin-bottom:16px">' +
-    '<div id="meta-error" style="font-size:12px;color:#dc2626;margin-bottom:12px;display:none"></div>' +
+    '<div id="meta-error-2" style="font-size:12px;color:#dc2626;margin-bottom:12px;display:none"></div>' +
     '<div onclick="confirmarAbono(' + idx + ')" style="background:#059669;color:white;padding:14px;border-radius:12px;font-size:15px;font-weight:700;text-align:center;cursor:pointer">Abonar</div>' +
     '<div onclick="abrirNuevaMeta(' + idx + ')" style="margin-top:10px;padding:12px;text-align:center;font-size:13px;color:var(--text-3);cursor:pointer">Editar meta</div>';
 
-  window._metaOverlay = document.getElementById('meta-overlay');
-  window._metaOverlay.style.display = 'flex';
+  window._metaOverlay = document.getElementById('meta-overlay') || null;
+  if (window._metaOverlay) window._metaOverlay.style.display = 'flex';
 }
 
 function confirmarAbono(idx) {
   var montoStr = document.getElementById('abono-monto').value;
   var monto = parseInt(montoStr, 10);
-  var errEl = document.getElementById('meta-error');
+  var errEl = document.getElementById('meta-error-2');
   if (!monto || monto < 1000) { errEl.textContent = 'Ingresa un monto válido (mínimo $1.000).'; errEl.style.display = 'block'; return; }
 
   var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
@@ -5160,7 +5163,7 @@ function abrirPantallaCompra() {
       '</div>';
   });
 
-  html += '</div><div id="trade-form" style="display:none"></div>';
+  html += '</div><div id="trade-form-2" style="display:none"></div>';
   contenido.innerHTML = html;
   overlay.style.display = 'flex';
 
@@ -5593,9 +5596,12 @@ function initDemoUsers() {
 }
 
 function showView(view) {
-  document.getElementById('view-selector').style.display = (view === 'selector') ? 'block' : 'none';
-  document.getElementById('view-login').style.display    = (view === 'login')    ? 'block' : 'none';
-  document.getElementById('view-registro').style.display = (view === 'registro') ? 'block' : 'none';
+  var elVS = document.getElementById('view-selector');
+  var elVL = document.getElementById('view-login');
+  var elVR = document.getElementById('view-registro');
+  if (elVS) elVS.style.display = (view === 'selector') ? 'block' : 'none';
+  if (elVL) elVL.style.display = (view === 'login')    ? 'block' : 'none';
+  if (elVR) elVR.style.display = (view === 'registro') ? 'block' : 'none';
   if (view === 'login') {
     var elRol = document.getElementById('login-rol-display');
     if (elRol) elRol.textContent = 'Entrando como ' + (_loginRole === 'padre' ? 'Padre' : 'Hijo');
@@ -5947,7 +5953,8 @@ function abrirChatPrivado(contactoId, contactoNombre, contactoAvatar) {
   var session = JSON.parse(localStorage.getItem('finseed_session') || '{}');
   var uid = session.id || 'u1';
 
-  document.getElementById('chat-privado-selector').style.display = 'none';
+  var elCPS = document.getElementById('chat-privado-selector');
+  if (elCPS) elCPS.style.display = 'none';
   _chatPrivadoConId     = contactoId;
   _chatPrivadoConNombre = contactoNombre;
 
@@ -6132,7 +6139,8 @@ function abrirChatDesdeNotif(userId, idx, role) {
       setChatTab('privado');
       setTimeout(function() {
         abrirChatPrivado(notif.contactoId, notif.contactoNombre, notif.icono);
-        document.getElementById('chat-privado-selector').style.display = 'none';
+        var elCPS2 = document.getElementById('chat-privado-selector');
+        if (elCPS2) elCPS2.style.display = 'none';
       }, 100);
     }
   }, 100);
