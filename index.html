@@ -3525,19 +3525,6 @@ async function renderPortafolioPadre() {
   var elSaldo = document.getElementById('port-saldo-display');
   if (elSaldo) elSaldo.textContent = '$' + saldoActual.clp.toLocaleString('es-CL') + ' CLP disponible';
 
-  // Árbol de portafolio
-  var arbolHtml =
-    '<div style="margin:0 0 16px;background:white;border:1px solid var(--border);border-radius:16px;padding:16px">' +
-    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">' +
-    '<div style="font-size:13px;font-weight:700;color:var(--text-1)">🌳 Árbol de tu portafolio</div>' +
-    '</div>' +
-    '<div style="display:flex;align-items:center;gap:16px">' +
-    renderArbolPortafolio(uid) +
-    '<div style="flex:1;font-size:12px;color:var(--text-3);line-height:1.6">Tu árbol refleja el rendimiento real de tus inversiones. Crece cuando el mercado sube y se seca cuando baja.</div>' +
-    '</div>' +
-    '</div>';
-  var portContainer = document.getElementById('port-tab-mio');
-  if (portContainer) portContainer.insertAdjacentHTML('afterbegin', arbolHtml);
 
   setPortTab('mio');
 }
