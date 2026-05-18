@@ -587,6 +587,18 @@
     #nav-hijo .nav-item.active                  { color: var(--green-kid); }
     #nav-hijo .nav-item.active::after           { background: var(--green-kid); }
     #nav-hijo .nav-item.active .nav-icon svg    { stroke: var(--green-kid); }
+    /* ── Padre: sin animaciones ── */
+    #app-padre * {
+      animation: none !important;
+      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease !important;
+    }
+    #app-padre .pulse,
+    #app-padre .bounce,
+    #app-padre .spin,
+    #app-padre .float,
+    #app-padre .shake {
+      animation: none !important;
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -621,7 +633,7 @@
   <div class="auth-panel" id="view-selector" style="padding:0;display:flex;flex-direction:column;height:100%;overflow:hidden">
 
     <!-- Header verde compacto -->
-    <div style="background:linear-gradient(160deg,#065f46 0%,#047857 60%,#059669 100%);padding:40px 24px 28px;text-align:center;border-radius:0 0 32px 32px;flex-shrink:0">
+    <div style="background:#111827;padding:40px 24px 28px;text-align:center;border-radius:0 0 32px 32px;flex-shrink:0">
       <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px">
         <img src="logo.png" style="width:40px;height:40px;object-fit:contain;border-radius:12px" alt="FinSeed">
         <span style="font-size:22px;font-weight:700;color:white;letter-spacing:-0.5px">FinSeed</span>
@@ -853,8 +865,8 @@
         <div id="pp-port-cambio-val" style="font-size:13px;color:#6b7280">+$0.00 hoy</div>
       </div>
       <div id="pp-port-live" style="display:flex;align-items:center;gap:4px;margin-top:10px">
-        <div style="width:6px;height:6px;border-radius:50%;background:#4ade80"></div>
-        <span style="font-size:11px;color:#6b7280">Precios en tiempo real</span>
+        <span style="font-size:10px;font-weight:700;color:#4ade80;letter-spacing:0.5px">LIVE</span>
+        <span style="font-size:11px;color:#6b7280">· Precios en tiempo real</span>
       </div>
     </div>
 
@@ -922,10 +934,10 @@
         </div>
       </div>
       <!-- JUEGO DESTACADO -->
-      <div id="pp-juego-destacado" onclick="irAJuegosPadre()" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #d1fae5;border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer">
+      <div id="pp-juego-destacado" onclick="irAJuegosPadre()" style="background:white;border:1px solid #e5e7eb;border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer">
         <div style="width:48px;height:48px;border-radius:14px;background:white;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">&#9654;</div>
         <div style="flex:1">
-          <div style="font-size:13px;color:#059669;font-weight:600;margin-bottom:2px">Continuar aprendizaje</div>
+          <div style="font-size:13px;color:#374151;font-weight:600;margin-bottom:2px">Continuar aprendizaje</div>
           <div id="pp-juego-nombre" style="font-size:15px;font-weight:700;color:var(--text-1)">¿Qué es el dinero?</div>
           <div id="pp-juego-xp" style="font-size:12px;color:var(--text-3);margin-top:2px">+30 XP al completar</div>
         </div>
@@ -960,7 +972,7 @@
   <div class="page" id="pp-portafolio">
 
     <!-- HEADER -->
-    <div style="background:linear-gradient(160deg,#065f46 0%,#047857 60%,#059669 100%);padding:44px 16px 24px">
+    <div style="background:#111827;padding:44px 16px 24px">
       <div style="font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:4px">Portafolio total</div>
       <div id="port-total" style="font-size:32px;font-weight:700;color:white">US$0.00</div>
       <div style="display:flex;align-items:center;gap:10px;margin-top:6px">
@@ -971,10 +983,10 @@
     </div>
 
     <!-- TABS -->
-    <div style="display:flex;border-bottom:1px solid var(--border);background:white">
-      <div id="ptab-mio" onclick="setPortTab('mio')" style="flex:1;padding:14px;text-align:center;font-size:13px;font-weight:600;color:var(--green);border-bottom:2px solid var(--green);cursor:pointer">Mi portafolio</div>
-      <div id="ptab-hijos" onclick="setPortTab('hijos')" style="flex:1;padding:14px;text-align:center;font-size:13px;font-weight:600;color:var(--text-3);border-bottom:2px solid transparent;cursor:pointer">Hijos</div>
-      <div id="ptab-movimientos" onclick="setPortTab('movimientos')" style="flex:1;padding:14px;text-align:center;font-size:13px;font-weight:600;color:var(--text-3);border-bottom:2px solid transparent;cursor:pointer">Movimientos</div>
+    <div style="display:flex;gap:4px;padding:8px 12px;background:white;border-bottom:1px solid #e5e7eb">
+      <div id="ptab-mio" onclick="setPortTab('mio')" style="flex:1;padding:8px 12px;text-align:center;font-size:13px;font-weight:600;color:white;background:#111827;border-radius:8px;cursor:pointer">Mi portafolio</div>
+      <div id="ptab-hijos" onclick="setPortTab('hijos')" style="flex:1;padding:8px 12px;text-align:center;font-size:13px;font-weight:600;color:#6b7280;cursor:pointer">Hijos</div>
+      <div id="ptab-movimientos" onclick="setPortTab('movimientos')" style="flex:1;padding:8px 12px;text-align:center;font-size:13px;font-weight:600;color:#6b7280;cursor:pointer">Movimientos</div>
     </div>
 
     <!-- CONTENIDO TAB MIO -->
@@ -985,7 +997,7 @@
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
           <div style="font-size:14px;font-weight:600;color:var(--text-1)">Rendimiento</div>
           <div style="display:flex;gap:6px" id="port-periodo-btns">
-            <span onclick="setPortPeriodo('1S')" style="font-size:11px;padding:4px 10px;border-radius:20px;background:#f0fdf4;color:#059669;cursor:pointer;font-weight:600">1S</span>
+            <span onclick="setPortPeriodo('1S')" style="font-size:11px;padding:4px 10px;border-radius:20px;background:#111827;color:white;cursor:pointer;font-weight:600">1S</span>
             <span onclick="setPortPeriodo('1M')" style="font-size:11px;padding:4px 10px;border-radius:20px;background:#f9fafb;color:var(--text-3);cursor:pointer">1M</span>
             <span onclick="setPortPeriodo('3M')" style="font-size:11px;padding:4px 10px;border-radius:20px;background:#f9fafb;color:var(--text-3);cursor:pointer">3M</span>
             <span onclick="setPortPeriodo('1A')" style="font-size:11px;padding:4px 10px;border-radius:20px;background:#f9fafb;color:var(--text-3);cursor:pointer">1A</span>
@@ -1016,11 +1028,11 @@
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
             <div>
               <div style="font-size:13px;font-weight:600;color:var(--text-1)">Saldo disponible</div>
-              <div id="port-saldo-display" style="font-size:18px;font-weight:700;color:#059669">$0 CLP</div>
+              <div id="port-saldo-display" style="font-size:18px;font-weight:700;color:#111827">$0 CLP</div>
             </div>
-            <div onclick="abrirDeposito()" style="background:#f0fdf4;border:1px solid #d1fae5;color:#059669;padding:8px 14px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer">+ Depositar</div>
+            <div onclick="abrirDeposito()" style="background:white;border:1px solid #e5e7eb;color:#374151;padding:8px 14px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer">+ Depositar</div>
           </div>
-          <div onclick="abrirPantallaCompra()" style="background:#059669;color:white;padding:14px;border-radius:12px;text-align:center;font-weight:700;font-size:15px;cursor:pointer">Comprar acciones</div>
+          <div onclick="abrirPantallaCompra()" style="background:#111827;color:white;padding:14px;border-radius:12px;text-align:center;font-weight:700;font-size:15px;cursor:pointer">Comprar acciones</div>
         </div>
       </div>
 
@@ -1037,23 +1049,23 @@
       <!-- ACCIONES RÁPIDAS -->
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
 
-        <div onclick="abrirAccionPortafolio('depositar')" style="background:white;border:1px solid var(--border);border-radius:14px;padding:16px 8px;text-align:center;cursor:pointer">
-          <div style="width:40px;height:40px;border-radius:50%;background:#f0fdf4;display:flex;align-items:center;justify-content:center;margin:0 auto 8px">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <div onclick="abrirAccionPortafolio('depositar')" style="background:white;border:1px solid #e5e7eb;border-radius:14px;padding:16px 8px;text-align:center;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.06)">
+          <div style="width:40px;height:40px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;margin:0 auto 8px">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           </div>
           <div style="font-size:12px;font-weight:600;color:var(--text-1)">Depositar</div>
         </div>
 
-        <div onclick="abrirAccionPortafolio('retirar')" style="background:white;border:1px solid var(--border);border-radius:14px;padding:16px 8px;text-align:center;cursor:pointer">
-          <div style="width:40px;height:40px;border-radius:50%;background:#fef2f2;display:flex;align-items:center;justify-content:center;margin:0 auto 8px">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <div onclick="abrirAccionPortafolio('retirar')" style="background:white;border:1px solid #e5e7eb;border-radius:14px;padding:16px 8px;text-align:center;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.06)">
+          <div style="width:40px;height:40px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;margin:0 auto 8px">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
           </div>
           <div style="font-size:12px;font-weight:600;color:var(--text-1)">Retirar</div>
         </div>
 
-        <div onclick="abrirAccionPortafolio('distribuir')" style="background:white;border:1px solid var(--border);border-radius:14px;padding:16px 8px;text-align:center;cursor:pointer">
-          <div style="width:40px;height:40px;border-radius:50%;background:#eff6ff;display:flex;align-items:center;justify-content:center;margin:0 auto 8px">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        <div onclick="abrirAccionPortafolio('distribuir')" style="background:white;border:1px solid #e5e7eb;border-radius:14px;padding:16px 8px;text-align:center;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.06)">
+          <div style="width:40px;height:40px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;margin:0 auto 8px">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2" stroke-linecap="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
           </div>
           <div style="font-size:12px;font-weight:600;color:var(--text-1)">Distribuir</div>
         </div>
@@ -1082,7 +1094,7 @@
   <div id="pp-familia" class="page">
 
     <!-- HEADER -->
-    <div style="background:linear-gradient(160deg,#065f46 0%,#047857 60%,#059669 100%);padding:44px 16px 20px">
+    <div style="background:#111827;padding:44px 16px 20px">
       <div style="display:flex;justify-content:space-between;align-items:flex-start">
         <div>
           <div style="font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:4px">Mi familia</div>
@@ -1142,7 +1154,7 @@
   <div id="pp-perfil" class="page">
 
     <!-- HEADER -->
-    <div style="background:linear-gradient(160deg,#065f46 0%,#047857 60%,#059669 100%);padding:44px 16px 32px;text-align:center">
+    <div style="background:#111827;padding:44px 16px 32px;text-align:center">
       <div id="pp-perfil-avatar" style="width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,0.2);border:3px solid rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:white;margin:0 auto 12px">C</div>
       <div id="pp-perfil-nombre" style="font-size:20px;font-weight:700;color:white">Carlos</div>
       <div id="pp-perfil-email" style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:4px">padre@demo.com</div>
@@ -1215,7 +1227,7 @@
       </div>
 
       <!-- PREMIUM FAMILIAR -->
-      <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #86efac;border-radius:16px;padding:16px;margin-bottom:10px">
+      <div style="background:white;border:1.5px solid #e5e7eb;border-radius:16px;padding:16px;margin-bottom:10px">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
           <div>
             <div style="display:flex;align-items:center;gap:8px">
@@ -1367,7 +1379,7 @@
     <!-- JUEGO DESTACADO -->
     <div style="margin:0 16px 16px">
       <div style="font-size:15px;font-weight:600;color:var(--text-1);margin-bottom:12px">Juego del día</div>
-      <div id="kp-juego-destacado" onclick="irAlJuegoDestacado()" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #86efac;border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer">
+      <div id="kp-juego-destacado" onclick="irAlJuegoDestacado()" style="background:white;border:1.5px solid #e5e7eb;border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer">
         <div style="width:52px;height:52px;border-radius:14px;background:white;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.08)">&#9654;</div>
         <div style="flex:1">
           <div style="font-size:12px;color:#16a34a;font-weight:600;margin-bottom:2px">Continuar</div>
@@ -3182,7 +3194,7 @@ async function renderPadreInicio() {
   var completadosPadre = Object.keys(progJuegosPadre).filter(function(k){ return progJuegosPadre[k].completado; }).length;
   var xpPadre = Object.keys(progJuegosPadre).reduce(function(s,k){ return s + (progJuegosPadre[k].xpGanado || 0); }, 0);
   var elJD = document.getElementById('pp-juego-destacado');
-  if (elJD) elJD.outerHTML = '<div onclick="abrirArbolJuegosPadre()" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #d1fae5;border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;margin-top:4px" id="pp-juego-destacado"><div style="font-size:36px;flex-shrink:0">🌳</div><div style="flex:1"><div style="font-size:15px;font-weight:700;color:#15803d">Mi árbol de aprendizaje</div><div style="font-size:12px;color:#166534;margin-top:2px">' + completadosPadre + ' juegos completados · ' + xpPadre + ' XP</div></div><div style="font-size:20px;color:#16a34a">›</div></div>';
+  if (elJD) elJD.outerHTML = '<div onclick="abrirArbolJuegosPadre()" style="background:white;border:1px solid #e5e7eb;border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;margin-top:4px" id="pp-juego-destacado"><div style="font-size:36px;flex-shrink:0">🌳</div><div style="flex:1"><div style="font-size:15px;font-weight:700;color:#15803d">Mi árbol de aprendizaje</div><div style="font-size:12px;color:#166534;margin-top:2px">' + completadosPadre + ' juegos completados · ' + xpPadre + ' XP</div></div><div style="font-size:20px;color:#16a34a">›</div></div>';
 
   // ── PROGRESO HIJOS ──
   var progHTML = '';
@@ -3201,7 +3213,7 @@ async function renderPadreInicio() {
       '<div style="font-size:12px;color:' + (jugadoHoy ? '#059669' : '#f59e0b') + ';font-weight:600">' + (jugadoHoy ? '\u2713 Jug\u00F3 hoy' : 'Sin jugar hoy') + '</div>' +
       '</div>' +
       '<div style="display:flex;gap:16px;margin-bottom:10px">' +
-      '<div style="text-align:center"><div style="font-size:18px;font-weight:700;color:#059669">' + (prog.xp || 0) + '</div><div style="font-size:10px;color:var(--text-3)">XP total</div></div>' +
+      '<div style="text-align:center"><div style="font-size:18px;font-weight:700;color:#111827">' + (prog.xp || 0) + '</div><div style="font-size:10px;color:var(--text-3)">XP total</div></div>' +
       '<div style="text-align:center"><div style="font-size:18px;font-weight:700;color:#f59e0b">' + (prog.racha || 0) + '</div><div style="font-size:10px;color:var(--text-3)">Racha \uD83D\uDD25</div></div>' +
       '<div style="text-align:center"><div style="font-size:18px;font-weight:700;color:var(--text-1)">Nv.' + (prog.nivel || 1) + '</div><div style="font-size:10px;color:var(--text-3)">Nivel</div></div>' +
       '<div style="text-align:center"><div style="font-size:18px;font-weight:700;color:#dc2626">' + (prog.vidas !== undefined ? prog.vidas : 5) + '/5</div><div style="font-size:10px;color:var(--text-3)">Vidas</div></div>' +
@@ -3300,8 +3312,10 @@ function setPortTab(tab) {
     var btn = document.getElementById('ptab-' + t);
     var contenido = document.getElementById('port-tab-' + t);
     if (btn) {
-      btn.style.color = t === tab ? 'var(--green)' : 'var(--text-3)';
-      btn.style.borderBottom = t === tab ? '2px solid var(--green)' : '2px solid transparent';
+      btn.style.color = t === tab ? 'white' : '#6b7280';
+      btn.style.background = t === tab ? '#111827' : '';
+      btn.style.borderRadius = t === tab ? '8px' : '';
+      btn.style.borderBottom = '';
     }
     if (contenido) {
       contenido.style.display = t === tab ? 'flex' : 'none';
@@ -3318,12 +3332,12 @@ function setPortPeriodo(p) {
   if (!btns) return;
   btns.querySelectorAll('span').forEach(function(s) {
     if (s.textContent === p) {
-      s.style.background = '#f0fdf4';
-      s.style.color = '#059669';
+      s.style.background = '#111827';
+      s.style.color = 'white';
       s.style.fontWeight = '600';
     } else {
-      s.style.background = '#f9fafb';
-      s.style.color = 'var(--text-3)';
+      s.style.background = '';
+      s.style.color = '#6b7280';
       s.style.fontWeight = '400';
     }
   });
@@ -3721,8 +3735,10 @@ function setFamiliaTab(tab) {
     var btn = document.getElementById('pftab-' + t);
     var contenido = document.getElementById('ppf-tab-' + t);
     if (btn) {
-      btn.style.color = t === tab ? 'var(--green)' : 'var(--text-3)';
-      btn.style.borderBottom = t === tab ? '2px solid var(--green)' : '2px solid transparent';
+      btn.style.color = t === tab ? 'white' : '#6b7280';
+      btn.style.background = t === tab ? '#111827' : '';
+      btn.style.borderRadius = t === tab ? '8px' : '';
+      btn.style.borderBottom = '';
     }
     if (contenido) {
       contenido.style.display = t === tab ? 'flex' : 'none';
@@ -7140,21 +7156,7 @@ function mostrarResultadoBuild() {
   lanzarConfettiBuild();
 }
 
-function lanzarConfettiBuild() {
-  var area = document.getElementById('build-confetti-area');
-  if (!area) return;
-  var colores = ['#16a34a','#22c55e','#86efac','#f59e0b','#fde68a','#0284c7','#7c3aed'];
-  for (var i = 0; i < 60; i++) {
-    (function(idx) {
-      setTimeout(function() {
-        var pieza = document.createElement('div');
-        pieza.style.cssText = 'position:absolute;width:' + (6 + Math.random()*8) + 'px;height:' + (6 + Math.random()*8) + 'px;background:' + colores[Math.floor(Math.random()*colores.length)] + ';border-radius:' + (Math.random()>0.5?'50%':'2px') + ';left:' + Math.random()*100 + '%;top:-10px;animation:confettiFall ' + (1 + Math.random()*2) + 's ease forwards';
-        area.appendChild(pieza);
-        setTimeout(function() { if(pieza.parentNode) pieza.parentNode.removeChild(pieza); }, 3000);
-      }, idx * 40);
-    })(i);
-  }
-}
+function lanzarConfettiBuild() {}
 
 function reiniciarBuildGame() {
   var resultado = document.getElementById('build-resultado');
