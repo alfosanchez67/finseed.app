@@ -50,6 +50,20 @@
       --border:          #e5e7eb;
       --danger:          #dc2626;
       --r:               10px;
+      --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      --font-mono: 'DM Mono', 'SF Mono', 'Fira Code', monospace;
+      --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-elevated: 0 4px 12px rgba(0,0,0,0.08);
+      --radius-card: 16px;
+      --radius-sm: 10px;
+      --green-dark: #14532d;
+      --green-mid: #166534;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-500: #6b7280;
+      --gray-700: #374151;
+      --gray-900: #111827;
     }
 
     html, body {
@@ -503,6 +517,14 @@
     }
 
     /* ── BOTTOM NAV ── */
+    
+
+    .num-financial {
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.3px;
+      font-feature-settings: "tnum";
+    }
+
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -801,70 +823,73 @@
   <div class="status-bar"><span>9:41</span><span>FinSeed</span></div>
 
   <div class="top-bar">
-    <span class="top-bar-title" id="padre-welcome" style="display:flex;align-items:center;gap:6px"><img src="logo.png" style="width:28px;height:28px;object-fit:contain;border-radius:8px" alt="FinSeed">FinSeed</span>
+    <span class="top-bar-title" style="display:flex;align-items:center;gap:6px"><img src="logo.png" style="width:28px;height:28px;object-fit:contain;border-radius:8px" alt="FinSeed">FinSeed</span>
     <button class="logout-btn" onclick="doLogout()">Salir</button>
   </div>
 
   <div id="pp-inicio" class="page active">
 
-    <!-- HEADER VERDE -->
-    <div id="pp-inicio-header" style="background:linear-gradient(160deg,#065f46 0%,#047857 60%,#059669 100%);padding:44px 16px 20px;border-radius:0 0 24px 24px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+    <!-- HEADER PADRE -->
+    <div id="pp-inicio-header" style="background:white;padding:52px 20px 16px;border-bottom:1px solid var(--gray-200)">
+      <div style="display:flex;align-items:center;justify-content:space-between">
         <div>
-          <div id="pp-saludo" style="font-size:13px;color:rgba(255,255,255,0.7)">Buenos días,</div>
-          <div id="pp-nombre" style="font-size:22px;font-weight:700;color:white">Carlos</div>
+          <div id="pp-bienvenida" style="font-size:13px;color:var(--gray-500);font-weight:500;letter-spacing:0.1px">Bienvenido</div>
+          <div id="padre-welcome" style="font-size:22px;font-weight:700;color:var(--gray-900);letter-spacing:-0.5px">FinSeed</div>
         </div>
-        <div id="pp-avatar" onclick="navigate_p('perfil')" style="width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:white;cursor:pointer">C</div>
-      </div>
-
-      <!-- CARD PORTAFOLIO DENTRO DEL HEADER -->
-      <div onclick="navigate_p('portafolio')" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:16px;padding:16px;cursor:pointer">
-        <div style="font-size:12px;color:rgba(255,255,255,0.75);margin-bottom:4px">Mi portafolio</div>
-        <div style="display:flex;justify-content:space-between;align-items:flex-end">
-          <div>
-            <div id="pp-total" style="font-size:28px;font-weight:700;color:white">US$0.00</div>
-            <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
-              <div id="pp-cambio-pct" style="font-size:13px;color:rgba(255,255,255,0.9)">+0.00%</div>
-              <div id="pp-cambio-val" style="font-size:12px;color:rgba(255,255,255,0.65)">hoy</div>
-            </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div onclick="navigate_p('perfil')" style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#16a34a,#15803d);display:flex;align-items:center;justify-content:center;cursor:pointer">
+            <span id="pp-avatar-inicial" style="font-size:15px;font-weight:700;color:white">P</span>
           </div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.6)">Ver detalle →</div>
         </div>
       </div>
     </div>
 
+    <!-- PORTAFOLIO CARD -->
+    <div onclick="navigate_p('portafolio')" style="margin:16px;background:linear-gradient(160deg,#111827,#1f2937);border-radius:20px;padding:20px 20px 16px;box-shadow:0 8px 24px rgba(0,0,0,0.15);cursor:pointer">
+      <div style="font-size:11px;font-weight:600;color:#9ca3af;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Portafolio total</div>
+      <div id="pp-port-total" style="font-size:34px;font-weight:700;color:white;letter-spacing:-1px;margin-bottom:4px">$0.00</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div id="pp-port-cambio" style="font-size:13px;color:#86efac;font-weight:600">+0.00%</div>
+        <div id="pp-port-cambio-val" style="font-size:13px;color:#6b7280">+$0.00 hoy</div>
+      </div>
+      <div id="pp-port-live" style="display:flex;align-items:center;gap:4px;margin-top:10px">
+        <div style="width:6px;height:6px;border-radius:50%;background:#4ade80"></div>
+        <span style="font-size:11px;color:#6b7280">Precios en tiempo real</span>
+      </div>
+    </div>
+
     <!-- PORTAFOLIOS HIJOS -->
-    <div style="padding:20px 16px 0">
+    <div style="padding:0 20px;margin-top:20px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <div style="font-size:15px;font-weight:600;color:var(--text-1)">Portafolios hijos</div>
-        <div onclick="navigate_p('portafolio')" style="font-size:13px;color:var(--green);cursor:pointer">Ver todo →</div>
+        <div style="font-size:12px;font-weight:700;color:var(--gray-500);letter-spacing:0.8px;text-transform:uppercase">Portafolios hijos</div>
+        <div onclick="navigate_p('portafolio')" style="font-size:12px;color:#16a34a;cursor:pointer;font-weight:600">Ver todo →</div>
       </div>
       <div id="pp-hijos-lista" style="display:flex;flex-direction:column;gap:10px"></div>
     </div>
 
     <!-- SOLICITUDES HIJOS -->
-    <div id="pp-solicitudes-wrap" style="padding:0 16px;margin-top:20px;display:none">
+    <div id="pp-solicitudes-wrap" style="padding:0 20px;margin-top:20px;display:none">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <div style="font-size:15px;font-weight:600;color:var(--text-1)">Solicitudes hijos</div>
-        <div style="font-size:13px;color:var(--green);cursor:pointer">Actualizar</div>
+        <div style="font-size:12px;font-weight:700;color:var(--gray-500);letter-spacing:0.8px;text-transform:uppercase">Solicitudes hijos</div>
+        <div style="font-size:12px;color:#16a34a;cursor:pointer;font-weight:600">Actualizar</div>
       </div>
       <div id="pp-solicitudes-lista"></div>
     </div>
 
     <!-- META DESTACADA -->
-    <div style="padding:0 16px;margin-top:20px">
+    <div style="padding:0 20px;margin-top:20px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <div style="font-size:15px;font-weight:600;color:var(--text-1)">Metas activas</div>
-        <div onclick="navigate_p('familia')" style="font-size:13px;color:var(--green);cursor:pointer">Ver todas →</div>
+        <div style="font-size:12px;font-weight:700;color:var(--gray-500);letter-spacing:0.8px;text-transform:uppercase">Metas activas</div>
+        <div onclick="navigate_p('familia')" style="font-size:12px;color:#16a34a;cursor:pointer;font-weight:600">Ver todas →</div>
       </div>
       <div id="pp-meta-destacada" style="background:white;border:1px solid var(--border);border-radius:14px;padding:16px"></div>
     </div>
 
     <!-- ALERTAS -->
-    <div style="padding:0 16px;margin-top:20px">
+    <div style="padding:0 20px;margin-top:20px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <div style="font-size:15px;font-weight:600;color:var(--text-1)">Alertas hoy</div>
-        <div style="font-size:13px;color:var(--text-3)">Ver todo</div>
+        <div style="font-size:12px;font-weight:700;color:var(--gray-500);letter-spacing:0.8px;text-transform:uppercase">Alertas hoy</div>
+        <div style="font-size:12px;color:#16a34a;font-weight:600">Ver todo</div>
       </div>
       <div id="pp-alertas-lista" style="background:white;border:1px solid var(--border);border-radius:14px;padding:12px 16px"></div>
     </div>
@@ -875,9 +900,9 @@
     </div>
 
     <!-- JUEGOS DEL PADRE -->
-    <div style="padding:20px 16px 0">
+    <div style="padding:0 20px;margin-top:20px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <div style="font-size:15px;font-weight:600;color:var(--text-1)">Mi aprendizaje</div>
+        <div style="font-size:12px;font-weight:700;color:var(--gray-500);letter-spacing:0.8px;text-transform:uppercase">Mi aprendizaje</div>
         <div id="pp-juego-racha" style="font-size:13px;color:#f59e0b;font-weight:600"></div>
       </div>
       <!-- PROGRESO XP PADRE -->
@@ -1244,7 +1269,7 @@
 
   </div>
 
-  <nav class="bottom-nav" id="nav-padre">
+  <nav class="bottom-nav" id="nav-padre" style="display:flex;background:white;border-top:1px solid var(--gray-200);padding:8px 0 20px;position:fixed;bottom:0;width:100%;max-width:430px;z-index:100">
     <div class="nav-item active" id="pnav-inicio" onclick="navigate_p('inicio')">
       <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9" stroke-linecap="round"/></svg></div>
       <span>Inicio</span>
@@ -3020,44 +3045,21 @@ async function renderPadreInicio() {
   // Saludo
   var h = new Date().getHours();
   var saludo = h < 12 ? 'Buenos días,' : h < 19 ? 'Buenas tardes,' : 'Buenas noches,';
-  var elS = document.getElementById('pp-saludo');
+  var elS = document.getElementById('pp-bienvenida');
   if (elS) elS.textContent = saludo;
-  var elN = document.getElementById('pp-nombre');
+  var elN = document.getElementById('padre-welcome');
   if (elN) elN.textContent = nombre;
-  var elAv = document.getElementById('pp-avatar');
+  var elAv = document.getElementById('pp-avatar-inicial');
   if (elAv) elAv.textContent = nombre.charAt(0).toUpperCase();
 
   // ── PORTAFOLIO PROPIO ──
   var port = await FinSeedStore.fetchPortfolio(uid);
-  var elT = document.getElementById('pp-total');
+  var elT = document.getElementById('pp-port-total');
   if (elT) elT.textContent = formatMoney(port.total, port.moneda);
-  var elP = document.getElementById('pp-cambio-pct');
-  if (elP) { elP.textContent = formatPct(port.cambioHoy / 100); elP.style.color = port.cambioHoy >= 0 ? 'rgba(255,255,255,0.95)' : '#fca5a5'; }
-  var elV = document.getElementById('pp-cambio-val');
+  var elP = document.getElementById('pp-port-cambio');
+  if (elP) { elP.textContent = formatPct(port.cambioHoy / 100); elP.style.color = port.cambioHoy >= 0 ? '#86efac' : '#fca5a5'; }
+  var elV = document.getElementById('pp-port-cambio-val');
   if (elV) elV.textContent = (port.cambioHoy >= 0 ? '+' : '') + formatMoney(port.cambioPesos, port.moneda) + ' hoy';
-
-  // Mini pills de activos top 3
-  var elCard = document.querySelector('#pp-inicio-header [onclick*="portafolio"]');
-  if (elCard && port.activos && port.activos.length > 0) {
-    var pillsHTML = '<div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">';
-    port.activos.slice(0,3).forEach(function(a) {
-      var g = (a.precioActual - a.precioCompra) / a.precioCompra * 100;
-      pillsHTML += '<div style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:3px 10px;font-size:11px;color:white;display:flex;align-items:center;gap:4px">' +
-        '<span style="font-weight:600">' + a.ticker + '</span>' +
-        '<span style="color:' + (g >= 0 ? '#86efac' : '#fca5a5') + '">' + (g >= 0 ? '+' : '') + g.toFixed(1) + '%</span>' +
-        '</div>';
-    });
-    pillsHTML += '</div>';
-    var existingPills = elCard.querySelector('.activos-pills');
-    if (!existingPills) {
-      var pillsDiv = document.createElement('div');
-      pillsDiv.className = 'activos-pills';
-      pillsDiv.innerHTML = pillsHTML;
-      elCard.appendChild(pillsDiv);
-    } else {
-      existingPills.innerHTML = pillsHTML;
-    }
-  }
 
   // ── PORTAFOLIOS HIJOS ──
   var hijos = FinSeedStore.getHijos(uid);
@@ -3073,7 +3075,7 @@ async function renderPadreInicio() {
     var hijo = hijos[i];
     var hp = await FinSeedStore.fetchPortfolio(hijo.id);
     var cc = hp.cambioHoy >= 0 ? '#059669' : '#dc2626';
-    hijosHTML += '<div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:8px">' +
+    hijosHTML += '<div style="background:white;border:1px solid var(--gray-200);border-radius:14px;padding:14px 16px;margin-bottom:8px;box-shadow:var(--shadow-card)">' +
       '<div onclick="navigate_p(\'portafolio\')" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer">' +
       '<div style="display:flex;align-items:center;gap:12px">' +
       '<div style="width:36px;height:36px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:14px">' + (hijo.avatar || hijo.nombre.charAt(0)) + '</div>' +
@@ -3098,7 +3100,7 @@ async function renderPadreInicio() {
         var accionTexto = s.accion === 'invertir'
           ? 'Quiere invertir $' + s.monto.toLocaleString('es-CL') + ' en ' + s.ticker
           : 'Quiere retirar $' + s.monto.toLocaleString('es-CL') + ' de ' + s.ticker;
-        return '<div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:8px">' +
+        return '<div style="background:white;border:1px solid var(--gray-200);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:8px;box-shadow:var(--shadow-card)">' +
           '<div style="width:36px;height:36px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:14px;flex-shrink:0">' + s.hijoAvatar + '</div>' +
           '<div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text-1)">' + s.hijoNombre + ' \u00B7 ' + s.hace + '</div>' +
           '<div style="font-size:12px;color:var(--text-3);margin-top:2px">' + accionTexto + '</div></div>' +
