@@ -4332,9 +4332,23 @@ async function renderHijoInicio() {
   // Portafolio
   var port = await FinSeedStore.fetchPortfolio(uid);
   var _muestraMontos = hijoMuestraMontos(uid);
-  var elPT = document.getElementById('kp-port-total'); if (elPT) elPT.textContent = _muestraMontos ? formatMoney(port.total, port.moneda) : '••••••';
+  var elPT = document.getElementById('kp-port-total');
   var elPC = document.getElementById('kp-port-cambio');
-  if (elPC) { elPC.textContent = formatPct(port.cambioHoy / 100) + ' hoy'; elPC.style.color = port.cambioHoy >= 0 ? '#16a34a' : '#dc2626'; }
+  if (_muestraMontos) {
+    if (elPT) elPT.textContent = formatMoney(port.total, port.moneda);
+    if (elPC) { elPC.textContent = formatPct(port.cambioHoy / 100) + ' hoy'; elPC.style.color = port.cambioHoy >= 0 ? '#16a34a' : '#dc2626'; }
+  } else {
+    var _pct = formatPct(port.cambioHoy / 100);
+    var _pctColor = port.cambioHoy >= 0 ? '#16a34a' : '#dc2626';
+    if (elPT) elPT.innerHTML =
+      '<div style="text-align:center;padding:8px 0">' +
+      '<div style="font-size:28px;font-weight:700;color:' + _pctColor + '">' + _pct + ' hoy</div>' +
+      '<div style="font-size:12px;color:#9ca3af;margin-top:4px;display:flex;align-items:center;justify-content:center;gap:4px">' +
+      '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>' +
+      'Montos ocultos por el padre</div>' +
+      '</div>';
+    if (elPC) elPC.textContent = '';
+  }
 
   // Familia preview
   var padre = getPadreReal(uid);
