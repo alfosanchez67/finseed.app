@@ -3572,8 +3572,22 @@ async function renderPortHijos() {
       '<div style="margin-left:auto;text-align:right">' +
       '<div style="font-size:18px;font-weight:700;color:var(--text-1)">' + formatMoney(hp.total) + '</div>' +
       '<div style="font-size:12px;color:' + color + '">' + formatPct(hp.cambioHoy / 100) + ' hoy</div>' +
-      '</div></div>' +
-      '<div style="display:flex;flex-direction:column;gap:6px">' +
+      '</div></div>';
+    var padreId = uid;
+    var puedeVer = getPrivacidadHijo(padreId, hijo.id);
+    html += '<div style="display:flex;align-items:center;justify-content:space-between;background:#f9fafb;border-radius:10px;padding:10px 14px;margin-bottom:12px">' +
+      '<div style="display:flex;align-items:center;gap:8px">' +
+      '<div style="font-size:15px">' + (puedeVer ? '👁️' : '🙈') + '</div>' +
+      '<div>' +
+      '<div style="font-size:12px;font-weight:600;color:var(--text-1)">' + (puedeVer ? 'Montos visibles' : 'Montos ocultos') + '</div>' +
+      '<div style="font-size:11px;color:var(--text-3)">' + (puedeVer ? 'El hijo ve números reales' : 'El hijo solo ve % de cambio') + '</div>' +
+      '</div>' +
+      '</div>' +
+      '<div onclick="togglePrivacidadHijo(\'' + padreId + '\',\'' + hijo.id + '\')" style="width:44px;height:26px;border-radius:13px;background:' + (puedeVer ? '#16a34a' : '#d1d5db') + ';position:relative;cursor:pointer;transition:background .2s">' +
+      '<div style="position:absolute;top:3px;left:' + (puedeVer ? '21px' : '3px') + ';width:20px;height:20px;border-radius:50%;background:white;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,0.2)"></div>' +
+      '</div>' +
+      '</div>';
+    html += '<div style="display:flex;flex-direction:column;gap:6px">' +
       hp.activos.map(function(a) {
         var g = (a.precioActual - a.precioCompra) / a.precioCompra;
         return '<div style="display:flex;justify-content:space-between;padding:6px 0;border-top:1px solid #f3f4f6">' +
@@ -4317,7 +4331,8 @@ async function renderHijoInicio() {
 
   // Portafolio
   var port = await FinSeedStore.fetchPortfolio(uid);
-  var elPT = document.getElementById('kp-port-total'); if (elPT) elPT.textContent = formatMoney(port.total, port.moneda);
+  var _muestraMontos = hijoMuestraMontos(uid);
+  var elPT = document.getElementById('kp-port-total'); if (elPT) elPT.textContent = _muestraMontos ? formatMoney(port.total, port.moneda) : '••••••';
   var elPC = document.getElementById('kp-port-cambio');
   if (elPC) { elPC.textContent = formatPct(port.cambioHoy / 100) + ' hoy'; elPC.style.color = port.cambioHoy >= 0 ? '#16a34a' : '#dc2626'; }
 
@@ -4872,6 +4887,31 @@ function juegoDisponibleEnPlan(juego, uid) {
   if (plan === 'premium' || plan === 'familiar') return true;
   if (juego.nivel <= 2) return true;
   return false;
+}
+
+function getPrivacidadHijo(padreId, hijoId) {
+  var key = 'finseed_privacidad_' + padreId + '_' + hijoId;
+  var val = localStorage.getItem(key);
+  return val === null ? true : val === 'true';
+}
+
+function setPrivacidadHijo(padreId, hijoId, puedeVer) {
+  var key = 'finseed_privacidad_' + padreId + '_' + hijoId;
+  localStorage.setItem(key, String(puedeVer));
+}
+
+function togglePrivacidadHijo(padreId, hijoId) {
+  var actual = getPrivacidadHijo(padreId, hijoId);
+  setPrivacidadHijo(padreId, hijoId, !actual);
+  renderPortHijos();
+  mostrarToastJuego(!actual ? '👁️ El hijo puede ver los montos' : '🙈 El hijo solo ve porcentajes');
+}
+
+function hijoMuestraMontos(hijoId) {
+  var usuarios = JSON.parse(localStorage.getItem('finseed_users') || '[]');
+  var hijo = usuarios.find(function(u) { return u.id === hijoId; });
+  if (!hijo || !hijo.padreId) return true;
+  return getPrivacidadHijo(hijo.padreId, hijoId);
 }
 
 function abrirJuego(juegoId) {
