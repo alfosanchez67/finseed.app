@@ -5411,7 +5411,7 @@ async function seleccionarAccion(ticker, nombre) {
   };
   var stats = statsMap[ticker] || { pe: '--', mktcap: '--', vol: '--', semana52h: precioUSD * 1.2, semana52l: precioUSD * 0.8, desc: 'Activo financiero disponible para invertir.' };
 
-  var form = document.getElementById('trade-form');
+  var form = document.getElementById('trade-form-2');
   if (!form) return;
   form.style.display = 'block';
 
