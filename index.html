@@ -742,9 +742,23 @@
 
     <div id="reg-error" class="auth-error"></div>
 
-    <div id="reg-rol-display" class="reg-rol-display"></div>
+    <div id="reg-rol-display" class="reg-rol-display" style="display:none"></div>
 
     <input type="hidden" id="reg-rol" value="">
+
+    <!-- SELECTOR ROL EN REGISTRO -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px">
+      <div id="reg-card-padre" onclick="seleccionarRolRegistro('padre')" style="border:1.5px solid #e5e7eb;border-radius:14px;padding:16px 10px;text-align:center;cursor:pointer;background:white;transition:border-color .15s,background .15s">
+        <div style="font-size:24px;margin-bottom:6px">📈</div>
+        <div style="font-size:14px;font-weight:700;color:#111827">Inversor</div>
+        <div style="font-size:11px;color:#9ca3af;margin-top:3px">Invierto para mi familia</div>
+      </div>
+      <div id="reg-card-hijo" onclick="seleccionarRolRegistro('hijo')" style="border:1.5px solid #e5e7eb;border-radius:14px;padding:16px 10px;text-align:center;cursor:pointer;background:white;transition:border-color .15s,background .15s">
+        <div style="font-size:24px;margin-bottom:6px">🎮</div>
+        <div style="font-size:14px;font-weight:700;color:#111827">Aprendiz</div>
+        <div style="font-size:11px;color:#9ca3af;margin-top:3px">Quiero aprender finanzas</div>
+      </div>
+    </div>
 
     <div class="auth-field">
       <label>Nombre</label>
@@ -5795,18 +5809,29 @@ function showView(view) {
   }
 }
 
+function seleccionarRolRegistro(rol) {
+  _selectedRole = rol;
+  var elR = document.getElementById('reg-rol'); if (elR) elR.value = rol;
+  var activo  = { border: '1.5px solid #16a34a', background: '#f0fdf4' };
+  var inactivo = { border: '1.5px solid #e5e7eb', background: 'white' };
+  var cp = document.getElementById('reg-card-padre');
+  var ch = document.getElementById('reg-card-hijo');
+  if (cp) { cp.style.border = (rol === 'padre') ? activo.border : inactivo.border; cp.style.background = (rol === 'padre') ? activo.background : inactivo.background; }
+  if (ch) { ch.style.border = (rol === 'hijo')  ? activo.border : inactivo.border; ch.style.background = (rol === 'hijo')  ? activo.background : inactivo.background; }
+  var elHS = document.getElementById('reg-hijos-section');
+  if (elHS) elHS.style.display = (rol === 'padre') ? 'block' : 'none';
+}
+
 function seleccionarRol(rol) {
   _selectedRole = rol;
-  document.getElementById('reg-rol').value = rol;
-  document.getElementById('reg-rol-display').textContent =
-    'Registrándote como: ' + (rol === 'padre' ? 'Padre' : 'Hijo');
-  document.getElementById('reg-hijos-section').style.display = (rol === 'padre') ? 'block' : 'none';
+  var elR = document.getElementById('reg-rol'); if (elR) elR.value = rol;
   _tieneHijos = false;
-  document.getElementById('reg-tiene-hijos-no').classList.add('active');
-  document.getElementById('reg-tiene-hijos-si').classList.remove('active');
-  document.getElementById('reg-hijos-wrap').style.display = 'none';
+  var elNo = document.getElementById('reg-tiene-hijos-no'); if (elNo) elNo.classList.add('active');
+  var elSi = document.getElementById('reg-tiene-hijos-si'); if (elSi) elSi.classList.remove('active');
+  var elHW = document.getElementById('reg-hijos-wrap'); if (elHW) elHW.style.display = 'none';
   _loginRole = rol;
   showView('login');
+  setTimeout(function() { seleccionarRolRegistro(rol); }, 50);
 }
 
 function toggleTieneHijos(tiene) {
@@ -5880,6 +5905,7 @@ async function registerUser() {
   function showErr(msg) { if (elErr) { elErr.textContent = msg; elErr.style.display = 'block'; } }
   if (elErr) elErr.style.display = 'none';
 
+  if (!rol) return showErr('Por favor elige si eres Inversor o Aprendiz');
   if (!nombre || !email || !pass) return showErr('Completa todos los campos');
   if (pass.length < 6) return showErr('La contrase\u00F1a debe tener al menos 6 caracteres');
 
